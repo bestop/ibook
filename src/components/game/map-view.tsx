@@ -24,6 +24,7 @@ const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; lo
   teal: { card: 'border-teal-300 bg-teal-50', badge: 'bg-teal-100 text-teal-700', btn: 'bg-teal-500 hover:bg-teal-600 shadow-[0_4px_0_0_rgba(20,184,166,0.45)]', locked: 'from-teal-100 to-teal-50' },
   lime: { card: 'border-lime-300 bg-lime-50', badge: 'bg-lime-100 text-lime-700', btn: 'bg-lime-500 hover:bg-lime-600 shadow-[0_4px_0_0_rgba(132,204,22,0.45)]', locked: 'from-lime-100 to-lime-50' },
   fuchsia: { card: 'border-fuchsia-300 bg-fuchsia-50', badge: 'bg-fuchsia-100 text-fuchsia-700', btn: 'bg-fuchsia-500 hover:bg-fuchsia-600 shadow-[0_4px_0_0_rgba(217,70,239,0.45)]', locked: 'from-fuchsia-100 to-fuchsia-50' },
+  sky: { card: 'border-sky-300 bg-sky-50', badge: 'bg-sky-100 text-sky-700', btn: 'bg-sky-500 hover:bg-sky-600 shadow-[0_4px_0_0_rgba(14,165,233,0.45)]', locked: 'from-sky-100 to-sky-50' },
 }
 
 const SUBJECT_THEME = {
@@ -60,6 +61,23 @@ const SUBJECT_THEME = {
     backBtn: 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
     footer: '🧮 题目来源：沪教版数学五年级第一学期（上海教育出版社） · 八大关卡 · 80 道随堂精选题',
     tip: '每天玩 20 分钟，闯关赢金币，快乐学数学！',
+  },
+  sky: {
+    hero: 'border-sky-300 bg-gradient-to-br from-sky-50 to-cyan-50 shadow-[0_6px_0_0_rgba(14,165,233,0.35)]',
+    heroTitle: 'text-sky-800',
+    heroChip: 'bg-sky-400',
+    heroBar: 'bg-sky-200',
+    accent: 'text-sky-600',
+    dailyBtn: 'border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50 shadow-[0_6px_0_0_rgba(139,92,246,0.3)]',
+    dailyTitle: 'text-violet-700',
+    dailyDesc: 'text-violet-500',
+    coinBtn: 'border-rose-300 bg-gradient-to-br from-rose-50 to-sky-50 shadow-[0_6px_0_0_rgba(244,63,94,0.3)]',
+    coinTitle: 'text-rose-700',
+    coinDesc: 'text-rose-500',
+    mapBadge: 'bg-sky-100 text-sky-600',
+    backBtn: 'border-sky-300 bg-sky-50 text-sky-700 hover:bg-sky-100',
+    footer: '🔤 题目来源：2026 新版沪教版（五四学制）英语五年级上册（上海教育出版社） · Starter + 10 个单元 · 110 道随堂精选题',
+    tip: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
   },
 } as const
 

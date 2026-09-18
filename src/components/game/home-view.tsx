@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { SUBJECTS } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
@@ -28,6 +27,14 @@ const THEME = {
     btn: 'bg-emerald-500 hover:bg-emerald-600 shadow-[0_4px_0_0_rgba(5,150,105,0.5)]',
     bar: 'bg-emerald-400',
     ring: 'bg-white ring-emerald-200',
+  },
+  sky: {
+    card: 'border-sky-300 bg-gradient-to-br from-sky-50 to-cyan-50 shadow-[0_8px_0_0_rgba(14,165,233,0.35)] hover:shadow-[0_10px_0_0_rgba(14,165,233,0.45)]',
+    chip: 'bg-sky-100 text-sky-700',
+    title: 'text-sky-700',
+    btn: 'bg-sky-500 hover:bg-sky-600 shadow-[0_4px_0_0_rgba(2,132,199,0.5)]',
+    bar: 'bg-sky-400',
+    ring: 'bg-white ring-sky-200',
   },
 } as const
 
@@ -61,7 +68,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
         <h1 className="mt-2 text-2xl font-black tracking-tight text-gray-800 sm:text-3xl">
           学习闯关岛
         </h1>
-        <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">五年级上册 · 语文 + 数学 双科闯关</p>
+        <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">五年级上册 · 语文 + 数学 + 英语 三科闯关</p>
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs font-black">
           <span className="rounded-full bg-amber-100 px-2.5 py-1 text-amber-700">🪙 {coins} 金币</span>
           <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-emerald-700">🔥 连续签到 {streak} 天</span>
@@ -133,10 +140,10 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 <span className="text-gray-300">|</span>
                 <span>✅ {stats.completed}/{stats.total} 关</span>
               </div>
-              <Progress value={(stats.completed / stats.total) * 100} className={`h-2.5 w-full ${subject.theme === 'orange' ? 'bg-orange-100' : 'bg-emerald-100'}`} />
-              <Button className={`mt-2 w-full rounded-2xl py-3 font-black text-white ${t.btn}`}>
+              <Progress value={(stats.completed / stats.total) * 100} className={`h-2.5 w-full ${subject.theme === 'orange' ? 'bg-orange-100' : subject.theme === 'emerald' ? 'bg-emerald-100' : 'bg-sky-100'}`} />
+              <span className={`mt-2 block w-full rounded-2xl py-3 text-center font-black text-white ${t.btn}`}>
                 {stats.completed > 0 ? '继续闯关 →' : '开始闯关 →'}
-              </Button>
+              </span>
             </motion.button>
           )
         })}
@@ -155,7 +162,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             <li>· 答对 1 题 +10 金币，连击 3 次每题再 +5</li>
             <li>· 通关拿星星：1 星 +20 / 2 星 +50 / 3 星 +100</li>
             <li>· 每日任务（闯关 / 20 分钟 / 复习错题）有金币</li>
-            <li>· 签到 +10 金币，攒金币解锁 13 个成就徽章</li>
+            <li>· 签到 +10 金币，攒金币解锁 15 个成就徽章</li>
           </ul>
         </div>
         <div className="rounded-3xl border-2 border-rose-200 bg-rose-50/80 p-4">
@@ -170,7 +177,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
       </motion.section>
 
       <p className="mt-5 text-center text-xs font-bold text-gray-400">
-        📚 语文：2026 新版统编五上 · 数学：沪教版五上（上海教育出版社） · 每天 20 分钟
+        📚 语文：2026 新版统编五上 · 🧮 数学：沪教版五上（上海教育出版社） · 🔤 英语：2026 新版沪教版五四制五上（上海教育出版社） · 每天 20 分钟
       </p>
       <p className="mt-1 text-center text-[11px] font-bold text-gray-300">
         进度自动保存在本设备浏览器中 · 已解锁成就 {achievements.length} 个 · 每日任务奖励最多 +{TASK_REWARDS.level + TASK_REWARDS.minutes + TASK_REWARDS.review} 金币

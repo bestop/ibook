@@ -12,6 +12,12 @@ interface WrongBookProps {
   onStartReview: (items: QuizItem[]) => void
 }
 
+const SUBJECT_BADGE = {
+  chinese: 'bg-orange-100 text-orange-700',
+  math: 'bg-emerald-100 text-emerald-700',
+  english: 'bg-sky-100 text-sky-700',
+} as const
+
 export default function WrongBook({ onStartReview }: WrongBookProps) {
   const wrongBook = useGame((s) => s.wrongBook)
 
@@ -83,7 +89,7 @@ export default function WrongBook({ onStartReview }: WrongBookProps) {
               className="rounded-2xl border-2 border-gray-200 bg-white p-4"
             >
               <div className="mb-1.5 flex flex-wrap items-center gap-2">
-                <span className={`rounded-md px-1.5 py-0.5 text-[11px] font-black ${subj.id === 'chinese' ? 'bg-orange-100 text-orange-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                <span className={`rounded-md px-1.5 py-0.5 text-[11px] font-black ${SUBJECT_BADGE[subj.id]}`}>
                   {subj.emoji} {subj.name}
                 </span>
                 <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[11px] font-black text-orange-700">{q.tag}</span>

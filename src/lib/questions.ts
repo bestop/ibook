@@ -1,10 +1,12 @@
 // 多科目题库注册中心
 // 语文：2026 新版统编五年级上册（八大单元主题）
 // 数学：沪教版（上海教育出版社）五年级第一学期（八大关卡）
+// 英语：2026 新版沪教版（五四学制）英语五年级上册（上海教育出版社，Starter + 10 个单元）
 // 每关 10 题
 
 import { UNITS as CN_UNITS, QUESTIONS as CN_QUESTIONS } from './bank-chinese'
 import { UNITS as MATH_UNITS, QUESTIONS as MATH_QUESTIONS } from './bank-math'
+import { UNITS as EN_UNITS, QUESTIONS as EN_QUESTIONS } from './bank-english'
 
 export type QType = 'choice' | 'judge'
 
@@ -28,14 +30,14 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese' | 'math'
+export type SubjectId = 'chinese' | 'math' | 'english'
 
 export interface Subject {
   id: SubjectId
   name: string
   publisher: string
   emoji: string
-  theme: 'orange' | 'emerald'
+  theme: 'orange' | 'emerald' | 'sky'
   tagline: string
   units: Unit[]
   questions: Record<string, Question[]>
@@ -62,6 +64,16 @@ export const SUBJECTS: Subject[] = [
     units: MATH_UNITS,
     questions: MATH_QUESTIONS,
   },
+  {
+    id: 'english',
+    name: '英语',
+    publisher: '2026 新版沪教版（五四学制）· 上海教育出版社',
+    emoji: '🔤',
+    theme: 'sky',
+    tagline: 'Starter 热身 → 社团 → 传统游戏 → 植物动物 → 科学家与发明',
+    units: EN_UNITS,
+    questions: EN_QUESTIONS,
+  },
 ]
 
 export function getSubject(id: SubjectId): Subject {
@@ -70,11 +82,12 @@ export function getSubject(id: SubjectId): Subject {
   return s
 }
 
-// 全科题库合集（错题本用；两科题目 id 前缀不同：语文 q、数学 m，不会冲突）
+// 全科题库合集（错题本用；三科题目 id 前缀不同：语文 q、数学 m、英语 e，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {
-  return getSubject(qid.startsWith('q') ? 'chinese' : 'math')
+  const prefix = qid.startsWith('q') ? 'chinese' : qid.startsWith('m') ? 'math' : 'english'
+  return getSubject(prefix)
 }
 
 export const QUESTIONS_PER_LEVEL = 10

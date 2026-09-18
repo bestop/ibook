@@ -59,7 +59,7 @@ function completedIn(levels: Record<string, LevelProgress>, subjectId: SubjectId
   return subj.units.filter((u) => levels[`${subjectId}:${u.id}`]?.completed).length
 }
 
-// 全部 16 关（两科 8+8）是否都拿到满星
+// 全部 27 关（三科 8+8+11）是否都拿到满星
 function allFullStars(levels: Record<string, LevelProgress>): boolean {
   const totalUnits = SUBJECTS.reduce((n, s) => n + s.units.length, 0)
   let count = 0
@@ -76,10 +76,12 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'win4', emoji: '📚', name: '渐入佳境', desc: '累计通过 4 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 4 },
   { id: 'win8', emoji: '🏆', name: '满腹经纶', desc: '累计通过 8 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 8 },
   { id: 'win16', emoji: '🌉', name: '文理双全', desc: '语文、数学全部 16 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 },
+  { id: 'eng_all', emoji: '🐲', name: '英语小能手', desc: '通过英语全部 11 个单元（含 Starter 热身站）', check: (s) => completedIn(s.levels, 'english') >= 11 },
+  { id: 'win27', emoji: '🌈', name: '三科全能王', desc: '语文、数学、英语全部 27 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 },
   { id: 'cn_all', emoji: '🏮', name: '文学小达人', desc: '通过语文全部 8 个单元', check: (s) => completedIn(s.levels, 'chinese') >= 8 },
   { id: 'math_all', emoji: '🧮', name: '数学小达人', desc: '通过数学全部 8 个关卡', check: (s) => completedIn(s.levels, 'math') >= 8 },
   { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星', check: (s) => Object.values(s.levels).some((l) => l.stars >= 3) },
-  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 16 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
+  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 27 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
   { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题', check: (s) => s.achievements.includes('combo5') },
   { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币', check: (s) => s.coins >= 300 },
   { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天', check: (s) => s.streak >= 3 },
@@ -278,7 +280,7 @@ export const useGame = create<GameState>()(
           totalWrong: 0,
         }),
     }),
-    { name: 'study-game-v3' } // v3：升级为语文+数学双科架构，进度键改为 `科目:关卡`，旧存档作废重开
+    { name: 'study-game-v3' } // v3：多科目架构，进度键为 `科目:关卡`；新增英语科目无需迁移旧存档
   )
 )
 

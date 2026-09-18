@@ -70,3 +70,21 @@ Stage Summary:
 - 机制保持：每日 20 分钟任务、3 命闯关、40s 倒计时、连击金币、1/2/3 星通关奖励、失败金币减半、错题消灭、13 成就、连续签到；金币/错题/成就双科通用，关卡进度按科目独立
 - 存档：localStorage（study-game-v3），无需注册
 - 自动化脚本：scripts/play-math-level.sh（数学第一关自动通关）、scripts/check-bank.ts（题库自检）
+
+---
+Task ID: 2
+Agent: Super Z (main agent)
+Task: 新增英语科目（2026 新版沪教版五四学制英语五年级上册·上海教育出版社），升级为语文+数学+英语三科平台
+
+Work Log:
+- 查证教材：用户上传封面确认为《义务教育教科书（五·四学制）英语五年级上册》（2024 年国家教材委员会审核通过，2026 秋使用版，上海教育出版社）；通过电子课本网抓取到官方目录：Starter + Unit 1 Clubs in our school … Unit 10 A greener life
+- 新建 src/lib/bank-english.ts：Starter 热身站 + 10 个单元 × 10 题 = 110 题（单词/句型/情景对话/文化常识/科普/判断），每题带中文解析，选项随机打乱，题目 id 前缀 e
+- 注册英语科目到 src/lib/questions.ts：SubjectId 增加 'english'，新增 sky 主题色，subjectOfQuestion 修正为 q→语文 / m→数学 / e→英语
+- src/lib/game.ts 成就系统新增：英语小能手（英语 11 关）、三科全能王（语数英 27 关），全星霸主描述更新为 27 关；成就总数 13→15；保留 persist key v3，旧存档无需迁移
+- home-view/map-view/wrong-book/page.tsx：新增 sky 主题配色、三科文案（首页标题、家长指南、页脚、金币星星 tooltip）、错题本英语天蓝标签；修复 home-view button 嵌套 button 导致的水合错误（内层 Button 改为 span）
+- lint 通过；Agent Browser 端到端验证：首页三科卡片 → 英语地图 11 关（首关解锁其余锁定）→ Starter 答题（答对 +10 金币解析、答错扣 ❤️ 收错题）→ 金币弹窗 → 通关结算（10/10、100%、3 星、+240 金币、成就"初出茅庐"弹窗）→ 第二关解锁 + 每日挑战解锁 → 错题本显示英语天蓝标签 → 成就墙 0/15 → 移动端 390×844 响应式 → dev.log 无运行时错误
+
+Stage Summary:
+- 产品升级为三科平台：语文（2026 新版统编 8 关 80 题）+ 数学（沪教版 8 关 80 题）+ 英语（2026 新版沪教五四制 Starter+10 单元 11 关 110 题），共 27 关 270 题
+- 题库内容严格对应用户封面指定教材的官方目录；英语题目难度适配五年级（词汇认读、简单句型、情景交际），解析为中文并附知识拓展
+- 验证截图存于 scripts/verify_*.png
