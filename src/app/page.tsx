@@ -175,7 +175,7 @@ export default function Home() {
             <div className="flex items-center gap-1.5">
               <span className="text-2xl">🏝️</span>
               <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">学习闯关岛</h1>
-              <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[10px] font-black text-orange-600 sm:hidden">二·三·四·五年级</span>
+              <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[10px] font-black text-orange-600 sm:hidden">一·二·三·四·五年级</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2">
               <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-black text-amber-700" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
@@ -207,22 +207,23 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 家长使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                      「学习闯关岛」覆盖二、三、四、五年级上册共 12 个科目岛：
+                      「学习闯关岛」覆盖一、二、三、四、五年级上册共 15 个科目岛：
+                      🌸 一年级语文（8 关，2024 秋版）· 🧸 一年级数学（7 关）· 🐤 一年级英语（12 关）·
                       🐸 二年级语文（8 关）· 🪀 二年级数学（8 关）· 🐣 二年级英语（12 关）·
                       🌱 三年级语文（8 关）· 🪁 三年级数学（9 关，含七巧板）· 🌈 三年级英语（11 关）·
                       🐉 四年级语文（8 关）· 🚀 四年级数学（9 关，含抽屉原理）· ⛵ 四年级英语（11 关）·
                       🏮 五年级语文（8 关）· 🧮 五年级数学（8 关）· 🔤 五年级英语（11 关）。
-                      语文为统编教材，数学/英语为沪教版（上海教育出版社）。共 111 关 1110 道精选题，全部带详细解析。首页右上角可切换年级、册别和出版社，建议每天玩 20 分钟。
+                      语文为统编教材，数学/英语为沪教版（上海教育出版社）。共 138 关 1380 道精选题，全部带详细解析。首页右上角可切换年级、册别和出版社，建议每天玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">
                     <div className="rounded-2xl bg-amber-50 p-3">
                       <p className="font-black text-amber-700">⏰ 每天 20 分钟怎么安排？</p>
-                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，十二个科目岛可以搭配着玩。今日学习时长会自动累计。</p>
+                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，十五个科目岛可以搭配着玩。今日学习时长会自动累计。</p>
                     </div>
                     <div className="rounded-2xl bg-emerald-50 p-3">
                       <p className="font-black text-emerald-700">🎁 奖励机制</p>
-                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，28 个成就徽章等你解锁</p>
+                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，32 个成就徽章等你解锁</p>
                     </div>
                     <div className="rounded-2xl bg-rose-50 p-3">
                       <p className="font-black text-rose-700">⚖️ 惩罚机制</p>

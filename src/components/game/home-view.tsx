@@ -78,10 +78,34 @@ const THEME = {
     bar: 'bg-cyan-100 [&>div]:bg-gradient-to-r [&>div]:from-sky-400 [&>div]:to-cyan-500',
     ring: 'ring-cyan-200',
   },
+  pink: {
+    card: 'border-pink-300 bg-gradient-to-br from-pink-100 via-pink-50 to-rose-50 shadow-[0_10px_0_0_rgba(236,72,153,0.35)]',
+    title: 'text-pink-700',
+    btn: 'bg-gradient-to-b from-pink-400 to-pink-500 shadow-[0_5px_0_0_rgba(219,39,119,0.55)]',
+    bar: 'bg-pink-100 [&>div]:bg-gradient-to-r [&>div]:from-rose-300 [&>div]:to-pink-500',
+    ring: 'ring-pink-200',
+  },
+  indigo: {
+    card: 'border-indigo-300 bg-gradient-to-br from-indigo-100 via-indigo-50 to-blue-50 shadow-[0_10px_0_0_rgba(99,102,241,0.35)]',
+    title: 'text-indigo-700',
+    btn: 'bg-gradient-to-b from-indigo-400 to-indigo-500 shadow-[0_5px_0_0_rgba(79,70,229,0.55)]',
+    bar: 'bg-indigo-100 [&>div]:bg-gradient-to-r [&>div]:from-blue-400 [&>div]:to-indigo-500',
+    ring: 'ring-indigo-200',
+  },
+  fuchsia: {
+    card: 'border-fuchsia-300 bg-gradient-to-br from-fuchsia-100 via-fuchsia-50 to-pink-50 shadow-[0_10px_0_0_rgba(217,70,239,0.35)]',
+    title: 'text-fuchsia-700',
+    btn: 'bg-gradient-to-b from-fuchsia-400 to-fuchsia-500 shadow-[0_5px_0_0_rgba(192,38,211,0.55)]',
+    bar: 'bg-fuchsia-100 [&>div]:bg-gradient-to-r [&>div]:from-pink-400 [&>div]:to-fuchsia-500',
+    ring: 'ring-fuchsia-200',
+  },
 } as const
 
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
 const KID_LINES: Partial<Record<SubjectId, string>> = {
+  chinese1: '天地人 · 拼音宝宝 · 雪地小画家！',
+  math1: '数一数 · 凑十法 · 越算越聪明！',
+  english1: 'Hello! · 五官本领 · 农场动物园！',
   chinese2: '小蝌蚪 · 黄山奇石 · 狐假虎威！',
   math2: '乘法口诀 · 求商 · 角与直角，越背越灵！',
   english2: 'Hello! · 家庭朋友 · 大自然，开口就说！',
@@ -106,11 +130,12 @@ const FLOATERS = [
   { emoji: '✨', cls: 'left-[4%] top-[86%] text-xl', d: 6.5 },
 ]
 
-const GRADE_LABELS: Record<number, string> = { 2: '二年级', 3: '三年级', 4: '四年级', 5: '五年级' }
+const GRADE_LABELS: Record<number, string> = { 1: '一年级', 2: '二年级', 3: '三年级', 4: '四年级', 5: '五年级' }
 const TERM_LABELS: Record<'a' | 'b', string> = { a: '上册', b: '下册' }
 
 // 可选的年级（含未开岛的占位）
 const GRADE_OPTIONS: { num: number; open: boolean }[] = [
+  { num: 1, open: true },
   { num: 2, open: true },
   { num: 3, open: true },
   { num: 4, open: true },
@@ -213,7 +238,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             学习闯关岛
           </h1>
           <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">
-            二·三·四·五年级 · 闯关赢金币 · 越玩越聪明
+            一·二·三·四·五年级 · 闯关赢金币 · 越玩越聪明
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
