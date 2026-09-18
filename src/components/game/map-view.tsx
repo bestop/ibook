@@ -15,6 +15,13 @@ interface MapViewProps {
   onBackHome: () => void
 }
 
+// 二上新增科目专属 footer（与四上共用主题色，但文案按年级区分）
+const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
+  chinese2: '🐸 小蝌蚪到风娃娃，把二年级语文岛全部点亮吧！',
+  math2: '🪀 乘法口诀背熟啦，把二上数学岛全部点亮！',
+  english2: '🐣 Hello 到 In the street，把二上英语岛闯个遍吧！',
+}
+
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
   emerald: { card: 'border-emerald-300 bg-emerald-50', badge: 'bg-emerald-100 text-emerald-700', btn: 'bg-emerald-500 hover:bg-emerald-600 shadow-[0_4px_0_0_rgba(16,185,129,0.45)]', locked: 'from-emerald-100 to-emerald-50' },
   orange: { card: 'border-orange-300 bg-orange-50', badge: 'bg-orange-100 text-orange-700', btn: 'bg-orange-500 hover:bg-orange-600 shadow-[0_4px_0_0_rgba(249,115,22,0.45)]', locked: 'from-orange-100 to-orange-50' },
@@ -366,7 +373,7 @@ export default function MapView({ subject, onStartLevel, onStartDaily, onBackHom
         ))}
       </div>
 
-      <p className="mt-6 text-center text-xs font-bold text-gray-400">{t.footer}</p>
+      <p className="mt-6 text-center text-xs font-bold text-gray-400">{SUBJECT_FOOTERS[subject] ?? t.footer}</p>
     </div>
   )
 }

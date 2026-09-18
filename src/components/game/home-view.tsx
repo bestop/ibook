@@ -82,6 +82,9 @@ const THEME = {
 
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
 const KID_LINES: Partial<Record<SubjectId, string>> = {
+  chinese2: '小蝌蚪 · 黄山奇石 · 狐假虎威！',
+  math2: '乘法口诀 · 求商 · 角与直角，越背越灵！',
+  english2: 'Hello! · 家庭朋友 · 大自然，开口就说！',
   chinese3: '大青树下 · 秋天的雨 · 古诗新唱！',
   math3: '一位数乘除 · 年月日 · 七巧板，越算越灵！',
   english3: '字母 ABC · 小花园 · 美食节，英语初体验！',
@@ -103,11 +106,12 @@ const FLOATERS = [
   { emoji: '✨', cls: 'left-[4%] top-[86%] text-xl', d: 6.5 },
 ]
 
-const GRADE_LABELS: Record<number, string> = { 3: '三年级', 4: '四年级', 5: '五年级' }
+const GRADE_LABELS: Record<number, string> = { 2: '二年级', 3: '三年级', 4: '四年级', 5: '五年级' }
 const TERM_LABELS: Record<'a' | 'b', string> = { a: '上册', b: '下册' }
 
 // 可选的年级（含未开岛的占位）
 const GRADE_OPTIONS: { num: number; open: boolean }[] = [
+  { num: 2, open: true },
   { num: 3, open: true },
   { num: 4, open: true },
   { num: 5, open: true },
@@ -209,7 +213,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             学习闯关岛
           </h1>
           <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">
-            三·四·五年级 · 闯关赢金币 · 越玩越聪明
+            二·三·四·五年级 · 闯关赢金币 · 越玩越聪明
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
@@ -341,7 +345,6 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           🚧 下册和更多教材，正在开岛中…
         </p>
       </div>
-
       {/* 教材选择弹窗：年级 / 上下册 / 出版社 */}
       <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
         <DialogContent className="max-h-[80vh] overflow-y-auto rounded-3xl">

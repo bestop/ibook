@@ -1,17 +1,20 @@
 // 多科目题库注册中心
-// 年级维度：三年级上册 / 四年级上册 / 五年级上册（term: 'a' 上册，'b' 下册预留）
-// 语文：2026 新版统编教材（人民教育出版社）三上/四上/五上，各 8 单元
-// 数学：沪教版（上海教育出版社）2026 新版三上（9 单元）/ 四上（9 单元）/ 五上（8 单元）
-// 英语：2026 新版沪教版（五四学制·上海教育出版社）三上/四上/五上，各 Starter + 10 单元
+// 年级维度：二年级上册 / 三年级上册 / 四年级上册 / 五年级上册（term: 'a' 上册，'b' 下册预留）
+// 语文：统编教材（人民教育出版社）二上/三上/四上/五上，各 8 单元
+// 数学：沪教版（上海教育出版社）二上（8 关）/ 三上（9 单元）/ 四上（9 单元）/ 五上（8 单元）
+// 英语：沪教版（五四学制·上海教育出版社）三上/四上/五上各 Starter+10 单元；二上为牛津上海版 2A（12 单元）
 // 每关 10 题
 
 import { UNITS as CN_UNITS, QUESTIONS as CN_QUESTIONS } from './bank-chinese'
+import { UNITS as CN2_UNITS, QUESTIONS as CN2_QUESTIONS } from './bank-chinese2'
 import { UNITS as CN3_UNITS, QUESTIONS as CN3_QUESTIONS } from './bank-chinese3'
 import { UNITS as CN4_UNITS, QUESTIONS as CN4_QUESTIONS } from './bank-chinese4'
 import { UNITS as MATH_UNITS, QUESTIONS as MATH_QUESTIONS } from './bank-math'
+import { UNITS as MATH2_UNITS, QUESTIONS as MATH2_QUESTIONS } from './bank-math2'
 import { UNITS as MATH3_UNITS, QUESTIONS as MATH3_QUESTIONS } from './bank-math3'
 import { UNITS as MATH4_UNITS, QUESTIONS as MATH4_QUESTIONS } from './bank-math4'
 import { UNITS as EN_UNITS, QUESTIONS as EN_QUESTIONS } from './bank-english'
+import { UNITS as EN2_UNITS, QUESTIONS as EN2_QUESTIONS } from './bank-english2'
 import { UNITS as EN3_UNITS, QUESTIONS as EN3_QUESTIONS } from './bank-english3'
 import { UNITS as EN4_UNITS, QUESTIONS as EN4_QUESTIONS } from './bank-english4'
 
@@ -37,7 +40,7 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese3' | 'chinese4' | 'chinese' | 'math3' | 'math4' | 'math' | 'english3' | 'english4' | 'english'
+export type SubjectId = 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'math2' | 'math3' | 'math4' | 'math' | 'english2' | 'english3' | 'english4' | 'english'
 
 // 出版社 key：rj 人民教育出版社（统编语文）、she 上海教育出版社（数学/英语）
 export type PublisherKey = 'rj' | 'she'
@@ -46,7 +49,7 @@ export interface Subject {
   id: SubjectId
   name: string
   grade: string // 展示用，如「四年级上册」
-  gradeNum: number // 3 / 4 / 5
+  gradeNum: number // 2 / 3 / 4 / 5
   term: 'a' | 'b' // a 上册 / b 下册
   publisher: string // 完整出版信息
   publisherKey: PublisherKey
@@ -59,6 +62,51 @@ export interface Subject {
 }
 
 export const SUBJECTS: Subject[] = [
+  {
+    id: 'chinese2',
+    name: '语文',
+    grade: '二年级上册',
+    gradeNum: 2,
+    term: 'a',
+    publisher: '统编教材 · 人民教育出版社 · 二年级上册',
+    publisherKey: 'rj',
+    emoji: '🐸',
+    theme: 'rose',
+    qidPrefix: 'd',
+    tagline: '小蝌蚪找妈妈 → 黄山奇石 → 狐假虎威',
+    units: CN2_UNITS,
+    questions: CN2_QUESTIONS,
+  },
+  {
+    id: 'math2',
+    name: '数学',
+    grade: '二年级上册',
+    gradeNum: 2,
+    term: 'a',
+    publisher: '沪教版 · 上海教育出版社 · 二年级上册',
+    publisherKey: 'she',
+    emoji: '🪀',
+    theme: 'violet',
+    qidPrefix: 'r',
+    tagline: '乘法口诀 → 求商 → 角与直角',
+    units: MATH2_UNITS,
+    questions: MATH2_QUESTIONS,
+  },
+  {
+    id: 'english2',
+    name: '英语',
+    grade: '二年级上册',
+    gradeNum: 2,
+    term: 'a',
+    publisher: '牛津上海版 · 上海教育出版社 · 二年级上册',
+    publisherKey: 'she',
+    emoji: '🐣',
+    theme: 'sky',
+    qidPrefix: 'h',
+    tagline: 'Hello! → 家庭朋友 → 儿童乐园 → 大自然',
+    units: EN2_UNITS,
+    questions: EN2_QUESTIONS,
+  },
   {
     id: 'chinese3',
     name: '语文',
@@ -77,10 +125,10 @@ export const SUBJECTS: Subject[] = [
   {
     id: 'math3',
     name: '数学',
-    grade: '三年级第一学期',
+    grade: '三年级上册',
     gradeNum: 3,
     term: 'a',
-    publisher: '2026 新版沪教版 · 上海教育出版社 · 三年级第一学期',
+    publisher: '2026 新版沪教版 · 上海教育出版社 · 三年级上册',
     publisherKey: 'she',
     emoji: '🪁',
     theme: 'lime',
@@ -125,7 +173,7 @@ export const SUBJECTS: Subject[] = [
     grade: '四年级上册',
     gradeNum: 4,
     term: 'a',
-    publisher: '2026 新版沪教版 · 上海教育出版社 · 四年级第一学期',
+    publisher: '2026 新版沪教版 · 上海教育出版社 · 四年级上册',
     publisherKey: 'she',
     emoji: '🚀',
     theme: 'violet',
@@ -167,10 +215,10 @@ export const SUBJECTS: Subject[] = [
   {
     id: 'math',
     name: '数学',
-    grade: '五年级第一学期',
+    grade: '五年级上册',
     gradeNum: 5,
     term: 'a',
-    publisher: '沪教版 · 上海教育出版社 · 五年级第一学期',
+    publisher: '沪教版 · 上海教育出版社 · 五年级上册',
     publisherKey: 'she',
     emoji: '🧮',
     theme: 'emerald',
@@ -220,7 +268,7 @@ export const PUBLISHER_LABELS: Record<PublisherKey, string> = {
   she: '上海教育出版社 · 沪教数学/英语',
 }
 
-// 全科题库合集（错题本用；题目 id 前缀区分科目：语文五上 q、语文四上 c、语文三上 t、数学五上 m、数学四上 n、数学三上 p、英语五上 e、英语四上 g、英语三上 f，不会冲突）
+// 全科题库合集（错题本用；题目 id 前缀区分科目：语文五上 q、语文四上 c、语文三上 t、语文二上 d、数学五上 m、数学四上 n、数学三上 p、数学二上 r、英语五上 e、英语四上 g、英语三上 f、英语二上 h，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {
