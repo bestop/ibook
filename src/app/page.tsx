@@ -278,7 +278,10 @@ export default function Home() {
 
       {/* 底部导航 */}
       {showTabBar && (
-        <nav className="sticky bottom-0 z-40 border-t-2 border-amber-200/70 bg-white/95 backdrop-blur">
+        <nav
+          className="sticky bottom-0 z-40 border-t-2 border-amber-200/70 bg-white/95 backdrop-blur"
+          style={{ paddingBottom: 'max(0.25rem, env(safe-area-inset-bottom))' }}
+        >
           <div className="mx-auto grid w-full max-w-2xl grid-cols-4">
             {tabs.map((tab) => {
               const active = view.name === tab.key
@@ -289,7 +292,7 @@ export default function Home() {
                     sfx.click()
                     setView({ name: tab.key } as View)
                   }}
-                  className={`relative flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-black transition-colors ${
+                  className={`relative flex flex-col items-center gap-0.5 py-3 text-xs font-black transition-colors ${
                     active ? 'text-orange-600' : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >

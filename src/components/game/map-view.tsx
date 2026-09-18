@@ -42,7 +42,7 @@ const SUBJECT_THEME = {
     coinDesc: 'text-rose-500',
     mapBadge: 'bg-orange-100 text-orange-600',
     backBtn: 'border-orange-300 bg-orange-50 text-orange-700 hover:bg-orange-100',
-    footer: '📚 题目来源：2026 新版统编语文五年级上册 · 八大单元主题 · 80 道随堂精选题',
+    footer: '🏮 每过一关点亮星星，把语文岛全部点亮吧！',
     tip: '每天玩 20 分钟，闯关赢金币，快乐学语文！',
   },
   emerald: {
@@ -59,7 +59,7 @@ const SUBJECT_THEME = {
     coinDesc: 'text-rose-500',
     mapBadge: 'bg-emerald-100 text-emerald-600',
     backBtn: 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
-    footer: '🧮 题目来源：沪教版数学五年级第一学期（上海教育出版社） · 八大关卡 · 80 道随堂精选题',
+    footer: '🧮 算得越准，金币越多，数学岛等你点亮！',
     tip: '每天玩 20 分钟，闯关赢金币，快乐学数学！',
   },
   sky: {
@@ -76,7 +76,7 @@ const SUBJECT_THEME = {
     coinDesc: 'text-rose-500',
     mapBadge: 'bg-sky-100 text-sky-600',
     backBtn: 'border-sky-300 bg-sky-50 text-sky-700 hover:bg-sky-100',
-    footer: '🔤 题目来源：2026 新版沪教版（五四学制）英语五年级上册（上海教育出版社） · Starter + 10 个单元 · 110 道随堂精选题',
+    footer: '🔤 大声读出来，把英语岛闯个遍吧！',
     tip: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
   },
 } as const
