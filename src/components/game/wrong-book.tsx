@@ -17,7 +17,9 @@ const SUBJECT_BADGE = {
   chinese: 'bg-orange-100 text-orange-700',
   chinese4: 'bg-rose-100 text-rose-700',
   math: 'bg-emerald-100 text-emerald-700',
+  math4: 'bg-violet-100 text-violet-700',
   english: 'bg-sky-100 text-sky-700',
+  english4: 'bg-teal-100 text-teal-700',
 } as const
 
 export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {

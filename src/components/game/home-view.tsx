@@ -1,10 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Progress } from '@/components/ui/progress'
-import { SUBJECTS } from '@/lib/questions'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { SUBJECTS, subjectsFor } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { useGame, subjectStats, DAILY_GOAL_SECONDS } from '@/lib/game'
+import type { TextbookChoice } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 
 interface HomeViewProps {
@@ -40,12 +43,28 @@ const THEME = {
     bar: 'bg-rose-100 [&>div]:bg-gradient-to-r [&>div]:from-pink-400 [&>div]:to-rose-500',
     ring: 'ring-rose-200',
   },
+  violet: {
+    card: 'border-violet-300 bg-gradient-to-br from-violet-100 via-violet-50 to-purple-50 shadow-[0_10px_0_0_rgba(139,92,246,0.35)]',
+    title: 'text-violet-700',
+    btn: 'bg-gradient-to-b from-violet-400 to-violet-500 shadow-[0_5px_0_0_rgba(124,58,237,0.55)]',
+    bar: 'bg-violet-100 [&>div]:bg-gradient-to-r [&>div]:from-purple-400 [&>div]:to-violet-500',
+    ring: 'ring-violet-200',
+  },
+  teal: {
+    card: 'border-teal-300 bg-gradient-to-br from-teal-100 via-teal-50 to-cyan-50 shadow-[0_10px_0_0_rgba(20,184,166,0.35)]',
+    title: 'text-teal-700',
+    btn: 'bg-gradient-to-b from-teal-400 to-teal-500 shadow-[0_5px_0_0_rgba(13,148,136,0.55)]',
+    bar: 'bg-teal-100 [&>div]:bg-gradient-to-r [&>div]:from-cyan-400 [&>div]:to-teal-500',
+    ring: 'ring-teal-200',
+  },
 } as const
 
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
 const KID_LINES: Partial<Record<SubjectId, string>> = {
-  chinese: '读课文 · 背古诗 · 闯名著关！',
   chinese4: '看大潮 · 游长城 · 访古迹！',
+  math4: '运算律 · 大数 · 抽屉原理，越算越聪明！',
+  english4: '学校 · 动物 · 早餐 · 天气，开口就说！',
+  chinese: '读课文 · 背古诗 · 闯名著关！',
   math: '算一算 · 比一比 · 越闯越聪明！',
   english: 'ABC 大冒险 · 边玩边开口说！',
 }
@@ -60,6 +79,22 @@ const FLOATERS = [
   { emoji: '✨', cls: 'left-[4%] top-[86%] text-xl', d: 6.5 },
 ]
 
+const GRADE_LABELS: Record<number, string> = { 3: '三年级', 4: '四年级', 5: '五年级' }
+const TERM_LABELS: Record<'a' | 'b', string> = { a: '上册', b: '下册' }
+
+// 可选的年级（含未开岛的占位）
+const GRADE_OPTIONS: { num: number; open: boolean }[] = [
+  { num: 3, open: false },
+  { num: 4, open: true },
+  { num: 5, open: true },
+]
+
+const PUBLISHER_OPTIONS: { key: 'all' | 'she' | 'rj'; label: string }[] = [
+  { key: 'all', label: '全部出版社' },
+  { key: 'she', label: '上海教育出版社' },
+  { key: 'rj', label: '人民教育出版社（统编语文）' },
+]
+
 export default function HomeView({ onSelectSubject }: HomeViewProps) {
   const levels = useGame((s) => s.levels)
   const coins = useGame((s) => s.coins)
@@ -67,10 +102,23 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
   const todaySeconds = useGame((s) => s.todaySeconds)
   const dailyDone = useGame((s) => s.dailyDone)
   const wrongBook = useGame((s) => s.wrongBook)
+  const textbook = useGame((s) => s.textbook)
+  const setTextbook = useGame((s) => s.setTextbook)
+
+  const [pickerOpen, setPickerOpen] = useState(false)
 
   const wrongCount = Object.keys(wrongBook).length
   const minutes = Math.floor(todaySeconds / 60)
   const pct = Math.min(100, (todaySeconds / DAILY_GOAL_SECONDS) * 100)
+
+  // 按右上角选择器筛选当前要展示的科目岛
+  const visibleSubjects = subjectsFor(textbook)
+  const hasContent = visibleSubjects.length > 0
+
+  const pick = (patch: Partial<TextbookChoice>) => {
+    sfx.click()
+    setTextbook({ ...textbook, ...patch })
+  }
 
   return (
     <div className="relative mx-auto w-full max-w-2xl px-3 pb-24 pt-4 sm:pt-6">
@@ -89,6 +137,25 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
       </div>
 
       <div className="relative z-10">
+        {/* 右上角：教材选择器入口 */}
+        <div className="flex justify-end">
+          <motion.button
+            whileTap={{ scale: 0.94 }}
+            onClick={() => {
+              sfx.click()
+              setPickerOpen(true)
+            }}
+            className="flex items-center gap-1 rounded-full border-2 border-violet-200 bg-white px-3 py-1.5 text-xs font-black text-violet-600 shadow-[0_3px_0_0_rgba(139,92,246,0.25)] transition-transform active:translate-y-[2px] active:shadow-none sm:text-sm"
+            aria-label="选择年级、册别和出版社"
+          >
+            <span>📚</span>
+            <span>
+              {GRADE_LABELS[textbook.gradeNum] ?? `${textbook.gradeNum}年级`}·{TERM_LABELS[textbook.term]}
+            </span>
+            <span className="text-[10px] text-violet-400">▼</span>
+          </motion.button>
+        </div>
+
         {/* 英雄区：小岛和你打招呼 */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
@@ -99,7 +166,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             initial={{ scale: 0, y: -10 }}
             animate={{ scale: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 260, damping: 16, delay: 0.15 }}
-            className="relative mx-auto inline-block"
+            className="relative mx-auto mt-3 inline-block"
           >
             <p className="rounded-2xl border-2 border-orange-200 bg-white px-4 py-2 text-sm font-black text-orange-500 shadow-[0_4px_0_0_rgba(251,146,60,0.2)] sm:text-base">
               嗨，小岛民！今天想去哪个岛冒险呀？
@@ -166,66 +233,206 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
         {/* 科目岛选择 */}
         <h2 className="mb-3 mt-6 flex items-center gap-2 text-lg font-black text-gray-800 sm:text-xl">
           <span className="text-2xl">🗺️</span> 选一个岛出发
+          <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-black text-violet-500">
+            {GRADE_LABELS[textbook.gradeNum] ?? `${textbook.gradeNum}年级`}{TERM_LABELS[textbook.term]}
+          </span>
         </h2>
-        <div className="flex flex-col gap-4">
-          {SUBJECTS.map((subject, i) => {
-            const t = THEME[subject.theme]
-            const stats = subjectStats(levels, subject.id)
-            return (
-              <motion.button
-                key={subject.id}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.08 * i, type: 'spring', stiffness: 220, damping: 20 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => {
-                  sfx.click()
-                  onSelectSubject(subject.id)
-                }}
-                className={`w-full rounded-[2rem] border-4 p-5 text-left ${t.card}`}
-              >
-                <div className="flex items-center gap-4">
-                  <motion.span
-                    animate={{ rotate: [0, -6, 6, 0] }}
-                    transition={{ repeat: Infinity, duration: 4.5, delay: i * 0.8, ease: 'easeInOut' }}
-                    className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[1.4rem] bg-white text-5xl shadow-sm ring-4 sm:h-24 sm:w-24 sm:text-6xl ${t.ring}`}
-                  >
-                    {subject.emoji}
-                  </motion.span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <p className={`text-2xl font-black sm:text-3xl ${t.title}`}>{subject.name}岛</p>
-                      <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-black text-gray-500 shadow-sm">
-                        {subject.grade}
-                      </span>
-                    </div>
-                    <p className="mt-0.5 text-xs font-black text-gray-500 sm:text-sm">
-                      {KID_LINES[subject.id] ?? subject.tagline}
-                    </p>
-                    <div className="mt-2 flex items-center gap-1.5 text-sm font-black sm:text-base">
-                      <span className="text-amber-500">⭐ {stats.stars}</span>
-                      <span className="text-gray-300">·</span>
-                      <span className="text-gray-500">✅ {stats.completed}/{stats.total} 关</span>
+
+        {!hasContent ? (
+          <div className="rounded-[2rem] border-4 border-dashed border-amber-300 bg-white/80 p-8 text-center">
+            <p className="text-5xl">🚧</p>
+            <p className="mt-2 text-base font-black text-amber-600">这片海域还没开岛哦！</p>
+            <p className="mt-1 text-xs font-bold text-gray-400">
+              {GRADE_LABELS[textbook.gradeNum] ?? textbook.gradeNum + '年级'}
+              {TERM_LABELS[textbook.term]}的教材正在赶来，先回上册继续冒险吧～
+            </p>
+            <button
+              onClick={() => {
+                sfx.click()
+                pick({ term: 'a' })
+              }}
+              className="mt-4 rounded-2xl bg-gradient-to-b from-amber-400 to-orange-500 px-5 py-2.5 text-sm font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] active:translate-y-[3px] active:shadow-none"
+            >
+              ⛵ 回到上册
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {visibleSubjects.map((subject, i) => {
+              const t = THEME[subject.theme]
+              const stats = subjectStats(levels, subject.id)
+              return (
+                <motion.button
+                  key={subject.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 * i, type: 'spring', stiffness: 220, damping: 20 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => {
+                    sfx.click()
+                    onSelectSubject(subject.id)
+                  }}
+                  className={`w-full rounded-[2rem] border-4 p-5 text-left ${t.card}`}
+                >
+                  <div className="flex items-center gap-4">
+                    <motion.span
+                      animate={{ rotate: [0, -6, 6, 0] }}
+                      transition={{ repeat: Infinity, duration: 4.5, delay: i * 0.8, ease: 'easeInOut' }}
+                      className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[1.4rem] bg-white text-5xl shadow-sm ring-4 sm:h-24 sm:w-24 sm:text-6xl ${t.ring}`}
+                    >
+                      {subject.emoji}
+                    </motion.span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <p className={`text-2xl font-black sm:text-3xl ${t.title}`}>{subject.name}岛</p>
+                        <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-black text-gray-500 shadow-sm">
+                          {subject.grade}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-xs font-black text-gray-500 sm:text-sm">
+                        {KID_LINES[subject.id] ?? subject.tagline}
+                      </p>
+                      <div className="mt-2 flex items-center gap-1.5 text-sm font-black sm:text-base">
+                        <span className="text-amber-500">⭐ {stats.stars}</span>
+                        <span className="text-gray-300">·</span>
+                        <span className="text-gray-500">✅ {stats.completed}/{stats.total} 关</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <Progress value={(stats.completed / stats.total) * 100} className={`mt-3 h-3 rounded-full ${t.bar}`} />
-                <span
-                  className={`mt-4 flex items-center justify-center gap-1.5 rounded-2xl py-3.5 text-lg font-black text-white transition-transform active:translate-y-[3px] active:shadow-none sm:text-xl ${t.btn}`}
-                >
-                  {stats.completed > 0 ? '继续冒险' : '出发冒险'}
-                  <span className="text-xl">🚀</span>
-                </span>
-              </motion.button>
-            )
-          })}
-        </div>
+                  <Progress value={(stats.completed / stats.total) * 100} className={`mt-3 h-3 rounded-full ${t.bar}`} />
+                  <span
+                    className={`mt-4 flex items-center justify-center gap-1.5 rounded-2xl py-3.5 text-lg font-black text-white transition-transform active:translate-y-[3px] active:shadow-none sm:text-xl ${t.btn}`}
+                  >
+                    {stats.completed > 0 ? '继续冒险' : '出发冒险'}
+                    <span className="text-xl">🚀</span>
+                  </span>
+                </motion.button>
+              )
+            })}
+          </div>
+        )}
 
         {/* 底部一句话 */}
         <p className="mt-8 text-center text-xs font-bold text-gray-400">
-          🚧 更多年级和教材，正在开岛中…
+          🚧 三年级和更多教材，正在开岛中…
         </p>
       </div>
+
+      {/* 教材选择弹窗：年级 / 上下册 / 出版社 */}
+      <Dialog open={pickerOpen} onOpenChange={setPickerOpen}>
+        <DialogContent className="max-h-[80vh] overflow-y-auto rounded-3xl">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-black">📚 选择你的教材</DialogTitle>
+            <DialogDescription className="text-left text-xs font-bold">
+              选好年级、册别和出版社，对应的科目岛就会出现！
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            {/* 年级 */}
+            <div>
+              <p className="mb-2 text-sm font-black text-gray-700">🎒 年级</p>
+              <div className="flex flex-wrap gap-2">
+                {GRADE_OPTIONS.map((g) => {
+                  const active = textbook.gradeNum === g.num
+                  if (!g.open) {
+                    return (
+                      <span
+                        key={g.num}
+                        className="rounded-2xl border-2 border-gray-200 bg-gray-50 px-4 py-2 text-sm font-black text-gray-300"
+                      >
+                        {GRADE_LABELS[g.num]} 🚧
+                      </span>
+                    )
+                  }
+                  return (
+                    <button
+                      key={g.num}
+                      onClick={() => pick({ gradeNum: g.num })}
+                      className={`rounded-2xl border-2 px-4 py-2 text-sm font-black transition-transform active:translate-y-[2px] ${
+                        active
+                          ? 'border-violet-400 bg-violet-500 text-white shadow-[0_3px_0_0_rgba(124,58,237,0.45)]'
+                          : 'border-gray-200 bg-white text-gray-600 shadow-sm'
+                      }`}
+                    >
+                      {GRADE_LABELS[g.num]}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* 学期 */}
+            <div>
+              <p className="mb-2 text-sm font-black text-gray-700">🗓️ 上下册</p>
+              <div className="flex flex-wrap gap-2">
+                {(['a', 'b'] as const).map((term) => {
+                  const active = textbook.term === term
+                  if (term === 'b') {
+                    return (
+                      <span
+                        key={term}
+                        className="rounded-2xl border-2 border-gray-200 bg-gray-50 px-4 py-2 text-sm font-black text-gray-300"
+                      >
+                        下册 🚧
+                      </span>
+                    )
+                  }
+                  return (
+                    <button
+                      key={term}
+                      onClick={() => pick({ term })}
+                      className={`rounded-2xl border-2 px-4 py-2 text-sm font-black transition-transform active:translate-y-[2px] ${
+                        active
+                          ? 'border-violet-400 bg-violet-500 text-white shadow-[0_3px_0_0_rgba(124,58,237,0.45)]'
+                          : 'border-gray-200 bg-white text-gray-600 shadow-sm'
+                      }`}
+                    >
+                      上册
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* 出版社 */}
+            <div>
+              <p className="mb-2 text-sm font-black text-gray-700">🏢 出版社</p>
+              <div className="flex flex-col gap-2">
+                {PUBLISHER_OPTIONS.map((p) => {
+                  const active = textbook.publisher === p.key
+                  return (
+                    <button
+                      key={p.key}
+                      onClick={() => pick({ publisher: p.key })}
+                      className={`flex items-center justify-between rounded-2xl border-2 px-4 py-2.5 text-sm font-black transition-transform active:translate-y-[2px] ${
+                        active
+                          ? 'border-violet-400 bg-violet-500 text-white shadow-[0_3px_0_0_rgba(124,58,237,0.45)]'
+                          : 'border-gray-200 bg-white text-gray-600 shadow-sm'
+                      }`}
+                    >
+                      <span>{p.label}</span>
+                      {active && <span>✓</span>}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* 当前组合预览 */}
+            <div className="rounded-2xl bg-amber-50 p-3">
+              <p className="text-xs font-black text-amber-700">
+                🗺️ {GRADE_LABELS[textbook.gradeNum] ?? textbook.gradeNum + '年级'}{TERM_LABELS[textbook.term]}
+                （{textbook.publisher === 'all' ? '全部出版社' : PUBLISHER_OPTIONS.find((p) => p.key === textbook.publisher)?.label}）
+                已开岛 {visibleSubjects.length} 个科目岛 · 共 {visibleSubjects.reduce((n, s) => n + s.units.length, 0)} 关
+              </p>
+              <p className="mt-1 text-[11px] font-bold text-amber-500">
+                {visibleSubjects.map((s) => `${s.emoji}${s.name}`).join(' · ') || '🚧 暂无教材，换个组合试试～'}
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

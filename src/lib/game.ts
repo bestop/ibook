@@ -3,7 +3,14 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { SUBJECTS } from '@/lib/questions'
-import type { SubjectId } from '@/lib/questions'
+import type { SubjectId, PublisherKey } from '@/lib/questions'
+
+// 教材选择（右上角选择器）：年级 + 上下册 + 出版社
+export interface TextbookChoice {
+  gradeNum: number
+  term: 'a' | 'b'
+  publisher: 'all' | PublisherKey
+}
 
 export interface LevelProgress {
   stars: number // 0-3
@@ -19,6 +26,7 @@ export interface DailyDone {
 
 export interface GameState {
   // 资源
+  textbook: TextbookChoice // 当前选中的教材（首页筛选科目岛）
   coins: number
   levels: Record<string, LevelProgress>
   wrongBook: Record<string, number> // questionId -> 错误次数
@@ -36,6 +44,7 @@ export interface GameState {
   redeemLog: RedeemRecord[] // 兑换记录（最新在前）
   customRewards: RewardItem[] // 家长自定义奖励
   // actions
+  setTextbook: (t: TextbookChoice) => void
   ensureToday: () => void
   signIn: () => void
   addTodaySeconds: (n: number) => void
@@ -95,7 +104,7 @@ function completedIn(levels: Record<string, LevelProgress>, subjectId: SubjectId
   return subj.units.filter((u) => levels[`${subjectId}:${u.id}`]?.completed).length
 }
 
-// 全部 35 关（四科 8+8+8+11）是否都拿到满星
+// 全部 55 关（六科：语文四上8 + 数学四上9 + 英语四上11 + 语文五上8 + 数学五上8 + 英语五上11）是否都拿到满星
 function allFullStars(levels: Record<string, LevelProgress>): boolean {
   const totalUnits = SUBJECTS.reduce((n, s) => n + s.units.length, 0)
   let count = 0
@@ -117,9 +126,12 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'cn_all', emoji: '🏮', name: '文学小达人', desc: '通过五年级上册语文全部 8 个单元', check: (s) => completedIn(s.levels, 'chinese') >= 8 },
   { id: 'cn4_all', emoji: '🐉', name: '四年级小状元', desc: '通过四年级上册语文全部 8 个单元（含文化遗产单元）', check: (s) => completedIn(s.levels, 'chinese4') >= 8 },
   { id: 'win35', emoji: '🚀', name: '全能小岛主', desc: '四上语文、五上语文、数学、英语全部 35 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 },
-  { id: 'math_all', emoji: '🧮', name: '数学小达人', desc: '通过数学全部 8 个关卡', check: (s) => completedIn(s.levels, 'math') >= 8 },
+  { id: 'math4_all', emoji: '🚀', name: '四上数学小达人', desc: '通过四年级上册数学全部 9 个关卡（含抽屉原理）', check: (s) => completedIn(s.levels, 'math4') >= 9 },
+  { id: 'eng4_all', emoji: '⛵', name: '四上英语小能手', desc: '通过四年级上册英语全部 11 个单元（含 Starter 热身站）', check: (s) => completedIn(s.levels, 'english4') >= 11 },
+  { id: 'win54', emoji: '🏝️', name: '六科全能大岛主', desc: '四、五年级语文·数学·英语全部 55 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english') >= 11 && completedIn(s.levels, 'english4') >= 11 },
+  { id: 'math_all', emoji: '🧮', name: '数学小达人', desc: '通过五年级上册数学全部 8 个关卡', check: (s) => completedIn(s.levels, 'math') >= 8 },
   { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星', check: (s) => Object.values(s.levels).some((l) => l.stars >= 3) },
-  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 35 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
+  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 55 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
   { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题', check: (s) => s.achievements.includes('combo5') },
   { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币', check: (s) => s.coins >= 300 },
   { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天', check: (s) => s.streak >= 3 },
@@ -167,6 +179,7 @@ function grantAchievements(state: GameState): Partial<GameState> | null {
 export const useGame = create<GameState>()(
   persist(
     (set, get) => ({
+      textbook: { gradeNum: 5, term: 'a', publisher: 'all' },
       coins: 0,
       levels: {},
       wrongBook: {},
@@ -182,6 +195,8 @@ export const useGame = create<GameState>()(
       totalWrong: 0,
       redeemLog: [],
       customRewards: [],
+
+      setTextbook: (t) => set({ textbook: t }),
 
       ensureToday: () => {
         const s = get()

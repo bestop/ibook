@@ -207,11 +207,10 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 家长使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                      「学习闯关岛」目前有 4 个科目岛：
-                      🏮 五年级上册语文 · 🐉 四年级上册语文（均为 2026 新版统编教材，8 关/科）·
-                      🧮 五年级数学（沪教版·上海教育出版社，8 关）·
-                      🔤 五年级英语（沪教版五四制·上海教育出版社，11 关）。
-                      共 35 关 350 道精选题，全部带详细解析，建议每天玩 20 分钟。
+                      「学习闯关岛」覆盖四、五年级上册共 6 个科目岛：
+                      🐉 四年级语文（8 关）· 🚀 四年级数学（9 关，含抽屉原理）· ⛵ 四年级英语（11 关）·
+                      🏮 五年级语文（8 关）· 🧮 五年级数学（8 关）· 🔤 五年级英语（11 关）。
+                      语文为 2026 新版统编教材，数学/英语为 2026 新版沪教版（上海教育出版社）。共 55 关 550 道精选题，全部带详细解析。首页右上角可切换年级、册别和出版社，建议每天玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">
@@ -221,7 +220,7 @@ export default function Home() {
                     </div>
                     <div className="rounded-2xl bg-emerald-50 p-3">
                       <p className="font-black text-emerald-700">🎁 奖励机制</p>
-                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，17 个成就徽章等你解锁</p>
+                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，20 个成就徽章等你解锁</p>
                     </div>
                     <div className="rounded-2xl bg-rose-50 p-3">
                       <p className="font-black text-rose-700">⚖️ 惩罚机制</p>
@@ -229,7 +228,7 @@ export default function Home() {
                     </div>
                     <div className="rounded-2xl bg-violet-50 p-3">
                       <p className="font-black text-violet-700">👪 亲子奖励·礼物屋</p>
-                      <p>· 孩子用金币在「礼物屋」兑换亲子奖励（亲子阅读、看动画片 15 分钟、公园游乐场、假日出游等）<br />· 兑换后生成「兑换券」，请家长尽快兑现约定，并在券包里点「已兑现」<br />· 支持家长添加自定义奖励和价格，建议和孩子一起商定</p>
+                      <p>· 孩子用金币在「礼物屋」兑换亲子奖励（亲子阅读、看动画片 15 分钟、公园游乐场、假日出游等）<br />· 兑换后生成「兑换券」，请家长尽快兑现约定，并在券包里点「已兑现」<br />· 支持家长添加自定义奖励和价格，建议和孩子一起商定<br />· 各科目进度分开记录，金币、错题本、成就、礼物屋通用；右上角可切换年级/册别/出版社</p>
                     </div>
                     <div className="rounded-2xl bg-violet-50/60 p-3">
                       <p className="font-black text-violet-700">💡 给家长的小建议</p>
