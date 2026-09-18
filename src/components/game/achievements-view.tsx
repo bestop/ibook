@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ACHIEVEMENTS, useGame } from '@/lib/game'
+import { sfx } from '@/lib/sound'
 
-export default function AchievementsView() {
+export default function AchievementsView({ onBack }: { onBack: () => void }) {
   const achievements = useGame((s) => s.achievements)
   const totalCorrect = useGame((s) => s.totalCorrect)
   const totalWrong = useGame((s) => s.totalWrong)
@@ -60,7 +61,14 @@ export default function AchievementsView() {
       </div>
 
       <div className="mt-5 text-center">
-        <Button onClick={() => history.back()} variant="outline" className="rounded-2xl border-2 px-8 py-4 font-black">
+        <Button
+          onClick={() => {
+            sfx.click()
+            onBack()
+          }}
+          variant="outline"
+          className="rounded-2xl border-2 px-8 py-4 font-black"
+        >
           ← 返回
         </Button>
       </div>

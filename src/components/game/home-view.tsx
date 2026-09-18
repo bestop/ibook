@@ -33,11 +33,19 @@ const THEME = {
     bar: 'bg-sky-100 [&>div]:bg-gradient-to-r [&>div]:from-cyan-400 [&>div]:to-sky-500',
     ring: 'ring-sky-200',
   },
+  rose: {
+    card: 'border-rose-300 bg-gradient-to-br from-rose-100 via-rose-50 to-pink-50 shadow-[0_10px_0_0_rgba(244,63,94,0.35)]',
+    title: 'text-rose-700',
+    btn: 'bg-gradient-to-b from-rose-400 to-rose-500 shadow-[0_5px_0_0_rgba(225,29,72,0.55)]',
+    bar: 'bg-rose-100 [&>div]:bg-gradient-to-r [&>div]:from-pink-400 [&>div]:to-rose-500',
+    ring: 'ring-rose-200',
+  },
 } as const
 
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
 const KID_LINES: Partial<Record<SubjectId, string>> = {
   chinese: '读课文 · 背古诗 · 闯名著关！',
+  chinese4: '看大潮 · 游长城 · 访古迹！',
   math: '算一算 · 比一比 · 越闯越聪明！',
   english: 'ABC 大冒险 · 边玩边开口说！',
 }
@@ -110,7 +118,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             学习闯关岛
           </h1>
           <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">
-            五年级上册 · 闯关赢金币 · 越玩越聪明
+            四·五年级 · 闯关赢金币 · 越玩越聪明
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
@@ -185,7 +193,12 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                     {subject.emoji}
                   </motion.span>
                   <div className="min-w-0 flex-1">
-                    <p className={`text-2xl font-black sm:text-3xl ${t.title}`}>{subject.name}岛</p>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <p className={`text-2xl font-black sm:text-3xl ${t.title}`}>{subject.name}岛</p>
+                      <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-black text-gray-500 shadow-sm">
+                        {subject.grade}
+                      </span>
+                    </div>
                     <p className="mt-0.5 text-xs font-black text-gray-500 sm:text-sm">
                       {KID_LINES[subject.id] ?? subject.tagline}
                     </p>

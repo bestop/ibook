@@ -10,15 +10,17 @@ import type { QuizItem } from './quiz-view'
 
 interface WrongBookProps {
   onStartReview: (items: QuizItem[]) => void
+  onBack: () => void
 }
 
 const SUBJECT_BADGE = {
   chinese: 'bg-orange-100 text-orange-700',
+  chinese4: 'bg-rose-100 text-rose-700',
   math: 'bg-emerald-100 text-emerald-700',
   english: 'bg-sky-100 text-sky-700',
 } as const
 
-export default function WrongBook({ onStartReview }: WrongBookProps) {
+export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
   const wrongBook = useGame((s) => s.wrongBook)
 
   const wrongQuestions = useMemo(
@@ -51,7 +53,14 @@ export default function WrongBook({ onStartReview }: WrongBookProps) {
         <p className="max-w-xs text-sm font-bold leading-relaxed text-gray-500">
           你已经消灭了所有错题，太厉害啦！继续保持，向 3 星关卡发起冲击吧！
         </p>
-        <Button onClick={() => history.back()} variant="outline" className="mt-2 rounded-2xl border-2 px-6 py-4 font-black">
+        <Button
+          onClick={() => {
+            sfx.click()
+            onBack()
+          }}
+          variant="outline"
+          className="mt-2 rounded-2xl border-2 px-6 py-4 font-black"
+        >
           ← 返回
         </Button>
       </div>
@@ -90,7 +99,7 @@ export default function WrongBook({ onStartReview }: WrongBookProps) {
             >
               <div className="mb-1.5 flex flex-wrap items-center gap-2">
                 <span className={`rounded-md px-1.5 py-0.5 text-[11px] font-black ${SUBJECT_BADGE[subj.id]}`}>
-                  {subj.emoji} {subj.name}
+                  {subj.emoji} {subj.name}·{subj.grade.slice(0, 2)}
                 </span>
                 <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[11px] font-black text-orange-700">{q.tag}</span>
                 <span className="rounded-md bg-rose-100 px-1.5 py-0.5 text-[11px] font-black text-rose-600">

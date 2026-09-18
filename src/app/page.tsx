@@ -17,6 +17,7 @@ import QuizView, { type QuizItem, type QuizMode, type QuizResult } from '@/compo
 import ResultView from '@/components/game/result-view'
 import WrongBook from '@/components/game/wrong-book'
 import AchievementsView from '@/components/game/achievements-view'
+import RewardShop from '@/components/game/reward-shop'
 import { getSubject, buildLevelQuestions, buildDailyQuestions, shuffle, ALL_QUESTIONS } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { ACHIEVEMENTS, useGame, totalStars } from '@/lib/game'
@@ -39,6 +40,7 @@ type View =
   | { name: 'result'; mode: QuizMode; levelId?: string; result: QuizResult }
   | { name: 'wrongbook' }
   | { name: 'achievements' }
+  | { name: 'rewards' }
 
 function buildReviewItems(ids: string[]): QuizItem[] {
   const qs = ALL_QUESTIONS.filter((q) => ids.includes(q.id))
@@ -154,11 +156,12 @@ export default function Home() {
     )
   }
 
-  const showTabBar = view.name === 'home' || view.name === 'map' || view.name === 'wrongbook' || view.name === 'achievements'
+  const showTabBar = view.name === 'home' || view.name === 'map' || view.name === 'wrongbook' || view.name === 'achievements' || view.name === 'rewards'
 
   const tabs = [
     { key: 'home', label: '选科目', emoji: '🏠' },
     { key: 'map', label: '闯关地图', emoji: '🏰' },
+    { key: 'rewards', label: '礼物屋', emoji: '🎁' },
     { key: 'wrongbook', label: `错题本${wrongCount ? `(${wrongCount})` : ''}`, emoji: '📕' },
     { key: 'achievements', label: '成就墙', emoji: '🏆' },
   ] as const
@@ -172,13 +175,13 @@ export default function Home() {
             <div className="flex items-center gap-1.5">
               <span className="text-2xl">🏝️</span>
               <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">学习闯关岛</h1>
-              <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[10px] font-black text-orange-600 sm:hidden">五上</span>
+              <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[10px] font-black text-orange-600 sm:hidden">四·五年级</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-black text-amber-700" title="金币（三科通用）">
+              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-black text-amber-700" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
                 🪙 {coins}
               </span>
-              <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-black text-orange-700" title="星星总数（三科）">
+              <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-black text-orange-700" title="星星总数（所有科目）">
                 ⭐ {stars}
               </span>
               <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-black text-emerald-700" title="连续签到">
@@ -204,29 +207,33 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 家长使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                      「学习闯关岛」覆盖三科五年级上册随堂知识点：<br />
-                      🏮 语文 · 2026 新版统编教材（万物有灵、古典名著、民间故事、爱国情怀、说明文、父母之爱、自然之景、读书明理，共 8 关）<br />
-                      🧮 数学 · 沪教版上海教育出版社五年级第一学期（符号表示数、小数乘除法、循环小数与近似值、平均数、图形面积、方程、时间与编码，共 8 关）<br />
-                      🔤 英语 · 2026 新版沪教版（五四学制）上海教育出版社五年级上册（Starter 热身、学校社团、传统游戏、神奇植物、动物伙伴、看病就医、迎接挑战、科学家、发明、电脑、绿色生活，共 11 关）<br />
-                      三科共 270 道精选题，均带详细解析。建议每天让孩子玩 20 分钟。
+                      「学习闯关岛」目前有 4 个科目岛：
+                      🏮 五年级上册语文 · 🐉 四年级上册语文（均为 2026 新版统编教材，8 关/科）·
+                      🧮 五年级数学（沪教版·上海教育出版社，8 关）·
+                      🔤 五年级英语（沪教版五四制·上海教育出版社，11 关）。
+                      共 35 关 350 道精选题，全部带详细解析，建议每天玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">
                     <div className="rounded-2xl bg-amber-50 p-3">
                       <p className="font-black text-amber-700">⏰ 每天 20 分钟怎么安排？</p>
-                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，三个科目可以搭配着玩。今日学习时长会自动累计。</p>
+                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，四个科目可以搭配着玩。今日学习时长会自动累计。</p>
                     </div>
                     <div className="rounded-2xl bg-emerald-50 p-3">
                       <p className="font-black text-emerald-700">🎁 奖励机制</p>
-                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，15 个成就徽章等你解锁</p>
+                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，17 个成就徽章等你解锁</p>
                     </div>
                     <div className="rounded-2xl bg-rose-50 p-3">
                       <p className="font-black text-rose-700">⚖️ 惩罚机制</p>
                       <p>· 每关 3 颗❤️：答错或超时（每题 40 秒）扣 1 颗<br />· ❤️ 用完闯关失败，本局金币减半<br />· 答错的题自动收进错题本，复习答对才能「消灭」<br />· 每科都是过一关解锁下一关</p>
                     </div>
                     <div className="rounded-2xl bg-violet-50 p-3">
+                      <p className="font-black text-violet-700">👪 亲子奖励·礼物屋</p>
+                      <p>· 孩子用金币在「礼物屋」兑换亲子奖励（亲子阅读、看动画片 15 分钟、公园游乐场、假日出游等）<br />· 兑换后生成「兑换券」，请家长尽快兑现约定，并在券包里点「已兑现」<br />· 支持家长添加自定义奖励和价格，建议和孩子一起商定</p>
+                    </div>
+                    <div className="rounded-2xl bg-violet-50/60 p-3">
                       <p className="font-black text-violet-700">💡 给家长的小建议</p>
-                      <p>· 星级规则：全对 3 星，错 1 题 2 星，错 2 题 1 星——鼓励孩子冲 3 星<br />· 可以和孩子约定：金币/星星达到目标可获得小奖励<br />· 三科进度分开记录，金币、错题本、成就是通用的<br />· 所有进度自动保存在本设备浏览器中，无需注册</p>
+                      <p>· 星级规则：全对 3 星，错 1 题 2 星，错 2 题 1 星——鼓励孩子冲 3 星<br />· 可以和孩子约定：金币/星星达到目标可获得小奖励<br />· 各科目进度分开记录，金币、错题本、成就、礼物屋是通用的<br />· 所有进度自动保存在本设备浏览器中，无需注册</p>
                     </div>
                   </div>
                 </DialogContent>
@@ -270,8 +277,9 @@ export default function Home() {
                 onHome={() => setView({ name: 'map' })}
               />
             )}
-            {view.name === 'wrongbook' && <WrongBook onStartReview={startReview} />}
-            {view.name === 'achievements' && <AchievementsView />}
+            {view.name === 'wrongbook' && <WrongBook onStartReview={startReview} onBack={() => setView({ name: 'home' })} />}
+            {view.name === 'achievements' && <AchievementsView onBack={() => setView({ name: 'home' })} />}
+            {view.name === 'rewards' && <RewardShop />}
           </motion.div>
         </AnimatePresence>
       </main>
@@ -282,7 +290,7 @@ export default function Home() {
           className="sticky bottom-0 z-40 border-t-2 border-amber-200/70 bg-white/95 backdrop-blur"
           style={{ paddingBottom: 'max(0.25rem, env(safe-area-inset-bottom))' }}
         >
-          <div className="mx-auto grid w-full max-w-2xl grid-cols-4">
+          <div className="mx-auto grid w-full max-w-2xl grid-cols-5">
             {tabs.map((tab) => {
               const active = view.name === tab.key
               return (

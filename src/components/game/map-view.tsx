@@ -79,6 +79,23 @@ const SUBJECT_THEME = {
     footer: '🔤 大声读出来，把英语岛闯个遍吧！',
     tip: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
   },
+  rose: {
+    hero: 'border-rose-300 bg-gradient-to-br from-rose-50 to-pink-50 shadow-[0_6px_0_0_rgba(244,63,94,0.35)]',
+    heroTitle: 'text-rose-800',
+    heroChip: 'bg-rose-400',
+    heroBar: 'bg-rose-200',
+    accent: 'text-rose-600',
+    dailyBtn: 'border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50 shadow-[0_6px_0_0_rgba(139,92,246,0.3)]',
+    dailyTitle: 'text-violet-700',
+    dailyDesc: 'text-violet-500',
+    coinBtn: 'border-rose-300 bg-gradient-to-br from-rose-50 to-orange-50 shadow-[0_6px_0_0_rgba(244,63,94,0.3)]',
+    coinTitle: 'text-rose-700',
+    coinDesc: 'text-rose-500',
+    mapBadge: 'bg-rose-100 text-rose-600',
+    backBtn: 'border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100',
+    footer: '🐉 游长城、逛颐和园，把四年级语文岛点亮！',
+    tip: '每天玩 20 分钟，闯关赢金币，快乐学语文！',
+  },
 } as const
 
 function UnitCard({ subject, unit, index, onStart }: { subject: SubjectId; unit: Unit; index: number; onStart: () => void }) {
