@@ -49,6 +49,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const [maxCombo, setMaxCombo] = useState(0)
   const [coins, setCoins] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
+  const [timedOut, setTimedOut] = useState(false) // 超时也算已作答，避免卡死在本题
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION)
   const [shake, setShake] = useState(false)
   const [gainFloat, setGainFloat] = useState<string | null>(null)
@@ -113,6 +114,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         setTimeout(() => setShake(false), 500)
         sfx.wrong()
       }
+      if (choice === null) setTimedOut(true) // 超时：显示解析与“下一题”按钮
       setTimeout(() => setGainFloat(null), 1200)
     },
     [combo, current, grantCombo, mode, recordAnswer, removeWrong]
@@ -143,6 +145,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
     }
     answeredRef.current = false
     setSelected(null)
+    setTimedOut(false)
     setTimeLeft(TIME_PER_QUESTION)
     setIdx((i) => i + 1)
     sfx.click()
@@ -158,7 +161,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
     )
   }
 
-  const answered = selected !== null
+  const answered = selected !== null || timedOut
   const isCorrect = answered && selected === current.answer
   const timeRatio = timeLeft / TIME_PER_QUESTION
 

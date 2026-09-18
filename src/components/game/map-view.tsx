@@ -178,7 +178,7 @@ export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
       {/* 关卡地图 */}
       <h2 className="mb-3 mt-6 flex items-center gap-2 text-lg font-black text-gray-800">
         <span className="text-2xl">🏰</span> 语文闯关地图
-        <span className="text-xs font-bold text-gray-400">（先修版：过关才能解锁下一关哦）</span>
+        <span className="text-xs font-bold text-gray-400">（过一关，解锁下一关哦）</span>
       </h2>
       <div id="unit-list" className="flex flex-col gap-3 sm:gap-4">
         {UNITS.map((unit, i) => (
@@ -189,7 +189,7 @@ export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
       </div>
 
       <p className="mt-6 text-center text-xs font-bold text-gray-400">
-        📚 题目来源：统编版（部编版）语文五年级上册 · 共 8 个单元 · {8 * 10} 道随堂精选题
+        📚 题目来源：2026 新版统编语文五年级上册 · 八大单元主题 · {8 * 10} 道随堂精选题
       </p>
     </div>
   )

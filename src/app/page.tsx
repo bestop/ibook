@@ -183,7 +183,7 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 家长使用指南</DialogTitle>
                     <DialogDescription className="text-sm font-bold leading-relaxed text-left">
-                      本游戏基于统编版语文五年级上册 8 个单元的随堂知识点（80 道精选题），建议每天让孩子玩 20 分钟。
+                      本游戏基于 2026 新版统编语文五年级上册 8 个单元主题（万物有灵、古典名著、民间故事、爱国情怀、说明文、父母之爱、自然之景、读书明理）的随堂知识点，共 80 道精选题。建议每天让孩子玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">

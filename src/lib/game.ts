@@ -254,7 +254,7 @@ export const useGame = create<GameState>()(
           totalWrong: 0,
         }),
     }),
-    { name: 'yuwen-game-v1' }
+    { name: 'yuwen-game-v2' } // v2：题库已按 2026 新版课本全量更新，旧存档作废重开
   )
 )
 
