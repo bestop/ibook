@@ -15,10 +15,13 @@ interface WrongBookProps {
 
 const SUBJECT_BADGE = {
   chinese: 'bg-orange-100 text-orange-700',
+  chinese3: 'bg-amber-100 text-amber-700',
   chinese4: 'bg-rose-100 text-rose-700',
   math: 'bg-emerald-100 text-emerald-700',
+  math3: 'bg-lime-100 text-lime-700',
   math4: 'bg-violet-100 text-violet-700',
   english: 'bg-sky-100 text-sky-700',
+  english3: 'bg-cyan-100 text-cyan-700',
   english4: 'bg-teal-100 text-teal-700',
 } as const
 

@@ -57,10 +57,34 @@ const THEME = {
     bar: 'bg-teal-100 [&>div]:bg-gradient-to-r [&>div]:from-cyan-400 [&>div]:to-teal-500',
     ring: 'ring-teal-200',
   },
+  amber: {
+    card: 'border-amber-300 bg-gradient-to-br from-amber-100 via-amber-50 to-yellow-50 shadow-[0_10px_0_0_rgba(245,158,11,0.35)]',
+    title: 'text-amber-700',
+    btn: 'bg-gradient-to-b from-amber-400 to-amber-500 shadow-[0_5px_0_0_rgba(217,119,6,0.55)]',
+    bar: 'bg-amber-100 [&>div]:bg-gradient-to-r [&>div]:from-yellow-400 [&>div]:to-amber-500',
+    ring: 'ring-amber-200',
+  },
+  lime: {
+    card: 'border-lime-300 bg-gradient-to-br from-lime-100 via-lime-50 to-green-50 shadow-[0_10px_0_0_rgba(132,204,22,0.35)]',
+    title: 'text-lime-700',
+    btn: 'bg-gradient-to-b from-lime-400 to-lime-500 shadow-[0_5px_0_0_rgba(101,163,13,0.55)]',
+    bar: 'bg-lime-100 [&>div]:bg-gradient-to-r [&>div]:from-green-400 [&>div]:to-lime-500',
+    ring: 'ring-lime-200',
+  },
+  cyan: {
+    card: 'border-cyan-300 bg-gradient-to-br from-cyan-100 via-cyan-50 to-sky-50 shadow-[0_10px_0_0_rgba(6,182,212,0.35)]',
+    title: 'text-cyan-700',
+    btn: 'bg-gradient-to-b from-cyan-400 to-cyan-500 shadow-[0_5px_0_0_rgba(8,145,178,0.55)]',
+    bar: 'bg-cyan-100 [&>div]:bg-gradient-to-r [&>div]:from-sky-400 [&>div]:to-cyan-500',
+    ring: 'ring-cyan-200',
+  },
 } as const
 
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
 const KID_LINES: Partial<Record<SubjectId, string>> = {
+  chinese3: '大青树下 · 秋天的雨 · 古诗新唱！',
+  math3: '一位数乘除 · 年月日 · 七巧板，越算越灵！',
+  english3: '字母 ABC · 小花园 · 美食节，英语初体验！',
   chinese4: '看大潮 · 游长城 · 访古迹！',
   math4: '运算律 · 大数 · 抽屉原理，越算越聪明！',
   english4: '学校 · 动物 · 早餐 · 天气，开口就说！',
@@ -84,7 +108,7 @@ const TERM_LABELS: Record<'a' | 'b', string> = { a: '上册', b: '下册' }
 
 // 可选的年级（含未开岛的占位）
 const GRADE_OPTIONS: { num: number; open: boolean }[] = [
-  { num: 3, open: false },
+  { num: 3, open: true },
   { num: 4, open: true },
   { num: 5, open: true },
 ]
@@ -185,7 +209,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             学习闯关岛
           </h1>
           <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">
-            四·五年级 · 闯关赢金币 · 越玩越聪明
+            三·四·五年级 · 闯关赢金币 · 越玩越聪明
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
@@ -314,7 +338,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
 
         {/* 底部一句话 */}
         <p className="mt-8 text-center text-xs font-bold text-gray-400">
-          🚧 三年级和更多教材，正在开岛中…
+          🚧 下册和更多教材，正在开岛中…
         </p>
       </div>
 

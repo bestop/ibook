@@ -104,7 +104,7 @@ function completedIn(levels: Record<string, LevelProgress>, subjectId: SubjectId
   return subj.units.filter((u) => levels[`${subjectId}:${u.id}`]?.completed).length
 }
 
-// 全部 55 关（六科：语文四上8 + 数学四上9 + 英语四上11 + 语文五上8 + 数学五上8 + 英语五上11）是否都拿到满星
+// 全部 83 关（九科：语文三上8 + 数学三上9 + 英语三上11 + 语文四上8 + 数学四上9 + 英语四上11 + 语文五上8 + 数学五上8 + 英语五上11）是否都拿到满星
 function allFullStars(levels: Record<string, LevelProgress>): boolean {
   const totalUnits = SUBJECTS.reduce((n, s) => n + s.units.length, 0)
   let count = 0
@@ -129,9 +129,13 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'math4_all', emoji: '🚀', name: '四上数学小达人', desc: '通过四年级上册数学全部 9 个关卡（含抽屉原理）', check: (s) => completedIn(s.levels, 'math4') >= 9 },
   { id: 'eng4_all', emoji: '⛵', name: '四上英语小能手', desc: '通过四年级上册英语全部 11 个单元（含 Starter 热身站）', check: (s) => completedIn(s.levels, 'english4') >= 11 },
   { id: 'win54', emoji: '🏝️', name: '六科全能大岛主', desc: '四、五年级语文·数学·英语全部 55 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english') >= 11 && completedIn(s.levels, 'english4') >= 11 },
+  { id: 'cn3_all', emoji: '🌱', name: '三年级小进士', desc: '通过三年级上册语文全部 8 个单元（含文言文《司马光》）', check: (s) => completedIn(s.levels, 'chinese3') >= 8 },
+  { id: 'math3_all', emoji: '🪁', name: '三上数学小神童', desc: '通过三年级上册数学全部 9 个关卡（含数学广场·七巧板）', check: (s) => completedIn(s.levels, 'math3') >= 9 },
+  { id: 'eng3_all', emoji: '🌈', name: '三上英语小明星', desc: '通过三年级上册英语全部 11 个单元（含 Starter 热身站）', check: (s) => completedIn(s.levels, 'english3') >= 11 },
+  { id: 'win83', emoji: '🏝️', name: '九科全能总岛主', desc: '三、四、五年级语数英全部 83 关都通过', check: (s) => completedIn(s.levels, 'chinese3') >= 8 && completedIn(s.levels, 'math3') >= 9 && completedIn(s.levels, 'english3') >= 11 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english4') >= 11 && completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 },
   { id: 'math_all', emoji: '🧮', name: '数学小达人', desc: '通过五年级上册数学全部 8 个关卡', check: (s) => completedIn(s.levels, 'math') >= 8 },
   { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星', check: (s) => Object.values(s.levels).some((l) => l.stars >= 3) },
-  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 55 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
+  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 83 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
   { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题', check: (s) => s.achievements.includes('combo5') },
   { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币', check: (s) => s.coins >= 300 },
   { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天', check: (s) => s.streak >= 3 },

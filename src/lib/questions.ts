@@ -1,15 +1,18 @@
 // 多科目题库注册中心
-// 年级维度：四年级上册 / 五年级上册（term: 'a' 上册，'b' 下册预留）
-// 语文：2026 新版统编教材（人民教育出版社）四上/五上，各 8 单元
-// 数学：沪教版（上海教育出版社）2026 新版四上（9 单元）/ 五上（8 单元）
-// 英语：2026 新版沪教版（五四学制·上海教育出版社）四上/五上，各 Starter + 10 单元
+// 年级维度：三年级上册 / 四年级上册 / 五年级上册（term: 'a' 上册，'b' 下册预留）
+// 语文：2026 新版统编教材（人民教育出版社）三上/四上/五上，各 8 单元
+// 数学：沪教版（上海教育出版社）2026 新版三上（9 单元）/ 四上（9 单元）/ 五上（8 单元）
+// 英语：2026 新版沪教版（五四学制·上海教育出版社）三上/四上/五上，各 Starter + 10 单元
 // 每关 10 题
 
 import { UNITS as CN_UNITS, QUESTIONS as CN_QUESTIONS } from './bank-chinese'
+import { UNITS as CN3_UNITS, QUESTIONS as CN3_QUESTIONS } from './bank-chinese3'
 import { UNITS as CN4_UNITS, QUESTIONS as CN4_QUESTIONS } from './bank-chinese4'
 import { UNITS as MATH_UNITS, QUESTIONS as MATH_QUESTIONS } from './bank-math'
+import { UNITS as MATH3_UNITS, QUESTIONS as MATH3_QUESTIONS } from './bank-math3'
 import { UNITS as MATH4_UNITS, QUESTIONS as MATH4_QUESTIONS } from './bank-math4'
 import { UNITS as EN_UNITS, QUESTIONS as EN_QUESTIONS } from './bank-english'
+import { UNITS as EN3_UNITS, QUESTIONS as EN3_QUESTIONS } from './bank-english3'
 import { UNITS as EN4_UNITS, QUESTIONS as EN4_QUESTIONS } from './bank-english4'
 
 export type QType = 'choice' | 'judge'
@@ -34,7 +37,7 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese' | 'chinese4' | 'math' | 'math4' | 'english' | 'english4'
+export type SubjectId = 'chinese3' | 'chinese4' | 'chinese' | 'math3' | 'math4' | 'math' | 'english3' | 'english4' | 'english'
 
 // 出版社 key：rj 人民教育出版社（统编语文）、she 上海教育出版社（数学/英语）
 export type PublisherKey = 'rj' | 'she'
@@ -43,12 +46,12 @@ export interface Subject {
   id: SubjectId
   name: string
   grade: string // 展示用，如「四年级上册」
-  gradeNum: number // 4 / 5
+  gradeNum: number // 3 / 4 / 5
   term: 'a' | 'b' // a 上册 / b 下册
   publisher: string // 完整出版信息
   publisherKey: PublisherKey
   emoji: string
-  theme: 'orange' | 'emerald' | 'sky' | 'rose' | 'violet' | 'teal'
+  theme: 'orange' | 'emerald' | 'sky' | 'rose' | 'violet' | 'teal' | 'amber' | 'lime' | 'cyan'
   qidPrefix: string
   tagline: string
   units: Unit[]
@@ -56,6 +59,51 @@ export interface Subject {
 }
 
 export const SUBJECTS: Subject[] = [
+  {
+    id: 'chinese3',
+    name: '语文',
+    grade: '三年级上册',
+    gradeNum: 3,
+    term: 'a',
+    publisher: '2026 新版统编教材 · 人民教育出版社 · 三年级上册',
+    publisherKey: 'rj',
+    emoji: '🌱',
+    theme: 'amber',
+    qidPrefix: 't',
+    tagline: '学校生活 → 金秋时节 → 祖国河山 → 美好品质',
+    units: CN3_UNITS,
+    questions: CN3_QUESTIONS,
+  },
+  {
+    id: 'math3',
+    name: '数学',
+    grade: '三年级第一学期',
+    gradeNum: 3,
+    term: 'a',
+    publisher: '2026 新版沪教版 · 上海教育出版社 · 三年级第一学期',
+    publisherKey: 'she',
+    emoji: '🪁',
+    theme: 'lime',
+    qidPrefix: 'p',
+    tagline: '一位数乘除 → 年月日 → 周长 → 七巧板',
+    units: MATH3_UNITS,
+    questions: MATH3_QUESTIONS,
+  },
+  {
+    id: 'english3',
+    name: '英语',
+    grade: '三年级上册',
+    gradeNum: 3,
+    term: 'a',
+    publisher: '2026 新版沪教版（五四学制）· 上海教育出版社 · 三年级上册',
+    publisherKey: 'she',
+    emoji: '🌈',
+    theme: 'cyan',
+    qidPrefix: 'f',
+    tagline: '字母 ABC → 小花园 → 中国节日 → 世界美食',
+    units: EN3_UNITS,
+    questions: EN3_QUESTIONS,
+  },
   {
     id: 'chinese4',
     name: '语文',
@@ -172,7 +220,7 @@ export const PUBLISHER_LABELS: Record<PublisherKey, string> = {
   she: '上海教育出版社 · 沪教数学/英语',
 }
 
-// 全科题库合集（错题本用；题目 id 前缀区分科目：语文五上 q、语文四上 c、数学五上 m、数学四上 n、英语五上 e、英语四上 g，不会冲突）
+// 全科题库合集（错题本用；题目 id 前缀区分科目：语文五上 q、语文四上 c、语文三上 t、数学五上 m、数学四上 n、数学三上 p、英语五上 e、英语四上 g、英语三上 f，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {
