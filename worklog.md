@@ -42,3 +42,31 @@ Stage Summary:
 - 交付：题库与单元结构 100% 对齐 2026 新版课本的游戏（80 道题全部带解析）
 - 附带修复：题目超时卡死的关键交互 bug；成就弹窗遮挡按钮的问题通过自动化流程确认并规避
 - 游戏机制不变：每日 20 分钟任务、3 命闯关、连击加成、金币/星星/成就奖惩、错题消灭
+
+---
+Task ID: 3
+Agent: Super Z (main agent)
+Task: 添加沪教版（上海教育出版社）五年级数学内容，首页支持选择不同科目（语文/数学双科架构升级）
+
+Work Log:
+- 题库拆分重构：原 src/lib/questions.ts 语文内容拆至 src/lib/bank-chinese.ts（8 单元 80 题原样保留）
+- 新建 src/lib/bank-math.ts：沪教版五年级第一学期数学题库 8 关 × 10 题 = 80 题（符号表示数/小数乘法/小数除法/循环小数与近似值/统计·平均数/图形的面积/方程与字母表示数/时间的计算与编码），全部带解析，含生活安全题（平均水深）与编码常识（身份证/邮政编码）
+- questions.ts 重写为多科目注册中心：SUBJECTS 数组（语文=2026新版统编/数学=沪教版上海教育出版社）、getSubject/subjectOfQuestion/levelKey、buildLevelQuestions(subjectId, unitId)、buildDailyQuestions(subjectId, unlockedUnitIds)
+- game.ts 升级：进度键改为 `${subject}:${unitId}`（chinese:u1 / math:m1）；isUnitUnlocked 加 subject 参数；新增 subjectStats()；成就从 10 个扩到 13 个（新增文理双全/文学小达人/数学小达人，全星霸主改为 16 关满星）；persist key yuwen-game-v2 → study-game-v3
+- 新建 src/components/game/home-view.tsx 首页科目选择：岛屿英雄区、每日 20 分钟进度条、语文/数学两张大科目卡（出版社徽章/星星/关卡进度/进度条）、奖惩规则速览
+- map-view 参数化：按科目动态渲染（主题色 orange/emerald）、按科目解锁、按科目每日挑战池、新增「← 换科目」按钮
+- result-view 加 subject prop：finishLevel 存带前缀 key、下一关提示按科目、鼓励语按科目
+- wrong-book 跨科目：每道错题显示科目徽章（🏮语文/🧮数学）
+- page.tsx 重写：新增 home 视图与 subject 状态、4 tab 底部导航（选科目/闯关地图/错题本/成就墙）、家长指南更新为双科说明
+- layout.tsx 元信息更新为「学习闯关岛 | 五年级上册语文·数学」
+- 数据自检脚本 scripts/check-bank.ts：160 题、每关 10 题、ID 全局唯一、答案索引合法、选项打乱后答案映射正确 → 全部通过
+- 修复关键 bug：result-view 原先 finishLevel 存裸 unitId('m1') 而解锁检查查 'math:m1'，导致通关后下一关不解锁 → 改用 levelKey(subject, levelId)
+- E2E（Agent Browser）：首页双科卡片渲染 → 数学第一关 10 题自动通关（3星/满星）→ 第二关自动解锁+每日挑战解锁 → 首页数学卡显示 3星/1-8关 → 语文第一关答题抽验正常 → 错题本显示 3 道数学错题带科目标签 → 成就墙 13 个成就/已解锁 4 个 → 超时失败→金币减半惩罚结算页验证 → 移动端 390×844 无横向溢出 → 换科目按钮返回首页正常
+- lint 通过；dev.log 无编译/运行时错误（仅有无害的 EADDRINUSE 旧进程提示，3000 端口服务正常）
+
+Stage Summary:
+- 交付：语文+数学双科闯关游戏「学习闯关岛」（Next.js 16 + TS + Tailwind 4 + zustand + framer-motion）
+- 首页可选科目：语文（2026 新版统编五上·8 单元）与数学（沪教版上海教育出版社五上·8 关卡），各 80 题带解析
+- 机制保持：每日 20 分钟任务、3 命闯关、40s 倒计时、连击金币、1/2/3 星通关奖励、失败金币减半、错题消灭、13 成就、连续签到；金币/错题/成就双科通用，关卡进度按科目独立
+- 存档：localStorage（study-game-v3），无需注册
+- 自动化脚本：scripts/play-math-level.sh（数学第一关自动通关）、scripts/check-bank.ts（题库自检）

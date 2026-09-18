@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { UNITS } from '@/lib/questions'
+import { getSubject, levelKey } from '@/lib/questions'
+import type { SubjectId } from '@/lib/questions'
 import { useGame, coinForLevel } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import type { QuizResult, QuizMode } from './quiz-view'
 
 interface ResultViewProps {
+  subject: SubjectId
   mode: QuizMode
   levelId?: string
   result: QuizResult
@@ -16,7 +18,7 @@ interface ResultViewProps {
   onHome: () => void
 }
 
-export default function ResultView({ mode, levelId, result, onRetry, onHome }: ResultViewProps) {
+export default function ResultView({ subject, mode, levelId, result, onRetry, onHome }: ResultViewProps) {
   const finishLevel = useGame((s) => s.finishLevel)
   const coins = useGame((s) => s.coins)
   const [stars, setStars] = useState(0)
@@ -26,8 +28,9 @@ export default function ResultView({ mode, levelId, result, onRetry, onHome }: R
   const settledRef = useRef(false)
 
   const passed = result.finished
-  const unitIndex = levelId ? UNITS.findIndex((u) => u.id === levelId) : -1
-  const nextUnit = unitIndex >= 0 && unitIndex < UNITS.length - 1 ? UNITS[unitIndex + 1] : null
+  const subjectData = getSubject(subject)
+  const unitIndex = levelId ? subjectData.units.findIndex((u) => u.id === levelId) : -1
+  const nextUnit = unitIndex >= 0 && unitIndex < subjectData.units.length - 1 ? subjectData.units[unitIndex + 1] : null
 
   useEffect(() => {
     if (settledRef.current) return
@@ -41,7 +44,7 @@ export default function ResultView({ mode, levelId, result, onRetry, onHome }: R
     if (mode === 'level' && levelId && passed) {
       s = result.correct === result.total ? 3 : result.correct >= result.total - 1 ? 2 : 1
       bonus = coinForLevel(s)
-      finishLevel(levelId, s)
+      finishLevel(levelKey(subject, levelId), s)
     }
     if (!passed && mode !== 'review') {
       // 惩罚：失败金币减半
@@ -84,7 +87,7 @@ export default function ResultView({ mode, levelId, result, onRetry, onHome }: R
       : '😅 挑战失败'
 
   const encourage = passed
-    ? ['太棒了！继续保持！', '知识就是力量！', '你真是语文小达人！', '哇，进步神速！'][Math.floor(Math.random() * 4)]
+    ? ['太棒了！继续保持！', '知识就是力量！', `你真是${subjectData.name}小达人！`, '哇，进步神速！'][Math.floor(Math.random() * 4)]
     : '失败是成功之母，看完解析再来一次！'
 
   return (

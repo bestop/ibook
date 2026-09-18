@@ -11,12 +11,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import HomeView from '@/components/game/home-view'
 import MapView from '@/components/game/map-view'
 import QuizView, { type QuizItem, type QuizMode, type QuizResult } from '@/components/game/quiz-view'
 import ResultView from '@/components/game/result-view'
 import WrongBook from '@/components/game/wrong-book'
 import AchievementsView from '@/components/game/achievements-view'
-import { UNITS, buildLevelQuestions, buildDailyQuestions, shuffle, ALL_QUESTIONS } from '@/lib/questions'
+import { getSubject, buildLevelQuestions, buildDailyQuestions, shuffle, ALL_QUESTIONS } from '@/lib/questions'
+import type { SubjectId } from '@/lib/questions'
 import { ACHIEVEMENTS, useGame, totalStars } from '@/lib/game'
 import { sfx, subscribeSound, getSoundSnapshot, loadSoundPref, setSoundEnabled } from '@/lib/sound'
 
@@ -31,6 +33,7 @@ function useHydrated(): boolean {
 }
 
 type View =
+  | { name: 'home' }
   | { name: 'map' }
   | { name: 'quiz'; mode: QuizMode; title: string; emoji: string; items: QuizItem[]; levelId?: string }
   | { name: 'result'; mode: QuizMode; levelId?: string; result: QuizResult }
@@ -48,7 +51,8 @@ function buildReviewItems(ids: string[]): QuizItem[] {
 
 export default function Home() {
   const hydrated = useHydrated()
-  const [view, setView] = useState<View>({ name: 'map' })
+  const [view, setView] = useState<View>({ name: 'home' })
+  const [subject, setSubject] = useState<SubjectId>('chinese')
   const soundOn = useSyncExternalStore(subscribeSound, getSoundSnapshot, () => true)
   const [guideOpen, setGuideOpen] = useState(false)
 
@@ -70,28 +74,38 @@ export default function Home() {
   const stars = totalStars(levels)
   const wrongCount = Object.keys(wrongBook).length
 
-  const startLevel = useCallback((unitId: string) => {
-    const unit = UNITS.find((u) => u.id === unitId)
-    setView({
-      name: 'quiz',
-      mode: 'level',
-      levelId: unitId,
-      title: `${unit?.name}·${unit?.title}` || '',
-      emoji: unit?.emoji || '📚',
-      items: buildLevelQuestions(unitId),
-    })
+  const selectSubject = useCallback((id: SubjectId) => {
+    setSubject(id)
+    setView({ name: 'map' })
   }, [])
 
+  const startLevel = useCallback(
+    (unitId: string) => {
+      const subjectData = getSubject(subject)
+      const unit = subjectData.units.find((u) => u.id === unitId)
+      setView({
+        name: 'quiz',
+        mode: 'level',
+        levelId: unitId,
+        title: `${unit?.name}·${unit?.title}` || '',
+        emoji: subjectData.emoji,
+        items: buildLevelQuestions(subject, unitId),
+      })
+    },
+    [subject]
+  )
+
   const startDaily = useCallback(() => {
-    const unlocked = Object.keys(levels).filter((k) => levels[k].completed)
+    const subjectData = getSubject(subject)
+    const unlocked = subjectData.units.filter((u) => levels[`${subject}:${u.id}`]?.completed).map((u) => u.id)
     setView({
       name: 'quiz',
       mode: 'daily',
       title: '每日挑战',
       emoji: '🎲',
-      items: buildDailyQuestions(unlocked.length ? unlocked : ['u1']),
+      items: buildDailyQuestions(subject, unlocked.length ? unlocked : [subjectData.units[0].id]),
     })
-  }, [levels])
+  }, [subject, levels])
 
   const startReview = useCallback((items: QuizItem[]) => {
     setView({ name: 'quiz', mode: 'review', title: '错题大作战', emoji: '📕', items })
@@ -104,7 +118,7 @@ export default function Home() {
   const retry = useCallback(() => {
     if (view.name !== 'result') return
     if (view.mode === 'review') {
-      setView((v) => (v.name === 'result' && v.mode === 'review' ? { name: 'map' } : v))
+      setView((v) => (v.name === 'result' && v.mode === 'review' ? { name: 'home' } : v))
       setView({ name: 'wrongbook' })
       return
     }
@@ -132,15 +146,22 @@ export default function Home() {
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-amber-50 to-orange-100">
         <div className="flex flex-col items-center gap-3">
           <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.2 }} className="text-6xl">
-            🏮
+            🏝️
           </motion.span>
-          <p className="font-black text-orange-500">语文闯关大冒险加载中…</p>
+          <p className="font-black text-orange-500">学习闯关岛加载中…</p>
         </div>
       </div>
     )
   }
 
-  const showTabBar = view.name === 'map' || view.name === 'wrongbook' || view.name === 'achievements'
+  const showTabBar = view.name === 'home' || view.name === 'map' || view.name === 'wrongbook' || view.name === 'achievements'
+
+  const tabs = [
+    { key: 'home', label: '选科目', emoji: '🏠' },
+    { key: 'map', label: '闯关地图', emoji: '🏰' },
+    { key: 'wrongbook', label: `错题本${wrongCount ? `(${wrongCount})` : ''}`, emoji: '📕' },
+    { key: 'achievements', label: '成就墙', emoji: '🏆' },
+  ] as const
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-amber-50 via-orange-50 to-orange-100">
@@ -149,15 +170,15 @@ export default function Home() {
         <header className="sticky top-0 z-40 border-b-2 border-amber-200/70 bg-white/85 backdrop-blur">
           <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-3 py-2.5">
             <div className="flex items-center gap-1.5">
-              <span className="text-2xl">🏮</span>
-              <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">语文闯关大冒险</h1>
+              <span className="text-2xl">🏝️</span>
+              <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">学习闯关岛</h1>
               <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[10px] font-black text-orange-600 sm:hidden">五上</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-black text-amber-700" title="金币">
+              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-black text-amber-700" title="金币（两科通用）">
                 🪙 {coins}
               </span>
-              <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-black text-orange-700" title="星星">
+              <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-black text-orange-700" title="星星总数（两科）">
                 ⭐ {stars}
               </span>
               <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-black text-emerald-700" title="连续签到">
@@ -182,26 +203,29 @@ export default function Home() {
                 <DialogContent className="max-h-[80vh] overflow-y-auto rounded-3xl">
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 家长使用指南</DialogTitle>
-                    <DialogDescription className="text-sm font-bold leading-relaxed text-left">
-                      本游戏基于 2026 新版统编语文五年级上册 8 个单元主题（万物有灵、古典名著、民间故事、爱国情怀、说明文、父母之爱、自然之景、读书明理）的随堂知识点，共 80 道精选题。建议每天让孩子玩 20 分钟。
+                    <DialogDescription className="text-left text-sm font-bold leading-relaxed">
+                      「学习闯关岛」覆盖两科五年级上册随堂知识点：<br />
+                      🏮 语文 · 2026 新版统编教材（万物有灵、古典名著、民间故事、爱国情怀、说明文、父母之爱、自然之景、读书明理，共 8 关）<br />
+                      🧮 数学 · 沪教版上海教育出版社五年级第一学期（符号表示数、小数乘除法、循环小数与近似值、平均数、图形面积、方程、时间与编码，共 8 关）<br />
+                      两科各 80 道精选题，均带详细解析。建议每天让孩子玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">
                     <div className="rounded-2xl bg-amber-50 p-3">
                       <p className="font-black text-amber-700">⏰ 每天 20 分钟怎么安排？</p>
-                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」。首页进度条会自动累计当天学习时长。</p>
+                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，语文数学可以搭配着玩。今日学习时长会自动累计。</p>
                     </div>
                     <div className="rounded-2xl bg-emerald-50 p-3">
                       <p className="font-black text-emerald-700">🎁 奖励机制</p>
-                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，攒金币解锁 10 个成就徽章</p>
+                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，13 个成就徽章等你解锁</p>
                     </div>
                     <div className="rounded-2xl bg-rose-50 p-3">
                       <p className="font-black text-rose-700">⚖️ 惩罚机制</p>
-                      <p>· 每关 3 颗❤️：答错或超时（每题 40 秒）扣 1 颗<br />· ❤️ 用完闯关失败，本局金币减半<br />· 答错的题自动收进错题本，复习答对才能「消灭」<br />· 前一关 1 星通关后才能解锁下一关</p>
+                      <p>· 每关 3 颗❤️：答错或超时（每题 40 秒）扣 1 颗<br />· ❤️ 用完闯关失败，本局金币减半<br />· 答错的题自动收进错题本，复习答对才能「消灭」<br />· 每科都是过一关解锁下一关</p>
                     </div>
                     <div className="rounded-2xl bg-violet-50 p-3">
                       <p className="font-black text-violet-700">💡 给家长的小建议</p>
-                      <p>· 星级规则：全对 3 星，错 1 题 2 星，错 2 题 1 星——鼓励孩子冲 3 星<br />· 可以和孩子约定：金币/星星达到目标可获得小奖励<br />· 所有进度自动保存在本设备浏览器中，无需注册</p>
+                      <p>· 星级规则：全对 3 星，错 1 题 2 星，错 2 题 1 星——鼓励孩子冲 3 星<br />· 可以和孩子约定：金币/星星达到目标可获得小奖励<br />· 两科进度分开记录，金币、错题本、成就是通用的<br />· 所有进度自动保存在本设备浏览器中，无需注册</p>
                     </div>
                   </div>
                 </DialogContent>
@@ -221,8 +245,9 @@ export default function Home() {
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25 }}
           >
+            {view.name === 'home' && <HomeView onSelectSubject={selectSubject} />}
             {view.name === 'map' && (
-              <MapView onStartLevel={startLevel} onStartDaily={startDaily} />
+              <MapView subject={subject} onStartLevel={startLevel} onStartDaily={startDaily} onBackHome={() => setView({ name: 'home' })} />
             )}
             {view.name === 'quiz' && (
               <QuizView
@@ -236,6 +261,7 @@ export default function Home() {
             )}
             {view.name === 'result' && (
               <ResultView
+                subject={subject}
                 mode={view.mode}
                 levelId={view.levelId}
                 result={view.result}
@@ -252,12 +278,8 @@ export default function Home() {
       {/* 底部导航 */}
       {showTabBar && (
         <nav className="sticky bottom-0 z-40 border-t-2 border-amber-200/70 bg-white/95 backdrop-blur">
-          <div className="mx-auto grid w-full max-w-2xl grid-cols-3">
-            {[
-              { key: 'map', label: '闯关地图', emoji: '🏰' },
-              { key: 'wrongbook', label: `错题本${wrongCount ? `(${wrongCount})` : ''}`, emoji: '📕' },
-              { key: 'achievements', label: '成就墙', emoji: '🏆' },
-            ].map((tab) => {
+          <div className="mx-auto grid w-full max-w-2xl grid-cols-4">
+            {tabs.map((tab) => {
               const active = view.name === tab.key
               return (
                 <button
@@ -272,7 +294,7 @@ export default function Home() {
                 >
                   <span className={`text-2xl transition-transform ${active ? 'scale-110' : ''}`}>{tab.emoji}</span>
                   {tab.label}
-                  {active && <span className="absolute inset-x-6 top-0 h-0.5 rounded-full bg-orange-500" />}
+                  {active && <span className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-orange-500" />}
                 </button>
               )
             })}

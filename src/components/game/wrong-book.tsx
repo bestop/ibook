@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { ALL_QUESTIONS, shuffle } from '@/lib/questions'
+import { ALL_QUESTIONS, shuffle, subjectOfQuestion } from '@/lib/questions'
 import { useGame } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import type { QuizItem } from './quiz-view'
@@ -72,27 +72,33 @@ export default function WrongBook({ onStartReview }: WrongBookProps) {
       </div>
 
       <div className="flex flex-col gap-3">
-        {wrongQuestions.map(({ q, count }, i) => (
-          <motion.div
-            key={q.id}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.04 * i }}
-            className="rounded-2xl border-2 border-gray-200 bg-white p-4"
-          >
-            <div className="mb-1.5 flex items-center gap-2">
-              <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[11px] font-black text-orange-700">{q.tag}</span>
-              <span className="rounded-md bg-rose-100 px-1.5 py-0.5 text-[11px] font-black text-rose-600">
-                错了 {count} 次
-              </span>
-            </div>
-            <p className="text-[15px] font-bold leading-relaxed text-gray-800">{q.q}</p>
-            <p className="mt-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-bold text-emerald-700">
-              ✅ 正确答案：{q.options[q.answer]}
-            </p>
-            <p className="mt-1.5 text-xs leading-relaxed text-gray-500">💡 {q.explain}</p>
-          </motion.div>
-        ))}
+        {wrongQuestions.map(({ q, count }, i) => {
+          const subj = subjectOfQuestion(q.id)
+          return (
+            <motion.div
+              key={q.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.04 * i }}
+              className="rounded-2xl border-2 border-gray-200 bg-white p-4"
+            >
+              <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                <span className={`rounded-md px-1.5 py-0.5 text-[11px] font-black ${subj.id === 'chinese' ? 'bg-orange-100 text-orange-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                  {subj.emoji} {subj.name}
+                </span>
+                <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[11px] font-black text-orange-700">{q.tag}</span>
+                <span className="rounded-md bg-rose-100 px-1.5 py-0.5 text-[11px] font-black text-rose-600">
+                  错了 {count} 次
+                </span>
+              </div>
+              <p className="text-[15px] font-bold leading-relaxed text-gray-800">{q.q}</p>
+              <p className="mt-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-bold text-emerald-700">
+                ✅ 正确答案：{q.options[q.answer]}
+              </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-gray-500">💡 {q.explain}</p>
+            </motion.div>
+          )
+        })}
       </div>
     </div>
   )

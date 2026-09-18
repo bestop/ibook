@@ -3,14 +3,16 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
-import { UNITS } from '@/lib/questions'
+import { getSubject } from '@/lib/questions'
+import type { SubjectId, Unit } from '@/lib/questions'
 import { useGame, isUnitUnlocked, DAILY_GOAL_SECONDS, TASK_REWARDS } from '@/lib/game'
 import { sfx } from '@/lib/sound'
-import type { Unit } from '@/lib/questions'
 
 interface MapViewProps {
+  subject: SubjectId
   onStartLevel: (unitId: string) => void
   onStartDaily: () => void
+  onBackHome: () => void
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
@@ -24,11 +26,50 @@ const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; lo
   fuchsia: { card: 'border-fuchsia-300 bg-fuchsia-50', badge: 'bg-fuchsia-100 text-fuchsia-700', btn: 'bg-fuchsia-500 hover:bg-fuchsia-600 shadow-[0_4px_0_0_rgba(217,70,239,0.45)]', locked: 'from-fuchsia-100 to-fuchsia-50' },
 }
 
-function UnitCard({ unit, index, onStart }: { unit: Unit; index: number; onStart: () => void }) {
+const SUBJECT_THEME = {
+  orange: {
+    hero: 'border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50 shadow-[0_6px_0_0_rgba(251,191,36,0.35)]',
+    heroTitle: 'text-amber-800',
+    heroChip: 'bg-amber-400',
+    heroBar: 'bg-amber-200',
+    accent: 'text-orange-600',
+    dailyBtn: 'border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50 shadow-[0_6px_0_0_rgba(139,92,246,0.3)]',
+    dailyTitle: 'text-violet-700',
+    dailyDesc: 'text-violet-500',
+    coinBtn: 'border-rose-300 bg-gradient-to-br from-rose-50 to-orange-50 shadow-[0_6px_0_0_rgba(244,63,94,0.3)]',
+    coinTitle: 'text-rose-700',
+    coinDesc: 'text-rose-500',
+    mapBadge: 'bg-orange-100 text-orange-600',
+    backBtn: 'border-orange-300 bg-orange-50 text-orange-700 hover:bg-orange-100',
+    footer: '📚 题目来源：2026 新版统编语文五年级上册 · 八大单元主题 · 80 道随堂精选题',
+    tip: '每天玩 20 分钟，闯关赢金币，快乐学语文！',
+  },
+  emerald: {
+    hero: 'border-emerald-300 bg-gradient-to-br from-emerald-50 to-teal-50 shadow-[0_6px_0_0_rgba(16,185,129,0.35)]',
+    heroTitle: 'text-emerald-800',
+    heroChip: 'bg-emerald-400',
+    heroBar: 'bg-emerald-200',
+    accent: 'text-emerald-600',
+    dailyBtn: 'border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50 shadow-[0_6px_0_0_rgba(139,92,246,0.3)]',
+    dailyTitle: 'text-violet-700',
+    dailyDesc: 'text-violet-500',
+    coinBtn: 'border-rose-300 bg-gradient-to-br from-rose-50 to-teal-50 shadow-[0_6px_0_0_rgba(244,63,94,0.3)]',
+    coinTitle: 'text-rose-700',
+    coinDesc: 'text-rose-500',
+    mapBadge: 'bg-emerald-100 text-emerald-600',
+    backBtn: 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
+    footer: '🧮 题目来源：沪教版数学五年级第一学期（上海教育出版社） · 八大关卡 · 80 道随堂精选题',
+    tip: '每天玩 20 分钟，闯关赢金币，快乐学数学！',
+  },
+} as const
+
+function UnitCard({ subject, unit, index, onStart }: { subject: SubjectId; unit: Unit; index: number; onStart: () => void }) {
   const levels = useGame((s) => s.levels)
-  const progress = levels[unit.id]
-  const unlocked = isUnitUnlocked(index, levels)
+  const progress = levels[`${subject}:${unit.id}`]
+  const unlocked = isUnitUnlocked(subject, index, levels)
   const style = UNIT_STYLES[unit.color] || UNIT_STYLES.orange
+  const subjectData = getSubject(subject)
+  const prevTitle = subjectData.units[index - 1]?.title
 
   return (
     <motion.div
@@ -60,7 +101,7 @@ function UnitCard({ unit, index, onStart }: { unit: Unit; index: number; onStart
           </span>
         </div>
         <p className={`mt-1 line-clamp-1 text-xs sm:text-sm ${unlocked ? 'text-gray-500' : 'text-gray-400'}`}>
-          {unlocked ? unit.lessons.join(' · ') : `先通过「${UNITS[index - 1]?.title}」才能解锁`}
+          {unlocked ? unit.lessons.join(' · ') : `先通过「${prevTitle}」才能解锁`}
         </p>
         {progress?.completed && (
           <p className="mt-1 text-xs font-bold text-emerald-600">
@@ -83,7 +124,7 @@ function UnitCard({ unit, index, onStart }: { unit: Unit; index: number; onStart
   )
 }
 
-export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
+export default function MapView({ subject, onStartLevel, onStartDaily, onBackHome }: MapViewProps) {
   const todaySeconds = useGame((s) => s.todaySeconds)
   const dailyDone = useGame((s) => s.dailyDone)
   const todayReviewCorrect = useGame((s) => s.todayReviewCorrect)
@@ -91,8 +132,12 @@ export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
   const levels = useGame((s) => s.levels)
   const coins = useGame((s) => s.coins)
 
+  const subjectData = getSubject(subject)
+  const t = SUBJECT_THEME[subjectData.theme]
+
   const minutes = Math.floor(todaySeconds / 60)
-  const dailyUnlocked = Object.values(levels).some((l) => l.completed)
+  const unlockedUnitIds = subjectData.units.filter((u) => levels[`${subject}:${u.id}`]?.completed).map((u) => u.id)
+  const dailyUnlocked = unlockedUnitIds.length > 0
   const wrongCount = Object.keys(wrongBook).length
 
   const tasks = [
@@ -103,45 +148,56 @@ export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-3 pb-24 pt-3 sm:pt-5">
+      {/* 返回科目选择 */}
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => {
+          sfx.click()
+          onBackHome()
+        }}
+        className={`mb-3 rounded-xl border-2 font-black ${t.backBtn}`}
+      >
+        ← 换科目
+      </Button>
+
       {/* 每日学习进度 */}
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-3xl border-2 border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50 p-4 shadow-[0_6px_0_0_rgba(251,191,36,0.35)] sm:p-5"
+        className={`rounded-3xl border-2 p-4 sm:p-5 ${t.hero}`}
       >
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="text-base font-black text-amber-800 sm:text-lg">🌟 今日学习任务（20 分钟）</h2>
-          <span className="rounded-full bg-amber-400 px-2.5 py-1 text-xs font-black text-white">
+          <h2 className={`text-base font-black sm:text-lg ${t.heroTitle}`}>
+            {subjectData.emoji} {subjectData.name}·今日学习任务（20 分钟）
+          </h2>
+          <span className={`rounded-full px-2.5 py-1 text-xs font-black text-white ${t.heroChip}`}>
             {minutes}/{DAILY_GOAL_SECONDS / 60} 分钟
           </span>
         </div>
-        <Progress value={(todaySeconds / DAILY_GOAL_SECONDS) * 100} className="h-3.5 bg-amber-200" />
-        <p className="mt-2 text-xs font-bold text-amber-700">
-          {todaySeconds === 0
-            ? '每天玩 20 分钟，闯关赢金币，快乐学语文！'
-            : dailyDone.minutes
-              ? '🎉 太厉害了！今日 20 分钟任务已完成！'
-              : `继续加油！再学 ${DAILY_GOAL_SECONDS / 60 - minutes} 分钟就能完成任务～`}
+        <Progress value={(todaySeconds / DAILY_GOAL_SECONDS) * 100} className={`h-3.5 ${t.heroBar}`} />
+        <p className={`mt-2 text-xs font-bold ${t.accent}`}>
+          {dailyDone.minutes ? '🎉 太厉害了！今日 20 分钟任务已完成！' : t.tip}
         </p>
 
         {/* 每日任务列表 */}
         <div className="mt-3 grid gap-2 sm:grid-cols-3">
-          {tasks.map((t) => (
-            <div key={t.key} className={`rounded-2xl border-2 p-2.5 ${t.done ? 'border-emerald-300 bg-emerald-50' : 'border-amber-200 bg-white/80'}`}>
+          {tasks.map((task) => (
+            <div key={task.key} className={`rounded-2xl border-2 p-2.5 ${task.done ? 'border-emerald-300 bg-emerald-50' : 'border-white/80 bg-white/80'}`}>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-black text-gray-700">{t.emoji} {t.name}</span>
-                {t.done && <span className="text-emerald-500">✅</span>}
+                <span className="text-sm font-black text-gray-700">{task.emoji} {task.name}</span>
+                {task.done && <span className="text-emerald-500">✅</span>}
               </div>
               <div className="mt-1.5 flex items-center gap-2">
-                <Progress value={(t.progress / t.total) * 100} className="h-2 flex-1" />
-                <span className="shrink-0 text-[11px] font-black text-amber-600">+{t.reward}🪙</span>
+                <Progress value={(task.progress / task.total) * 100} className="h-2 flex-1" />
+                <span className="shrink-0 text-[11px] font-black text-amber-600">+{task.reward}🪙</span>
               </div>
             </div>
           ))}
         </div>
       </motion.section>
 
-      {/* 每日挑战 + 错题本入口 */}
+      {/* 每日挑战 + 金币入口 */}
       <div className="mt-4 grid grid-cols-2 gap-3">
         <motion.button
           whileTap={{ scale: 0.97 }}
@@ -150,11 +206,11 @@ export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
             onStartDaily()
           }}
           disabled={!dailyUnlocked}
-          className={`flex flex-col items-start gap-1 rounded-3xl border-2 border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50 p-4 text-left shadow-[0_6px_0_0_rgba(139,92,246,0.3)] ${!dailyUnlocked ? 'opacity-60' : ''}`}
+          className={`flex flex-col items-start gap-1 rounded-3xl border-2 p-4 text-left ${t.dailyBtn} ${!dailyUnlocked ? 'opacity-60' : ''}`}
         >
           <span className="text-3xl">🎲</span>
-          <span className="text-base font-black text-violet-700">每日挑战</span>
-          <span className="text-xs font-bold text-violet-500">
+          <span className={`text-base font-black ${t.dailyTitle}`}>每日挑战</span>
+          <span className={`text-xs font-bold ${t.dailyDesc}`}>
             {dailyUnlocked ? '随机 10 题大混战，看你能拿多少金币！' : '通过第一关后解锁'}
           </span>
         </motion.button>
@@ -165,11 +221,11 @@ export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
             const el = document.getElementById('unit-list')
             el?.scrollIntoView({ behavior: 'smooth' })
           }}
-          className="flex flex-col items-start gap-1 rounded-3xl border-2 border-rose-300 bg-gradient-to-br from-rose-50 to-orange-50 p-4 text-left shadow-[0_6px_0_0_rgba(244,63,94,0.3)]"
+          className={`flex flex-col items-start gap-1 rounded-3xl border-2 p-4 text-left ${t.coinBtn}`}
         >
           <span className="text-3xl">💰</span>
-          <span className="text-base font-black text-rose-700">我的金币</span>
-          <span className="text-xs font-bold text-rose-500">
+          <span className={`text-base font-black ${t.coinTitle}`}>我的金币</span>
+          <span className={`text-xs font-bold ${t.coinDesc}`}>
             已攒 {coins} 枚金币 · 错题本 {wrongCount} 道待消灭
           </span>
         </motion.button>
@@ -177,20 +233,18 @@ export default function MapView({ onStartLevel, onStartDaily }: MapViewProps) {
 
       {/* 关卡地图 */}
       <h2 className="mb-3 mt-6 flex items-center gap-2 text-lg font-black text-gray-800">
-        <span className="text-2xl">🏰</span> 语文闯关地图
+        <span className="text-2xl">🏰</span> {subjectData.name}闯关地图
         <span className="text-xs font-bold text-gray-400">（过一关，解锁下一关哦）</span>
       </h2>
       <div id="unit-list" className="flex flex-col gap-3 sm:gap-4">
-        {UNITS.map((unit, i) => (
+        {subjectData.units.map((unit, i) => (
           <div key={unit.id} className={i % 2 === 1 ? 'sm:translate-x-4' : ''}>
-            <UnitCard unit={unit} index={i} onStart={() => onStartLevel(unit.id)} />
+            <UnitCard subject={subject} unit={unit} index={i} onStart={() => onStartLevel(unit.id)} />
           </div>
         ))}
       </div>
 
-      <p className="mt-6 text-center text-xs font-bold text-gray-400">
-        📚 题目来源：2026 新版统编语文五年级上册 · 八大单元主题 · {8 * 10} 道随堂精选题
-      </p>
+      <p className="mt-6 text-center text-xs font-bold text-gray-400">{t.footer}</p>
     </div>
   )
 }

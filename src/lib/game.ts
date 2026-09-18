@@ -2,6 +2,8 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { SUBJECTS } from '@/lib/questions'
+import type { SubjectId } from '@/lib/questions'
 
 export interface LevelProgress {
   stars: number // 0-3
@@ -50,12 +52,34 @@ export interface Achievement {
   check: (s: GameState) => boolean
 }
 
+// 统计某科目已通过关卡数（进度键格式：`${subjectId}:${unitId}`）
+function completedIn(levels: Record<string, LevelProgress>, subjectId: SubjectId): number {
+  const subj = SUBJECTS.find((x) => x.id === subjectId)
+  if (!subj) return 0
+  return subj.units.filter((u) => levels[`${subjectId}:${u.id}`]?.completed).length
+}
+
+// 全部 16 关（两科 8+8）是否都拿到满星
+function allFullStars(levels: Record<string, LevelProgress>): boolean {
+  const totalUnits = SUBJECTS.reduce((n, s) => n + s.units.length, 0)
+  let count = 0
+  for (const s of SUBJECTS) {
+    for (const u of s.units) {
+      if ((levels[`${s.id}:${u.id}`]?.stars ?? 0) >= 3) count++
+    }
+  }
+  return count >= totalUnits
+}
+
 export const ACHIEVEMENTS: Achievement[] = [
-  { id: 'first_win', emoji: '🎉', name: '初出茅庐', desc: '第一次通过一关', check: (s) => Object.values(s.levels).some((l) => l.completed) },
-  { id: 'win4', emoji: '📚', name: '渐入佳境', desc: '通过 4 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 4 },
-  { id: 'win8', emoji: '🏆', name: '满腹经纶', desc: '通过全部 8 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 8 },
+  { id: 'first_win', emoji: '🎉', name: '初出茅庐', desc: '第一次通过一关（任意科目）', check: (s) => Object.values(s.levels).some((l) => l.completed) },
+  { id: 'win4', emoji: '📚', name: '渐入佳境', desc: '累计通过 4 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 4 },
+  { id: 'win8', emoji: '🏆', name: '满腹经纶', desc: '累计通过 8 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 8 },
+  { id: 'win16', emoji: '🌉', name: '文理双全', desc: '语文、数学全部 16 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 },
+  { id: 'cn_all', emoji: '🏮', name: '文学小达人', desc: '通过语文全部 8 个单元', check: (s) => completedIn(s.levels, 'chinese') >= 8 },
+  { id: 'math_all', emoji: '🧮', name: '数学小达人', desc: '通过数学全部 8 个关卡', check: (s) => completedIn(s.levels, 'math') >= 8 },
   { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星', check: (s) => Object.values(s.levels).some((l) => l.stars >= 3) },
-  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部关卡都拿到 3 颗星', check: (s) => Object.keys(s.levels).length >= 8 && Object.values(s.levels).every((l) => l.stars >= 3) },
+  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 16 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
   { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题', check: (s) => s.achievements.includes('combo5') },
   { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币', check: (s) => s.coins >= 300 },
   { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天', check: (s) => s.streak >= 3 },
@@ -254,7 +278,7 @@ export const useGame = create<GameState>()(
           totalWrong: 0,
         }),
     }),
-    { name: 'yuwen-game-v2' } // v2：题库已按 2026 新版课本全量更新，旧存档作废重开
+    { name: 'study-game-v3' } // v3：升级为语文+数学双科架构，进度键改为 `科目:关卡`，旧存档作废重开
   )
 )
 
@@ -267,12 +291,29 @@ export function coinForLevel(stars: number): number {
   return stars === 3 ? 100 : stars === 2 ? 50 : stars === 1 ? 20 : 0
 }
 
-export function isUnitUnlocked(unitIndex: number, levels: Record<string, LevelProgress>): boolean {
+// 科目内关卡解锁：第一关永远解锁，其后必须通过上一关
+export function isUnitUnlocked(subjectId: SubjectId, unitIndex: number, levels: Record<string, LevelProgress>): boolean {
   if (unitIndex === 0) return true
-  const prevUnit = `u${unitIndex}`
-  return !!levels[prevUnit]?.completed
+  const subject = SUBJECTS.find((s) => s.id === subjectId)
+  const prevUnit = subject?.units[unitIndex - 1]
+  if (!prevUnit) return false
+  return !!levels[`${subjectId}:${prevUnit.id}`]?.completed
 }
 
 export function totalStars(levels: Record<string, LevelProgress>): number {
   return Object.values(levels).reduce((sum, l) => sum + l.stars, 0)
+}
+
+// 某科目已通过关卡数 / 星星数（首页与地图统计用）
+export function subjectStats(levels: Record<string, LevelProgress>, subjectId: SubjectId): { completed: number; stars: number; total: number } {
+  const subject = SUBJECTS.find((s) => s.id === subjectId)
+  if (!subject) return { completed: 0, stars: 0, total: 0 }
+  let completed = 0
+  let stars = 0
+  for (const u of subject.units) {
+    const p = levels[`${subjectId}:${u.id}`]
+    if (p?.completed) completed++
+    stars += p?.stars ?? 0
+  }
+  return { completed, stars, total: subject.units.length }
 }
