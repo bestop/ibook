@@ -5,7 +5,7 @@ import { persist } from 'zustand/middleware'
 import { SUBJECTS } from '@/lib/questions'
 import type { SubjectId, PublisherKey } from '@/lib/questions'
 
-// 教材选择（右上角选择器）：年级 + 上下册 + 出版社
+// 教材选择（顶栏左上角选择器）：年级 + 上下册 + 出版社
 export interface TextbookChoice {
   gradeNum: number
   term: 'a' | 'b'

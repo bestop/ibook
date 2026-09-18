@@ -18,6 +18,7 @@ import ResultView from '@/components/game/result-view'
 import WrongBook from '@/components/game/wrong-book'
 import AchievementsView from '@/components/game/achievements-view'
 import RewardShop from '@/components/game/reward-shop'
+import TextbookPicker from '@/components/game/textbook-picker'
 import { getSubject, buildLevelQuestions, buildDailyQuestions, shuffle, ALL_QUESTIONS } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { ACHIEVEMENTS, useGame, totalStars } from '@/lib/game'
@@ -175,22 +176,22 @@ export default function Home() {
             <div className="flex items-center gap-1.5">
               <span className="text-2xl">🏝️</span>
               <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">学习闯关岛</h1>
-              <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[10px] font-black text-orange-600 sm:hidden">一·二·三·四·五年级</span>
+              <TextbookPicker />
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-black text-amber-700" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className="shrink-0 whitespace-nowrap rounded-full bg-amber-100 px-2 py-1 text-xs font-black text-amber-700 sm:px-2.5" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
                 🪙 {coins}
               </span>
-              <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-black text-orange-700" title="星星总数（所有科目）">
+              <span className="shrink-0 whitespace-nowrap rounded-full bg-orange-100 px-2 py-1 text-xs font-black text-orange-700 sm:px-2.5" title="星星总数（所有科目）">
                 ⭐ {stars}
               </span>
-              <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-black text-emerald-700" title="连续签到">
+              <span className="shrink-0 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-1 text-xs font-black text-emerald-700 sm:px-2.5" title="连续签到">
                 🔥 {streak}天
               </span>
               <button
                 onClick={toggleSound}
                 aria-label="音效开关"
-                className="rounded-full bg-gray-100 px-2 py-1 text-xs transition-transform active:scale-90"
+                className="shrink-0 rounded-full bg-gray-100 px-1.5 py-1 text-xs transition-transform active:scale-90 sm:px-2"
               >
                 {soundOn ? '🔊' : '🔇'}
               </button>
@@ -198,7 +199,7 @@ export default function Home() {
                 <DialogTrigger asChild>
                   <button
                     aria-label="家长指南"
-                    className="rounded-full bg-violet-100 px-2 py-1 text-xs transition-transform active:scale-90"
+                    className="shrink-0 rounded-full bg-violet-100 px-1.5 py-1 text-xs transition-transform active:scale-90 sm:px-2"
                   >
                     👨‍👩‍👧
                   </button>
@@ -213,7 +214,7 @@ export default function Home() {
                       🌱 三年级语文（8 关）· 🪁 三年级数学（9 关，含七巧板）· 🌈 三年级英语（11 关）·
                       🐉 四年级语文（8 关）· 🚀 四年级数学（9 关，含抽屉原理）· ⛵ 四年级英语（11 关）·
                       🏮 五年级语文（8 关）· 🧮 五年级数学（8 关）· 🔤 五年级英语（11 关）。
-                      语文为统编教材，数学/英语为沪教版（上海教育出版社）。共 138 关 1380 道精选题，全部带详细解析。首页右上角可切换年级、册别和出版社，建议每天玩 20 分钟。
+                      语文为统编教材，数学/英语为沪教版（上海教育出版社）。共 138 关 1380 道精选题，全部带详细解析。顶部左上角可切换年级、册别和出版社，建议每天玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">
@@ -231,7 +232,7 @@ export default function Home() {
                     </div>
                     <div className="rounded-2xl bg-violet-50 p-3">
                       <p className="font-black text-violet-700">👪 亲子奖励·礼物屋</p>
-                      <p>· 孩子用金币在「礼物屋」兑换亲子奖励（亲子阅读、看动画片 15 分钟、公园游乐场、假日出游等）<br />· 兑换后生成「兑换券」，请家长尽快兑现约定，并在券包里点「已兑现」<br />· 支持家长添加自定义奖励和价格，建议和孩子一起商定<br />· 各科目进度分开记录，金币、错题本、成就、礼物屋通用；右上角可切换年级/册别/出版社</p>
+                      <p>· 孩子用金币在「礼物屋」兑换亲子奖励（亲子阅读、看动画片 15 分钟、公园游乐场、假日出游等）<br />· 兑换后生成「兑换券」，请家长尽快兑现约定，并在券包里点「已兑现」<br />· 支持家长添加自定义奖励和价格，建议和孩子一起商定<br />· 各科目进度分开记录，金币、错题本、成就、礼物屋通用；左上角可切换年级/册别/出版社</p>
                     </div>
                     <div className="rounded-2xl bg-violet-50/60 p-3">
                       <p className="font-black text-violet-700">💡 给家长的小建议</p>
