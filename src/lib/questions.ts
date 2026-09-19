@@ -1,8 +1,9 @@
 // 多科目题库注册中心
-// 年级维度：一年级上册 / 二年级上册 / 三年级上册 / 四年级上册 / 五年级上册（term: 'a' 上册，'b' 下册预留）
-// 语文：统编教材（人民教育出版社）一上（2024秋版）/ 二上 / 三上 / 四上 / 五上
+// 年级维度：一年级上册 ～ 六年级上册（term: 'a' 上册，'b' 下册预留）
+// 语文：统编教材（人民教育出版社）一上～五上各 8 关；六年级上册分两个学制版本：
+//       六三制（2026 秋版 8 关，id chinese6，前缀 x）与 五·四学制（2024 秋版 7 关，id chinese54，前缀 y）
 // 数学：沪教版（上海教育出版社）一上（7 关）/ 二上（8 关）/ 三上（9 单元）/ 四上（9 单元）/ 五上（8 单元）
-// 英语：沪教版（五四学制·上海教育出版社）三上/四上/五上各 Starter+10 单元；一上/二上为牛津上海版（各 12 单元）
+// 英语：沪教版（五四学制·上海教育出版社）一上～五上（三上起 Starter+10 单元；一上含 3 个 IPA 语音角）
 // 每关 10 题
 
 import { UNITS as CN_UNITS, QUESTIONS as CN_QUESTIONS } from './bank-chinese'
@@ -10,6 +11,8 @@ import { UNITS as CN1_UNITS, QUESTIONS as CN1_QUESTIONS } from './bank-chinese1'
 import { UNITS as CN2_UNITS, QUESTIONS as CN2_QUESTIONS } from './bank-chinese2'
 import { UNITS as CN3_UNITS, QUESTIONS as CN3_QUESTIONS } from './bank-chinese3'
 import { UNITS as CN4_UNITS, QUESTIONS as CN4_QUESTIONS } from './bank-chinese4'
+import { UNITS as CN6_UNITS, QUESTIONS as CN6_QUESTIONS } from './bank-chinese6'
+import { UNITS as CN54_UNITS, QUESTIONS as CN54_QUESTIONS } from './bank-chinese54'
 import { UNITS as MATH_UNITS, QUESTIONS as MATH_QUESTIONS } from './bank-math'
 import { UNITS as MATH1_UNITS, QUESTIONS as MATH1_QUESTIONS } from './bank-math1'
 import { UNITS as MATH2_UNITS, QUESTIONS as MATH2_QUESTIONS } from './bank-math2'
@@ -43,10 +46,10 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'english1' | 'english2' | 'english3' | 'english4' | 'english'
+export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'english1' | 'english2' | 'english3' | 'english4' | 'english'
 
-// 出版社 key：rj 人民教育出版社（统编语文）、she 上海教育出版社（数学/英语）
-export type PublisherKey = 'rj' | 'she'
+// 出版社/版本 key：rj 人民教育出版社（统编语文）、rj54 人民教育出版社统编教材（五·四学制）、she 上海教育出版社（数学/英语）
+export type PublisherKey = 'rj' | 'rj54' | 'she'
 
 export interface Subject {
   id: SubjectId
@@ -56,8 +59,9 @@ export interface Subject {
   term: 'a' | 'b' // a 上册 / b 下册
   publisher: string // 完整出版信息
   publisherKey: PublisherKey
+  badge?: string // 版本徽章（同一年级同一科目有多个版本时显示，如六三制/五四学制）
   emoji: string
-  theme: 'orange' | 'emerald' | 'sky' | 'rose' | 'violet' | 'teal' | 'amber' | 'lime' | 'cyan' | 'pink' | 'indigo' | 'fuchsia'
+  theme: 'orange' | 'emerald' | 'sky' | 'rose' | 'violet' | 'teal' | 'amber' | 'lime' | 'cyan' | 'pink' | 'indigo' | 'fuchsia' | 'blue' | 'green'
   qidPrefix: string
   tagline: string
   units: Unit[]
@@ -290,6 +294,38 @@ export const SUBJECTS: Subject[] = [
     units: EN_UNITS,
     questions: EN_QUESTIONS,
   },
+  {
+    id: 'chinese6',
+    name: '语文',
+    grade: '六年级上册',
+    gradeNum: 6,
+    term: 'a',
+    publisher: '2026 新版统编教材（六三制）· 人民教育出版社 · 六年级上册',
+    publisherKey: 'rj',
+    badge: '六三制',
+    emoji: '🦌',
+    theme: 'blue',
+    qidPrefix: 'x',
+    tagline: '草原丁香 → 长征壮歌 → 走近鲁迅',
+    units: CN6_UNITS,
+    questions: CN6_QUESTIONS,
+  },
+  {
+    id: 'chinese54',
+    name: '语文',
+    grade: '六年级上册',
+    gradeNum: 6,
+    term: 'a',
+    publisher: '统编教材（五·四学制 2024 秋版）· 人民教育出版社 · 六年级上册',
+    publisherKey: 'rj54',
+    badge: '五四学制',
+    emoji: '🌿',
+    theme: 'green',
+    qidPrefix: 'y',
+    tagline: '草原丁香 → 红色足迹 → 科学之光',
+    units: CN54_UNITS,
+    questions: CN54_QUESTIONS,
+  },
 ]
 
 export function getSubject(id: SubjectId): Subject {
@@ -312,11 +348,12 @@ export function subjectsFor(filter: TextbookFilter): Subject[] {
 }
 
 export const PUBLISHER_LABELS: Record<PublisherKey, string> = {
-  rj: '人民教育出版社 · 统编语文',
+  rj: '人民教育出版社 · 统编语文（六三制）',
+  rj54: '人民教育出版社 · 统编语文（五·四学制）',
   she: '上海教育出版社 · 沪教数学/英语',
 }
 
-// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、数学一上 b、数学二上 r、数学三上 p、数学四上 n、数学五上 m、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e，不会冲突）
+// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、数学一上 b、数学二上 r、数学三上 p、数学四上 n、数学五上 m、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {

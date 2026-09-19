@@ -98,6 +98,20 @@ const THEME = {
     bar: 'bg-fuchsia-100 [&>div]:bg-gradient-to-r [&>div]:from-pink-400 [&>div]:to-fuchsia-500',
     ring: 'ring-fuchsia-200',
   },
+  blue: {
+    card: 'border-blue-300 bg-gradient-to-br from-blue-100 via-blue-50 to-sky-50 shadow-[0_10px_0_0_rgba(59,130,246,0.35)]',
+    title: 'text-blue-700',
+    btn: 'bg-gradient-to-b from-blue-400 to-blue-500 shadow-[0_5px_0_0_rgba(37,99,235,0.55)]',
+    bar: 'bg-blue-100 [&>div]:bg-gradient-to-r [&>div]:from-sky-400 [&>div]:to-blue-500',
+    ring: 'ring-blue-200',
+  },
+  green: {
+    card: 'border-green-300 bg-gradient-to-br from-green-100 via-green-50 to-lime-50 shadow-[0_10px_0_0_rgba(34,197,94,0.35)]',
+    title: 'text-green-700',
+    btn: 'bg-gradient-to-b from-green-400 to-green-500 shadow-[0_5px_0_0_rgba(22,163,74,0.55)]',
+    bar: 'bg-green-100 [&>div]:bg-gradient-to-r [&>div]:from-lime-400 [&>div]:to-green-500',
+    ring: 'ring-green-200',
+  },
 } as const
 
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
@@ -115,6 +129,8 @@ const KID_LINES: Partial<Record<SubjectId, string>> = {
   math4: '运算律 · 大数 · 抽屉原理，越算越聪明！',
   english4: '学校 · 动物 · 早餐 · 天气，开口就说！',
   chinese: '读课文 · 背古诗 · 闯名著关！',
+  chinese6: '草原丁香 · 长征壮歌 · 走近鲁迅！',
+  chinese54: '草原丁香 · 红色足迹 · 科学之光！',
   math: '算一算 · 比一比 · 越闯越聪明！',
   english: 'ABC 大冒险 · 边玩边开口说！',
 }
@@ -198,7 +214,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             学习闯关岛
           </h1>
           <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">
-            一·二·三·四·五年级 · 闯关赢金币 · 越玩越聪明
+            一至六年级 · 闯关赢金币 · 越玩越聪明
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
@@ -298,6 +314,11 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-1.5">
                         <p className={`text-2xl font-black sm:text-3xl ${t.title}`}>{subject.name}岛</p>
+                        {subject.badge && (
+                          <span className="rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-black text-violet-500 shadow-sm">
+                            {subject.badge}
+                          </span>
+                        )}
                         <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-black text-gray-500 shadow-sm">
                           {subject.grade}
                         </span>

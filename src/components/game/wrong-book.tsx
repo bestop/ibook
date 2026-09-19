@@ -19,6 +19,8 @@ const SUBJECT_BADGE = {
   chinese3: 'bg-amber-100 text-amber-700',
   chinese4: 'bg-rose-100 text-rose-700',
   chinese: 'bg-orange-100 text-orange-700',
+  chinese6: 'bg-blue-100 text-blue-700',
+  chinese54: 'bg-green-100 text-green-700',
   math1: 'bg-indigo-100 text-indigo-700',
   math2: 'bg-violet-100 text-violet-700',
   math3: 'bg-lime-100 text-lime-700',
@@ -110,7 +112,7 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
             >
               <div className="mb-1.5 flex flex-wrap items-center gap-2">
                 <span className={`rounded-md px-1.5 py-0.5 text-[11px] font-black ${SUBJECT_BADGE[subj.id]}`}>
-                  {subj.emoji} {subj.name}·{subj.grade.slice(0, 2)}
+                  {subj.emoji} {subj.name}·{subj.badge ?? subj.grade.slice(0, 2)}
                 </span>
                 <span className="rounded-md bg-orange-100 px-1.5 py-0.5 text-[11px] font-black text-orange-700">{q.tag}</span>
                 <span className="rounded-md bg-rose-100 px-1.5 py-0.5 text-[11px] font-black text-rose-600">

@@ -8,7 +8,7 @@ import { useGame } from '@/lib/game'
 import type { TextbookChoice } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 
-export const GRADE_LABELS: Record<number, string> = { 1: '一年级', 2: '二年级', 3: '三年级', 4: '四年级', 5: '五年级' }
+export const GRADE_LABELS: Record<number, string> = { 1: '一年级', 2: '二年级', 3: '三年级', 4: '四年级', 5: '五年级', 6: '六年级' }
 export const TERM_LABELS: Record<'a' | 'b', string> = { a: '上册', b: '下册' }
 
 // 可选的年级（含未开岛的占位）
@@ -18,13 +18,25 @@ const GRADE_OPTIONS: { num: number; open: boolean }[] = [
   { num: 3, open: true },
   { num: 4, open: true },
   { num: 5, open: true },
+  { num: 6, open: true },
 ]
 
-const PUBLISHER_OPTIONS: { key: 'all' | 'she' | 'rj'; label: string }[] = [
+type PubOptionKey = 'all' | 'rj' | 'rj54' | 'she'
+
+const BASE_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
   { key: 'all', label: '全部出版社' },
   { key: 'she', label: '上海教育出版社' },
   { key: 'rj', label: '人民教育出版社（统编语文）' },
 ]
+
+// 六年级语文分六三制与五四学制两个版本
+const G6_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
+  { key: 'all', label: '全部版本' },
+  { key: 'rj', label: '六三制 · 人民教育出版社（统编）' },
+  { key: 'rj54', label: '五四学制 · 统编教材' },
+]
+
+const publisherOptionsFor = (gradeNum: number) => (gradeNum === 6 ? G6_PUBLISHER_OPTIONS : BASE_PUBLISHER_OPTIONS)
 
 /**
  * 教材选择器（顶部栏左上角）：
@@ -40,7 +52,13 @@ export default function TextbookPicker() {
 
   const pick = (patch: Partial<TextbookChoice>) => {
     sfx.click()
-    setTextbook({ ...textbook, ...patch })
+    let next = { ...textbook, ...patch }
+    // 版本选项随年级变化：切年级后若当前版本在新年级不可用，自动回退到全部
+    if (patch.gradeNum !== undefined && patch.gradeNum !== textbook.gradeNum) {
+      const validKeys = publisherOptionsFor(next.gradeNum).map((p) => p.key)
+      if (!validKeys.includes(next.publisher as PubOptionKey)) next = { ...next, publisher: 'all' }
+    }
+    setTextbook(next)
   }
 
   const gradeText = GRADE_LABELS[textbook.gradeNum] ?? `${textbook.gradeNum}年级`
@@ -140,11 +158,14 @@ export default function TextbookPicker() {
               </div>
             </div>
 
-            {/* 出版社 */}
+            {/* 版本/出版社 */}
             <div>
-              <p className="mb-2 text-sm font-black text-gray-700">🏢 出版社</p>
+              <p className="mb-2 text-sm font-black text-gray-700">🏢 {textbook.gradeNum === 6 ? '学制版本' : '出版社'}</p>
+              {textbook.gradeNum === 6 && (
+                <p className="mb-2 text-[11px] font-bold text-violet-400">六年级语文有「六三制」和「五四学制」两个版本，选好版本再开岛哦～</p>
+              )}
               <div className="flex flex-col gap-2">
-                {PUBLISHER_OPTIONS.map((p) => {
+                {publisherOptionsFor(textbook.gradeNum).map((p) => {
                   const active = textbook.publisher === p.key
                   return (
                     <button
@@ -169,7 +190,7 @@ export default function TextbookPicker() {
               <p className="text-xs font-black text-amber-700">
                 🗺️ {GRADE_LABELS[textbook.gradeNum] ?? textbook.gradeNum + '年级'}
                 {TERM_LABELS[textbook.term]}
-                （{textbook.publisher === 'all' ? '全部出版社' : PUBLISHER_OPTIONS.find((p) => p.key === textbook.publisher)?.label}）
+                （{textbook.publisher === 'all' ? publisherOptionsFor(textbook.gradeNum)[0].label : publisherOptionsFor(textbook.gradeNum).find((p) => p.key === textbook.publisher)?.label ?? '全部版本'}）
                 已开岛 {visibleSubjects.length} 个科目岛 · 共 {visibleSubjects.reduce((n, s) => n + s.units.length, 0)} 关
               </p>
               <p className="mt-1 text-[11px] font-bold text-amber-500">
