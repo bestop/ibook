@@ -140,6 +140,7 @@ const KID_LINES: Partial<Record<SubjectId, string>> = {
   chinese54: '草原丁香 · 红色足迹 · 科学之光！',
   math6: '数对定位 · 圆与百分数 · 越算越厉害！',
   math54: '整除素数 · 比和比例 · 圆和扇形！',
+  english6: '校园家庭 · 美食运动 · 动物旅行！',
   math: '算一算 · 比一比 · 越闯越聪明！',
   english: 'ABC 大冒险 · 边玩边开口说！',
 }

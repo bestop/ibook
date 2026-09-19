@@ -23,6 +23,7 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   english2: '🌅 从 My morning 到 This is me，把二上英语岛闯个遍吧！',
   math6: '📏 数对定位、分数乘除、圆与百分数……把六三制数学岛全部点亮！',
   math54: '🎲 数的整除、比和比例、圆和扇形……把五四学制数学岛全部点亮！',
+  english6: '🐬 School life、Sports、Travelling……把预备年级英语岛闯个遍吧！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {

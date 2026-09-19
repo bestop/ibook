@@ -33,6 +33,7 @@ const SUBJECT_BADGE = {
   english3: 'bg-cyan-100 text-cyan-700',
   english4: 'bg-teal-100 text-teal-700',
   english: 'bg-sky-100 text-sky-700',
+  english6: 'bg-sky-100 text-sky-700',
 } as const
 
 export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
