@@ -21,6 +21,8 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   math2: '🪀 乘法口诀背熟啦，把二上数学岛全部点亮！',
   english1: '🐤 从 Greetings 到 Fun numbers，把一上英语岛闯个遍吧！',
   english2: '🌅 从 My morning 到 This is me，把二上英语岛闯个遍吧！',
+  math6: '📏 数对定位、分数乘除、圆与百分数……把六三制数学岛全部点亮！',
+  math54: '🎲 数的整除、比和比例、圆和扇形……把五四学制数学岛全部点亮！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
@@ -277,6 +279,23 @@ const SUBJECT_THEME = {
     backBtn: 'border-green-300 bg-green-50 text-green-700 hover:bg-green-100',
     footer: '🌿 红色足迹、科学之光……把五四学制语文岛全部点亮吧！',
     tip: '每天玩 20 分钟，闯关赢金币，快乐学语文！',
+  },
+  red: {
+    hero: 'border-red-300 bg-gradient-to-br from-red-50 to-orange-50 shadow-[0_6px_0_0_rgba(239,68,68,0.35)]',
+    heroTitle: 'text-red-800',
+    heroChip: 'bg-red-400',
+    heroBar: 'bg-red-200',
+    accent: 'text-red-600',
+    dailyBtn: 'border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50 shadow-[0_6px_0_0_rgba(139,92,246,0.3)]',
+    dailyTitle: 'text-violet-700',
+    dailyDesc: 'text-violet-500',
+    coinBtn: 'border-rose-300 bg-gradient-to-br from-rose-50 to-red-50 shadow-[0_6px_0_0_rgba(244,63,94,0.3)]',
+    coinTitle: 'text-rose-700',
+    coinDesc: 'text-rose-500',
+    mapBadge: 'bg-red-100 text-red-600',
+    backBtn: 'border-red-300 bg-red-50 text-red-700 hover:bg-red-100',
+    footer: '📏 数对定位、圆与百分数……把六三制数学岛全部点亮吧！',
+    tip: '每天玩 20 分钟，闯关赢金币，快乐学数学！',
   },
 } as const
 

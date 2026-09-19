@@ -112,6 +112,13 @@ const THEME = {
     bar: 'bg-green-100 [&>div]:bg-gradient-to-r [&>div]:from-lime-400 [&>div]:to-green-500',
     ring: 'ring-green-200',
   },
+  red: {
+    card: 'border-red-300 bg-gradient-to-br from-red-100 via-red-50 to-orange-50 shadow-[0_10px_0_0_rgba(239,68,68,0.35)]',
+    title: 'text-red-700',
+    btn: 'bg-gradient-to-b from-red-400 to-red-500 shadow-[0_5px_0_0_rgba(220,38,38,0.55)]',
+    bar: 'bg-red-100 [&>div]:bg-gradient-to-r [&>div]:from-orange-400 [&>div]:to-red-500',
+    ring: 'ring-red-200',
+  },
 } as const
 
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
@@ -131,6 +138,8 @@ const KID_LINES: Partial<Record<SubjectId, string>> = {
   chinese: '读课文 · 背古诗 · 闯名著关！',
   chinese6: '草原丁香 · 长征壮歌 · 走近鲁迅！',
   chinese54: '草原丁香 · 红色足迹 · 科学之光！',
+  math6: '数对定位 · 圆与百分数 · 越算越厉害！',
+  math54: '整除素数 · 比和比例 · 圆和扇形！',
   math: '算一算 · 比一比 · 越闯越聪明！',
   english: 'ABC 大冒险 · 边玩边开口说！',
 }

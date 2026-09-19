@@ -2,7 +2,8 @@
 // 年级维度：一年级上册 ～ 六年级上册（term: 'a' 上册，'b' 下册预留）
 // 语文：统编教材（人民教育出版社）一上～五上各 8 关；六年级上册分两个学制版本：
 //       六三制（2026 秋版 8 关，id chinese6，前缀 x）与 五·四学制（2024 秋版 7 关，id chinese54，前缀 y）
-// 数学：沪教版（上海教育出版社）一上（7 关）/ 二上（8 关）/ 三上（9 单元）/ 四上（9 单元）/ 五上（8 单元）
+// 数学：一上～五上为沪教版（上海教育出版社）；六年级上册分两个学制版本：
+//       六三制·人教版（2026 秋版 9 关，id math6，前缀 u）与 五·四学制·沪教版（预备年级 8 关，id math54，前缀 v）
 // 英语：沪教版（五四学制·上海教育出版社）一上～五上（三上起 Starter+10 单元；一上含 3 个 IPA 语音角）
 // 每关 10 题
 
@@ -23,6 +24,8 @@ import { UNITS as EN1_UNITS, QUESTIONS as EN1_QUESTIONS } from './bank-english1'
 import { UNITS as EN2_UNITS, QUESTIONS as EN2_QUESTIONS } from './bank-english2'
 import { UNITS as EN3_UNITS, QUESTIONS as EN3_QUESTIONS } from './bank-english3'
 import { UNITS as EN4_UNITS, QUESTIONS as EN4_QUESTIONS } from './bank-english4'
+import { UNITS as MATH6_UNITS, QUESTIONS as MATH6_QUESTIONS } from './bank-math6'
+import { UNITS as MATH54_UNITS, QUESTIONS as MATH54_QUESTIONS } from './bank-math54'
 
 export type QType = 'choice' | 'judge'
 
@@ -46,7 +49,7 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'english1' | 'english2' | 'english3' | 'english4' | 'english'
+export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english'
 
 // 出版社/版本 key：rj 人民教育出版社（统编语文）、rj54 人民教育出版社统编教材（五·四学制）、she 上海教育出版社（数学/英语）
 export type PublisherKey = 'rj' | 'rj54' | 'she'
@@ -61,7 +64,7 @@ export interface Subject {
   publisherKey: PublisherKey
   badge?: string // 版本徽章（同一年级同一科目有多个版本时显示，如六三制/五四学制）
   emoji: string
-  theme: 'orange' | 'emerald' | 'sky' | 'rose' | 'violet' | 'teal' | 'amber' | 'lime' | 'cyan' | 'pink' | 'indigo' | 'fuchsia' | 'blue' | 'green'
+  theme: 'orange' | 'emerald' | 'sky' | 'rose' | 'violet' | 'teal' | 'amber' | 'lime' | 'cyan' | 'pink' | 'indigo' | 'fuchsia' | 'blue' | 'green' | 'red'
   qidPrefix: string
   tagline: string
   units: Unit[]
@@ -326,6 +329,38 @@ export const SUBJECTS: Subject[] = [
     units: CN54_UNITS,
     questions: CN54_QUESTIONS,
   },
+  {
+    id: 'math6',
+    name: '数学',
+    grade: '六年级上册',
+    gradeNum: 6,
+    term: 'a',
+    publisher: '2026 新版人教版（六三制）· 人民教育出版社 · 六年级上册',
+    publisherKey: 'rj',
+    badge: '六三制',
+    emoji: '📏',
+    theme: 'red',
+    qidPrefix: 'u',
+    tagline: '数对定位 → 分数乘除 → 圆与百分数',
+    units: MATH6_UNITS,
+    questions: MATH6_QUESTIONS,
+  },
+  {
+    id: 'math54',
+    name: '数学',
+    grade: '六年级上册',
+    gradeNum: 6,
+    term: 'a',
+    publisher: '沪教版（五·四学制）· 上海教育出版社 · 六年级上册（预备年级）',
+    publisherKey: 'she',
+    badge: '五四学制',
+    emoji: '🎲',
+    theme: 'indigo',
+    qidPrefix: 'v',
+    tagline: '数的整除 → 分数 → 比和比例 → 圆和扇形',
+    units: MATH54_UNITS,
+    questions: MATH54_QUESTIONS,
+  },
 ]
 
 export function getSubject(id: SubjectId): Subject {
@@ -348,12 +383,12 @@ export function subjectsFor(filter: TextbookFilter): Subject[] {
 }
 
 export const PUBLISHER_LABELS: Record<PublisherKey, string> = {
-  rj: '人民教育出版社 · 统编语文（六三制）',
+  rj: '人民教育出版社 · 统编语文/人教数学（六三制）',
   rj54: '人民教育出版社 · 统编语文（五·四学制）',
   she: '上海教育出版社 · 沪教数学/英语',
 }
 
-// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、数学一上 b、数学二上 r、数学三上 p、数学四上 n、数学五上 m、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e，不会冲突）
+// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、数学一上 b、数学二上 r、数学三上 p、数学四上 n、数学五上 m、数学六上·六三制 u、数学六上·五四 v、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {

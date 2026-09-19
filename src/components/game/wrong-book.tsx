@@ -26,6 +26,8 @@ const SUBJECT_BADGE = {
   math3: 'bg-lime-100 text-lime-700',
   math4: 'bg-violet-100 text-violet-700',
   math: 'bg-emerald-100 text-emerald-700',
+  math6: 'bg-red-100 text-red-700',
+  math54: 'bg-indigo-100 text-indigo-700',
   english1: 'bg-fuchsia-100 text-fuchsia-700',
   english2: 'bg-sky-100 text-sky-700',
   english3: 'bg-cyan-100 text-cyan-700',
