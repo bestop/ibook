@@ -29,6 +29,12 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   math3rj: '🦊 混合运算、曹冲称象、分数初识……把人教版三上数学岛全部点亮！',
   math4rj: '🐼 万以上大数、乘法模型、寻找宝藏……把人教版四上数学岛全部点亮！',
   math5rj: '🦉 小数乘除、字母代数、有趣的密铺……把人教版五上数学岛全部点亮！',
+  english1rj: '🐥 Hello!、My first class、Ready for school……把 PEP 一上英语岛闯个遍吧！',
+  english2rj: '🦆 Fun numbers、Helpful hands、Work time……把 PEP 二上英语岛闯个遍吧！',
+  english3rj: '🐞 Making friends、Amazing animals、Useful numbers……把 PEP 三上英语岛闯个遍吧！',
+  english4rj: '🐳 Helping at home、My friends、The weather and us……把 PEP 四上英语岛闯个遍吧！',
+  english5rj: '🦜 Different friends、Healthy habits、Food we eat……把 PEP 五上英语岛闯个遍吧！',
+  english6rj: '🕊️ Amazing places、Exploring space、Managing money well……把 PEP 六上英语岛闯个遍吧！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {

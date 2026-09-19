@@ -39,6 +39,12 @@ const SUBJECT_BADGE = {
   english4: 'bg-teal-100 text-teal-700',
   english: 'bg-sky-100 text-sky-700',
   english6: 'bg-sky-100 text-sky-700',
+  english1rj: 'bg-pink-100 text-pink-700',
+  english2rj: 'bg-amber-100 text-amber-700',
+  english3rj: 'bg-orange-100 text-orange-700',
+  english4rj: 'bg-lime-100 text-lime-700',
+  english5rj: 'bg-indigo-100 text-indigo-700',
+  english6rj: 'bg-violet-100 text-violet-700',
 } as const
 
 export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {

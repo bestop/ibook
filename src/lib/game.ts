@@ -104,7 +104,7 @@ function completedIn(levels: Record<string, LevelProgress>, subjectId: SubjectId
   return subj.units.filter((u) => levels[`${subjectId}:${u.id}`]?.completed).length
 }
 
-// 全部 218 关（二十五科：语文一上8+数学一上沪7+数学一上人教7+英语一上14+语文二上8+数学二上沪8+数学二上人教7+英语二上11+语文三上8+数学三上沪9+数学三上人教8+英语三上11+语文四上8+数学四上沪9+数学四上人教9+英语四上11+语文五上8+数学五上沪8+数学五上人教9+英语五上11+语文六上·六三制8+语文六上·五四7+数学六上·六三制9+数学六上·五四8+英语六上·五四7）是否都拿到满星
+// 全部 258 关（三十一科：语文一上8+数学一上沪7+数学一上人教7+英语一上沪14+英语一上人教6+语文二上8+数学二上沪8+数学二上人教7+英语二上沪11+英语二上人教6+语文三上8+数学三上沪9+数学三上人教8+英语三上沪11+英语三上人教7+语文四上8+数学四上沪9+数学四上人教9+英语四上沪11+英语四上人教7+语文五上8+数学五上沪8+数学五上人教9+英语五上沪11+英语五上人教7+语文六上·六三制8+语文六上·五四7+数学六上·六三制9+数学六上·五四8+英语六上·五四7+英语六上·人教7）是否都拿到满星
 function allFullStars(levels: Record<string, LevelProgress>): boolean {
   const totalUnits = SUBJECTS.reduce((n, s) => n + s.units.length, 0)
   let count = 0
@@ -153,10 +153,16 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'math3rj_all', emoji: '🦊', name: '三上人教数学小智多星', desc: '通过三年级上册数学（人教版）全部 8 个关卡（含曹冲称象综合实践）', check: (s) => completedIn(s.levels, 'math3rj') >= 8 },
   { id: 'math4rj_all', emoji: '🐼', name: '四上人教数学小学霸', desc: '通过四年级上册数学（人教版）全部 9 个关卡（含 1 亿有多大、寻找宝藏综合实践）', check: (s) => completedIn(s.levels, 'math4rj') >= 9 },
   { id: 'math5rj_all', emoji: '🦉', name: '五上人教数学小博士', desc: '通过五年级上册数学（人教版）全部 9 个关卡（含有趣的密铺综合实践）', check: (s) => completedIn(s.levels, 'math5rj') >= 9 },
-  { id: 'win218', emoji: '👑', name: '二十五科全能大满贯', desc: '一至六年级语数英全部 25 个科目岛、218 关都通过（含各年级数学沪教/人教双版本与六上三科双学制版本）', check: (s) => SUBJECTS.every((subj) => completedIn(s.levels, subj.id) >= subj.units.length) },
+  { id: 'eng1rj_all', emoji: '🐥', name: '一上PEP英语小飞鸟', desc: '通过一年级上册英语（人教版PEP预备级）全部 6 个关卡（Hello! 到 Revision）', check: (s) => completedIn(s.levels, 'english1rj') >= 6 },
+  { id: 'eng2rj_all', emoji: '🦆', name: '二上PEP英语小鸭鸭', desc: '通过二年级上册英语（人教版PEP新教材）全部 6 个关卡（数字字母到 Work time）', check: (s) => completedIn(s.levels, 'english2rj') >= 6 },
+  { id: 'eng3rj_all', emoji: '🐞', name: '三上PEP英语小瓢虫', desc: '通过三年级上册英语（人教版PEP 2024 新版）全部 7 个关卡（Making friends 到 Revision）', check: (s) => completedIn(s.levels, 'english3rj') >= 7 },
+  { id: 'eng4rj_all', emoji: '🐳', name: '四上PEP英语小鲸鱼', desc: '通过四年级上册英语（人教版PEP 2025 新版）全部 7 个关卡（Helping at home 到 Revision）', check: (s) => completedIn(s.levels, 'english4rj') >= 7 },
+  { id: 'eng5rj_all', emoji: '🦜', name: '五上PEP英语小鹦鹉', desc: '通过五年级上册英语（人教版PEP 2026 新版）全部 7 个关卡（Different friends 到新年派对）', check: (s) => completedIn(s.levels, 'english5rj') >= 7 },
+  { id: 'eng6rj_all', emoji: '🕊️', name: '六上PEP英语小和平鸽', desc: '通过六年级上册英语（人教版PEP 2026 新版）全部 7 个关卡（Amazing places 到博物馆复习）', check: (s) => completedIn(s.levels, 'english6rj') >= 7 },
+  { id: 'win218', emoji: '👑', name: '三十一科全能大满贯', desc: '一至六年级语数英全部 31 个科目岛、258 关都通过（含数学、英语各年级沪教/人教双版本与六上三科双学制版本）', check: (s) => SUBJECTS.every((subj) => completedIn(s.levels, subj.id) >= subj.units.length) },
   { id: 'math_all', emoji: '🧮', name: '数学小达人', desc: '通过五年级上册数学全部 8 个关卡', check: (s) => completedIn(s.levels, 'math') >= 8 },
   { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星', check: (s) => Object.values(s.levels).some((l) => l.stars >= 3) },
-  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 218 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
+  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 258 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
   { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题', check: (s) => s.achievements.includes('combo5') },
   { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币', check: (s) => s.coins >= 300 },
   { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天', check: (s) => s.streak >= 3 },

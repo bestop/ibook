@@ -148,6 +148,12 @@ const KID_LINES: Partial<Record<SubjectId, string>> = {
   math3rj: '混合运算 · 曹冲称象 · 分数初识！',
   math4rj: '万以上大数 · 乘法模型 · 找宝藏！',
   math5rj: '小数乘除 · 字母代数 · 图形面积！',
+  english1rj: 'Hello! · 第一堂课 · 上学准备出发！',
+  english2rj: '数字字母 · 帮忙做家务 · 快乐情绪！',
+  english3rj: '交朋友 · 神奇动物 · 多彩世界！',
+  english4rj: '在家帮忙 · 社区生活 · 天气四季！',
+  english5rj: '不同的朋友 · 健康习惯 · 美食自然！',
+  english6rj: '神奇地方 · 团圆佳节 · 探索太空！',
 }
 
 // 页面边缘的漂浮小装饰
