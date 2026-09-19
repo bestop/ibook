@@ -143,6 +143,11 @@ const KID_LINES: Partial<Record<SubjectId, string>> = {
   english6: '校园家庭 · 美食运动 · 动物旅行！',
   math: '算一算 · 比一比 · 越闯越聪明！',
   english: 'ABC 大冒险 · 边玩边开口说！',
+  math1rj: '数学游戏 · 凑十法 · 越玩越聪明！',
+  math2rj: '分类整理 · 表内乘除 · 量长量短！',
+  math3rj: '混合运算 · 曹冲称象 · 分数初识！',
+  math4rj: '万以上大数 · 乘法模型 · 找宝藏！',
+  math5rj: '小数乘除 · 字母代数 · 图形面积！',
 }
 
 // 页面边缘的漂浮小装饰

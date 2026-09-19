@@ -24,6 +24,11 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   math6: '📏 数对定位、分数乘除、圆与百分数……把六三制数学岛全部点亮！',
   math54: '🎲 数的整除、比和比例、圆和扇形……把五四学制数学岛全部点亮！',
   english6: '🐬 School life、Sports、Travelling……把预备年级英语岛闯个遍吧！',
+  math1rj: '🐻 数学游戏、凑十法、进位加法……把人教版一上数学岛全部点亮！',
+  math2rj: '🐿️ 分类整理、表内乘除、东南西北……把人教版二上数学岛全部点亮！',
+  math3rj: '🦊 混合运算、曹冲称象、分数初识……把人教版三上数学岛全部点亮！',
+  math4rj: '🐼 万以上大数、乘法模型、寻找宝藏……把人教版四上数学岛全部点亮！',
+  math5rj: '🦉 小数乘除、字母代数、有趣的密铺……把人教版五上数学岛全部点亮！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {

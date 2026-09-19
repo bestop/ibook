@@ -23,10 +23,11 @@ const GRADE_OPTIONS: { num: number; open: boolean }[] = [
 
 type PubOptionKey = 'all' | 'rj' | 'rj54' | 'she'
 
+// 一～五年级：语文统编（人教社）；数学分沪教版与人教版两个版本；英语沪教版
 const BASE_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
-  { key: 'all', label: '全部出版社' },
-  { key: 'she', label: '上海教育出版社' },
-  { key: 'rj', label: '人民教育出版社（统编语文）' },
+  { key: 'all', label: '全部版本' },
+  { key: 'she', label: '上海教育出版社（沪教数学 + 英语）' },
+  { key: 'rj', label: '人民教育出版社（统编语文 + 人教数学）' },
 ]
 
 // 六年级语文、数学分六三制与五四学制两个版本（语文统编/人教，数学六三制人教版、五四学制沪教版），英语为沪教版 2024 新教材（五四学制）
@@ -164,6 +165,9 @@ export default function TextbookPicker() {
               <p className="mb-2 text-sm font-black text-gray-700">🏢 {textbook.gradeNum === 6 ? '学制版本' : '出版社'}</p>
               {textbook.gradeNum === 6 && (
                 <p className="mb-2 text-[11px] font-bold text-violet-400">六年级语文、数学都有「六三制」和「五四学制」两个版本：数学六三制为人教版、五四学制为沪教版（预备年级）；英语为沪教版 2024 新教材（五四学制·预备年级），选好版本再开岛哦～</p>
+              )}
+              {textbook.gradeNum < 6 && (
+                <p className="mb-2 text-[11px] font-bold text-violet-400">一至五年级数学都有「沪教版」和「人教版」两个版本：人教版选用 2024～2026 秋季新版教材（六三制）；语文为统编教材、英语为沪教版，选好版本再开岛哦～</p>
               )}
               <div className="flex flex-col gap-2">
                 {publisherOptionsFor(textbook.gradeNum).map((p) => {

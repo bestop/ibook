@@ -2,8 +2,9 @@
 // 年级维度：一年级上册 ～ 六年级上册（term: 'a' 上册，'b' 下册预留）
 // 语文：统编教材（人民教育出版社）一上～五上各 8 关；六年级上册分两个学制版本：
 //       六三制（2026 秋版 8 关，id chinese6，前缀 x）与 五·四学制（2024 秋版 7 关，id chinese54，前缀 y）
-// 数学：一上～五上为沪教版（上海教育出版社）；六年级上册分两个学制版本：
-//       六三制·人教版（2026 秋版 9 关，id math6，前缀 u）与 五·四学制·沪教版（预备年级 8 关，id math54，前缀 v）
+// 数学：一上～五上每级分两个版本——沪教版（上海教育出版社，id math1~math/math4，前缀 b/r/p/n/m）
+//       与人教版（六三制·人民教育出版社 2024~2026 秋新版，id math1rj~math5rj，前缀 w/j/l/o/s）；
+//       六年级上册分两个学制版本：六三制·人教版（2026 秋版 9 关，id math6，前缀 u）与 五·四学制·沪教版（预备年级 8 关，id math54，前缀 v）
 // 英语：沪教版（五四学制·上海教育出版社）一上～五上（三上起 Starter+10 单元；一上含 3 个 IPA 语音角）；
 //       六年级上册为沪教版 2024 新教材（五·四学制·预备年级）：Starter 衔接站 + Unit 1-6
 // 每关 10 题
@@ -28,6 +29,11 @@ import { UNITS as EN4_UNITS, QUESTIONS as EN4_QUESTIONS } from './bank-english4'
 import { UNITS as EN6_UNITS, QUESTIONS as EN6_QUESTIONS } from './bank-english6'
 import { UNITS as MATH6_UNITS, QUESTIONS as MATH6_QUESTIONS } from './bank-math6'
 import { UNITS as MATH54_UNITS, QUESTIONS as MATH54_QUESTIONS } from './bank-math54'
+import { UNITS as MATH1RJ_UNITS, QUESTIONS as MATH1RJ_QUESTIONS } from './bank-math1rj'
+import { UNITS as MATH2RJ_UNITS, QUESTIONS as MATH2RJ_QUESTIONS } from './bank-math2rj'
+import { UNITS as MATH3RJ_UNITS, QUESTIONS as MATH3RJ_QUESTIONS } from './bank-math3rj'
+import { UNITS as MATH4RJ_UNITS, QUESTIONS as MATH4RJ_QUESTIONS } from './bank-math4rj'
+import { UNITS as MATH5RJ_UNITS, QUESTIONS as MATH5RJ_QUESTIONS } from './bank-math5rj'
 
 export type QType = 'choice' | 'judge'
 
@@ -51,9 +57,9 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6'
+export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6' | 'math1rj' | 'math2rj' | 'math3rj' | 'math4rj' | 'math5rj'
 
-// 出版社/版本 key：rj 人民教育出版社（统编语文）、rj54 人民教育出版社统编教材（五·四学制）、she 上海教育出版社（数学/英语）
+// 出版社/版本 key：rj 人民教育出版社（统编语文 + 人教数学）、rj54 人民教育出版社统编教材（五·四学制）、she 上海教育出版社（沪教数学/英语）
 export type PublisherKey = 'rj' | 'rj54' | 'she'
 
 export interface Subject {
@@ -97,6 +103,7 @@ export const SUBJECTS: Subject[] = [
     term: 'a',
     publisher: '沪教版（2024 新版）· 上海教育出版社 · 一年级上册',
     publisherKey: 'she',
+    badge: '沪教版',
     emoji: '🧸',
     theme: 'indigo',
     qidPrefix: 'b',
@@ -142,6 +149,7 @@ export const SUBJECTS: Subject[] = [
     term: 'a',
     publisher: '沪教版 · 上海教育出版社 · 二年级上册',
     publisherKey: 'she',
+    badge: '沪教版',
     emoji: '🪀',
     theme: 'violet',
     qidPrefix: 'r',
@@ -187,6 +195,7 @@ export const SUBJECTS: Subject[] = [
     term: 'a',
     publisher: '2026 新版沪教版 · 上海教育出版社 · 三年级上册',
     publisherKey: 'she',
+    badge: '沪教版',
     emoji: '🪁',
     theme: 'lime',
     qidPrefix: 'p',
@@ -232,6 +241,7 @@ export const SUBJECTS: Subject[] = [
     term: 'a',
     publisher: '2026 新版沪教版 · 上海教育出版社 · 四年级上册',
     publisherKey: 'she',
+    badge: '沪教版',
     emoji: '🚀',
     theme: 'violet',
     qidPrefix: 'n',
@@ -277,6 +287,7 @@ export const SUBJECTS: Subject[] = [
     term: 'a',
     publisher: '沪教版 · 上海教育出版社 · 五年级上册',
     publisherKey: 'she',
+    badge: '沪教版',
     emoji: '🧮',
     theme: 'emerald',
     qidPrefix: 'm',
@@ -330,6 +341,86 @@ export const SUBJECTS: Subject[] = [
     tagline: '草原丁香 → 红色足迹 → 科学之光',
     units: CN54_UNITS,
     questions: CN54_QUESTIONS,
+  },
+  {
+    id: 'math1rj',
+    name: '数学',
+    grade: '一年级上册',
+    gradeNum: 1,
+    term: 'a',
+    publisher: '2024 新版人教版 · 人民教育出版社 · 一年级上册',
+    publisherKey: 'rj',
+    badge: '人教版',
+    emoji: '🐻',
+    theme: 'orange',
+    qidPrefix: 'w',
+    tagline: '数学游戏 → 凑十法 → 进位加法',
+    units: MATH1RJ_UNITS,
+    questions: MATH1RJ_QUESTIONS,
+  },
+  {
+    id: 'math2rj',
+    name: '数学',
+    grade: '二年级上册',
+    gradeNum: 2,
+    term: 'a',
+    publisher: '2025 新版人教版 · 人民教育出版社 · 二年级上册',
+    publisherKey: 'rj',
+    badge: '人教版',
+    emoji: '🐿️',
+    theme: 'emerald',
+    qidPrefix: 'j',
+    tagline: '分类整理 → 表内乘除 → 厘米和米',
+    units: MATH2RJ_UNITS,
+    questions: MATH2RJ_QUESTIONS,
+  },
+  {
+    id: 'math3rj',
+    name: '数学',
+    grade: '三年级上册',
+    gradeNum: 3,
+    term: 'a',
+    publisher: '2025 新版人教版 · 人民教育出版社 · 三年级上册',
+    publisherKey: 'rj',
+    badge: '人教版',
+    emoji: '🦊',
+    theme: 'red',
+    qidPrefix: 'l',
+    tagline: '混合运算 → 曹冲称象 → 分数初识',
+    units: MATH3RJ_UNITS,
+    questions: MATH3RJ_QUESTIONS,
+  },
+  {
+    id: 'math4rj',
+    name: '数学',
+    grade: '四年级上册',
+    gradeNum: 4,
+    term: 'a',
+    publisher: '2026 新版人教版 · 人民教育出版社 · 四年级上册',
+    publisherKey: 'rj',
+    badge: '人教版',
+    emoji: '🐼',
+    theme: 'amber',
+    qidPrefix: 'o',
+    tagline: '万以上大数 → 乘法模型 → 条形统计',
+    units: MATH4RJ_UNITS,
+    questions: MATH4RJ_QUESTIONS,
+  },
+  {
+    id: 'math5rj',
+    name: '数学',
+    grade: '五年级上册',
+    gradeNum: 5,
+    term: 'a',
+    publisher: '2026 新版人教版 · 人民教育出版社 · 五年级上册',
+    publisherKey: 'rj',
+    badge: '人教版',
+    emoji: '🦉',
+    theme: 'blue',
+    qidPrefix: 's',
+    tagline: '小数乘除 → 字母表示数 → 多边形面积',
+    units: MATH5RJ_UNITS,
+    questions: MATH5RJ_QUESTIONS,
   },
   {
     id: 'math6',
@@ -406,7 +497,7 @@ export const PUBLISHER_LABELS: Record<PublisherKey, string> = {
   she: '上海教育出版社 · 沪教数学/英语',
 }
 
-// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、数学一上 b、数学二上 r、数学三上 p、数学四上 n、数学五上 m、数学六上·六三制 u、数学六上·五四 v、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e、英语六上·五四 k，不会冲突）
+// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、数学一上沪 b、数学二上沪 r、数学三上沪 p、数学四上沪 n、数学五上沪 m、数学六上·六三制 u、数学六上·五四 v、数学一上人教 w、数学二上人教 j、数学三上人教 l、数学四上人教 o、数学五上人教 s、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e、英语六上·五四 k，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {
