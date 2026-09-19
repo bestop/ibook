@@ -104,10 +104,10 @@ const THEME = {
 const KID_LINES: Partial<Record<SubjectId, string>> = {
   chinese1: '天地人 · 拼音宝宝 · 雪地小画家！',
   math1: '数一数 · 凑十法 · 越算越聪明！',
-  english1: 'Hello! · 五官本领 · 农场动物园！',
+  english1: '打招呼 · 小书包 · 趣味数字，宝宝也会说！',
   chinese2: '小蝌蚪 · 黄山奇石 · 狐假虎威！',
   math2: '乘法口诀 · 求商 · 角与直角，越背越灵！',
-  english2: 'Hello! · 家庭朋友 · 大自然，开口就说！',
+  english2: '我的早晨 · 四季水果 · 五感大发现！',
   chinese3: '大青树下 · 秋天的雨 · 古诗新唱！',
   math3: '一位数乘除 · 年月日 · 七巧板，越算越灵！',
   english3: '字母 ABC · 小花园 · 美食节，英语初体验！',

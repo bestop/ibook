@@ -19,7 +19,8 @@ interface MapViewProps {
 const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   chinese2: '🐸 小蝌蚪到风娃娃，把二年级语文岛全部点亮吧！',
   math2: '🪀 乘法口诀背熟啦，把二上数学岛全部点亮！',
-  english2: '🐣 Hello 到 In the street，把二上英语岛闯个遍吧！',
+  english1: '🐤 从 Greetings 到 Fun numbers，把一上英语岛闯个遍吧！',
+  english2: '🌅 从 My morning 到 This is me，把二上英语岛闯个遍吧！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
@@ -240,7 +241,7 @@ const SUBJECT_THEME = {
     coinDesc: 'text-rose-500',
     mapBadge: 'bg-fuchsia-100 text-fuchsia-700',
     backBtn: 'border-fuchsia-300 bg-fuchsia-50 text-fuchsia-700 hover:bg-fuchsia-100',
-    footer: '🐤 Hello、农场动物园、公园颜色，把一上英语岛闯个遍吧！',
+    footer: '🐤 打招呼、小书包、趣味数字，把一上英语岛全部点亮吧！',
     tip: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
   },
 } as const
