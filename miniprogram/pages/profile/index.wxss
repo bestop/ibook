@@ -109,38 +109,48 @@
 
 .about-card {
   margin-top: 30rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
 }
-.about-line {
-  font-size: 23rpx;
-  color: #78716c;
-  line-height: 1.8;
-}
-.reset-link {
-  margin-top: 16rpx;
-  font-size: 24rpx;
-  color: #dc2626;
-  font-weight: 800;
-  text-align: center;
-  padding: 12rpx;
-  border: 2rpx dashed #fca5a5;
-  border-radius: 16rpx;
-}
-.about-link {
-  font-size: 26rpx;
-  font-weight: 900;
-  color: #6d28d9;
-  padding: 10rpx 0;
-  border-bottom: 2rpx dashed #ddd6fe;
-  text-align: center;
-}
-.sound-row {
+.about-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12rpx 4rpx 0;
-  font-size: 26rpx;
+  padding: 22rpx 6rpx;
+  border-bottom: 2rpx dashed #fde68a;
+  border-radius: 12rpx;
+}
+.about-row-left {
+  display: flex;
+  align-items: center;
+}
+.about-row-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+}
+.about-row-label {
+  font-size: 27rpx;
+  font-weight: 800;
+  color: #44403c;
+}
+.about-row-arrow {
+  font-size: 36rpx;
   font-weight: 700;
-  color: #78716c;
+  color: #d6d3d1;
+  line-height: 1;
+}
+.row-hover {
+  background: rgba(249, 115, 22, 0.06);
+}
+.reset-link {
+  margin: 24rpx 6rpx 10rpx;
+  font-size: 23rpx;
+  font-weight: 700;
+  color: #dc2626;
+  text-align: center;
+  padding: 16rpx;
+  background: #fef2f2;
+  border-radius: 999rpx;
 }
 .tabbar-space {
   height: 140rpx;

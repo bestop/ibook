@@ -129,11 +129,6 @@ Page({
     this.applyFilter()
   },
 
-  openGuide() {
-    sfx.click()
-    wx.navigateTo({ url: '/pages/guide/index' })
-  },
-
   openSubject(e) {
     sfx.click()
     const id = e.currentTarget.dataset.id

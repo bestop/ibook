@@ -151,11 +151,6 @@
   gap: 14rpx;
   margin-bottom: 8rpx;
 }
-.guide-btn {
-  background: #f5f3ff;
-  border-color: #ddd6fe;
-  color: #6d28d9;
-}
 .picker-btn {
   background: #fff;
   border: 3rpx solid #c7d2fe;

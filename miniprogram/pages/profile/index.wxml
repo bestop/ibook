@@ -45,15 +45,23 @@
     </view>
   </view>
 
-  <!-- 说明与重置 -->
+  <!-- 设置 -->
   <view class="card about-card">
-    <view class="about-link" bindtap="openGuide">📖 使用指南</view>
-    <view class="about-line">💾 学习进度保存在本机微信中，无需注册</view>
-    <view class="sound-row">
-      <text>🔊 游戏音效</text>
+    <view class="about-row" hover-class="row-hover" bindtap="openGuide">
+      <view class="about-row-left">
+        <text class="about-row-icon">📖</text>
+        <text class="about-row-label">使用指南</text>
+      </view>
+      <text class="about-row-arrow">›</text>
+    </view>
+    <view class="about-row">
+      <view class="about-row-left">
+        <text class="about-row-icon">🔊</text>
+        <text class="about-row-label">游戏音效</text>
+      </view>
       <switch checked="{{soundOn}}" bindchange="onSoundToggle" color="#f97316" />
     </view>
-    <view class="reset-link" bindtap="doReset">🗑️ 家长专区：重置全部进度</view>
+    <view class="reset-link" hover-class="row-hover" bindtap="doReset">🗑️ 家长专区 · 重置全部进度</view>
   </view>
 
   <view class="tabbar-space"></view>

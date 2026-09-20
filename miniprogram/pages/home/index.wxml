@@ -48,7 +48,6 @@
       <picker mode="selector" range="{{publisherLabels}}" value="{{pubIndex}}" bindchange="onPickPublisher">
         <view class="picker-btn">📚 {{publisherLabels[pubIndex]}} ▾</view>
       </picker>
-      <view class="picker-btn guide-btn" bindtap="openGuide">📖 指南</view>
     </view>
 
     <!-- 科目岛列表 -->
