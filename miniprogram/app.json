@@ -10,10 +10,10 @@
     "pages/guide/index"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#FFF7ED",
+    "navigationBarBackgroundColor": "#A8E6FF",
     "navigationBarTitleText": "小明乐学岛",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#FFF7ED",
+    "backgroundColor": "#A8E6FF",
     "backgroundTextStyle": "dark"
   },
   "style": "v2",

@@ -12,11 +12,11 @@
 .head-name {
   font-size: 32rpx;
   font-weight: 900;
-  color: #c2410c;
+  color: #3d3a6e;
 }
 .head-sub {
   font-size: 22rpx;
-  color: #78716c;
+  color: #8a87b8;
   margin-top: 6rpx;
 }
 .review-btn {
@@ -28,7 +28,7 @@
 .wrong-q {
   font-size: 26rpx;
   font-weight: 700;
-  color: #431407;
+  color: #3d3a6e;
   line-height: 1.6;
 }
 .wrong-meta {
@@ -39,8 +39,8 @@
 }
 .wrong-count {
   font-size: 22rpx;
-  color: #dc2626;
-  font-weight: 800;
+  color: #f03e6b;
+  font-weight: 900;
 }
 .tabbar-space {
   height: 140rpx;

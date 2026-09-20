@@ -2,7 +2,9 @@
   <!-- 首页 Hero：问候气泡 + 海岛 + 标题 + 状态胶囊（与网页版一致） -->
   <view class="hero">
     <text class="hero-cloud">☁️</text>
+    <text class="hero-rainbow">🌈</text>
     <text class="hero-star">🌟</text>
+    <text class="hero-egg">🥚</text>
     <view class="hero-bubble">嗨，小岛民！今天想去哪个岛冒险呀？</view>
     <text class="hero-island">🏝️</text>
     <view class="hero-title">小明乐学岛</view>
@@ -19,7 +21,7 @@
   <view wx:elif="{{error && subjects.length === 0}}" class="error-box card">
     <view class="error-emoji">😵</view>
     <view class="error-text">内容加载失败：{{error}}</view>
-    <button class="btn-primary retry-btn" bindtap="retry">重新加载</button>
+    <button hover-class="none" class="btn-primary retry-btn" bindtap="retry">重新加载</button>
     <view class="error-hint">网络开小差啦，请检查网络后重试</view>
   </view>
 
@@ -56,7 +58,7 @@
     <view wx:if="{{termIndex === 1}}" class="card empty-tip">
       <view style="font-size: 60rpx">🏗️</view>
       <view style="margin: 16rpx 0">下册内容建设中，先去玩上册吧～</view>
-      <button class="btn-ghost back-btn" bindtap="backToA">回到上册</button>
+      <button hover-class="none" class="btn-ghost back-btn" bindtap="backToA">回到上册</button>
     </view>
 
     <view wx:elif="{{subjects.length === 0}}" class="card empty-tip">这个组合下暂无科目岛，换个版本试试～</view>

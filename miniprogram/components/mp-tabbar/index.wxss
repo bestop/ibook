@@ -5,8 +5,10 @@
   bottom: 0;
   z-index: 50;
   display: flex;
-  background: rgba(255, 255, 255, 0.96);
-  border-top: 3rpx solid #fde68a;
+  background: #fff;
+  border-top: 3rpx solid #efe7ff;
+  border-radius: 32rpx 32rpx 0 0;
+  box-shadow: 0 -10rpx 30rpx rgba(93, 74, 156, 0.1);
   padding-bottom: env(safe-area-inset-bottom);
 }
 .tab {
@@ -15,16 +17,23 @@
   flex-direction: column;
   align-items: center;
   padding: 14rpx 0 10rpx;
-  color: #9ca3af;
+  color: #a5a1cc;
 }
 .tab-emoji {
   font-size: 40rpx;
   line-height: 1.2;
+  transition: transform 0.2s ease;
 }
 .tab-label {
   font-size: 22rpx;
   font-weight: 700;
 }
 .tab-active {
-  color: #ea580c;
+  color: #ff4d8d;
+}
+.tab-active .tab-emoji {
+  transform: translateY(-4rpx) scale(1.18);
+}
+.tab-active .tab-label {
+  font-weight: 900;
 }

@@ -4,22 +4,25 @@
   box-sizing: border-box;
 }
 
+/* ===== 简介：糖果渐变卡 ===== */
 .intro {
-  background: linear-gradient(135deg, #fff7ed, #fef3c7);
-  border: 3rpx solid #fed7aa;
+  background: linear-gradient(135deg, #fff0f8, #f1ecff);
+  border: 3rpx solid #ffd3e8;
+  box-shadow: 0 10rpx 0 rgba(224, 64, 127, 0.08), 0 18rpx 30rpx rgba(93, 74, 156, 0.08);
+  animation: eggy-pop 0.45s ease-out;
 }
 
 .intro-title {
   font-size: 34rpx;
   font-weight: 900;
-  color: #c2410c;
+  color: #e0407f;
   margin-bottom: 14rpx;
 }
 
 .intro-text {
   font-size: 26rpx;
   line-height: 1.7;
-  color: #92400e;
+  color: #5b5486;
   font-weight: 600;
 }
 
@@ -36,47 +39,48 @@
 .sec-text {
   font-size: 25rpx;
   line-height: 1.65;
-  color: #57534e;
+  color: #5b5486;
   font-weight: 600;
   margin-top: 6rpx;
 }
 
+/* ===== 糖果分区卡 ===== */
 .sec-amber {
-  background: #fffbeb;
-  border: 3rpx solid #fde68a;
+  background: #fffbea;
+  border: 3rpx solid #ffe066;
 }
 .sec-amber .sec-title {
-  color: #b45309;
+  color: #a16207;
 }
 
 .sec-emerald {
-  background: #ecfdf5;
-  border: 3rpx solid #a7f3d0;
+  background: #eafcf4;
+  border: 3rpx solid #86f0c8;
 }
 .sec-emerald .sec-title {
-  color: #047857;
+  color: #0e9f6e;
 }
 
 .sec-rose {
-  background: #fff1f2;
-  border: 3rpx solid #fecdd3;
+  background: #fff0f4;
+  border: 3rpx solid #ffc9da;
 }
 .sec-rose .sec-title {
-  color: #be123c;
+  color: #f03e6b;
 }
 
 .sec-violet {
-  background: #f5f3ff;
-  border: 3rpx solid #ddd6fe;
+  background: #f3efff;
+  border: 3rpx solid #d9ccff;
 }
 .sec-violet .sec-title {
-  color: #6d28d9;
+  color: #7c4dff;
 }
 
 .sec-violet-soft {
-  background: rgba(245, 243, 255, 0.5);
-  border: 3rpx solid #ddd6fe;
+  background: rgba(243, 239, 255, 0.6);
+  border: 3rpx solid #d9ccff;
 }
 .sec-violet-soft .sec-title {
-  color: #6d28d9;
+  color: #7c4dff;
 }

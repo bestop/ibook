@@ -3,7 +3,7 @@
   <view wx:if="{{loadError}}" class="card error-box">
     <view class="error-emoji">😵</view>
     <view class="error-text">{{loadError}}</view>
-    <button class="btn-ghost" bindtap="exit">返回</button>
+    <button hover-class="none" class="btn-ghost" bindtap="exit">返回</button>
   </view>
 
   <block wx:elif="{{ready}}">
@@ -50,7 +50,7 @@
     <view wx:if="{{answered}}" class="card explain-card {{isCorrect ? 'explain-ok' : 'explain-bad'}}">
       <view class="explain-head">{{isCorrect ? '🎉 回答正确！' : (picked === -1 ? '⏰ 时间到！' : '😅 答错啦～')}}</view>
       <view class="explain-text">{{question.explain}}</view>
-      <button class="btn-primary next-btn" bindtap="next">
+      <button hover-class="none" class="btn-primary next-btn" bindtap="next">
         {{lives <= 0 ? '查看结果' : (index >= total ? '查看结果' : '下一题 →')}}
       </button>
     </view>

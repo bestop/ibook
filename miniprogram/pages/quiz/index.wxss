@@ -11,11 +11,12 @@
   font-size: 70rpx;
 }
 .error-text {
-  color: #b45309;
-  font-weight: 700;
+  color: #e0407f;
+  font-weight: 800;
   margin: 20rpx 0 24rpx;
 }
 
+/* ===== 顶栏：进度 / 生命 / 金币 ===== */
 .quiz-head {
   display: flex;
   align-items: center;
@@ -23,9 +24,18 @@
   margin-bottom: 12rpx;
 }
 .quiz-progress {
-  font-size: 30rpx;
+  background: #fff;
+  border: 3rpx solid #efe7ff;
+  border-radius: 999rpx;
+  padding: 6rpx 22rpx;
+  font-size: 28rpx;
   font-weight: 900;
-  color: #9a3412;
+  color: #3d3a6e;
+  box-shadow: 0 5rpx 0 rgba(139, 108, 255, 0.12);
+}
+.quiz-lives {
+  display: flex;
+  align-items: center;
 }
 .heart {
   font-size: 30rpx;
@@ -34,11 +44,17 @@
 }
 .heart-on {
   opacity: 1;
+  animation: eggy-pop 0.35s ease-out;
 }
 .quiz-coins {
-  font-size: 28rpx;
+  background: #fff1bf;
+  border: 3rpx solid #fff;
+  border-radius: 999rpx;
+  padding: 6rpx 22rpx;
+  font-size: 26rpx;
   font-weight: 900;
-  color: #b45309;
+  color: #a16207;
+  box-shadow: 0 5rpx 0 rgba(240, 164, 0, 0.18);
 }
 
 .quiz-sub {
@@ -48,74 +64,88 @@
   margin-bottom: 12rpx;
 }
 .combo {
-  color: #ea580c;
+  background: #ffe3ee;
+  color: #e0407f;
+  border-radius: 999rpx;
+  padding: 4rpx 20rpx;
   font-weight: 900;
   font-size: 26rpx;
+  box-shadow: 0 5rpx 0 rgba(224, 64, 127, 0.15);
 }
 
+/* ===== 倒计时 ===== */
 .timer-track {
-  height: 16rpx;
-  background: #ffffff;
-  border: 2rpx solid #fde68a;
+  height: 18rpx;
+  background: #fff;
+  border: 3rpx solid #efe7ff;
   border-radius: 999rpx;
   overflow: hidden;
+  box-shadow: inset 0 3rpx 6rpx rgba(93, 74, 156, 0.1);
 }
 .timer-fill {
   height: 100%;
-  background: linear-gradient(90deg, #22c55e, #84cc16);
+  background: linear-gradient(90deg, #3ed598, #b4e33d);
   transition: width 1s linear;
 }
 .timer-danger {
-  background: linear-gradient(90deg, #ef4444, #f97316);
+  background: linear-gradient(90deg, #ff5e7e, #ff9f43);
 }
 .timer-num {
   text-align: right;
   font-size: 24rpx;
-  color: #b45309;
-  font-weight: 800;
+  color: #8a87b8;
+  font-weight: 900;
   margin: 8rpx 4rpx 16rpx;
 }
 .num-danger {
-  color: #dc2626;
+  color: #f03e6b;
 }
 
+/* ===== 题目卡 ===== */
 .question-card {
   margin-bottom: 20rpx;
+  animation: eggy-pop 0.3s ease-out;
 }
 .q-tag {
   display: inline-block;
-  background: #fef3c7;
-  color: #b45309;
+  background: #ffe3ee;
+  color: #e0407f;
   font-size: 20rpx;
-  font-weight: 800;
+  font-weight: 900;
   border-radius: 999rpx;
   padding: 4rpx 16rpx;
   margin-bottom: 12rpx;
 }
 .q-text {
   font-size: 34rpx;
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.6;
-  color: #431407;
+  color: #3d3a6e;
 }
 
+/* ===== 选项：果冻条 ===== */
 .option {
   display: flex;
   align-items: center;
   gap: 16rpx;
-  background: rgba(255, 255, 255, 0.92);
-  border: 3rpx solid #fde68a;
-  border-radius: 24rpx;
+  background: #fff;
+  border: 3rpx solid #efe7ff;
+  border-radius: 28rpx;
   padding: 24rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 18rpx;
+  box-shadow: 0 6rpx 0 rgba(139, 108, 255, 0.1);
   transition: all 0.15s;
+}
+.option:active {
+  transform: translateY(4rpx) scale(0.98);
+  box-shadow: 0 2rpx 0 rgba(139, 108, 255, 0.1);
 }
 .option-key {
   width: 52rpx;
   height: 52rpx;
   border-radius: 50%;
-  background: #fef3c7;
-  color: #b45309;
+  background: #ede4ff;
+  color: #7c4dff;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -126,49 +156,55 @@
 .option-text {
   font-size: 28rpx;
   font-weight: 700;
-  color: #431407;
+  color: #3d3a6e;
   line-height: 1.5;
 }
 .option-correct {
-  background: #dcfce7;
-  border-color: #22c55e;
+  background: #e2fbf1;
+  border-color: #3ed598;
+  box-shadow: 0 6rpx 0 rgba(14, 159, 110, 0.22);
+  animation: eggy-pop 0.3s ease-out;
 }
 .option-correct .option-key {
-  background: #22c55e;
+  background: #3ed598;
   color: #fff;
 }
 .option-wrong {
-  background: #fee2e2;
-  border-color: #ef4444;
+  background: #ffe9ef;
+  border-color: #ff5e7e;
+  box-shadow: 0 6rpx 0 rgba(240, 62, 107, 0.2);
 }
 .option-wrong .option-key {
-  background: #ef4444;
+  background: #ff5e7e;
   color: #fff;
 }
 .option-dim {
   opacity: 0.55;
 }
 
+/* ===== 解析卡 ===== */
 .explain-card {
   border-width: 3rpx;
 }
 .explain-ok {
-  background: #f0fdf4;
-  border-color: #86efac;
+  background: #f0fff9;
+  border-color: #a9f0d6;
+  box-shadow: 0 8rpx 0 rgba(14, 159, 110, 0.1), 0 16rpx 26rpx rgba(14, 159, 110, 0.08);
 }
 .explain-bad {
-  background: #fef2f2;
-  border-color: #fca5a5;
+  background: #fff0f4;
+  border-color: #ffc9da;
+  box-shadow: 0 8rpx 0 rgba(240, 62, 107, 0.08), 0 16rpx 26rpx rgba(240, 62, 107, 0.07);
 }
 .explain-head {
   font-size: 30rpx;
   font-weight: 900;
   margin-bottom: 10rpx;
-  color: #431407;
+  color: #3d3a6e;
 }
 .explain-text {
   font-size: 26rpx;
-  color: #57534e;
+  color: #5b5486;
   line-height: 1.6;
 }
 .next-btn {

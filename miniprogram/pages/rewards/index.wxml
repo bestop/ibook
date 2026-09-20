@@ -20,7 +20,7 @@
     </view>
     <view class="reward-right">
       <view class="reward-cost">🪙 {{item.cost}}</view>
-      <button
+      <button hover-class="none"
         class="btn-primary reward-btn {{item.affordable ? '' : 'disabled'}}"
         data-id="{{item.id}}"
         data-name="{{item.name}}"
@@ -36,7 +36,7 @@
     </view>
   </view>
 
-  <button class="btn-ghost add-btn" bindtap="toggleForm">{{showForm ? '收起表单' : '➕ 添加自定义奖励'}}</button>
+  <button hover-class="none" class="btn-ghost add-btn" bindtap="toggleForm">{{showForm ? '收起表单' : '➕ 添加自定义奖励'}}</button>
 
   <!-- 自定义表单 -->
   <view wx:if="{{showForm}}" class="card form-card">
@@ -52,7 +52,7 @@
       <text class="form-label">价格</text>
       <input class="form-input" type="number" value="{{formCost}}" bindinput="onFormCost" placeholder="金币数，如 150" />
     </view>
-    <button class="btn-primary" bindtap="saveReward">保存奖励</button>
+    <button hover-class="none" class="btn-primary" bindtap="saveReward">保存奖励</button>
   </view>
 
   <!-- 券包 -->
@@ -67,7 +67,7 @@
       </view>
     </view>
     <view wx:if="{{item.fulfilled}}" class="coupon-ok">✅ 已兑现</view>
-    <button wx:else class="btn-ghost coupon-btn" data-id="{{item.id}}" bindtap="fulfill">已兑现</button>
+    <button hover-class="none" wx:else class="btn-ghost coupon-btn" data-id="{{item.id}}" bindtap="fulfill">已兑现</button>
   </view>
 
   <view class="tabbar-space"></view>

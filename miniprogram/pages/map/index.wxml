@@ -13,7 +13,7 @@
   <view wx:if="{{loading}}" class="empty-tip">⏳ 题目准备中…</view>
   <view wx:elif="{{error}}" class="card error-box">
     <view class="error-text">😵 {{error}}</view>
-    <button class="btn-ghost retry-btn" bindtap="loadSubject">重试</button>
+    <button hover-class="none" class="btn-ghost retry-btn" bindtap="loadSubject">重试</button>
   </view>
 
   <block wx:else>
@@ -26,7 +26,7 @@
           <view class="daily-sub">已解锁单元随机 10 题，巩固复习</view>
         </view>
       </view>
-      <button class="btn-primary daily-btn {{dailyOpen ? '' : 'disabled'}}" catchtap="startDaily">开玩</button>
+      <button hover-class="none" class="btn-primary daily-btn {{dailyOpen ? '' : 'disabled'}}" catchtap="startDaily">开玩</button>
     </view>
 
     <view class="section-title">🏰 关卡地图（过一关解锁下一关）</view>

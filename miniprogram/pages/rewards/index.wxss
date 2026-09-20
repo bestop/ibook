@@ -12,22 +12,25 @@
 .head-name {
   font-size: 32rpx;
   font-weight: 900;
-  color: #c2410c;
+  color: #3d3a6e;
 }
 .head-sub {
   font-size: 22rpx;
-  color: #78716c;
+  color: #8a87b8;
   margin-top: 6rpx;
 }
 .coin-badge {
-  background: #fef3c7;
-  color: #b45309;
+  background: #ffe066;
+  border: 3rpx solid #fff;
+  color: #8a5a00;
   font-size: 30rpx;
   font-weight: 900;
   border-radius: 999rpx;
   padding: 12rpx 26rpx;
+  box-shadow: 0 6rpx 0 rgba(138, 90, 0, 0.16);
 }
 
+/* ===== 奖励列表 ===== */
 .reward-card {
   display: flex;
   align-items: center;
@@ -35,7 +38,18 @@
   margin-bottom: 16rpx;
 }
 .reward-emoji {
-  font-size: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84rpx;
+  height: 84rpx;
+  font-size: 52rpx;
+  background: linear-gradient(135deg, #fff0f8, #f1ecff);
+  border: 3rpx solid #fff;
+  border-radius: 28rpx;
+  box-shadow: 0 6rpx 0 rgba(139, 108, 255, 0.14);
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 .reward-main {
   flex: 1;
@@ -44,11 +58,11 @@
 .reward-name {
   font-size: 29rpx;
   font-weight: 900;
-  color: #431407;
+  color: #3d3a6e;
 }
 .reward-desc {
   font-size: 22rpx;
-  color: #78716c;
+  color: #8a87b8;
   margin-top: 4rpx;
 }
 .reward-right {
@@ -60,7 +74,7 @@
 .reward-cost {
   font-size: 24rpx;
   font-weight: 900;
-  color: #b45309;
+  color: #e08600;
 }
 .reward-btn {
   padding: 8rpx 28rpx;
@@ -68,7 +82,7 @@
 }
 .reward-del {
   font-size: 20rpx;
-  color: #a8a29e;
+  color: #c9c4e8;
   padding: 2rpx 10rpx;
 }
 
@@ -88,21 +102,23 @@
   width: 90rpx;
   font-size: 26rpx;
   font-weight: 800;
-  color: #9a3412;
+  color: #3d3a6e;
 }
 .form-input {
   flex: 1;
-  background: #fffbeb;
-  border: 2rpx solid #fde68a;
-  border-radius: 16rpx;
+  background: #faf8ff;
+  border: 3rpx solid #e5deff;
+  border-radius: 20rpx;
   padding: 14rpx 20rpx;
   font-size: 28rpx;
+  font-weight: 600;
 }
 .form-emoji {
   flex: 0 0 140rpx;
   text-align: center;
 }
 
+/* ===== 券包 ===== */
 .coupon {
   display: flex;
   align-items: center;
@@ -124,16 +140,16 @@
 .coupon-name {
   font-size: 27rpx;
   font-weight: 800;
-  color: #431407;
+  color: #3d3a6e;
 }
 .coupon-time {
   font-size: 20rpx;
-  color: #a8a29e;
+  color: #a5a1cc;
   margin-top: 4rpx;
 }
 .coupon-ok {
-  color: #047857;
-  font-weight: 800;
+  color: #0e9f6e;
+  font-weight: 900;
   font-size: 24rpx;
 }
 .coupon-btn {

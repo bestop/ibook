@@ -13,17 +13,21 @@
   align-items: center;
   gap: 16rpx;
 }
+.head-texts {
+  min-width: 0;
+}
 .head-emoji {
   font-size: 60rpx;
+  animation: eggy-wobble 3.6s ease-in-out infinite;
 }
 .head-name {
   font-size: 34rpx;
   font-weight: 900;
-  color: #c2410c;
+  color: #3d3a6e;
 }
 .head-sub {
   font-size: 24rpx;
-  color: #78716c;
+  color: #8a87b8;
   margin-top: 4rpx;
 }
 
@@ -31,20 +35,23 @@
   text-align: center;
 }
 .error-text {
-  color: #b45309;
-  font-weight: 700;
+  color: #e0407f;
+  font-weight: 800;
   margin-bottom: 20rpx;
 }
 .retry-btn {
   margin: 0 60rpx;
 }
 
+/* ===== 每日挑战：粉紫糖果卡 ===== */
 .daily-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20rpx 0 8rpx;
-  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  background: linear-gradient(135deg, #fff0f8, #f3e8ff);
+  border-color: #ffd3e8;
+  box-shadow: 0 10rpx 0 rgba(224, 64, 127, 0.08), 0 18rpx 30rpx rgba(93, 74, 156, 0.08);
 }
 .daily-left {
   display: flex;
@@ -53,15 +60,16 @@
 }
 .daily-emoji {
   font-size: 56rpx;
+  animation: eggy-spin 7s linear infinite;
 }
 .daily-name {
   font-size: 30rpx;
   font-weight: 900;
-  color: #92400e;
+  color: #c22c77;
 }
 .daily-sub {
   font-size: 22rpx;
-  color: #b45309;
+  color: #8a87b8;
   margin-top: 4rpx;
 }
 .daily-btn {
@@ -69,27 +77,35 @@
   font-size: 26rpx;
 }
 
+/* ===== 关卡地图 ===== */
 .level-card {
   display: flex;
   align-items: center;
   gap: 20rpx;
   margin-bottom: 18rpx;
+  transition: transform 0.15s ease;
+}
+.level-card:active {
+  transform: scale(0.97);
 }
 .level-locked {
-  opacity: 0.62;
+  opacity: 0.55;
 }
 .level-index {
   width: 64rpx;
   height: 64rpx;
   border-radius: 50%;
-  background: #ffedd5;
-  color: #c2410c;
+  background: #d9f1ff;
+  border: 3rpx solid #fff;
+  color: #1e88d0;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30rpx;
   flex-shrink: 0;
+  box-shadow: 0 5rpx 0 rgba(30, 136, 208, 0.16);
+  box-sizing: border-box;
 }
 .level-main {
   flex: 1;
@@ -98,11 +114,11 @@
 .level-name {
   font-size: 30rpx;
   font-weight: 900;
-  color: #431407;
+  color: #3d3a6e;
 }
 .level-title {
   font-size: 22rpx;
-  color: #78716c;
+  color: #8a87b8;
   margin-top: 4rpx;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -115,21 +131,22 @@
   gap: 4rpx;
 }
 .star {
-  color: #e7e5e4;
+  color: #d9d6f2;
   font-size: 26rpx;
 }
 .star-on {
-  color: #f59e0b;
+  color: #ffc53d;
+  text-shadow: 0 2rpx 0 rgba(240, 164, 0, 0.35);
 }
 .level-done {
   margin-left: 12rpx;
   font-size: 20rpx;
-  color: #047857;
-  font-weight: 800;
+  color: #0e9f6e;
+  font-weight: 900;
 }
 .level-lock {
   font-size: 32rpx;
-  color: #ea580c;
+  color: #ff4d8d;
   font-weight: 900;
 }
 .tabbar-space {

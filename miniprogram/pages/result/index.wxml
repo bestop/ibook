@@ -30,9 +30,9 @@
     <view wx:if="{{!passed && mode === 'level'}}" class="result-note">💔 生命用完，本局金币减半入账</view>
     <view wx:if="{{newly}}" class="result-note">🏆 解锁成就：{{newly}}</view>
 
-    <button class="btn-primary result-btn" bindtap="onRetry">
+    <button hover-class="none" class="btn-primary result-btn" bindtap="onRetry">
       {{mode === 'level' ? '返回关卡地图' : (mode === 'review' ? '返回错题本' : '返回地图')}}
     </button>
-    <button class="btn-ghost result-btn" bindtap="onHome">回首页</button>
+    <button hover-class="none" class="btn-ghost result-btn" bindtap="onHome">回首页</button>
   </view>
 </view>
