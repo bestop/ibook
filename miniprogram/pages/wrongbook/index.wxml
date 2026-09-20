@@ -1,0 +1,30 @@
+<view class="page">
+  <view class="head card">
+    <view>
+      <view class="head-name">📕 我的错题本</view>
+      <view class="head-sub">答错的题会自动收进来，复习答对即「消灭」</view>
+    </view>
+    <view class="tag">{{wrongCount}} 题</view>
+  </view>
+
+  <view wx:if="{{items.length === 0}}" class="card empty-tip">
+    <view style="font-size: 70rpx">🎉</view>
+    <view style="margin-top: 16rpx">错题本空空如也，太棒了！</view>
+  </view>
+
+  <block wx:else>
+    <button class="btn-primary review-btn" bindtap="startReview">📖 开始复习（随机 10 题）</button>
+
+    <view class="section-title">待消灭错题</view>
+    <view wx:for="{{items}}" wx:key="qid" class="card wrong-card">
+      <view class="wrong-q">{{item.q}}</view>
+      <view class="wrong-meta">
+        <text class="tag">{{item.subjectId}}</text>
+        <text class="wrong-count">答错 {{item.count}} 次</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="tabbar-space"></view>
+  <mp-tabbar active="wrongbook" wrong-count="{{wrongCount}}" />
+</view>

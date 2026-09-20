@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/map/index",
+    "pages/quiz/index",
+    "pages/result/index",
+    "pages/wrongbook/index",
+    "pages/rewards/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFF7ED",
+    "navigationBarTitleText": "小明乐学岛",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FFF7ED",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

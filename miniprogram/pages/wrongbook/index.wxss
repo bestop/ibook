@@ -1,0 +1,47 @@
+.page {
+  padding: 24rpx 24rpx 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+.head-name {
+  font-size: 32rpx;
+  font-weight: 900;
+  color: #c2410c;
+}
+.head-sub {
+  font-size: 22rpx;
+  color: #78716c;
+  margin-top: 6rpx;
+}
+.review-btn {
+  margin-bottom: 8rpx;
+}
+.wrong-card {
+  margin-bottom: 16rpx;
+}
+.wrong-q {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #431407;
+  line-height: 1.6;
+}
+.wrong-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+}
+.wrong-count {
+  font-size: 22rpx;
+  color: #dc2626;
+  font-weight: 800;
+}
+.tabbar-space {
+  height: 140rpx;
+}

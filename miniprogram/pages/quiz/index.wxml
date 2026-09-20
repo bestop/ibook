@@ -1,0 +1,60 @@
+<view class="page">
+  <!-- 加载 / 错误 -->
+  <view wx:if="{{loadError}}" class="card error-box">
+    <view class="error-emoji">😵</view>
+    <view class="error-text">{{loadError}}</view>
+    <button class="btn-ghost" bindtap="exit">返回</button>
+  </view>
+
+  <block wx:elif="{{ready}}">
+    <!-- 顶栏：进度 / 生命 / 金币 -->
+    <view class="quiz-head">
+      <view class="quiz-progress">{{index}}/{{total}}</view>
+      <view class="quiz-lives">
+        <text wx:for="{{[1,2,3]}}" wx:key="*this" class="heart {{item <= lives ? 'heart-on' : ''}}">❤️</text>
+      </view>
+      <view class="quiz-coins">🪙 {{coinsEarned}}</view>
+    </view>
+
+    <!-- 模式与连击 -->
+    <view class="quiz-sub">
+      <text class="tag">{{subjectName}} · {{title}}</text>
+      <text wx:if="{{combo >= 2}}" class="combo">🔥 连击 ×{{combo}}</text>
+    </view>
+
+    <!-- 倒计时 -->
+    <view class="timer-track">
+      <view class="timer-fill {{timePct <= 25 ? 'timer-danger' : ''}}" style="width: {{timePct}}%"></view>
+    </view>
+    <view class="timer-num {{timePct <= 25 ? 'num-danger' : ''}}">⏰ {{timeLeft}}s</view>
+
+    <!-- 题目 -->
+    <view class="card question-card">
+      <view class="q-tag" wx:if="{{question.tag}}">{{question.tag}}</view>
+      <view class="q-text">{{question.q}}</view>
+    </view>
+
+    <!-- 选项 -->
+    <view
+      wx:for="{{options}}"
+      wx:key="*this"
+      class="option {{answered && item === question.options[question.answer] ? 'option-correct' : ''}} {{answered && picked === index && !isCorrect ? 'option-wrong' : ''}} {{answered && picked !== index && item !== question.options[question.answer] ? 'option-dim' : ''}}"
+      data-idx="{{index}}"
+      bindtap="pick"
+    >
+      <text class="option-key">{{['A','B','C','D'][index]}}</text>
+      <text class="option-text">{{item}}</text>
+    </view>
+
+    <!-- 解析 -->
+    <view wx:if="{{answered}}" class="card explain-card {{isCorrect ? 'explain-ok' : 'explain-bad'}}">
+      <view class="explain-head">{{isCorrect ? '🎉 回答正确！' : (picked === -1 ? '⏰ 时间到！' : '😅 答错啦～')}}</view>
+      <view class="explain-text">{{question.explain}}</view>
+      <button class="btn-primary next-btn" bindtap="next">
+        {{lives <= 0 ? '查看结果' : (index >= total ? '查看结果' : '下一题 →')}}
+      </button>
+    </view>
+  </block>
+
+  <view class="tabbar-space"></view>
+</view>

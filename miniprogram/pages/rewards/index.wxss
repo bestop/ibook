@@ -1,0 +1,145 @@
+.page {
+  padding: 24rpx 24rpx 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+.head-name {
+  font-size: 32rpx;
+  font-weight: 900;
+  color: #c2410c;
+}
+.head-sub {
+  font-size: 22rpx;
+  color: #78716c;
+  margin-top: 6rpx;
+}
+.coin-badge {
+  background: #fef3c7;
+  color: #b45309;
+  font-size: 30rpx;
+  font-weight: 900;
+  border-radius: 999rpx;
+  padding: 12rpx 26rpx;
+}
+
+.reward-card {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  margin-bottom: 16rpx;
+}
+.reward-emoji {
+  font-size: 56rpx;
+}
+.reward-main {
+  flex: 1;
+  min-width: 0;
+}
+.reward-name {
+  font-size: 29rpx;
+  font-weight: 900;
+  color: #431407;
+}
+.reward-desc {
+  font-size: 22rpx;
+  color: #78716c;
+  margin-top: 4rpx;
+}
+.reward-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+.reward-cost {
+  font-size: 24rpx;
+  font-weight: 900;
+  color: #b45309;
+}
+.reward-btn {
+  padding: 8rpx 28rpx;
+  font-size: 24rpx;
+}
+.reward-del {
+  font-size: 20rpx;
+  color: #a8a29e;
+  padding: 2rpx 10rpx;
+}
+
+.add-btn {
+  margin: 8rpx 0 20rpx;
+}
+.form-card {
+  margin-bottom: 20rpx;
+}
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 18rpx;
+}
+.form-label {
+  width: 90rpx;
+  font-size: 26rpx;
+  font-weight: 800;
+  color: #9a3412;
+}
+.form-input {
+  flex: 1;
+  background: #fffbeb;
+  border: 2rpx solid #fde68a;
+  border-radius: 16rpx;
+  padding: 14rpx 20rpx;
+  font-size: 28rpx;
+}
+.form-emoji {
+  flex: 0 0 140rpx;
+  text-align: center;
+}
+
+.coupon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14rpx;
+  padding: 22rpx;
+}
+.coupon-done {
+  opacity: 0.6;
+}
+.coupon-left {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+.coupon-emoji {
+  font-size: 44rpx;
+}
+.coupon-name {
+  font-size: 27rpx;
+  font-weight: 800;
+  color: #431407;
+}
+.coupon-time {
+  font-size: 20rpx;
+  color: #a8a29e;
+  margin-top: 4rpx;
+}
+.coupon-ok {
+  color: #047857;
+  font-weight: 800;
+  font-size: 24rpx;
+}
+.coupon-btn {
+  padding: 8rpx 24rpx;
+  font-size: 22rpx;
+}
+.tabbar-space {
+  height: 140rpx;
+}

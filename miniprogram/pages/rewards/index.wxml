@@ -1,0 +1,75 @@
+<view class="page">
+  <view class="head card">
+    <view>
+      <view class="head-name">🎁 礼物屋</view>
+      <view class="head-sub">用金币兑换亲子奖励，记得提醒爸爸妈妈兑现哦</view>
+    </view>
+    <view class="coin-badge">🪙 {{coins}}</view>
+  </view>
+
+  <!-- 奖励列表 -->
+  <view
+    wx:for="{{rewards}}"
+    wx:key="id"
+    class="card reward-card"
+  >
+    <view class="reward-emoji">{{item.emoji}}</view>
+    <view class="reward-main">
+      <view class="reward-name">{{item.name}}</view>
+      <view class="reward-desc">{{item.desc}}</view>
+    </view>
+    <view class="reward-right">
+      <view class="reward-cost">🪙 {{item.cost}}</view>
+      <button
+        class="btn-primary reward-btn {{item.affordable ? '' : 'disabled'}}"
+        data-id="{{item.id}}"
+        data-name="{{item.name}}"
+        data-cost="{{item.cost}}"
+        bindtap="redeem"
+      >兑换</button>
+      <view
+        wx:if="{{item.custom}}"
+        class="reward-del"
+        data-id="{{item.id}}"
+        bindtap="removeReward"
+      >删除</view>
+    </view>
+  </view>
+
+  <button class="btn-ghost add-btn" bindtap="toggleForm">{{showForm ? '收起表单' : '➕ 添加自定义奖励'}}</button>
+
+  <!-- 自定义表单 -->
+  <view wx:if="{{showForm}}" class="card form-card">
+    <view class="form-row">
+      <text class="form-label">图标</text>
+      <input class="form-input form-emoji" value="{{formEmoji}}" bindinput="onFormEmoji" maxlength="4" />
+    </view>
+    <view class="form-row">
+      <text class="form-label">名称</text>
+      <input class="form-input" value="{{formName}}" bindinput="onFormName" placeholder="如：周末去动物园" maxlength="12" />
+    </view>
+    <view class="form-row">
+      <text class="form-label">价格</text>
+      <input class="form-input" type="number" value="{{formCost}}" bindinput="onFormCost" placeholder="金币数，如 150" />
+    </view>
+    <button class="btn-primary" bindtap="saveReward">保存奖励</button>
+  </view>
+
+  <!-- 券包 -->
+  <view class="section-title">🎫 券包（兑换记录）</view>
+  <view wx:if="{{redeemLog.length === 0}}" class="card empty-tip">还没有兑换记录，攒够金币快来换奖励吧～</view>
+  <view wx:for="{{redeemLog}}" wx:key="id" class="card coupon {{item.fulfilled ? 'coupon-done' : ''}}">
+    <view class="coupon-left">
+      <text class="coupon-emoji">{{item.emoji}}</text>
+      <view>
+        <view class="coupon-name">{{item.name}}</view>
+        <view class="coupon-time">🪙 -{{item.cost}} · {{item.timeText || ''}}</view>
+      </view>
+    </view>
+    <view wx:if="{{item.fulfilled}}" class="coupon-ok">✅ 已兑现</view>
+    <button wx:else class="btn-ghost coupon-btn" data-id="{{item.id}}" bindtap="fulfill">已兑现</button>
+  </view>
+
+  <view class="tabbar-space"></view>
+  <mp-tabbar active="rewards" />
+</view>

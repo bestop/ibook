@@ -1,0 +1,89 @@
+<view class="page">
+  <!-- 顶部资源栏 -->
+  <view class="header">
+    <view class="header-left">
+      <text class="logo">🏝️</text>
+      <text class="title">小明乐学岛</text>
+    </view>
+    <view class="badge-row">
+      <view class="badge gold">🪙 {{coins}}</view>
+      <view class="badge orange">⭐ {{stars}}</view>
+      <view class="badge green">🔥 {{streak}}天</view>
+    </view>
+  </view>
+
+  <!-- 加载 / 错误态 -->
+  <view wx:if="{{loading}}" class="empty-tip">🏝️ 正在从网页端同步教材内容…</view>
+  <view wx:elif="{{error && subjects.length === 0}}" class="error-box card">
+    <view class="error-emoji">😵</view>
+    <view class="error-text">教材内容同步失败：{{error}}</view>
+    <button class="btn-primary retry-btn" bindtap="retry">重新加载</button>
+    <view class="error-hint">需要网络连接 www.hikid.org</view>
+  </view>
+
+  <block wx:else>
+    <view wx:if="{{error}}" class="offline-tip">{{error}}</view>
+
+    <!-- 今日 20 分钟 -->
+    <view class="card today-card">
+      <view class="today-head">
+        <text class="today-title">⛵ 今日 20 分钟小目标</text>
+        <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
+      </view>
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{minutePct}}%"></view>
+      </view>
+    </view>
+
+    <!-- 三维教材选择器 -->
+    <view class="picker-row">
+      <picker mode="selector" range="{{gradeLabels}}" value="{{gradeIndex}}" bindchange="onPickGrade">
+        <view class="picker-btn">🎓 {{gradeLabels[gradeIndex]}} ▾</view>
+      </picker>
+      <picker mode="selector" range="{{termLabels}}" value="{{termIndex}}" bindchange="onPickTerm">
+        <view class="picker-btn">📖 {{termLabels[termIndex]}} ▾</view>
+      </picker>
+      <picker mode="selector" range="{{publisherLabels}}" value="{{pubIndex}}" bindchange="onPickPublisher">
+        <view class="picker-btn">📚 {{publisherLabels[pubIndex]}} ▾</view>
+      </picker>
+    </view>
+
+    <!-- 科目岛列表 -->
+    <view class="section-title">🗺️ 选一个岛出发</view>
+
+    <view wx:if="{{termIndex === 1}}" class="card empty-tip">
+      <view style="font-size: 60rpx">🏗️</view>
+      <view style="margin: 16rpx 0">下册内容建设中，先去玩上册吧～</view>
+      <button class="btn-ghost back-btn" bindtap="backToA">回到上册</button>
+    </view>
+
+    <view wx:elif="{{subjects.length === 0}}" class="card empty-tip">这个组合下暂无科目岛，换个版本试试～</view>
+
+    <view
+      wx:for="{{subjects}}"
+      wx:key="id"
+      class="card subject-card"
+      data-id="{{item.id}}"
+      data-name="{{item.grade}}{{item.name}}"
+      bindtap="openSubject"
+    >
+      <view class="subject-left">
+        <text class="subject-emoji">{{item.emoji}}</text>
+      </view>
+      <view class="subject-main">
+        <view class="subject-name-row">
+          <text class="subject-name">{{item.name}}岛</text>
+          <text wx:if="{{item.badge}}" class="tag">{{item.badge}}</text>
+        </view>
+        <view class="subject-tagline">{{item.tagline}}</view>
+        <view class="subject-meta">📖 {{item.publisher}}</view>
+      </view>
+      <view class="subject-go">出发 ›</view>
+    </view>
+
+    <view wx:if="{{error && subjects.length > 0}}" class="offline-tip">{{error}}</view>
+  </block>
+
+  <view class="tabbar-space"></view>
+  <mp-tabbar active="home" wrong-count="{{wrongCount}}" />
+</view>

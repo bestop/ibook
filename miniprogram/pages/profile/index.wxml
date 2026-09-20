@@ -1,0 +1,56 @@
+<view class="page">
+  <!-- 签到卡 -->
+  <view class="card sign-card">
+    <view class="sign-left">
+      <view class="sign-name">📅 每日签到</view>
+      <view class="sign-sub">已连续签到 {{streak}} 天</view>
+    </view>
+    <button class="btn-primary sign-btn {{signedToday ? 'disabled' : ''}}" bindtap="doSignIn" disabled="{{signedToday}}">
+      {{signedToday ? '今日已签' : '签到 +10🪙'}}
+    </button>
+  </view>
+
+  <!-- 每日任务 -->
+  <view class="section-title">🎯 今日任务（完成自动发金币）</view>
+  <view class="card">
+    <view class="task {{dailyDone.level ? 'task-done' : ''}}">
+      <text>{{dailyDone.level ? '✅' : '⬜'}} 完成 1 次闯关</text><text class="task-coin">+{{taskRewards.level}}🪙</text>
+    </view>
+    <view class="task {{dailyDone.minutes ? 'task-done' : ''}}">
+      <text>{{dailyDone.minutes ? '✅' : '⬜'}} 玩满 20 分钟（{{todayMinutes}}/20）</text><text class="task-coin">+{{taskRewards.minutes}}🪙</text>
+    </view>
+    <view class="task {{dailyDone.review ? 'task-done' : ''}}">
+      <text>{{dailyDone.review ? '✅' : '⬜'}} 复习答对 5 道错题（{{todayReviewCorrect}}/5）</text><text class="task-coin">+{{taskRewards.review}}🪙</text>
+    </view>
+  </view>
+
+  <!-- 学习统计 -->
+  <view class="section-title">📊 学习统计</view>
+  <view class="card stats-grid">
+    <view class="stat"><view class="stat-num">🪙 {{coins}}</view><view class="stat-label">金币</view></view>
+    <view class="stat"><view class="stat-num">⭐ {{stars}}</view><view class="stat-label">星星</view></view>
+    <view class="stat"><view class="stat-num">🏰 {{totalCompleted}}</view><view class="stat-label">通过关卡</view></view>
+    <view class="stat"><view class="stat-num">✅ {{totalCorrect}}</view><view class="stat-label">答对</view></view>
+    <view class="stat"><view class="stat-num">❌ {{totalWrong}}</view><view class="stat-label">答错</view></view>
+    <view class="stat"><view class="stat-num">🔥 {{streak}}</view><view class="stat-label">连签天数</view></view>
+  </view>
+
+  <!-- 成就墙 -->
+  <view class="section-title">🏆 成就墙（{{unlockedCount}}/{{achievements.length}}）</view>
+  <view class="ach-grid">
+    <view wx:for="{{achievements}}" wx:key="id" class="ach {{item.unlocked ? 'ach-on' : ''}}">
+      <view class="ach-emoji">{{item.emoji}}</view>
+      <view class="ach-name">{{item.name}}</view>
+    </view>
+  </view>
+
+  <!-- 说明与重置 -->
+  <view class="card about-card">
+    <view class="about-line">📖 教材与题目内容实时同步自网页版 www.hikid.org</view>
+    <view class="about-line">💾 学习进度保存在本机微信中，无需注册</view>
+    <view class="reset-link" bindtap="doReset">🗑️ 家长专区：重置全部进度</view>
+  </view>
+
+  <view class="tabbar-space"></view>
+  <mp-tabbar active="profile" />
+</view>

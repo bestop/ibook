@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "小明乐学岛",
+  "usingComponents": {
+    "mp-tabbar": "/components/mp-tabbar/index"
+  }
+}

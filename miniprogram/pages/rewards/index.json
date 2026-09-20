@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "礼物屋",
+  "usingComponents": {
+    "mp-tabbar": "/components/mp-tabbar/index"
+  }
+}

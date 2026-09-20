@@ -1,0 +1,13 @@
+<view class="tabbar">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="tab {{active === item.key ? 'tab-active' : ''}}"
+    data-key="{{item.key}}"
+    data-url="{{item.url}}"
+    bindtap="onTap"
+  >
+    <view class="tab-emoji">{{item.emoji}}</view>
+    <view class="tab-label">{{item.label}}{{item.key === 'wrongbook' && wrongCount > 0 ? '(' + wrongCount + ')' : ''}}</view>
+  </view>
+</view>

@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="head card">
+    <view class="head-title">
+      <text class="head-emoji">{{subject.emoji}}</text>
+      <view class="head-texts">
+        <view class="head-name">{{subjectName}}</view>
+        <view class="head-sub">{{stats.completed}}/{{stats.total}} 关 · ⭐ {{stats.stars}}</view>
+      </view>
+    </view>
+    <view class="tag">{{subject.badge || '教材同步自网页版'}}</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty-tip">⏳ 题库同步中…</view>
+  <view wx:elif="{{error}}" class="card error-box">
+    <view class="error-text">😵 {{error}}</view>
+    <button class="btn-ghost retry-btn" bindtap="loadSubject">重试</button>
+  </view>
+
+  <block wx:else>
+    <!-- 每日挑战 -->
+    <view class="card daily-card" bindtap="startDaily">
+      <view class="daily-left">
+        <text class="daily-emoji">🎡</text>
+        <view>
+          <view class="daily-name">每日挑战</view>
+          <view class="daily-sub">已解锁单元随机 10 题，巩固复习</view>
+        </view>
+      </view>
+      <button class="btn-primary daily-btn {{dailyOpen ? '' : 'disabled'}}" catchtap="startDaily">开玩</button>
+    </view>
+
+    <view class="section-title">🏰 关卡地图（过一关解锁下一关）</view>
+
+    <view
+      wx:for="{{levels}}"
+      wx:key="id"
+      class="card level-card {{item.unlocked ? '' : 'level-locked'}}"
+      data-id="{{item.id}}"
+      data-unlocked="{{item.unlocked}}"
+      bindtap="startLevel"
+    >
+      <view class="level-index">{{item.index}}</view>
+      <view class="level-main">
+        <view class="level-name">{{item.emoji}} {{item.name}}</view>
+        <view class="level-title">{{item.title}}</view>
+        <view class="level-stars">
+          <text wx:for="{{[1,2,3]}}" wx:for-item="s" wx:key="*this" class="star {{s <= item.stars ? 'star-on' : ''}}">★</text>
+          <text wx:if="{{item.completed}}" class="level-done">已通关</text>
+        </view>
+      </view>
+      <view class="level-lock">{{item.unlocked ? '▶' : '🔒'}}</view>
+    </view>
+  </block>
+
+  <view class="tabbar-space"></view>
+</view>

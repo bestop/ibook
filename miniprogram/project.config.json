@@ -1,0 +1,25 @@
+{
+  "description": "小明乐学岛小程序端 · 教材与闯关内容从网页版 https://www.hikid.org 实时获取",
+  "packOptions": {
+    "ignore": [
+      { "type": "file", "value": "README.md" }
+    ]
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.4.10",
+  "appid": "touristappid",
+  "projectname": "xiaoming-learch-island",
+  "condition": {}
+}

@@ -1,0 +1,87 @@
+/* 全局风格：暖色卡通风，与网页版一致 */
+page {
+  background: linear-gradient(180deg, #fffbeb 0%, #fff7ed 45%, #ffedd5 100%);
+  background-attachment: fixed;
+  font-size: 30rpx;
+  color: #431407;
+  font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3rpx solid #fde68a;
+  border-radius: 32rpx;
+  box-shadow: 0 8rpx 24rpx rgba(249, 115, 22, 0.08);
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #f97316, #f59e0b);
+  color: #fff;
+  border-radius: 999rpx;
+  font-weight: 800;
+  text-align: center;
+  padding: 22rpx 0;
+  font-size: 32rpx;
+  box-shadow: 0 8rpx 20rpx rgba(249, 115, 22, 0.35);
+}
+.btn-primary.disabled {
+  opacity: 0.45;
+  box-shadow: none;
+}
+.btn-ghost {
+  background: #fff;
+  color: #ea580c;
+  border: 3rpx solid #fdba74;
+  border-radius: 999rpx;
+  font-weight: 800;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+}
+.btn-ghost.disabled {
+  opacity: 0.45;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.badge-row {
+  display: flex;
+  gap: 14rpx;
+}
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.badge.gold { background: #fef3c7; color: #b45309; }
+.badge.orange { background: #ffedd5; color: #c2410c; }
+.badge.green { background: #d1fae5; color: #047857; }
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #9a3412;
+  margin: 34rpx 6rpx 18rpx;
+}
+
+.empty-tip {
+  text-align: center;
+  color: #b45309;
+  font-weight: 700;
+  padding: 60rpx 0;
+}

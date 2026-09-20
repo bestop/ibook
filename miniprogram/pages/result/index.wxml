@@ -1,0 +1,38 @@
+<view class="page">
+  <view class="card result-card">
+    <view class="result-emoji">{{passed ? (stars === 3 ? '🏆' : '🎉') : (mode === 'review' ? '📖' : '💪')}}</view>
+    <view class="result-title">
+      {{mode === 'review' ? '复习完成！' : (passed ? (stars === 3 ? '满分通关！太棒了！' : '通关成功！') : '挑战失败，再接再厉！')}}
+    </view>
+    <view class="result-sub">{{name}} · {{unit || (mode === 'daily' ? '每日挑战' : '')}}</view>
+
+    <!-- 星级 -->
+    <view wx:if="{{mode !== 'review'}}" class="result-stars">
+      <text wx:for="{{[1,2,3]}}" wx:key="*this" class="big-star {{item <= stars ? 'big-star-on' : ''}}">★</text>
+    </view>
+
+    <!-- 数据 -->
+    <view class="result-stats">
+      <view class="stat">
+        <view class="stat-num">{{correct}}/{{total}}</view>
+        <view class="stat-label">答对题数</view>
+      </view>
+      <view class="stat">
+        <view class="stat-num">+{{finalCoins}}</view>
+        <view class="stat-label">获得金币</view>
+      </view>
+      <view class="stat" wx:if="{{taskCoins > 0}}">
+        <view class="stat-num">+{{taskCoins}}</view>
+        <view class="stat-label">每日任务</view>
+      </view>
+    </view>
+
+    <view wx:if="{{!passed && mode === 'level'}}" class="result-note">💔 生命用完，本局金币减半入账</view>
+    <view wx:if="{{newly}}" class="result-note">🏆 解锁成就：{{newly}}</view>
+
+    <button class="btn-primary result-btn" bindtap="onRetry">
+      {{mode === 'level' ? '返回关卡地图' : (mode === 'review' ? '返回错题本' : '返回地图')}}
+    </button>
+    <button class="btn-ghost result-btn" bindtap="onHome">回首页</button>
+  </view>
+</view>
