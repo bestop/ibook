@@ -1,76 +1,97 @@
-/* 全局风格：蛋仔派对风 · 糖果果冻卡通风 */
+/* 全局风格：蛋仔派对风 · 湖蓝×活力黄 潮玩盲盒卡通（大圆角/软塑胶/糖果浅色） */
 page {
-  background-color: #cdefff;
+  background-color: #eaf8ff;
   background-image:
-    radial-gradient(circle at 10% 6%, rgba(255, 255, 255, 0.6) 0, rgba(255, 255, 255, 0) 16%),
-    radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.55) 0, rgba(255, 255, 255, 0) 14%),
-    radial-gradient(circle at 82% 30%, rgba(255, 211, 53, 0.2) 0, rgba(255, 211, 53, 0) 12%),
-    radial-gradient(circle at 8% 32%, rgba(255, 77, 141, 0.12) 0, rgba(255, 77, 141, 0) 14%),
-    linear-gradient(180deg, #a8e6ff 0%, #cfefff 24%, #ffe9f5 62%, #fff7ea 100%);
+    radial-gradient(circle at 12% 6%, rgba(255, 255, 255, 0.75) 0, rgba(255, 255, 255, 0) 14%),
+    radial-gradient(circle at 88% 9%, rgba(255, 255, 255, 0.65) 0, rgba(255, 255, 255, 0) 13%),
+    radial-gradient(circle at 78% 26%, rgba(255, 214, 102, 0.18) 0, rgba(255, 214, 102, 0) 10%),
+    radial-gradient(circle at 6% 30%, rgba(255, 153, 204, 0.1) 0, rgba(255, 153, 204, 0) 12%),
+    radial-gradient(circle at 30% 12%, rgba(62, 198, 255, 0.12) 0, rgba(62, 198, 255, 0) 10%),
+    linear-gradient(180deg, #ddf3ff 0%, #eaf8ff 26%, #ffeff7 62%, #fff9f0 100%);
   background-attachment: fixed;
   font-size: 30rpx;
   color: #3d3a6e;
-  font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  font-family: 'Yuanti SC', 'YouYuan', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 button.btn-primary::after,
-button.btn-ghost::after {
+button.btn-ghost::after,
+button.btn-sun::after {
   border: none;
 }
 
-/* ===== 果冻卡片 ===== */
+/* ===== 半悬浮果冻卡片：大圆角 + 轻微厚度 + 柔和投影 ===== */
 .card {
   background: #fff;
-  border: 3rpx solid #efe7ff;
-  border-radius: 36rpx;
-  box-shadow: 0 10rpx 0 rgba(139, 108, 255, 0.1), 0 18rpx 30rpx rgba(93, 74, 156, 0.08);
+  border: 3rpx solid #f2edff;
+  border-radius: 40rpx;
+  box-shadow: 0 8rpx 0 rgba(148, 180, 255, 0.1), 0 24rpx 44rpx rgba(93, 74, 156, 0.12);
   padding: 28rpx;
   box-sizing: border-box;
 }
 
-/* ===== 果冻按钮 ===== */
+/* ===== 大号果冻按钮：亮湖蓝主 CTA，弹动回弹 ===== */
 .btn-primary {
   position: relative;
-  background: linear-gradient(180deg, #ff8fb8 0%, #ff5e9c 55%, #ff4d8d 100%);
+  background: linear-gradient(180deg, #56cdff 0%, #2bb3f5 55%, #1fa9ec 100%);
   color: #fff;
   border-radius: 999rpx;
   font-weight: 900;
   text-align: center;
-  padding: 22rpx 0;
-  font-size: 32rpx;
+  padding: 26rpx 0;
+  font-size: 34rpx;
+  letter-spacing: 2rpx;
   box-shadow:
-    inset 0 8rpx 0 rgba(255, 255, 255, 0.28),
-    0 8rpx 0 #e0407f,
-    0 16rpx 24rpx rgba(255, 77, 141, 0.26);
-  text-shadow: 0 2rpx 0 rgba(183, 28, 92, 0.3);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+    inset 0 8rpx 0 rgba(255, 255, 255, 0.35),
+    0 8rpx 0 #1289c9,
+    0 18rpx 30rpx rgba(31, 169, 236, 0.3);
+  text-shadow: 0 2rpx 0 rgba(9, 106, 153, 0.3);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
 }
 .btn-primary:active {
-  transform: translateY(6rpx);
+  transform: translateY(7rpx) scale(0.99);
   box-shadow:
-    inset 0 6rpx 0 rgba(255, 255, 255, 0.22),
-    0 2rpx 0 #e0407f,
-    0 8rpx 14rpx rgba(255, 77, 141, 0.2);
+    inset 0 6rpx 0 rgba(255, 255, 255, 0.25),
+    0 2rpx 0 #1289c9,
+    0 8rpx 16rpx rgba(31, 169, 236, 0.22);
 }
 .btn-primary.disabled {
   opacity: 0.45;
   box-shadow: none;
 }
 
+/* 活力黄副 CTA（签到等每日仪式按钮） */
+.btn-sun {
+  background: linear-gradient(180deg, #ffe066 0%, #ffc93c 100%);
+  color: #7a4d00;
+  text-shadow: 0 2rpx 0 rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 0 8rpx 0 rgba(255, 255, 255, 0.45),
+    0 8rpx 0 #e8a400,
+    0 18rpx 30rpx rgba(255, 201, 60, 0.35);
+}
+.btn-sun:active {
+  transform: translateY(7rpx) scale(0.99);
+  box-shadow:
+    inset 0 6rpx 0 rgba(255, 255, 255, 0.3),
+    0 2rpx 0 #e8a400,
+    0 8rpx 16rpx rgba(255, 201, 60, 0.25);
+}
+
 .btn-ghost {
   background: #fff;
-  color: #2e9be8;
+  color: #1b8fd1;
   border: 3rpx solid #bde7ff;
   border-radius: 999rpx;
   font-weight: 900;
   text-align: center;
-  padding: 20rpx 0;
-  font-size: 30rpx;
+  padding: 22rpx 0;
+  font-size: 31rpx;
   box-shadow: 0 6rpx 0 #d8eeff;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
 }
 .btn-ghost:active {
-  transform: translateY(4rpx);
+  transform: translateY(5rpx);
   box-shadow: 0 2rpx 0 #d8eeff;
 }
 .btn-ghost.disabled {
@@ -78,15 +99,17 @@ button.btn-ghost::after {
   box-shadow: none;
 }
 
-/* ===== 糖果标签 ===== */
+/* ===== 贴纸标签：白描边 + 硬底影 ===== */
 .tag {
   display: inline-block;
-  padding: 6rpx 18rpx;
+  padding: 6rpx 20rpx;
   border-radius: 999rpx;
   font-size: 22rpx;
   font-weight: 800;
   background: #fff1bf;
   color: #a16207;
+  border: 2rpx solid #fff;
+  box-shadow: 0 4rpx 0 rgba(240, 164, 0, 0.16);
 }
 
 .badge-row {
@@ -107,12 +130,25 @@ button.btn-ghost::after {
 .badge.orange { background: #ffe3ee; color: #e0407f; }
 .badge.green { background: #d9fbee; color: #0e9f6e; }
 
+/* ===== 标题：荧光笔高亮条 ===== */
 .section-title {
+  display: inline-block;
+  position: relative;
   font-size: 33rpx;
   font-weight: 900;
   color: #3d3a6e;
-  text-shadow: 0 2rpx 0 rgba(255, 255, 255, 0.8);
   margin: 34rpx 6rpx 18rpx;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 2rpx;
+  right: 2rpx;
+  bottom: 1rpx;
+  height: 14rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(62, 198, 255, 0.4), rgba(255, 211, 53, 0.5));
+  z-index: -1;
 }
 
 .empty-tip {
@@ -122,10 +158,11 @@ button.btn-ghost::after {
   padding: 60rpx 0;
 }
 
-/* ===== 通用蛋仔动效 ===== */
+/* ===== 通用蛋仔动效（弹动回弹） ===== */
 @keyframes eggy-pop {
   0% { transform: scale(0.5); opacity: 0; }
   62% { transform: scale(1.12); opacity: 1; }
+  82% { transform: scale(0.96); }
   100% { transform: scale(1); opacity: 1; }
 }
 @keyframes eggy-float {
@@ -138,4 +175,11 @@ button.btn-ghost::after {
 }
 @keyframes eggy-spin {
   to { transform: rotate(360deg); }
+}
+/* 镭射彩虹闪扫（奖励面板） */
+@keyframes laser-sweep {
+  0% { transform: translateX(0); opacity: 0; }
+  15% { opacity: 1; }
+  60% { transform: translateX(300%); opacity: 1; }
+  100% { transform: translateX(300%); opacity: 0; }
 }

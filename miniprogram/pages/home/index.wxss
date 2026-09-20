@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-/* ===== 首页 Hero：蛋仔天空 ===== */
+/* ===== 首页 Hero：蛋仔天空 + 气泡云朵装饰 ===== */
 .hero {
   position: relative;
   text-align: center;
@@ -42,6 +42,34 @@
   animation: eggy-float 3s ease-in-out infinite;
   animation-delay: 0.6s;
 }
+/* 漂浮小气泡（纯装饰，不挡点击） */
+.hero::before {
+  content: '';
+  position: absolute;
+  left: 120rpx;
+  top: 150rpx;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), rgba(255, 182, 213, 0.45));
+  opacity: 0.8;
+  animation: eggy-float 4s ease-in-out infinite;
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  right: 118rpx;
+  top: 62rpx;
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), rgba(150, 220, 255, 0.5));
+  opacity: 0.8;
+  animation: eggy-float 3.2s ease-in-out infinite;
+  animation-delay: 0.8s;
+  pointer-events: none;
+}
 @keyframes island-bob {
   0%,
   100% {
@@ -55,14 +83,14 @@
   position: relative;
   display: inline-block;
   background: #fff;
-  border: 4rpx solid #ffc3dc;
+  border: 4rpx solid #a9e2ff;
   border-radius: 32rpx;
   padding: 16rpx 32rpx;
   font-size: 28rpx;
   font-weight: 900;
-  color: #ff4d8d;
-  box-shadow: 0 8rpx 0 rgba(255, 77, 141, 0.18);
-  animation: eggy-pop 0.5s ease-out;
+  color: #1289c9;
+  box-shadow: 0 8rpx 0 rgba(43, 179, 245, 0.18);
+  animation: eggy-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .hero-bubble::after {
   content: '';
@@ -72,8 +100,8 @@
   width: 26rpx;
   height: 26rpx;
   background: #fff;
-  border-right: 4rpx solid #ffc3dc;
-  border-bottom: 4rpx solid #ffc3dc;
+  border-right: 4rpx solid #a9e2ff;
+  border-bottom: 4rpx solid #a9e2ff;
   transform: rotate(45deg);
 }
 .hero-island {
@@ -88,7 +116,7 @@
   font-size: 62rpx;
   font-weight: 900;
   letter-spacing: 2rpx;
-  background: linear-gradient(90deg, #ff4d8d, #a855f7 48%, #2e9be8);
+  background: linear-gradient(90deg, #2bb3f5, #8b5cf6 50%, #ff7ba9);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -107,24 +135,28 @@
   justify-content: center;
   gap: 14rpx;
 }
+/* 贴纸胶囊：白描边 + 微倾斜 */
 .chip {
   border-radius: 999rpx;
   padding: 12rpx 26rpx;
   font-size: 25rpx;
   font-weight: 900;
   border: 4rpx solid #fff;
-  box-shadow: 0 6rpx 0 rgba(61, 58, 110, 0.12);
+  box-shadow: 0 6rpx 0 rgba(61, 58, 110, 0.1), 0 10rpx 18rpx rgba(61, 58, 110, 0.08);
 }
+.hero-chips .chip:nth-child(1) { transform: rotate(-2deg); }
+.hero-chips .chip:nth-child(2) { transform: rotate(1.5deg); }
+.hero-chips .chip:nth-child(3) { transform: rotate(-1deg); }
 .chip.gold {
   background: #ffe066;
   color: #8a5a00;
 }
 .chip.fire {
-  background: #86f0c8;
+  background: #a8f0d4;
   color: #0b7a55;
 }
 .chip.wrong {
-  background: #ffb3d1;
+  background: #ffd9e8;
   color: #c21e6a;
 }
 
@@ -152,13 +184,13 @@
 }
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #ffd335, #ff9f43 55%, #ff4d8d);
+  background: linear-gradient(90deg, #ffd335, #3ec6ff);
   border-radius: 999rpx;
   box-shadow: inset 0 3rpx 0 rgba(255, 255, 255, 0.4);
   transition: width 0.4s;
 }
 
-/* ===== 三维选择器：糖果胶囊 ===== */
+/* ===== 三维选择器：湖蓝果冻胶囊 ===== */
 .picker-row {
   display: flex;
   flex-wrap: wrap;
@@ -168,7 +200,7 @@
 .picker-btn {
   background: #fff;
   border: 3rpx solid #bde7ff;
-  color: #2e9be8;
+  color: #1b8fd1;
   border-radius: 999rpx;
   padding: 12rpx 24rpx;
   font-size: 26rpx;
@@ -177,19 +209,19 @@
   box-shadow: 0 6rpx 0 #d8eeff;
 }
 
-/* ===== 科目岛卡片 ===== */
+/* ===== 科目岛卡片：软塑胶贴纸盒 ===== */
 .subject-card {
   display: flex;
   align-items: center;
   gap: 20rpx;
   margin-bottom: 20rpx;
-  transition: transform 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.subject-card:active {
+  transform: scale(0.96);
 }
 .subject-left {
   flex-shrink: 0;
-}
-.subject-card:active {
-  transform: scale(0.97);
 }
 .subject-emoji {
   display: flex;
@@ -198,10 +230,10 @@
   width: 92rpx;
   height: 92rpx;
   font-size: 56rpx;
-  background: linear-gradient(135deg, #fff0f8, #f1ecff);
+  background: linear-gradient(135deg, #fff3f9, #eaf8ff);
   border: 3rpx solid #fff;
   border-radius: 30rpx;
-  box-shadow: 0 6rpx 0 rgba(139, 108, 255, 0.14);
+  box-shadow: 0 6rpx 0 rgba(148, 180, 255, 0.16);
   flex-shrink: 0;
   box-sizing: border-box;
 }
@@ -236,13 +268,14 @@
   white-space: nowrap;
 }
 .subject-go {
-  background: #ffe3ee;
-  color: #e0407f;
+  background: #ffe066;
+  color: #8a5a00;
+  border: 3rpx solid #fff;
   padding: 12rpx 24rpx;
   border-radius: 999rpx;
   font-weight: 900;
   font-size: 26rpx;
-  box-shadow: 0 6rpx 0 rgba(224, 64, 127, 0.16);
+  box-shadow: 0 6rpx 0 rgba(232, 164, 0, 0.22);
 }
 
 /* ===== 错误 / 离线态 ===== */
@@ -254,7 +287,7 @@
   font-size: 70rpx;
 }
 .error-text {
-  color: #e0407f;
+  color: #f03e6b;
   font-weight: 800;
   margin: 20rpx 0;
 }

@@ -2,20 +2,32 @@
   padding: 24rpx;
   min-height: 100vh;
   box-sizing: border-box;
+  position: relative;
+}
+/* 云朵装饰（不挡点击） */
+.page::before {
+  content: '☁️';
+  position: absolute;
+  top: 6rpx;
+  right: 30rpx;
+  font-size: 50rpx;
+  opacity: 0.5;
+  pointer-events: none;
+  animation: eggy-float 5.2s ease-in-out infinite;
 }
 
-/* ===== 简介：糖果渐变卡 ===== */
+/* ===== 简介：湖蓝→淡紫糖果渐变卡 ===== */
 .intro {
-  background: linear-gradient(135deg, #fff0f8, #f1ecff);
-  border: 3rpx solid #ffd3e8;
-  box-shadow: 0 10rpx 0 rgba(224, 64, 127, 0.08), 0 18rpx 30rpx rgba(93, 74, 156, 0.08);
-  animation: eggy-pop 0.45s ease-out;
+  background: linear-gradient(135deg, #eaf8ff, #f3efff);
+  border: 3rpx solid #c9e9ff;
+  box-shadow: 0 10rpx 0 rgba(27, 143, 209, 0.08), 0 24rpx 44rpx rgba(93, 74, 156, 0.1);
+  animation: eggy-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .intro-title {
   font-size: 34rpx;
   font-weight: 900;
-  color: #e0407f;
+  color: #1b8fd1;
   margin-bottom: 14rpx;
 }
 
@@ -44,7 +56,7 @@
   margin-top: 6rpx;
 }
 
-/* ===== 糖果分区卡 ===== */
+/* ===== 糖果分区卡：活力黄/薄荷/浅粉/淡紫 ===== */
 .sec-amber {
   background: #fffbea;
   border: 3rpx solid #ffe066;
@@ -55,7 +67,7 @@
 
 .sec-emerald {
   background: #eafcf4;
-  border: 3rpx solid #86f0c8;
+  border: 3rpx solid #a8f0d4;
 }
 .sec-emerald .sec-title {
   color: #0e9f6e;
@@ -63,7 +75,7 @@
 
 .sec-rose {
   background: #fff0f4;
-  border: 3rpx solid #ffc9da;
+  border: 3rpx solid #ffd9e8;
 }
 .sec-rose .sec-title {
   color: #f03e6b;
@@ -71,7 +83,7 @@
 
 .sec-violet {
   background: #f3efff;
-  border: 3rpx solid #d9ccff;
+  border: 3rpx solid #e6dcff;
 }
 .sec-violet .sec-title {
   color: #7c4dff;
@@ -79,7 +91,7 @@
 
 .sec-violet-soft {
   background: rgba(243, 239, 255, 0.6);
-  border: 3rpx solid #d9ccff;
+  border: 3rpx solid #e6dcff;
 }
 .sec-violet-soft .sec-title {
   color: #7c4dff;

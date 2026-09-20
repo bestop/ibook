@@ -4,9 +4,29 @@
   box-sizing: border-box;
 }
 .result-card {
+  position: relative;
+  overflow: hidden;
   text-align: center;
   padding: 60rpx 36rpx;
-  animation: eggy-pop 0.45s ease-out;
+  border: 4rpx solid #fff;
+  box-shadow: 0 10rpx 0 rgba(148, 180, 255, 0.12), 0 28rpx 50rpx rgba(93, 74, 156, 0.14);
+  animation: eggy-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 派对纸屑（纯装饰） */
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(62, 198, 255, 0.2) 0, rgba(62, 198, 255, 0.2) 7rpx, rgba(0, 0, 0, 0) 8rpx),
+    radial-gradient(circle at 86% 14%, rgba(255, 123, 169, 0.18) 0, rgba(255, 123, 169, 0.18) 6rpx, rgba(0, 0, 0, 0) 7rpx),
+    radial-gradient(circle at 78% 66%, rgba(255, 211, 53, 0.2) 0, rgba(255, 211, 53, 0.2) 7rpx, rgba(0, 0, 0, 0) 8rpx),
+    radial-gradient(circle at 14% 78%, rgba(167, 139, 250, 0.18) 0, rgba(167, 139, 250, 0.18) 6rpx, rgba(0, 0, 0, 0) 7rpx),
+    radial-gradient(circle at 50% 88%, rgba(62, 213, 152, 0.14) 0, rgba(62, 213, 152, 0.14) 5rpx, rgba(0, 0, 0, 0) 6rpx);
+  pointer-events: none;
 }
 .result-emoji {
   font-size: 110rpx;
@@ -34,7 +54,7 @@
 .big-star-on {
   color: #ffc53d;
   text-shadow: 0 6rpx 16rpx rgba(255, 197, 61, 0.5);
-  animation: eggy-pop 0.4s ease-out;
+  animation: eggy-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .result-stats {
   display: flex;
@@ -48,7 +68,7 @@
 .stat-num {
   font-size: 40rpx;
   font-weight: 900;
-  color: #ff4d8d;
+  color: #1b8fd1;
 }
 .stat-label {
   font-size: 22rpx;

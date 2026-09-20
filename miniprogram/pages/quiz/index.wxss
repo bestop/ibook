@@ -11,7 +11,7 @@
   font-size: 70rpx;
 }
 .error-text {
-  color: #e0407f;
+  color: #f03e6b;
   font-weight: 800;
   margin: 20rpx 0 24rpx;
 }
@@ -25,13 +25,13 @@
 }
 .quiz-progress {
   background: #fff;
-  border: 3rpx solid #efe7ff;
+  border: 3rpx solid #bde7ff;
   border-radius: 999rpx;
   padding: 6rpx 22rpx;
   font-size: 28rpx;
   font-weight: 900;
-  color: #3d3a6e;
-  box-shadow: 0 5rpx 0 rgba(139, 108, 255, 0.12);
+  color: #1b8fd1;
+  box-shadow: 0 5rpx 0 rgba(27, 143, 209, 0.14);
 }
 .quiz-lives {
   display: flex;
@@ -44,7 +44,7 @@
 }
 .heart-on {
   opacity: 1;
-  animation: eggy-pop 0.35s ease-out;
+  animation: eggy-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .quiz-coins {
   background: #fff1bf;
@@ -64,7 +64,7 @@
   margin-bottom: 12rpx;
 }
 .combo {
-  background: #ffe3ee;
+  background: #ffd9e8;
   color: #e0407f;
   border-radius: 999rpx;
   padding: 4rpx 20rpx;
@@ -77,7 +77,7 @@
 .timer-track {
   height: 18rpx;
   background: #fff;
-  border: 3rpx solid #efe7ff;
+  border: 3rpx solid #f2edff;
   border-radius: 999rpx;
   overflow: hidden;
   box-shadow: inset 0 3rpx 6rpx rgba(93, 74, 156, 0.1);
@@ -88,7 +88,7 @@
   transition: width 1s linear;
 }
 .timer-danger {
-  background: linear-gradient(90deg, #ff5e7e, #ff9f43);
+  background: linear-gradient(90deg, #ff5e7e, #ffc93c);
 }
 .timer-num {
   text-align: right;
@@ -104,12 +104,12 @@
 /* ===== 题目卡 ===== */
 .question-card {
   margin-bottom: 20rpx;
-  animation: eggy-pop 0.3s ease-out;
+  animation: eggy-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .q-tag {
   display: inline-block;
-  background: #ffe3ee;
-  color: #e0407f;
+  background: #dff3ff;
+  color: #1b8fd1;
   font-size: 20rpx;
   font-weight: 900;
   border-radius: 999rpx;
@@ -129,22 +129,22 @@
   align-items: center;
   gap: 16rpx;
   background: #fff;
-  border: 3rpx solid #efe7ff;
+  border: 3rpx solid #f2edff;
   border-radius: 28rpx;
   padding: 24rpx;
   margin-bottom: 18rpx;
-  box-shadow: 0 6rpx 0 rgba(139, 108, 255, 0.1);
-  transition: all 0.15s;
+  box-shadow: 0 6rpx 0 rgba(148, 180, 255, 0.12);
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .option:active {
   transform: translateY(4rpx) scale(0.98);
-  box-shadow: 0 2rpx 0 rgba(139, 108, 255, 0.1);
+  box-shadow: 0 2rpx 0 rgba(148, 180, 255, 0.12);
 }
 .option-key {
   width: 52rpx;
   height: 52rpx;
   border-radius: 50%;
-  background: #ede4ff;
+  background: #e6dcff;
   color: #7c4dff;
   font-weight: 900;
   display: flex;
@@ -160,10 +160,10 @@
   line-height: 1.5;
 }
 .option-correct {
-  background: #e2fbf1;
+  background: #dff9ee;
   border-color: #3ed598;
   box-shadow: 0 6rpx 0 rgba(14, 159, 110, 0.22);
-  animation: eggy-pop 0.3s ease-out;
+  animation: eggy-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .option-correct .option-key {
   background: #3ed598;
@@ -189,12 +189,12 @@
 .explain-ok {
   background: #f0fff9;
   border-color: #a9f0d6;
-  box-shadow: 0 8rpx 0 rgba(14, 159, 110, 0.1), 0 16rpx 26rpx rgba(14, 159, 110, 0.08);
+  box-shadow: 0 8rpx 0 rgba(14, 159, 110, 0.1), 0 20rpx 36rpx rgba(14, 159, 110, 0.08);
 }
 .explain-bad {
   background: #fff0f4;
   border-color: #ffc9da;
-  box-shadow: 0 8rpx 0 rgba(240, 62, 107, 0.08), 0 16rpx 26rpx rgba(240, 62, 107, 0.07);
+  box-shadow: 0 8rpx 0 rgba(240, 62, 107, 0.08), 0 20rpx 36rpx rgba(240, 62, 107, 0.07);
 }
 .explain-head {
   font-size: 30rpx;

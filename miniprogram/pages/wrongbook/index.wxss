@@ -2,6 +2,18 @@
   padding: 24rpx 24rpx 0;
   min-height: 100vh;
   box-sizing: border-box;
+  position: relative;
+}
+/* 云朵装饰（不挡点击） */
+.page::before {
+  content: '☁️';
+  position: absolute;
+  top: 2rpx;
+  right: 28rpx;
+  font-size: 48rpx;
+  opacity: 0.5;
+  pointer-events: none;
+  animation: eggy-float 5s ease-in-out infinite;
 }
 .head {
   display: flex;

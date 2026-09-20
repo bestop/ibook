@@ -2,6 +2,18 @@
   padding: 24rpx 24rpx 0;
   min-height: 100vh;
   box-sizing: border-box;
+  position: relative;
+}
+/* 云朵装饰（不挡点击） */
+.page::before {
+  content: '☁️';
+  position: absolute;
+  top: 0;
+  right: 26rpx;
+  font-size: 48rpx;
+  opacity: 0.5;
+  pointer-events: none;
+  animation: eggy-float 5s ease-in-out infinite;
 }
 .head {
   display: flex;
@@ -35,7 +47,7 @@
   text-align: center;
 }
 .error-text {
-  color: #e0407f;
+  color: #f03e6b;
   font-weight: 800;
   margin-bottom: 20rpx;
 }
@@ -43,15 +55,15 @@
   margin: 0 60rpx;
 }
 
-/* ===== 每日挑战：粉紫糖果卡 ===== */
+/* ===== 每日挑战：活力黄盲盒卡 ===== */
 .daily-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20rpx 0 8rpx;
-  background: linear-gradient(135deg, #fff0f8, #f3e8ff);
-  border-color: #ffd3e8;
-  box-shadow: 0 10rpx 0 rgba(224, 64, 127, 0.08), 0 18rpx 30rpx rgba(93, 74, 156, 0.08);
+  background: linear-gradient(135deg, #fffbea, #fff1bf);
+  border-color: #ffe066;
+  box-shadow: 0 10rpx 0 rgba(232, 164, 0, 0.1), 0 24rpx 44rpx rgba(93, 74, 156, 0.1);
 }
 .daily-left {
   display: flex;
@@ -65,7 +77,7 @@
 .daily-name {
   font-size: 30rpx;
   font-weight: 900;
-  color: #c22c77;
+  color: #9a6b00;
 }
 .daily-sub {
   font-size: 22rpx;
@@ -73,8 +85,8 @@
   margin-top: 4rpx;
 }
 .daily-btn {
-  padding: 14rpx 36rpx;
-  font-size: 26rpx;
+  padding: 16rpx 40rpx;
+  font-size: 28rpx;
 }
 
 /* ===== 关卡地图 ===== */
@@ -83,10 +95,10 @@
   align-items: center;
   gap: 20rpx;
   margin-bottom: 18rpx;
-  transition: transform 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .level-card:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 .level-locked {
   opacity: 0.55;
@@ -95,16 +107,16 @@
   width: 64rpx;
   height: 64rpx;
   border-radius: 50%;
-  background: #d9f1ff;
+  background: #ddf3ff;
   border: 3rpx solid #fff;
-  color: #1e88d0;
+  color: #1b8fd1;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30rpx;
   flex-shrink: 0;
-  box-shadow: 0 5rpx 0 rgba(30, 136, 208, 0.16);
+  box-shadow: 0 5rpx 0 rgba(27, 143, 209, 0.16);
   box-sizing: border-box;
 }
 .level-main {
@@ -146,7 +158,7 @@
 }
 .level-lock {
   font-size: 32rpx;
-  color: #ff4d8d;
+  color: #ff7ba9;
   font-weight: 900;
 }
 .tabbar-space {

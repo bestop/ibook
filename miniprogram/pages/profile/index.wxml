@@ -5,7 +5,7 @@
       <view class="sign-name">📅 每日签到</view>
       <view class="sign-sub">已连续签到 {{streak}} 天</view>
     </view>
-    <button hover-class="none" class="btn-primary sign-btn {{signedToday ? 'disabled' : ''}}" bindtap="doSignIn" disabled="{{signedToday}}">
+    <button hover-class="none" class="btn-primary btn-sun sign-btn {{signedToday ? 'disabled' : ''}}" bindtap="doSignIn" disabled="{{signedToday}}">
       {{signedToday ? '今日已签' : '签到 +10🪙'}}
     </button>
   </view>
@@ -59,7 +59,7 @@
         <text class="about-row-icon">🔊</text>
         <text class="about-row-label">游戏音效</text>
       </view>
-      <switch checked="{{soundOn}}" bindchange="onSoundToggle" color="#ff4d8d" />
+      <switch checked="{{soundOn}}" bindchange="onSoundToggle" color="#2bb3f5" />
     </view>
     <view class="reset-link" hover-class="row-hover" bindtap="doReset">🗑️ 家长专区 · 重置全部进度</view>
   </view>
