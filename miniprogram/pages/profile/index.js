@@ -1,5 +1,6 @@
 // 我的：签到、每日任务、学习统计、成就墙、重置进度
 const store = require('../../utils/store')
+const sfx = require('../../utils/sfx')
 
 Page({
   data: {
@@ -18,6 +19,7 @@ Page({
     achievements: [],
     unlockedCount: 0,
     taskRewards: store.TASK_REWARDS,
+    soundOn: true,
   },
 
   onShow() {
@@ -51,6 +53,7 @@ Page({
       totalCompleted: totalCompleted,
       achievements: list,
       unlockedCount: list.filter(function (a) { return a.unlocked }).length,
+      soundOn: sfx.isEnabled(),
     })
   },
 
@@ -99,7 +102,22 @@ Page({
   doSignIn() {
     const r = store.signIn()
     wx.showToast({ title: r.msg, icon: r.ok ? 'success' : 'none', duration: 2000 })
-    if (r.ok) this.refresh()
+    if (r.ok) {
+      sfx.coin()
+      this.refresh()
+    }
+  },
+
+  onSoundToggle(e) {
+    const on = !!e.detail.value
+    sfx.setEnabled(on)
+    this.setData({ soundOn: on })
+    if (on) sfx.coin() // 开启时给个反馈音
+  },
+
+  openGuide() {
+    sfx.click()
+    wx.navigateTo({ url: '/pages/guide/index' })
   },
 
   doReset() {

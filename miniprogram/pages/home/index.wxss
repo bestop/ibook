@@ -147,8 +147,14 @@
 
 .picker-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 14rpx;
   margin-bottom: 8rpx;
+}
+.guide-btn {
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+  color: #6d28d9;
 }
 .picker-btn {
   background: #fff;

@@ -1,5 +1,6 @@
 // 礼物屋：金币兑换亲子奖励 + 兑换券（家长兑现）+ 自定义奖励
 const store = require('../../utils/store')
+const sfx = require('../../utils/sfx')
 
 Page({
   data: {
@@ -45,7 +46,10 @@ Page({
         if (!res.confirm) return
         const r = store.redeemReward(id)
         wx.showToast({ title: r.msg, icon: r.ok ? 'success' : 'none', duration: 2200 })
-        if (r.ok) that.refresh()
+        if (r.ok) {
+          sfx.coin()
+          that.refresh()
+        }
       },
     })
   },
@@ -54,6 +58,7 @@ Page({
     const id = e.currentTarget.dataset.id
     store.markRedeemFulfilled(id)
     wx.showToast({ title: '已标记兑现 🎉', icon: 'success' })
+    sfx.coin()
     this.refresh()
   },
 
@@ -75,6 +80,7 @@ Page({
     const r = store.addCustomReward(this.data.formName, this.data.formEmoji, Number(this.data.formCost))
     wx.showToast({ title: r.msg, icon: r.ok ? 'success' : 'none' })
     if (r.ok) {
+      sfx.coin()
       this.setData({ showForm: false })
       this.refresh()
     }

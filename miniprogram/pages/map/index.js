@@ -2,6 +2,7 @@
 const api = require('../../utils/api')
 const store = require('../../utils/store')
 const quiz = require('../../utils/quiz')
+const sfx = require('../../utils/sfx')
 
 Page({
   data: {
@@ -27,7 +28,7 @@ Page({
     const that = this
     const manifest = getApp().globalData.manifest
     if (!manifest) {
-      this.setData({ loading: false, error: '教材清单未同步，请回首页重新进入' })
+      this.setData({ loading: false, error: '内容加载失败，请回首页重新进入' })
       return
     }
     const subject = manifest.subjects.find(function (s) { return s.id === that.subjectId })
@@ -44,7 +45,7 @@ Page({
         that.setData({ loading: false })
       })
       .catch(function (err) {
-        that.setData({ loading: false, error: err.message || '题库同步失败' })
+        that.setData({ loading: false, error: err.message || '题库加载失败' })
       })
   },
 
@@ -81,6 +82,7 @@ Page({
       wx.showToast({ title: '先通过上一关哦', icon: 'none' })
       return
     }
+    sfx.click()
     wx.navigateTo({
       url:
         '/pages/quiz/index?subjectId=' +
@@ -94,12 +96,14 @@ Page({
 
   startDaily() {
     if (!this.data.dailyOpen) return
+    sfx.click()
     wx.navigateTo({
       url: '/pages/quiz/index?subjectId=' + this.subjectId + '&mode=daily&name=' + encodeURIComponent(this.data.subjectName),
     })
   },
 
   goHome() {
+    sfx.click()
     wx.redirectTo({ url: '/pages/home/index' })
   },
 })

@@ -1,0 +1,48 @@
+<view class="page">
+  <!-- 简介 -->
+  <view class="card intro">
+    <view class="intro-title">🏝️ 小明乐学岛 · 使用指南</view>
+    <view class="intro-text">覆盖一至六年级上册语文、数学、英语，共 31 个科目岛、258 关 2580 道精选题，每题都配详细解析。语文采用统编教材（六上分六三制/五四学制两版），数学、英语各年级均提供沪教版与人教版两套题库，内容按 2024～2026 秋季最新课本编写。首页顶部可随时切换年级、上下册和版本，建议孩子每天玩 20 分钟。</view>
+  </view>
+
+  <!-- 时间安排 -->
+  <view class="card sec sec-amber">
+    <view class="sec-title">⏰ 每天 20 分钟怎么安排？</view>
+    <view class="sec-text">1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，三十一个科目岛可以搭配着玩。今日学习时长会自动累计。</view>
+  </view>
+
+  <!-- 奖励机制 -->
+  <view class="card sec sec-emerald">
+    <view class="sec-title">🎁 奖励机制</view>
+    <view class="sec-text">· 答对 1 题 +10 金币；连击 3 次以上每题再 +5</view>
+    <view class="sec-text">· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100</view>
+    <view class="sec-text">· 每日任务（闯关/20分钟/复习错题）各有金币奖励</view>
+    <view class="sec-text">· 每日签到 +10 金币，45+ 个成就徽章等你解锁</view>
+  </view>
+
+  <!-- 惩罚机制 -->
+  <view class="card sec sec-rose">
+    <view class="sec-title">⚖️ 惩罚机制</view>
+    <view class="sec-text">· 每关 3 颗❤️：答错或超时（每题 40 秒）扣 1 颗</view>
+    <view class="sec-text">· ❤️ 用完闯关失败，本局金币减半</view>
+    <view class="sec-text">· 答错的题自动收进错题本，复习答对才能「消灭」</view>
+    <view class="sec-text">· 每科都是过一关解锁下一关</view>
+  </view>
+
+  <!-- 礼物屋 -->
+  <view class="card sec sec-violet">
+    <view class="sec-title">👪 亲子奖励·礼物屋</view>
+    <view class="sec-text">· 孩子用金币在「礼物屋」兑换亲子奖励（亲子阅读、看动画片 15 分钟、公园游乐场、假日出游等）</view>
+    <view class="sec-text">· 兑换后生成「兑换券」，请家长尽快兑现约定，并在券包里点「已兑现」</view>
+    <view class="sec-text">· 支持家长添加自定义奖励和价格，建议和孩子一起商定</view>
+    <view class="sec-text">· 各科目进度分开记录，金币、错题本、成就、礼物屋通用；首页可切换年级/册别/出版社</view>
+  </view>
+
+  <!-- 小建议 -->
+  <view class="card sec sec-violet-soft">
+    <view class="sec-title">💡 给家长的小建议</view>
+    <view class="sec-text">· 星级规则：全对 3 星，错 1 题 2 星，错 2 题 1 星——鼓励孩子冲 3 星</view>
+    <view class="sec-text">· 可以和孩子约定：金币/星星达到目标可获得小奖励</view>
+    <view class="sec-text">· 所有进度自动保存在本机微信中，无需注册</view>
+  </view>
+</view>

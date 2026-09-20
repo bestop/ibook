@@ -15,10 +15,10 @@
   </view>
 
   <!-- 加载 / 错误态 -->
-  <view wx:if="{{loading}}" class="empty-tip">🏝️ 正在从网页端同步教材内容…</view>
+  <view wx:if="{{loading}}" class="empty-tip">🏝️ 内容准备中…</view>
   <view wx:elif="{{error && subjects.length === 0}}" class="error-box card">
     <view class="error-emoji">😵</view>
-    <view class="error-text">教材内容同步失败：{{error}}</view>
+    <view class="error-text">内容加载失败：{{error}}</view>
     <button class="btn-primary retry-btn" bindtap="retry">重新加载</button>
     <view class="error-hint">需要网络连接 lx.hikid.vip</view>
   </view>
@@ -48,6 +48,7 @@
       <picker mode="selector" range="{{publisherLabels}}" value="{{pubIndex}}" bindchange="onPickPublisher">
         <view class="picker-btn">📚 {{publisherLabels[pubIndex]}} ▾</view>
       </picker>
+      <view class="picker-btn guide-btn" bindtap="openGuide">📖 指南</view>
     </view>
 
     <!-- 科目岛列表 -->

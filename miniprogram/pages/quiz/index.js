@@ -2,6 +2,7 @@
 const api = require('../../utils/api')
 const store = require('../../utils/store')
 const quiz = require('../../utils/quiz')
+const sfx = require('../../utils/sfx')
 
 const TIME_PER_QUESTION = 40
 const LIVES = 3
@@ -67,7 +68,7 @@ Page({
     }
     const manifest = getApp().globalData.manifest
     if (!manifest) {
-      this.setData({ loadError: '教材清单未同步，请返回首页重新进入' })
+      this.setData({ loadError: '内容加载失败，请返回首页重新进入' })
       return
     }
     api
@@ -85,7 +86,7 @@ Page({
         that.start()
       })
       .catch(function (err) {
-        that.setData({ loadError: err.message || '题库同步失败' })
+        that.setData({ loadError: err.message || '题库加载失败' })
       })
   },
 
@@ -129,6 +130,7 @@ Page({
         that.timeout()
       } else {
         that.setData({ timeLeft: left, timePct: Math.round((left / TIME_PER_QUESTION) * 100) })
+        if (left <= 7) sfx.tick() // 最后 7 秒滴答提示（与网页版一致）
       }
     }, 1000)
   },
@@ -179,6 +181,13 @@ Page({
       wrongCount: wrongCount,
       comboAchievement: comboAchievement,
     })
+    // 音效：连击 3 次以上用连击音，答对用正确音，答错用错误音（与网页版一致）
+    if (correct) {
+      if (combo >= 3) sfx.combo()
+      else sfx.correct()
+    } else {
+      sfx.wrong()
+    }
     if (comboAchievement) {
       wx.showToast({ title: '🏆 解锁成就：' + comboAchievement.name, icon: 'none', duration: 2000 })
     }
@@ -198,6 +207,7 @@ Page({
       lives: lives,
       wrongCount: wrongCount,
     })
+    sfx.wrong()
   },
 
   next() {

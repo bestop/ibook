@@ -1,5 +1,6 @@
 // 错题本：本地快照展示 + 复习模式（答对即消灭）
 const store = require('../../utils/store')
+const sfx = require('../../utils/sfx')
 
 Page({
   data: {
@@ -28,6 +29,7 @@ Page({
   },
 
   startReview() {
+    sfx.click()
     wx.navigateTo({ url: '/pages/quiz/index?mode=review' })
   },
 })

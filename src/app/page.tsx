@@ -198,7 +198,7 @@ export default function Home() {
               <Dialog open={guideOpen} onOpenChange={setGuideOpen}>
                 <DialogTrigger asChild>
                   <button
-                    aria-label="家长指南"
+                    aria-label="使用指南"
                     className="shrink-0 rounded-full bg-violet-100 px-1.5 py-1 text-xs transition-transform active:scale-90 sm:px-2"
                   >
                     👨‍👩‍👧
@@ -206,7 +206,7 @@ export default function Home() {
                 </DialogTrigger>
                 <DialogContent className="max-h-[80vh] overflow-y-auto rounded-3xl">
                   <DialogHeader>
-                    <DialogTitle className="text-lg font-black">👨‍👩‍👧 家长使用指南</DialogTitle>
+                    <DialogTitle className="text-lg font-black">👨‍👩‍👧 使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
                       「小明乐学岛」覆盖一至六年级上册语文、数学、英语，共 31 个科目岛、258 关 2580 道精选题，每题都配详细解析。
                       语文采用统编教材（六上分六三制/五四学制两版），数学、英语各年级均提供沪教版与人教版两套题库，内容按 2024～2026 秋季最新课本编写。

@@ -46,8 +46,12 @@
 
   <!-- 说明与重置 -->
   <view class="card about-card">
-    <view class="about-line">📖 教材与题目内容实时同步自 lx.hikid.vip</view>
+    <view class="about-link" bindtap="openGuide">📖 使用指南</view>
     <view class="about-line">💾 学习进度保存在本机微信中，无需注册</view>
+    <view class="sound-row">
+      <text>🔊 游戏音效</text>
+      <switch checked="{{soundOn}}" bindchange="onSoundToggle" color="#f97316" />
+    </view>
     <view class="reset-link" bindtap="doReset">🗑️ 家长专区：重置全部进度</view>
   </view>
 

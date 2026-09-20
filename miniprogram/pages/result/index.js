@@ -1,4 +1,5 @@
 // 结算页：星级 / 金币明细 / 再来一次 / 返回地图
+const sfx = require('../../utils/sfx')
 Page({
   data: {
     mode: 'level',
@@ -29,6 +30,16 @@ Page({
       unit: decodeURIComponent(options.unit || ''),
       newly: decodeURIComponent(options.newly || ''),
     })
+    // 音效：通关播放胜利曲 + 星星逐颗点亮音（与网页版一致）
+    if (this.data.passed) {
+      sfx.win()
+      const delays = [0, 300, 600].slice(0, this.data.stars)
+      delays.forEach(function (d, i) {
+        setTimeout(function () { sfx.star(i) }, d + 500)
+      })
+    } else {
+      sfx.lose()
+    }
   },
 
   onRetry() {

@@ -1,0 +1,82 @@
+.page {
+  padding: 24rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.intro {
+  background: linear-gradient(135deg, #fff7ed, #fef3c7);
+  border: 3rpx solid #fed7aa;
+}
+
+.intro-title {
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #c2410c;
+  margin-bottom: 14rpx;
+}
+
+.intro-text {
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: #92400e;
+  font-weight: 600;
+}
+
+.sec {
+  margin-top: 20rpx;
+}
+
+.sec-title {
+  font-size: 30rpx;
+  font-weight: 900;
+  margin-bottom: 12rpx;
+}
+
+.sec-text {
+  font-size: 25rpx;
+  line-height: 1.65;
+  color: #57534e;
+  font-weight: 600;
+  margin-top: 6rpx;
+}
+
+.sec-amber {
+  background: #fffbeb;
+  border: 3rpx solid #fde68a;
+}
+.sec-amber .sec-title {
+  color: #b45309;
+}
+
+.sec-emerald {
+  background: #ecfdf5;
+  border: 3rpx solid #a7f3d0;
+}
+.sec-emerald .sec-title {
+  color: #047857;
+}
+
+.sec-rose {
+  background: #fff1f2;
+  border: 3rpx solid #fecdd3;
+}
+.sec-rose .sec-title {
+  color: #be123c;
+}
+
+.sec-violet {
+  background: #f5f3ff;
+  border: 3rpx solid #ddd6fe;
+}
+.sec-violet .sec-title {
+  color: #6d28d9;
+}
+
+.sec-violet-soft {
+  background: rgba(245, 243, 255, 0.5);
+  border: 3rpx solid #ddd6fe;
+}
+.sec-violet-soft .sec-title {
+  color: #6d28d9;
+}

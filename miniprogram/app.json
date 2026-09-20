@@ -6,7 +6,8 @@
     "pages/result/index",
     "pages/wrongbook/index",
     "pages/rewards/index",
-    "pages/profile/index"
+    "pages/profile/index",
+    "pages/guide/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FFF7ED",

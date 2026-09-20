@@ -7,10 +7,10 @@
         <view class="head-sub">{{stats.completed}}/{{stats.total}} 关 · ⭐ {{stats.stars}}</view>
       </view>
     </view>
-    <view class="tag">{{subject.badge || '教材同步自网页版'}}</view>
+    <view wx:if="{{subject.badge}}" class="tag">{{subject.badge}}</view>
   </view>
 
-  <view wx:if="{{loading}}" class="empty-tip">⏳ 题库同步中…</view>
+  <view wx:if="{{loading}}" class="empty-tip">⏳ 题目准备中…</view>
   <view wx:elif="{{error}}" class="card error-box">
     <view class="error-text">😵 {{error}}</view>
     <button class="btn-ghost retry-btn" bindtap="loadSubject">重试</button>

@@ -1,4 +1,6 @@
 // 自定义底部导航（与网页版底部 Tab 一致，emoji + 文字）
+const sfx = require('../../utils/sfx')
+
 Component({
   properties: {
     active: { type: String, value: 'home' },
@@ -17,6 +19,7 @@ Component({
       const key = e.currentTarget.dataset.key
       const url = e.currentTarget.dataset.url
       if (key === this.data.active) return
+      sfx.click()
       wx.redirectTo({ url: url })
     },
   },
