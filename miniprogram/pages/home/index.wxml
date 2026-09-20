@@ -1,14 +1,16 @@
 <view class="page">
-  <!-- 顶部资源栏 -->
-  <view class="header">
-    <view class="header-left">
-      <text class="logo">🏝️</text>
-      <text class="title">小明乐学岛</text>
-    </view>
-    <view class="badge-row">
-      <view class="badge gold">🪙 {{coins}}</view>
-      <view class="badge orange">⭐ {{stars}}</view>
-      <view class="badge green">🔥 {{streak}}天</view>
+  <!-- 首页 Hero：问候气泡 + 海岛 + 标题 + 状态胶囊（与网页版一致） -->
+  <view class="hero">
+    <text class="hero-cloud">☁️</text>
+    <text class="hero-star">🌟</text>
+    <view class="hero-bubble">嗨，小岛民！今天想去哪个岛冒险呀？</view>
+    <text class="hero-island">🏝️</text>
+    <view class="hero-title">小明乐学岛</view>
+    <view class="hero-sub">一至六年级 · 闯关赢金币 · 越玩越聪明</view>
+    <view class="hero-chips">
+      <view class="chip gold">🪙 {{coins}}</view>
+      <view class="chip fire">🔥 连续 {{streak}} 天</view>
+      <view class="chip wrong">📕 错题 {{wrongCount}}</view>
     </view>
   </view>
 

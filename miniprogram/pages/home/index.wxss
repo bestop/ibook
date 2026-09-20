@@ -4,24 +4,118 @@
   box-sizing: border-box;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8rpx 4rpx 20rpx;
+/* ===== 首页 Hero（与网页版一致） ===== */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 28rpx 8rpx 12rpx;
 }
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 10rpx;
-}
-.logo {
+.hero-cloud,
+.hero-star {
+  position: absolute;
+  top: 8rpx;
   font-size: 44rpx;
+  animation: heroFloat 3.6s ease-in-out infinite;
 }
-.title {
-  font-size: 36rpx;
+.hero-cloud {
+  left: 16rpx;
+}
+.hero-star {
+  right: 20rpx;
+  top: 20rpx;
+  font-size: 40rpx;
+  animation-delay: 1.2s;
+}
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10rpx) rotate(6deg);
+  }
+}
+.hero-bubble {
+  position: relative;
+  display: inline-block;
+  background: #fff;
+  border: 4rpx solid #fed7aa;
+  border-radius: 32rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
   font-weight: 900;
-  color: #ea580c;
+  color: #f97316;
+  box-shadow: 0 8rpx 0 rgba(251, 146, 60, 0.2);
+}
+.hero-bubble::after {
+  content: '';
+  position: absolute;
+  left: 80rpx;
+  bottom: -16rpx;
+  width: 26rpx;
+  height: 26rpx;
+  background: #fff;
+  border-right: 4rpx solid #fed7aa;
+  border-bottom: 4rpx solid #fed7aa;
+  transform: rotate(45deg);
+}
+.hero-island {
+  display: block;
+  margin-top: 36rpx;
+  font-size: 130rpx;
+  line-height: 1.1;
+  animation: heroBob 3s ease-in-out infinite;
+}
+@keyframes heroBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18rpx);
+  }
+}
+.hero-title {
+  margin-top: 10rpx;
+  font-size: 62rpx;
+  font-weight: 900;
+  letter-spacing: 2rpx;
+  background: linear-gradient(90deg, #f97316, #f59e0b, #f43f5e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  font-weight: 900;
+  color: #d97706;
+}
+.hero-chips {
+  margin-top: 26rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14rpx;
+}
+.chip {
+  border-radius: 999rpx;
+  padding: 12rpx 26rpx;
+  font-size: 25rpx;
+  font-weight: 900;
+}
+.chip.gold {
+  background: #fef3c7;
+  color: #b45309;
+}
+.chip.fire {
+  background: #d1fae5;
+  color: #047857;
+}
+.chip.wrong {
+  background: #ffe4e6;
+  color: #be123c;
 }
 
 .today-card {
