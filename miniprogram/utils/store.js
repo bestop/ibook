@@ -81,6 +81,8 @@ function ensureToday() {
 }
 
 // ---------- 成就 ----------
+// 通用里程碑成就：只统计累计闯关、满星、答题量、金币、连签等全局进度，
+// 不绑定具体年级/科目（科目会持续新增，绑定后很快过时失效）
 function buildAchievements() {
   const subjects = subjectsRef
   const totalLevels = subjects.reduce(function (n, s) { return n + s.levelCount }, 0)
@@ -88,7 +90,7 @@ function buildAchievements() {
     { id: 'first_win', emoji: '🎉', name: '初出茅庐', desc: '第一次通过一关' },
     { id: 'win4', emoji: '📚', name: '渐入佳境', desc: '累计通过 4 个关卡' },
     { id: 'win8', emoji: '🏆', name: '满腹经纶', desc: '累计通过 8 个关卡' },
-    { id: 'win16', emoji: '🌉', name: '文理双全', desc: '累计通过 16 个关卡' },
+    { id: 'win16', emoji: '🌉', name: '勇攀高峰', desc: '累计通过 16 个关卡' },
     { id: 'win32', emoji: '🚀', name: '闯关小将', desc: '累计通过 32 个关卡' },
     { id: 'win64', emoji: '🌏', name: '闯关大将', desc: '累计通过 64 个关卡' },
     { id: 'win128', emoji: '🛳️', name: '闯关舰队', desc: '累计通过 128 个关卡' },
@@ -99,22 +101,17 @@ function buildAchievements() {
   }
   list.push(
     { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星' },
+    { id: 'star3_10', emoji: '✨', name: '摘星少年', desc: '10 个关卡拿到 3 颗星' },
+    { id: 'correct100', emoji: '✏️', name: '百题小达人', desc: '累计答对 100 道题' },
+    { id: 'correct500', emoji: '🎓', name: '答题小博士', desc: '累计答对 500 道题' },
     { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币' },
     { id: 'rich1000', emoji: '🤑', name: '大富翁', desc: '累计攒到 1000 金币' },
     { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天' },
     { id: 'sign7', emoji: '🗓️', name: '学习之星', desc: '连续签到 7 天' },
+    { id: 'sign21', emoji: '🌈', name: '习惯成自然', desc: '连续签到 21 天' },
     { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题' },
     { id: 'clear10', emoji: '🎯', name: '错题克星', desc: '复习消灭 10 道错题' }
   )
-  subjects.forEach(function (s) {
-    const badge = s.badge ? '（' + s.badge + '）' : ''
-    list.push({
-      id: 'done_' + s.id,
-      emoji: s.emoji,
-      name: s.grade + s.name + '通关',
-      desc: '通过' + s.grade + s.name + badge + '全部 ' + s.levelCount + ' 关',
-    })
-  })
   return list
 }
 
@@ -147,19 +144,18 @@ function checkAchievement(state, id) {
     case 'win128': return completed >= 128
     case 'win_all': return totalLevels > 0 && doneList >= subjects.length
     case 'star3_any': return fullStars >= 1
+    case 'star3_10': return fullStars >= 10
     case 'star3_all': return totalLevels > 0 && fullStars >= totalLevels
+    case 'correct100': return state.totalCorrect >= 100
+    case 'correct500': return state.totalCorrect >= 500
     case 'rich300': return state.coins >= 300
     case 'rich1000': return state.coins >= 1000
     case 'sign3': return state.streak >= 3
     case 'sign7': return state.streak >= 7
+    case 'sign21': return state.streak >= 21
     case 'combo5': return true // 由 grantCombo 手动授予
     case 'clear10': return state.clearedTotal >= 10
-    default:
-      if (id.indexOf('done_') === 0) {
-        const subject = subjects.find(function (s) { return 'done_' + s.id === id })
-        return !!subject && completedCount(state, subject) >= subject.levelCount
-      }
-      return false
+    default: return false
   }
 }
 

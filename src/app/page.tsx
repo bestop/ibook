@@ -138,11 +138,19 @@ export default function Home() {
     if (next) sfx.click()
   }
 
-  // 成就弹窗
+  // 成就弹窗（跳过已下线的旧成就 ID，避免弹窗队列被卡住）
   const achievementPopup = useMemo(() => {
-    if (unseen.length === 0) return null
-    return ACHIEVEMENTS.find((a) => a.id === unseen[0]) || null
+    for (const id of unseen) {
+      const found = ACHIEVEMENTS.find((a) => a.id === id)
+      if (found) return found
+    }
+    return null
   }, [unseen])
+
+  // 队列里全是已下线的旧成就 ID 时自动清空，保持弹窗队列健康
+  useEffect(() => {
+    if (unseen.length > 0 && !achievementPopup) markSeen()
+  }, [unseen, achievementPopup, markSeen])
 
   if (!hydrated) {
     return (

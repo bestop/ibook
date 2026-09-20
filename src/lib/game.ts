@@ -40,6 +40,7 @@ export interface GameState {
   dailyDone: DailyDone
   totalCorrect: number
   totalWrong: number
+  clearedTotal: number // 累计复习消灭的错题数
   // 礼物屋（亲子奖励）
   redeemLog: RedeemRecord[] // 兑换记录（最新在前）
   customRewards: RewardItem[] // 家长自定义奖励
@@ -60,12 +61,22 @@ export interface GameState {
   resetAll: () => void
 }
 
+// 成就进度条所需的统计快照（视图层组装后传入 progress）
+export interface AchievementStats {
+  levels: Record<string, LevelProgress>
+  coins: number
+  streak: number
+  totalCorrect: number
+  clearedTotal: number
+}
+
 export interface Achievement {
   id: string
   emoji: string
   name: string
   desc: string
   check: (s: GameState) => boolean
+  progress?: (s: AchievementStats) => { cur: number; goal: number }
 }
 
 // ---------- 礼物屋（亲子奖励） ----------
@@ -104,75 +115,49 @@ function completedIn(levels: Record<string, LevelProgress>, subjectId: SubjectId
   return subj.units.filter((u) => levels[`${subjectId}:${u.id}`]?.completed).length
 }
 
-// 全部 258 关（三十一科：语文一上8+数学一上沪7+数学一上人教7+英语一上沪14+英语一上人教6+语文二上8+数学二上沪8+数学二上人教7+英语二上沪11+英语二上人教6+语文三上8+数学三上沪9+数学三上人教8+英语三上沪11+英语三上人教7+语文四上8+数学四上沪9+数学四上人教9+英语四上沪11+英语四上人教7+语文五上8+数学五上沪8+数学五上人教9+英语五上沪11+英语五上人教7+语文六上·六三制8+语文六上·五四7+数学六上·六三制9+数学六上·五四8+英语六上·五四7+英语六上·人教7）是否都拿到满星
-function allFullStars(levels: Record<string, LevelProgress>): boolean {
-  const totalUnits = SUBJECTS.reduce((n, s) => n + s.units.length, 0)
-  let count = 0
-  for (const s of SUBJECTS) {
-    for (const u of s.units) {
-      if ((levels[`${s.id}:${u.id}`]?.stars ?? 0) >= 3) count++
-    }
-  }
-  return count >= totalUnits
+// 全库总关卡数（随题库自动增减，成就文案与判定动态计算，不写死数字）
+const TOTAL_UNITS = SUBJECTS.reduce((n, s) => n + s.units.length, 0)
+
+// 累计通过关卡数 / 满星关卡数（成就判定与进度条共用）
+function completedTotal(levels: Record<string, LevelProgress>): number {
+  return Object.values(levels).filter((l) => l.completed).length
 }
 
-export const ACHIEVEMENTS: Achievement[] = [
-  { id: 'first_win', emoji: '🎉', name: '初出茅庐', desc: '第一次通过一关（任意科目）', check: (s) => Object.values(s.levels).some((l) => l.completed) },
-  { id: 'win4', emoji: '📚', name: '渐入佳境', desc: '累计通过 4 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 4 },
-  { id: 'win8', emoji: '🏆', name: '满腹经纶', desc: '累计通过 8 个关卡', check: (s) => Object.values(s.levels).filter((l) => l.completed).length >= 8 },
-  { id: 'win16', emoji: '🌉', name: '文理双全', desc: '语文、数学全部 16 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 },
-  { id: 'eng_all', emoji: '🐲', name: '英语小能手', desc: '通过英语全部 11 个单元（含 Starter 热身站）', check: (s) => completedIn(s.levels, 'english') >= 11 },
-  { id: 'win27', emoji: '🌈', name: '三科全能王', desc: '五上语文、数学、英语全部 27 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 },
-  { id: 'cn_all', emoji: '🏮', name: '文学小达人', desc: '通过五年级上册语文全部 8 个单元', check: (s) => completedIn(s.levels, 'chinese') >= 8 },
-  { id: 'cn4_all', emoji: '🐉', name: '四年级小状元', desc: '通过四年级上册语文全部 8 个单元（含文化遗产单元）', check: (s) => completedIn(s.levels, 'chinese4') >= 8 },
-  { id: 'win35', emoji: '🚀', name: '全能小岛主', desc: '四上语文、五上语文、数学、英语全部 35 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 },
-  { id: 'math4_all', emoji: '🚀', name: '四上数学小达人', desc: '通过四年级上册数学全部 9 个关卡（含抽屉原理）', check: (s) => completedIn(s.levels, 'math4') >= 9 },
-  { id: 'eng4_all', emoji: '⛵', name: '四上英语小能手', desc: '通过四年级上册英语全部 11 个单元（含 Starter 热身站）', check: (s) => completedIn(s.levels, 'english4') >= 11 },
-  { id: 'win54', emoji: '🏝️', name: '六科全能大岛主', desc: '四、五年级语文·数学·英语全部 55 关都通过', check: (s) => completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english') >= 11 && completedIn(s.levels, 'english4') >= 11 },
-  { id: 'cn3_all', emoji: '🌱', name: '三年级小进士', desc: '通过三年级上册语文全部 8 个单元（含文言文《司马光》）', check: (s) => completedIn(s.levels, 'chinese3') >= 8 },
-  { id: 'math3_all', emoji: '🪁', name: '三上数学小神童', desc: '通过三年级上册数学全部 9 个关卡（含数学广场·七巧板）', check: (s) => completedIn(s.levels, 'math3') >= 9 },
-  { id: 'eng3_all', emoji: '🌈', name: '三上英语小明星', desc: '通过三年级上册英语全部 11 个单元（含 Starter 热身站）', check: (s) => completedIn(s.levels, 'english3') >= 11 },
-  { id: 'cn2_all', emoji: '🐸', name: '二年级小书虫', desc: '通过二年级上册语文全部 8 个单元（小蝌蚪到风娃娃）', check: (s) => completedIn(s.levels, 'chinese2') >= 8 },
-  { id: 'math2_all', emoji: '🪀', name: '二上数学小机灵', desc: '通过二年级上册数学全部 8 个关卡（含乘法口诀与几何小实践）', check: (s) => completedIn(s.levels, 'math2') >= 8 },
-  { id: 'eng2_all', emoji: '🐣', name: '二上英语小芽芽', desc: '通过二年级上册英语全部 11 个单元（沪教版新教材，含 Starter）', check: (s) => completedIn(s.levels, 'english2') >= 11 },
-  { id: 'win83', emoji: '🏝️', name: '九科全能总岛主', desc: '三、四、五年级语数英全部 83 关都通过', check: (s) => completedIn(s.levels, 'chinese3') >= 8 && completedIn(s.levels, 'math3') >= 9 && completedIn(s.levels, 'english3') >= 11 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english4') >= 11 && completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 },
-  { id: 'win111', emoji: '🌏', name: '十二科全能总岛主', desc: '二、三、四、五年级语数英全部 110 关都通过', check: (s) => completedIn(s.levels, 'chinese2') >= 8 && completedIn(s.levels, 'math2') >= 8 && completedIn(s.levels, 'english2') >= 11 && completedIn(s.levels, 'chinese3') >= 8 && completedIn(s.levels, 'math3') >= 9 && completedIn(s.levels, 'english3') >= 11 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english4') >= 11 && completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 },
-  { id: 'cn1_all', emoji: '🌸', name: '小小读书郎', desc: '通过一年级上册语文全部 8 个单元（含拼音乐园）', check: (s) => completedIn(s.levels, 'chinese1') >= 8 },
-  { id: 'cn6_all', emoji: '🦌', name: '六年级小翰林', desc: '通过六年级上册语文（六三制）全部 8 个单元（含文言文《两小儿辩日》《曹冲称象》）', check: (s) => completedIn(s.levels, 'chinese6') >= 8 },
-  { id: 'cn54_all', emoji: '🌿', name: '五四学制小才子', desc: '通过六年级上册语文（五四学制）全部 7 个单元（含红色经典活动·探究）', check: (s) => completedIn(s.levels, 'chinese54') >= 7 },
-  { id: 'math6_all', emoji: '📏', name: '六上数学小达人', desc: '通过六年级上册数学（六三制·人教版）全部 9 个关卡（含两个综合与实践单元）', check: (s) => completedIn(s.levels, 'math6') >= 9 },
-  { id: 'math54_all', emoji: '🎲', name: '预备年级数学小神童', desc: '通过六年级上册数学（五四学制·沪教版）全部 8 个关卡（数的整除到圆和扇形）', check: (s) => completedIn(s.levels, 'math54') >= 8 },
-  { id: 'eng6_all', emoji: '🐬', name: '预备年级英语小海豚', desc: '通过六年级上册英语（五四学制·沪教版新教材）全部 7 个关卡（Starter 衔接站 + Unit 1-6）', check: (s) => completedIn(s.levels, 'english6') >= 7 },
-  { id: 'math1_all', emoji: '🧸', name: '一上数学小天才', desc: '通过一年级上册数学全部 7 个关卡（含凑十法）', check: (s) => completedIn(s.levels, 'math1') >= 7 },
-  { id: 'eng1_all', emoji: '🐤', name: '一上英语小雏鹰', desc: '通过一年级上册英语全部 14 个单元（沪教版新教材，含 Starter 与 3 个语音角）', check: (s) => completedIn(s.levels, 'english1') >= 14 },
-  { id: 'win138', emoji: '🌟', name: '十七科全能满贯岛主', desc: '一至六年级语数英（含六上语文两个学制版本）154 关全部通过', check: (s) => completedIn(s.levels, 'chinese1') >= 8 && completedIn(s.levels, 'math1') >= 7 && completedIn(s.levels, 'english1') >= 14 && completedIn(s.levels, 'chinese2') >= 8 && completedIn(s.levels, 'math2') >= 8 && completedIn(s.levels, 'english2') >= 11 && completedIn(s.levels, 'chinese3') >= 8 && completedIn(s.levels, 'math3') >= 9 && completedIn(s.levels, 'english3') >= 11 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english4') >= 11 && completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 && completedIn(s.levels, 'chinese6') >= 8 && completedIn(s.levels, 'chinese54') >= 7 },
-  { id: 'win171', emoji: '🛳️', name: '十九科全能航海王', desc: '一至六年级语数英（含六上语文、数学各两个学制版本）全部 171 关都通过', check: (s) => completedIn(s.levels, 'chinese1') >= 8 && completedIn(s.levels, 'math1') >= 7 && completedIn(s.levels, 'english1') >= 14 && completedIn(s.levels, 'chinese2') >= 8 && completedIn(s.levels, 'math2') >= 8 && completedIn(s.levels, 'english2') >= 11 && completedIn(s.levels, 'chinese3') >= 8 && completedIn(s.levels, 'math3') >= 9 && completedIn(s.levels, 'english3') >= 11 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english4') >= 11 && completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 && completedIn(s.levels, 'chinese6') >= 8 && completedIn(s.levels, 'chinese54') >= 7 && completedIn(s.levels, 'math6') >= 9 && completedIn(s.levels, 'math54') >= 8 },
-  { id: 'win178', emoji: '🛰️', name: '二十科全能领航员', desc: '一至六年级语数英（含六上语文、数学、英语各两个学制版本）全部 178 关都通过', check: (s) => completedIn(s.levels, 'chinese1') >= 8 && completedIn(s.levels, 'math1') >= 7 && completedIn(s.levels, 'english1') >= 14 && completedIn(s.levels, 'chinese2') >= 8 && completedIn(s.levels, 'math2') >= 8 && completedIn(s.levels, 'english2') >= 11 && completedIn(s.levels, 'chinese3') >= 8 && completedIn(s.levels, 'math3') >= 9 && completedIn(s.levels, 'english3') >= 11 && completedIn(s.levels, 'chinese4') >= 8 && completedIn(s.levels, 'math4') >= 9 && completedIn(s.levels, 'english4') >= 11 && completedIn(s.levels, 'chinese') >= 8 && completedIn(s.levels, 'math') >= 8 && completedIn(s.levels, 'english') >= 11 && completedIn(s.levels, 'chinese6') >= 8 && completedIn(s.levels, 'chinese54') >= 7 && completedIn(s.levels, 'math6') >= 9 && completedIn(s.levels, 'math54') >= 8 && completedIn(s.levels, 'english6') >= 7 },
-  { id: 'math1rj_all', emoji: '🐻', name: '一上人教数学小神童', desc: '通过一年级上册数学（人教版）全部 7 个关卡（数学游戏到复习与关联）', check: (s) => completedIn(s.levels, 'math1rj') >= 7 },
-  { id: 'math2rj_all', emoji: '🐿️', name: '二上人教数学小勇士', desc: '通过二年级上册数学（人教版）全部 7 个关卡（分类与整理到复习与关联）', check: (s) => completedIn(s.levels, 'math2rj') >= 7 },
-  { id: 'math3rj_all', emoji: '🦊', name: '三上人教数学小智多星', desc: '通过三年级上册数学（人教版）全部 8 个关卡（含曹冲称象综合实践）', check: (s) => completedIn(s.levels, 'math3rj') >= 8 },
-  { id: 'math4rj_all', emoji: '🐼', name: '四上人教数学小学霸', desc: '通过四年级上册数学（人教版）全部 9 个关卡（含 1 亿有多大、寻找宝藏综合实践）', check: (s) => completedIn(s.levels, 'math4rj') >= 9 },
-  { id: 'math5rj_all', emoji: '🦉', name: '五上人教数学小博士', desc: '通过五年级上册数学（人教版）全部 9 个关卡（含有趣的密铺综合实践）', check: (s) => completedIn(s.levels, 'math5rj') >= 9 },
-  { id: 'eng1rj_all', emoji: '🐥', name: '一上PEP英语小飞鸟', desc: '通过一年级上册英语（人教版PEP预备级）全部 6 个关卡（Hello! 到 Revision）', check: (s) => completedIn(s.levels, 'english1rj') >= 6 },
-  { id: 'eng2rj_all', emoji: '🦆', name: '二上PEP英语小鸭鸭', desc: '通过二年级上册英语（人教版PEP新教材）全部 6 个关卡（数字字母到 Work time）', check: (s) => completedIn(s.levels, 'english2rj') >= 6 },
-  { id: 'eng3rj_all', emoji: '🐞', name: '三上PEP英语小瓢虫', desc: '通过三年级上册英语（人教版PEP 2024 新版）全部 7 个关卡（Making friends 到 Revision）', check: (s) => completedIn(s.levels, 'english3rj') >= 7 },
-  { id: 'eng4rj_all', emoji: '🐳', name: '四上PEP英语小鲸鱼', desc: '通过四年级上册英语（人教版PEP 2025 新版）全部 7 个关卡（Helping at home 到 Revision）', check: (s) => completedIn(s.levels, 'english4rj') >= 7 },
-  { id: 'eng5rj_all', emoji: '🦜', name: '五上PEP英语小鹦鹉', desc: '通过五年级上册英语（人教版PEP 2026 新版）全部 7 个关卡（Different friends 到新年派对）', check: (s) => completedIn(s.levels, 'english5rj') >= 7 },
-  { id: 'eng6rj_all', emoji: '🕊️', name: '六上PEP英语小和平鸽', desc: '通过六年级上册英语（人教版PEP 2026 新版）全部 7 个关卡（Amazing places 到博物馆复习）', check: (s) => completedIn(s.levels, 'english6rj') >= 7 },
-  { id: 'win218', emoji: '👑', name: '三十一科全能大满贯', desc: '一至六年级语数英全部 31 个科目岛、258 关都通过（含数学、英语各年级沪教/人教双版本与六上三科双学制版本）', check: (s) => SUBJECTS.every((subj) => completedIn(s.levels, subj.id) >= subj.units.length) },
-  { id: 'math_all', emoji: '🧮', name: '数学小达人', desc: '通过五年级上册数学全部 8 个关卡', check: (s) => completedIn(s.levels, 'math') >= 8 },
-  { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星', check: (s) => Object.values(s.levels).some((l) => l.stars >= 3) },
-  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: '全部 258 个关卡都拿到 3 颗星', check: (s) => allFullStars(s.levels) },
-  { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题', check: (s) => s.achievements.includes('combo5') },
-  { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币', check: (s) => s.coins >= 300 },
-  { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天', check: (s) => s.streak >= 3 },
-  { id: 'sign7', emoji: '🗓️', name: '学习之星', desc: '连续签到 7 天', check: (s) => s.streak >= 7 },
-  // clear10 由 removeWrong() 手动授予（需要累计消灭错题计数器）
-  { id: 'clear10', emoji: '🎯', name: '错题克星', desc: '复习消灭 10 道错题', check: () => false },
-]
+function fullStarTotal(levels: Record<string, LevelProgress>): number {
+  return Object.values(levels).filter((l) => l.stars >= 3).length
+}
 
-// 累计消灭错题计数器（非持久化，重开游戏后重新累计即可）
-const clearedCounter = { value: 0 }
+// 全部关卡都拿到满星
+function allFullStars(levels: Record<string, LevelProgress>): boolean {
+  return TOTAL_UNITS > 0 && fullStarTotal(levels) >= TOTAL_UNITS
+}
+
+// 通用里程碑成就：只统计累计闯关、满星、答题量、金币、连签等全局进度，
+// 不与具体年级/科目/教材版本绑定（科目会持续新增，绑定后很快过时）。
+// progress 返回当前进度，成就墙上未解锁的成就展示进度条。
+export const ACHIEVEMENTS: Achievement[] = [
+  { id: 'first_win', emoji: '🎉', name: '初出茅庐', desc: '第一次通过一关（任意科目）', check: (s) => completedTotal(s.levels) >= 1, progress: (s) => ({ cur: completedTotal(s.levels), goal: 1 }) },
+  { id: 'win4', emoji: '📚', name: '渐入佳境', desc: '累计通过 4 个关卡', check: (s) => completedTotal(s.levels) >= 4, progress: (s) => ({ cur: completedTotal(s.levels), goal: 4 }) },
+  { id: 'win8', emoji: '🏆', name: '满腹经纶', desc: '累计通过 8 个关卡', check: (s) => completedTotal(s.levels) >= 8, progress: (s) => ({ cur: completedTotal(s.levels), goal: 8 }) },
+  { id: 'win16', emoji: '🌉', name: '勇攀高峰', desc: '累计通过 16 个关卡', check: (s) => completedTotal(s.levels) >= 16, progress: (s) => ({ cur: completedTotal(s.levels), goal: 16 }) },
+  { id: 'win32', emoji: '🚀', name: '闯关小将', desc: '累计通过 32 个关卡', check: (s) => completedTotal(s.levels) >= 32, progress: (s) => ({ cur: completedTotal(s.levels), goal: 32 }) },
+  { id: 'win64', emoji: '🌏', name: '闯关大将', desc: '累计通过 64 个关卡', check: (s) => completedTotal(s.levels) >= 64, progress: (s) => ({ cur: completedTotal(s.levels), goal: 64 }) },
+  { id: 'win128', emoji: '🛳️', name: '闯关舰队', desc: '累计通过 128 个关卡', check: (s) => completedTotal(s.levels) >= 128, progress: (s) => ({ cur: completedTotal(s.levels), goal: 128 }) },
+  { id: 'win_all', emoji: '👑', name: '全能大满贯', desc: `通过全部 ${TOTAL_UNITS} 个关卡`, check: (s) => SUBJECTS.every((sub) => completedIn(s.levels, sub.id) >= sub.units.length), progress: (s) => ({ cur: SUBJECTS.filter((sub) => completedIn(s.levels, sub.id) >= sub.units.length).length, goal: SUBJECTS.length }) },
+  { id: 'star3_any', emoji: '⭐', name: '三星大将', desc: '任意一关拿到 3 颗星', check: (s) => fullStarTotal(s.levels) >= 1, progress: (s) => ({ cur: fullStarTotal(s.levels), goal: 1 }) },
+  { id: 'star3_10', emoji: '✨', name: '摘星少年', desc: '10 个关卡都拿到 3 颗星', check: (s) => fullStarTotal(s.levels) >= 10, progress: (s) => ({ cur: fullStarTotal(s.levels), goal: 10 }) },
+  { id: 'star3_all', emoji: '🌟', name: '全星霸主', desc: `全部 ${TOTAL_UNITS} 关都拿到 3 颗星`, check: (s) => allFullStars(s.levels), progress: (s) => ({ cur: fullStarTotal(s.levels), goal: TOTAL_UNITS }) },
+  { id: 'correct100', emoji: '✏️', name: '百题小达人', desc: '累计答对 100 道题', check: (s) => s.totalCorrect >= 100, progress: (s) => ({ cur: s.totalCorrect, goal: 100 }) },
+  { id: 'correct500', emoji: '🎓', name: '答题小博士', desc: '累计答对 500 道题', check: (s) => s.totalCorrect >= 500, progress: (s) => ({ cur: s.totalCorrect, goal: 500 }) },
+  { id: 'rich300', emoji: '💰', name: '小富翁', desc: '累计攒到 300 金币', check: (s) => s.coins >= 300, progress: (s) => ({ cur: s.coins, goal: 300 }) },
+  { id: 'rich1000', emoji: '🤑', name: '大富翁', desc: '累计攒到 1000 金币', check: (s) => s.coins >= 1000, progress: (s) => ({ cur: s.coins, goal: 1000 }) },
+  { id: 'sign3', emoji: '📅', name: '持之以恒', desc: '连续签到 3 天', check: (s) => s.streak >= 3, progress: (s) => ({ cur: s.streak, goal: 3 }) },
+  { id: 'sign7', emoji: '🗓️', name: '学习之星', desc: '连续签到 7 天', check: (s) => s.streak >= 7, progress: (s) => ({ cur: s.streak, goal: 7 }) },
+  { id: 'sign21', emoji: '🌈', name: '习惯成自然', desc: '连续签到 21 天', check: (s) => s.streak >= 21, progress: (s) => ({ cur: s.streak, goal: 21 }) },
+  // combo5 由闯关连击逻辑（grantCombo）即时授予，无需进度条
+  { id: 'combo5', emoji: '🔥', name: '连击达人', desc: '一关里连续答对 5 题', check: (s) => s.achievements.includes('combo5') },
+  { id: 'clear10', emoji: '🎯', name: '错题克星', desc: '复习消灭 10 道错题', check: (s) => s.clearedTotal >= 10, progress: (s) => ({ cur: s.clearedTotal, goal: 10 }) },
+]
 
 function todayStr(): string {
   const d = new Date()
@@ -224,6 +209,7 @@ export const useGame = create<GameState>()(
       dailyDone: { level: false, minutes: false, review: false },
       totalCorrect: 0,
       totalWrong: 0,
+      clearedTotal: 0,
       redeemLog: [],
       customRewards: [],
 
@@ -324,17 +310,11 @@ export const useGame = create<GameState>()(
         const wrongBook = { ...s.wrongBook }
         if (!(qid in wrongBook)) return
         delete wrongBook[qid]
-        clearedCounter.value += 1
-        const merged = { ...s, wrongBook }
-        const customCheck = ACHIEVEMENTS.find((a) => a.id === 'clear10')
-        const patch: Partial<GameState> = { wrongBook }
-        if (customCheck && clearedCounter.value >= 10 && !s.achievements.includes('clear10')) {
-          patch.achievements = [...s.achievements, 'clear10']
-          patch.unseenAchievements = [...s.unseenAchievements, 'clear10']
-        }
-        const extra = grantAchievements({ ...merged, ...patch } as GameState)
+        const clearedTotal = s.clearedTotal + 1
+        const extra = grantAchievements({ ...s, wrongBook, clearedTotal })
         set({
-          ...patch,
+          wrongBook,
+          clearedTotal,
           ...(extra ? { achievements: extra.achievements, unseenAchievements: extra.unseenAchievements } : {}),
         })
       },
@@ -409,6 +389,7 @@ export const useGame = create<GameState>()(
           dailyDone: { level: false, minutes: false, review: false },
           totalCorrect: 0,
           totalWrong: 0,
+          clearedTotal: 0,
           redeemLog: [],
           customRewards: [],
         }),

@@ -100,6 +100,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.ach-prog {
+  font-size: 18rpx;
+  font-weight: 700;
+  color: #b45309;
+  margin-top: 4rpx;
+}
 
 .about-card {
   margin-top: 30rpx;

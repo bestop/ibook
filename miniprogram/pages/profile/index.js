@@ -57,7 +57,7 @@ Page({
     })
   },
 
-  // 成就墙（与 store 内置规则一致，本地计算解锁状态）
+  // 成就墙（与 store 内置规则一致，本地计算解锁状态与进度文本）
   buildAchievementList(s) {
     const subjects = getApp().globalData.manifest ? getApp().globalData.manifest.subjects : []
     let completed = 0
@@ -66,36 +66,41 @@ Page({
       if (s.levels[k].completed) completed++
       if (s.levels[k].stars >= 3) fullStars++
     })
-    const defs = [
-      { id: 'first_win', emoji: '🎉', name: '初出茅庐', ok: completed >= 1 },
-      { id: 'win4', emoji: '📚', name: '渐入佳境', ok: completed >= 4 },
-      { id: 'win8', emoji: '🏆', name: '满腹经纶', ok: completed >= 8 },
-      { id: 'win16', emoji: '🌉', name: '文理双全', ok: completed >= 16 },
-      { id: 'win32', emoji: '🚀', name: '闯关小将', ok: completed >= 32 },
-      { id: 'win64', emoji: '🌏', name: '闯关大将', ok: completed >= 64 },
-      { id: 'win128', emoji: '🛳️', name: '闯关舰队', ok: completed >= 128 },
-      { id: 'star3_any', emoji: '⭐', name: '三星大将', ok: fullStars >= 1 },
-      { id: 'rich300', emoji: '💰', name: '小富翁', ok: s.coins >= 300 },
-      { id: 'rich1000', emoji: '🤑', name: '大富翁', ok: s.coins >= 1000 },
-      { id: 'sign3', emoji: '📅', name: '持之以恒', ok: s.streak >= 3 },
-      { id: 'sign7', emoji: '🗓️', name: '学习之星', ok: s.streak >= 7 },
-      { id: 'combo5', emoji: '🔥', name: '连击达人', ok: s.achievements.indexOf('combo5') >= 0 },
-      { id: 'clear10', emoji: '🎯', name: '错题克星', ok: s.clearedTotal >= 10 },
-    ]
+    let totalLevels = 0
+    let doneSubjects = 0
     subjects.forEach(function (sub) {
+      totalLevels += sub.levelCount
       let n = 0
       Object.keys(s.levels).forEach(function (k) {
         if (k.indexOf(sub.id + ':') === 0 && s.levels[k].completed) n++
       })
-      defs.push({
-        id: 'done_' + sub.id,
-        emoji: sub.emoji,
-        name: sub.grade + sub.name + '通关',
-        ok: n >= sub.levelCount,
-      })
+      if (n >= sub.levelCount) doneSubjects++
     })
+    const pg = function (cur, goal) { return Math.min(cur, goal) + '/' + goal }
+    const defs = [
+      { id: 'first_win', emoji: '🎉', name: '初出茅庐', ok: completed >= 1, prog: pg(completed, 1) },
+      { id: 'win4', emoji: '📚', name: '渐入佳境', ok: completed >= 4, prog: pg(completed, 4) },
+      { id: 'win8', emoji: '🏆', name: '满腹经纶', ok: completed >= 8, prog: pg(completed, 8) },
+      { id: 'win16', emoji: '🌉', name: '勇攀高峰', ok: completed >= 16, prog: pg(completed, 16) },
+      { id: 'win32', emoji: '🚀', name: '闯关小将', ok: completed >= 32, prog: pg(completed, 32) },
+      { id: 'win64', emoji: '🌏', name: '闯关大将', ok: completed >= 64, prog: pg(completed, 64) },
+      { id: 'win128', emoji: '🛳️', name: '闯关舰队', ok: completed >= 128, prog: pg(completed, 128) },
+      { id: 'win_all', emoji: '👑', name: '全能大满贯', ok: subjects.length > 0 && totalLevels > 0 && doneSubjects >= subjects.length, prog: pg(doneSubjects, Math.max(subjects.length, 1)) },
+      { id: 'star3_any', emoji: '⭐', name: '三星大将', ok: fullStars >= 1, prog: pg(fullStars, 1) },
+      { id: 'star3_10', emoji: '✨', name: '摘星少年', ok: fullStars >= 10, prog: pg(fullStars, 10) },
+      { id: 'star3_all', emoji: '🌟', name: '全星霸主', ok: totalLevels > 0 && fullStars >= totalLevels, prog: pg(fullStars, Math.max(totalLevels, 1)) },
+      { id: 'correct100', emoji: '✏️', name: '百题小达人', ok: s.totalCorrect >= 100, prog: pg(s.totalCorrect, 100) },
+      { id: 'correct500', emoji: '🎓', name: '答题小博士', ok: s.totalCorrect >= 500, prog: pg(s.totalCorrect, 500) },
+      { id: 'rich300', emoji: '💰', name: '小富翁', ok: s.coins >= 300, prog: pg(s.coins, 300) },
+      { id: 'rich1000', emoji: '🤑', name: '大富翁', ok: s.coins >= 1000, prog: pg(s.coins, 1000) },
+      { id: 'sign3', emoji: '📅', name: '持之以恒', ok: s.streak >= 3, prog: pg(s.streak, 3) },
+      { id: 'sign7', emoji: '🗓️', name: '学习之星', ok: s.streak >= 7, prog: pg(s.streak, 7) },
+      { id: 'sign21', emoji: '🌈', name: '习惯成自然', ok: s.streak >= 21, prog: pg(s.streak, 21) },
+      { id: 'combo5', emoji: '🔥', name: '连击达人', ok: s.achievements.indexOf('combo5') >= 0, prog: s.achievements.indexOf('combo5') >= 0 ? '1/1' : '0/1' },
+      { id: 'clear10', emoji: '🎯', name: '错题克星', ok: (s.clearedTotal || 0) >= 10, prog: pg(s.clearedTotal || 0, 10) },
+    ]
     return defs.map(function (d) {
-      return { id: d.id, emoji: d.emoji, name: d.name, unlocked: d.ok && s.achievements.indexOf(d.id) >= 0 }
+      return { id: d.id, emoji: d.emoji, name: d.name, progress: d.prog, unlocked: d.ok && s.achievements.indexOf(d.id) >= 0 }
     })
   },
 

@@ -41,6 +41,7 @@
     <view wx:for="{{achievements}}" wx:key="id" class="ach {{item.unlocked ? 'ach-on' : ''}}">
       <view class="ach-emoji">{{item.emoji}}</view>
       <view class="ach-name">{{item.name}}</view>
+      <view wx:if="{{!item.unlocked && item.progress}}" class="ach-prog">{{item.progress}}</view>
     </view>
   </view>
 

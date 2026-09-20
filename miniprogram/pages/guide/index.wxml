@@ -17,7 +17,7 @@
     <view class="sec-text">· 答对 1 题 +10 金币；连击 3 次以上每题再 +5</view>
     <view class="sec-text">· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100</view>
     <view class="sec-text">· 每日任务（闯关/20分钟/复习错题）各有金币奖励</view>
-    <view class="sec-text">· 每日签到 +10 金币，45+ 个成就徽章等你解锁</view>
+    <view class="sec-text">· 每日签到 +10 金币，20 个成就徽章等你解锁</view>
   </view>
 
   <!-- 惩罚机制 -->

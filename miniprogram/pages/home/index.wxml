@@ -20,7 +20,7 @@
     <view class="error-emoji">😵</view>
     <view class="error-text">内容加载失败：{{error}}</view>
     <button class="btn-primary retry-btn" bindtap="retry">重新加载</button>
-    <view class="error-hint">需要网络连接 lx.hikid.vip</view>
+    <view class="error-hint">网络开小差啦，请检查网络后重试</view>
   </view>
 
   <block wx:else>
