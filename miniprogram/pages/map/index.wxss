@@ -36,6 +36,9 @@
   font-size: 34rpx;
   font-weight: 900;
   color: #3d3a6e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .head-sub {
   font-size: 24rpx;
@@ -66,6 +69,8 @@
   box-shadow: 0 10rpx 0 rgba(232, 164, 0, 0.1), 0 24rpx 44rpx rgba(93, 74, 156, 0.1);
 }
 .daily-left {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 18rpx;
@@ -73,6 +78,7 @@
 .daily-emoji {
   font-size: 56rpx;
   animation: eggy-spin 7s linear infinite;
+  flex-shrink: 0;
 }
 .daily-name {
   font-size: 30rpx;
@@ -83,10 +89,15 @@
   font-size: 22rpx;
   color: #8a87b8;
   margin-top: 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .daily-btn {
-  padding: 16rpx 40rpx;
+  padding: 32rpx 48rpx;
   font-size: 28rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ===== 关卡地图 ===== */

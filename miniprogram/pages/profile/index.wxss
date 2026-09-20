@@ -37,8 +37,10 @@
   margin-top: 6rpx;
 }
 .sign-btn {
-  padding: 16rpx 36rpx;
+  padding: 32rpx 44rpx;
   font-size: 28rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ===== 每日任务 ===== */
@@ -46,6 +48,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12rpx;
   font-size: 27rpx;
   font-weight: 700;
   color: #5b5486;
@@ -61,6 +64,8 @@
 .task-coin {
   color: #e08600;
   font-weight: 900;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ===== 学习统计：糖果数字 ===== */

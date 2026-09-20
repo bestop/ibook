@@ -102,8 +102,9 @@
   color: #e08600;
 }
 .reward-btn {
-  padding: 10rpx 30rpx;
+  padding: 25rpx 36rpx;
   font-size: 25rpx;
+  white-space: nowrap;
 }
 .reward-del {
   font-size: 20rpx;
@@ -150,6 +151,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14rpx;
   margin-bottom: 14rpx;
   padding: 22rpx;
 }
@@ -169,31 +171,47 @@
   opacity: 0.6;
 }
 .coupon-left {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 16rpx;
 }
 .coupon-emoji {
   font-size: 44rpx;
+  flex-shrink: 0;
+}
+.coupon-info {
+  flex: 1;
+  min-width: 0;
 }
 .coupon-name {
   font-size: 27rpx;
   font-weight: 800;
   color: #3d3a6e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .coupon-time {
   font-size: 20rpx;
   color: #a5a1cc;
   margin-top: 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .coupon-ok {
   color: #0e9f6e;
   font-weight: 900;
   font-size: 24rpx;
+  flex-shrink: 0;
 }
 .coupon-btn {
-  padding: 8rpx 24rpx;
+  padding: 21rpx 32rpx;
   font-size: 22rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .tabbar-space {
   height: 140rpx;

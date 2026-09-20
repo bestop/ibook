@@ -61,7 +61,7 @@
   <view wx:for="{{redeemLog}}" wx:key="id" class="card coupon {{item.fulfilled ? 'coupon-done' : ''}}">
     <view class="coupon-left">
       <text class="coupon-emoji">{{item.emoji}}</text>
-      <view>
+      <view class="coupon-info">
         <view class="coupon-name">{{item.name}}</view>
         <view class="coupon-time">🪙 -{{item.cost}} · {{item.timeText || ''}}</view>
       </view>

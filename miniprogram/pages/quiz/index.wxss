@@ -61,7 +61,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12rpx;
   margin-bottom: 12rpx;
+}
+/* 长科目标签：超出收缩省略，不挤掉连击徽章 */
+.quiz-sub .tag {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .combo {
   background: #ffd9e8;
@@ -70,6 +78,8 @@
   padding: 4rpx 20rpx;
   font-weight: 900;
   font-size: 26rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
   box-shadow: 0 5rpx 0 rgba(224, 64, 127, 0.15);
 }
 
@@ -154,10 +164,13 @@
   flex-shrink: 0;
 }
 .option-text {
+  flex: 1;
+  min-width: 0;
   font-size: 28rpx;
   font-weight: 700;
   color: #3d3a6e;
   line-height: 1.5;
+  word-break: break-word; /* 长英文单词/拼音也能自适应换行不溢出 */
 }
 .option-correct {
   background: #dff9ee;
