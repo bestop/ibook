@@ -46,7 +46,7 @@
 
   <!-- 说明与重置 -->
   <view class="card about-card">
-    <view class="about-line">📖 教材与题目内容实时同步自网页版 www.hikid.org</view>
+    <view class="about-line">📖 教材与题目内容实时同步自 lx.hikid.vip</view>
     <view class="about-line">💾 学习进度保存在本机微信中，无需注册</view>
     <view class="reset-link" bindtap="doReset">🗑️ 家长专区：重置全部进度</view>
   </view>

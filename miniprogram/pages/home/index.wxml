@@ -18,7 +18,7 @@
     <view class="error-emoji">😵</view>
     <view class="error-text">教材内容同步失败：{{error}}</view>
     <button class="btn-primary retry-btn" bindtap="retry">重新加载</button>
-    <view class="error-hint">需要网络连接 www.hikid.org</view>
+    <view class="error-hint">需要网络连接 lx.hikid.vip</view>
   </view>
 
   <block wx:else>

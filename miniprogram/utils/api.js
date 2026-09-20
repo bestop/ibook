@@ -1,13 +1,16 @@
 // 数据同步层：教材与闯关内容全部从网页端获取
 // manifest（科目清单）每次启动拉取；bank（题库）按科目+版本号增量缓存。
-const BASE = 'https://www.hikid.org'
+// 合法域名：主用 lx.hikid.vip（小程序专用数据域名），
+// 网络异常时自动回退 www.hikid.org（网页版主域，同源同内容）。
+const DOMAINS = ['https://lx.hikid.vip', 'https://www.hikid.org']
+const BASE = DOMAINS[0]
 const MANIFEST_KEY = 'mp-manifest-v1'
 const BANK_KEY_PREFIX = 'mp-bank-v1-'
 
-function request(path) {
+function requestOnce(base, path) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: BASE + path,
+      url: base + path,
       method: 'GET',
       dataType: 'json',
       timeout: 15000,
@@ -19,6 +22,21 @@ function request(path) {
         reject(new Error('网络异常，请检查网络后重试'))
       },
     })
+  })
+}
+
+// 依次尝试 DOMAINS：主域失败自动切换备用域
+function request(path) {
+  return new Promise((resolve, reject) => {
+    let idx = 0
+    const attempt = (lastErr) => {
+      if (idx >= DOMAINS.length) {
+        reject(lastErr || new Error('网络异常，请检查网络后重试'))
+        return
+      }
+      requestOnce(DOMAINS[idx++], path).then(resolve, attempt)
+    }
+    attempt(null)
   })
 }
 

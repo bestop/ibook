@@ -1,6 +1,6 @@
 # 小明乐学岛 · 微信小程序端
 
-与网页版（https://www.hikid.org）配套的原生微信小程序，**教材与闯关内容全部从网页端 API 实时获取**，本地只保存学习进度（金币、星级、错题本、成就、礼物屋）。
+与网页版（https://www.hikid.org）配套的原生微信小程序，**教材与闯关内容全部从数据域名 https://lx.hikid.vip 实时获取**（与网页版同一服务、同一内容），本地只保存学习进度（金币、星级、错题本、成就、礼物屋）。
 
 ## 功能
 
@@ -17,10 +17,12 @@
 
 | 接口 | 说明 | 缓存策略 |
 |------|------|----------|
-| `GET https://www.hikid.org/api/mp/manifest` | 31 个科目岛元信息 + 关卡清单 + 全库版本号 | 启动时拉取，离线兜底读缓存 |
-| `GET https://www.hikid.org/api/mp/bank?subject=<id>` | 单科目全部关卡与题目（约 15~70KB） | 按 `version`（内容哈希）增量缓存，命中免下载 |
+| `GET https://lx.hikid.vip/api/mp/manifest` | 31 个科目岛元信息 + 关卡清单 + 全库版本号 | 启动时拉取，离线兜底读缓存 |
+| `GET https://lx.hikid.vip/api/mp/bank?subject=<id>` | 单科目全部关卡与题目（约 15~70KB） | 按 `version`（内容哈希）增量缓存，命中免下载 |
 
 网页端题库更新并重新部署后 `version` 自动变化，小程序下次启动即增量同步，无需发版。
+
+> **域名说明**：请求域名依次为 `https://lx.hikid.vip` → `https://www.hikid.org`（主域不可用时自动回退，两者指向同一服务）。`request 合法域名` 中**必须添加主域 lx.hikid.vip**，建议同时添加 www.hikid.org 作备用；只添加主域时回退请求会被微信拦截（不影响正常使用）。
 
 ## 使用步骤（家长）
 
@@ -28,7 +30,7 @@
 2. 打开开发者工具 → 导入项目 → 选择本 `miniprogram` 文件夹
 3. AppID：填入自己的小程序 AppID（没有可先用「测试号」，即 `project.config.json` 中的 `touristappid`）
 4. 开发调试阶段：右上角「详情 → 本地设置」勾选「不校验合法域名…」即可直接联网调试
-5. **正式发布前**：登录微信公众平台（mp.weixin.qq.com）→ 开发管理 → 开发设置 → 服务器域名 → 在 `request 合法域名` 中添加 `https://www.hikid.org`
+5. **正式发布前**：登录微信公众平台（mp.weixin.qq.com）→ 开发管理 → 开发设置 → 服务器域名 → 在 `request 合法域名` 中添加 `https://lx.hikid.vip`（建议同时添加备用 `https://www.hikid.org`）
 6. 上传代码 → 提交审核 → 审核通过后发布
 
 ## 目录结构
