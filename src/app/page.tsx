@@ -151,7 +151,7 @@ export default function Home() {
           <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.2 }} className="text-6xl">
             🏝️
           </motion.span>
-          <p className="font-black text-orange-500">学习闯关岛加载中…</p>
+          <p className="font-black text-orange-500">小明乐学岛加载中…</p>
         </div>
       </div>
     )
@@ -175,7 +175,7 @@ export default function Home() {
           <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-3 py-2.5">
             <div className="flex items-center gap-1.5">
               <span className="text-2xl">🏝️</span>
-              <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">学习闯关岛</h1>
+              <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">小明乐学岛</h1>
               <TextbookPicker />
             </div>
             <div className="flex items-center gap-1 sm:gap-2">
@@ -208,7 +208,7 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 家长使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                      「学习闯关岛」覆盖一至六年级上册共 31 个科目岛（各年级数学、英语分沪教/人教两版，六上语数英另分六三制/五四学制）：
+                      「小明乐学岛」覆盖一至六年级上册共 31 个科目岛（各年级数学、英语分沪教/人教两版，六上语数英另分六三制/五四学制）：
                       🌸 一年级语文（8 关，2024 秋版）· 🧸 一年级数学·沪教（7 关）· 🐻 一年级数学·人教（7 关，2024 新版）· 🐤 一年级英语·沪教（14 关，含 3 个语音角）· 🐥 一年级英语·PEP人教（6 关，一起点预备级）·
                       🐸 二年级语文（8 关）· 🪀 二年级数学·沪教（8 关）· 🐿️ 二年级数学·人教（7 关，2025 新版）· 🐣 二年级英语·沪教（11 关）· 🦆 二年级英语·PEP人教（6 关，一起点预备级）·
                       🌱 三年级语文（8 关）· 🪁 三年级数学·沪教（9 关，含七巧板）· 🦊 三年级数学·人教（8 关，含曹冲称象）· 🌈 三年级英语·沪教（11 关）· 🐞 三年级英语·PEP人教（7 关，2024 新版）·

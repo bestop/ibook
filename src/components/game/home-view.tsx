@@ -232,7 +232,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             🏝️
           </motion.p>
           <h1 className="mt-2 bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl">
-            学习闯关岛
+            小明乐学岛
           </h1>
           <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">
             一至六年级 · 闯关赢金币 · 越玩越聪明
