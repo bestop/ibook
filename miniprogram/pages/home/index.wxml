@@ -58,7 +58,7 @@
     <view wx:if="{{subjects.length === 0}}" class="card empty-tip">
       <view style="font-size: 60rpx">🗺️</view>
       <view style="margin: 16rpx 0">这个组合下暂无科目岛，换个年级或版本试试～</view>
-      <view style="font-size: 22rpx; color: #a5a1cc">下册已开放语文、人教版数学一至六年级（英语建设中）</view>
+      <view style="font-size: 22rpx; color: #a5a1cc">下册已开放语文、人教版数学、沪教版数学一至六年级（英语建设中）</view>
     </view>
 
     <view

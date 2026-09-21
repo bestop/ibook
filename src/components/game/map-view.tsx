@@ -48,6 +48,12 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   math4rjb: '🦋 运算定律、小数、三角形、鸡兔同笼……把人教版四下数学岛全部点亮！',
   math5rjb: '🐧 因数与倍数、长方体、分数加减……把人教版五下数学岛全部点亮！',
   math6rjb: '📐 负数、百分数、圆柱圆锥、比例……把六三制数学毕业岛全部点亮！',
+  math1b: '🎈 退位减法、认识100、身体上的尺子……把沪教版一下数学岛全部点亮！',
+  math2b: '🧩 千以内数、三位数加减、克与千克……把沪教版二下数学岛全部点亮！',
+  math3b: '🥧 两位数乘除、分数初步、周长……把沪教版三下数学岛全部点亮！',
+  math4b: '📊 小数、折线统计图、垂直与平行……把沪教版四下数学岛全部点亮！',
+  math5b: '🧊 正数与负数、方程、体积……把沪教版五下数学岛全部点亮！',
+  math54b: '🧭 有理数、一次方程、线段与角……把预备年级数学毕业岛全部点亮！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
