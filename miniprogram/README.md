@@ -17,7 +17,7 @@
 
 | 接口 | 说明 | 缓存策略 |
 |------|------|----------|
-| `GET https://lx.hikid.vip/api/mp/manifest` | 38 个科目岛元信息 + 关卡清单 + 全库版本号 | 启动时拉取，离线兜底读缓存 |
+| `GET https://lx.hikid.vip/api/mp/manifest` | 44 个科目岛元信息 + 关卡清单 + 全库版本号 | 启动时拉取，离线兜底读缓存 |
 | `GET https://lx.hikid.vip/api/mp/bank?subject=<id>` | 单科目全部关卡与题目（约 15~70KB） | 按 `version`（内容哈希）增量缓存，命中免下载 |
 
 网页端题库更新并重新部署后 `version` 自动变化，小程序下次启动即增量同步，无需发版。

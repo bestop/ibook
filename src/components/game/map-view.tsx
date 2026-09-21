@@ -42,6 +42,12 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   chinese5b: '🍃 从祖父的园子到手指，把五年级下册语文岛全部点亮！',
   chinese6b: '🕊️ 从民风民俗到难忘小学生活，把六三制语文下册岛全部点亮！',
   chinese54b: '🎋 从民风民俗到古诗词诵读，把五四学制语文下册岛全部点亮！',
+  math1rjb: '🐰 平面图形、退位减法、欢乐购物街……把人教版一下数学岛全部点亮！',
+  math2rjb: '🐝 表内除法、混合运算、推理……把人教版二下数学岛全部点亮！',
+  math3rjb: '🐬 位置与方向、两位数乘两位数、面积……把人教版三下数学岛全部点亮！',
+  math4rjb: '🦋 运算定律、小数、三角形、鸡兔同笼……把人教版四下数学岛全部点亮！',
+  math5rjb: '🐧 因数与倍数、长方体、分数加减……把人教版五下数学岛全部点亮！',
+  math6rjb: '📐 负数、百分数、圆柱圆锥、比例……把六三制数学毕业岛全部点亮！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
