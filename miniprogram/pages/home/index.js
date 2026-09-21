@@ -40,6 +40,22 @@ Page({
     if (getApp().globalData.manifest) this.applyFilter()
   },
 
+  // 转发给好友/群（右上角菜单与首页分享按钮共用）
+  onShareAppMessage() {
+    sfx.click()
+    return {
+      title: '童学冒险岛：一至六年级语数英闯关，越玩越聪明！',
+      path: '/pages/home/index',
+    }
+  },
+
+  // 分享到朋友圈（右上角菜单）
+  onShareTimeline() {
+    return {
+      title: '发现宝藏学习小程序：童学冒险岛，闯关赢金币学语数英！',
+    }
+  },
+
   bootstrap() {
     const that = this
     const saved = store.getState().textbook
