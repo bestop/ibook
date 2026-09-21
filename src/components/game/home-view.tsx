@@ -173,6 +173,12 @@ const KID_LINES: Partial<Record<SubjectId, string>> = {
   english4rj: '在家帮忙 · 社区生活 · 天气四季！',
   english5rj: '不同的朋友 · 健康习惯 · 美食自然！',
   english6rj: '神奇地方 · 团圆佳节 · 探索太空！',
+  english1rjb: '有礼貌 · 讲卫生 · 吃得好，宝贝真棒！',
+  english2rjb: '穿外套 · 安全玩 · 我能行 · 设计公园！',
+  english3rjb: '新朋友 · 表达自己 · 健康食物 · 数字生活！',
+  english4rjb: '班级规则 · 家规 · 购物 · 农场一日游！',
+  english5rjb: '我的一天 · 最爱季节 · 校园日历 · 文明标识！',
+  english6rjb: '比较高矮 · 上周末 · 今昔对比 · 毕业冲刺！',
 }
 
 // 页面边缘的漂浮小装饰
@@ -388,7 +394,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
 
         {/* 底部一句话 */}
         <p className="mt-8 text-center text-xs font-bold text-gray-400">
-          🚧 下册和更多教材，正在开岛中…
+          🚧 英语沪教版下册和更多教材，正在开岛中…
         </p>
       </div>
     </div>

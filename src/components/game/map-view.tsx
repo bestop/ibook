@@ -54,6 +54,12 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   math4b: '📊 小数、折线统计图、垂直与平行……把沪教版四下数学岛全部点亮！',
   math5b: '🧊 正数与负数、方程、体积……把沪教版五下数学岛全部点亮！',
   math54b: '🧭 有理数、一次方程、线段与角……把预备年级数学毕业岛全部点亮！',
+  english1rjb: '🐣 Nice boys and girls、Eat well、My pet……把 PEP 一下英语岛闯个遍吧！',
+  english2rjb: '🦢 Put on my coat!、Play safely、Summer camp……把 PEP 二下英语岛闯个遍吧！',
+  english3rjb: '🦋 Meeting new people、Healthy food、Numbers in life……把 PEP 三下英语岛闯个遍吧！',
+  english4rjb: '🐬 Class rules、Going shopping、On the farm……把 PEP 四下英语岛闯个遍吧！',
+  english5rjb: '🐝 My day、My favourite season、Work quietly!……把 PEP 五下英语岛闯个遍吧！',
+  english6rjb: '🎓 How tall are you?、Last weekend、小升初总复习……把 PEP 毕业岛闯个遍吧！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
