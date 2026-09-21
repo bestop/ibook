@@ -1,4 +1,4 @@
-// 小明乐学岛 · 小程序端
+// 童学冒险岛 · 小程序端
 // 教材与闯关内容从数据域名（https://lx.hikid.vip，备用 www.hikid.org）获取，本地仅存学习进度。
 const api = require('./utils/api')
 

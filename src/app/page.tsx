@@ -159,7 +159,7 @@ export default function Home() {
           <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.2 }} className="text-6xl">
             🏝️
           </motion.span>
-          <p className="font-black text-orange-500">小明乐学岛加载中…</p>
+          <p className="font-black text-orange-500">童学冒险岛加载中…</p>
         </div>
       </div>
     )
@@ -183,7 +183,7 @@ export default function Home() {
           <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-3 py-2.5">
             <div className="flex items-center gap-1.5">
               <span className="text-2xl">🏝️</span>
-              <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">小明乐学岛</h1>
+              <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">童学冒险岛</h1>
               <TextbookPicker />
             </div>
             <div className="flex items-center gap-1 sm:gap-2">
@@ -216,7 +216,7 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                      「小明乐学岛」覆盖一至六年级上册语文、数学、英语，共 31 个科目岛、258 关 2580 道精选题，每题都配详细解析。
+                      「童学冒险岛」覆盖一至六年级上册语文、数学、英语，共 31 个科目岛、258 关 2580 道精选题，每题都配详细解析。
                       语文采用统编教材（六上分六三制/五四学制两版），数学、英语各年级均提供沪教版与人教版两套题库，内容按 2024～2026 秋季最新课本编写。
                       顶部左上角可随时切换年级、上下册和版本，建议孩子每天玩 20 分钟。
                     </DialogDescription>

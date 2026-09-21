@@ -7,7 +7,7 @@
     <text class="hero-egg">🥚</text>
     <view class="hero-bubble">嗨，小岛民！今天想去哪个岛冒险呀？</view>
     <text class="hero-island">🏝️</text>
-    <view class="hero-title">小明乐学岛</view>
+    <view class="hero-title">童学冒险岛</view>
     <view class="hero-sub">一至六年级 · 闯关赢金币 · 越玩越聪明</view>
     <view class="hero-chips">
       <view class="chip gold">🪙 {{coins}}</view>

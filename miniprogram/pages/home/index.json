@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "小明乐学岛",
+  "navigationBarTitleText": "童学冒险岛",
   "usingComponents": {
     "mp-tabbar": "/components/mp-tabbar/index"
   }

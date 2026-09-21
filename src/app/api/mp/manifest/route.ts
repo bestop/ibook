@@ -34,7 +34,7 @@ export function GET() {
   const version = createHash('sha1').update(JSON.stringify(subjects)).digest('hex').slice(0, 12)
   return NextResponse.json(
     {
-      name: '小明乐学岛',
+      name: '童学冒险岛',
       version, // 全库内容版本号
       generatedAt: new Date().toISOString(),
       counts: { subjects: subjects.length, levels: subjects.reduce((n, s) => n + s.levelCount, 0) },

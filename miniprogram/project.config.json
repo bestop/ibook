@@ -1,5 +1,5 @@
 {
-  "description": "小明乐学岛小程序端 · 教材与闯关内容从 https://lx.hikid.vip 实时获取",
+  "description": "童学冒险岛小程序端 · 教材与闯关内容从 https://lx.hikid.vip 实时获取",
   "packOptions": {
     "ignore": [
       { "type": "file", "value": "README.md" }
