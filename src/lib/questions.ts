@@ -1,5 +1,5 @@
 // 多科目题库注册中心
-// 年级维度：一至六年级上册 + 语文数学一至六年级下册（term: 'a' 上册，'b' 下册）
+// 年级维度：一至六年级上册 + 语文数学英语一至六年级下册（term: 'a' 上册，'b' 下册）
 // 上册：语文：统编教材（人民教育出版社）一上～五上各 8 关；六年级上册分两个学制版本：
 //       六三制（2026 秋版 8 关，id chinese6，前缀 x）与 五·四学制（2024 秋版 7 关，id chinese54，前缀 y）
 // 下册：语文统编版一～五下各 8 关（id chinese1b~chinese5b，前缀 zg/zh/zi/zj/zk）；
@@ -10,7 +10,9 @@
 //       2025 春新版目录，二～六下为现行版目录，六下为预备年级第二学期第五～八章）；
 //       英语人教版 PEP（六三制）一～六年级下册（id english1rjb~english6rjb，前缀 zta/ztb/ztc/ztd/zte/ztf，
 //       一/二下为一起点预备级 2025/2026 春版，三下 2025 春新版，四下 2026 春新版，五/六下为现行版目录，
-//       六下现行版仅 4 单元 + Recycle，另编两个小升初总复习关）；英语沪教版下册建设中
+//       六下现行版仅 4 单元 + Recycle，另编两个小升初总复习关）；
+//       英语沪教版（牛津上海版·五四学制）一～六年级下册（id english1b~english5b、english6b，前缀
+//       ztg/zth/zti/ztj/ztk/ztl，一～五下为现行版目录，六下预备年级为新教材 2025 春版目录）
 // 数学：一上～五上每级分两个版本——沪教版（上海教育出版社，id math1~math/math4，前缀 b/r/p/n/m）
 //       与人教版（六三制·人民教育出版社 2024~2026 秋新版，id math1rj~math5rj，前缀 w/j/l/o/s）；
 //       六年级上册分两个学制版本：六三制·人教版（2026 秋版 9 关，id math6，前缀 u）与 五·四学制·沪教版（预备年级 8 关，id math54，前缀 v）
@@ -75,6 +77,12 @@ import { UNITS as EN3RJB_UNITS, QUESTIONS as EN3RJB_QUESTIONS } from './bank-eng
 import { UNITS as EN4RJB_UNITS, QUESTIONS as EN4RJB_QUESTIONS } from './bank-english4rjb'
 import { UNITS as EN5RJB_UNITS, QUESTIONS as EN5RJB_QUESTIONS } from './bank-english5rjb'
 import { UNITS as EN6RJB_UNITS, QUESTIONS as EN6RJB_QUESTIONS } from './bank-english6rjb'
+import { UNITS as EN1B_UNITS, QUESTIONS as EN1B_QUESTIONS } from './bank-english1b'
+import { UNITS as EN2B_UNITS, QUESTIONS as EN2B_QUESTIONS } from './bank-english2b'
+import { UNITS as EN3B_UNITS, QUESTIONS as EN3B_QUESTIONS } from './bank-english3b'
+import { UNITS as EN4B_UNITS, QUESTIONS as EN4B_QUESTIONS } from './bank-english4b'
+import { UNITS as EN5B_UNITS, QUESTIONS as EN5B_QUESTIONS } from './bank-english5b'
+import { UNITS as EN6B_UNITS, QUESTIONS as EN6B_QUESTIONS } from './bank-english6b'
 
 export type QType = 'choice' | 'judge'
 
@@ -98,7 +106,7 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'chinese1b' | 'chinese2b' | 'chinese3b' | 'chinese4b' | 'chinese5b' | 'chinese6b' | 'chinese54b' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6' | 'math1rj' | 'math2rj' | 'math3rj' | 'math4rj' | 'math5rj' | 'math1rjb' | 'math2rjb' | 'math3rjb' | 'math4rjb' | 'math5rjb' | 'math6rjb' | 'math1b' | 'math2b' | 'math3b' | 'math4b' | 'math5b' | 'math54b' | 'english1rj' | 'english2rj' | 'english3rj' | 'english4rj' | 'english5rj' | 'english6rj' | 'english1rjb' | 'english2rjb' | 'english3rjb' | 'english4rjb' | 'english5rjb' | 'english6rjb'
+export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'chinese1b' | 'chinese2b' | 'chinese3b' | 'chinese4b' | 'chinese5b' | 'chinese6b' | 'chinese54b' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6' | 'math1rj' | 'math2rj' | 'math3rj' | 'math4rj' | 'math5rj' | 'math1rjb' | 'math2rjb' | 'math3rjb' | 'math4rjb' | 'math5rjb' | 'math6rjb' | 'math1b' | 'math2b' | 'math3b' | 'math4b' | 'math5b' | 'math54b' | 'english1rj' | 'english2rj' | 'english3rj' | 'english4rj' | 'english5rj' | 'english6rj' | 'english1rjb' | 'english2rjb' | 'english3rjb' | 'english4rjb' | 'english5rjb' | 'english6rjb' | 'english1b' | 'english2b' | 'english3b' | 'english4b' | 'english5b' | 'english6b'
 
 // 出版社/版本 key：rj 人民教育出版社（统编语文 + 人教数学 + PEP 英语）、rj54 人民教育出版社统编教材（五·四学制）、she 上海教育出版社（沪教数学/英语）
 export type PublisherKey = 'rj' | 'rj54' | 'she'
@@ -1007,6 +1015,102 @@ export const SUBJECTS: Subject[] = [
     units: EN6RJB_UNITS,
     questions: EN6RJB_QUESTIONS,
   },
+  {
+    id: 'english1b',
+    name: '英语',
+    grade: '一年级下册',
+    gradeNum: 1,
+    term: 'b',
+    publisher: '沪教版（牛津上海版·五四学制）· 上海教育出版社 · 一年级下册',
+    publisherKey: 'she',
+    badge: '沪教版',
+    emoji: '🌷',
+    theme: 'pink',
+    qidPrefix: 'ztg',
+    tagline: '五感探秘 → 玩具美食 → 季节天气 → 新年故事',
+    units: EN1B_UNITS,
+    questions: EN1B_QUESTIONS,
+  },
+  {
+    id: 'english2b',
+    name: '英语',
+    grade: '二年级下册',
+    gradeNum: 2,
+    term: 'b',
+    publisher: '沪教版（牛津上海版·五四学制）· 上海教育出版社 · 二年级下册',
+    publisherKey: 'she',
+    badge: '沪教版',
+    emoji: '🪁',
+    theme: 'lime',
+    qidPrefix: 'zth',
+    tagline: '看见听见 → 摸摸感受 → 四季规则 → 母亲节',
+    units: EN2B_UNITS,
+    questions: EN2B_QUESTIONS,
+  },
+  {
+    id: 'english3b',
+    name: '英语',
+    grade: '三年级下册',
+    gradeNum: 3,
+    term: 'b',
+    publisher: '沪教版（牛津上海版·五四学制）· 上海教育出版社 · 三年级下册',
+    publisherKey: 'she',
+    badge: '沪教版',
+    emoji: '🎨',
+    theme: 'violet',
+    qidPrefix: 'zti',
+    tagline: '五官感知 → 动物玩具 → 形状颜色 → 六一儿童节',
+    units: EN3B_UNITS,
+    questions: EN3B_QUESTIONS,
+  },
+  {
+    id: 'english4b',
+    name: '英语',
+    grade: '四年级下册',
+    gradeNum: 4,
+    term: 'b',
+    publisher: '沪教版（牛津上海版·五四学制）· 上海教育出版社 · 四年级下册',
+    publisherKey: 'she',
+    badge: '沪教版',
+    emoji: '🎵',
+    theme: 'amber',
+    qidPrefix: 'ztj',
+    tagline: '闻闻尝尝 → 影子运动 → 时间星期 → 中国节日',
+    units: EN4B_UNITS,
+    questions: EN4B_QUESTIONS,
+  },
+  {
+    id: 'english5b',
+    name: '英语',
+    grade: '五年级下册',
+    gradeNum: 5,
+    term: 'b',
+    publisher: '沪教版（牛津上海版·五四学制）· 上海教育出版社 · 五年级下册',
+    publisherKey: 'she',
+    badge: '沪教版',
+    emoji: '🎬',
+    theme: 'rose',
+    qidPrefix: 'ztk',
+    tagline: '整理房间 → 成长电影 → 标志天气 → 博物馆',
+    units: EN5B_UNITS,
+    questions: EN5B_QUESTIONS,
+  },
+  {
+    id: 'english6b',
+    name: '英语',
+    grade: '六年级下册',
+    gradeNum: 6,
+    term: 'b',
+    publisher: '沪教版新教材（五·四学制·2025 春版）· 上海教育出版社 · 六年级下册（预备年级）',
+    publisherKey: 'she',
+    badge: '五四学制',
+    emoji: '🌏',
+    theme: 'teal',
+    qidPrefix: 'ztl',
+    tagline: '不一样的我们 → 身边规则 → 中外节日 → 历史名人',
+    units: EN6B_UNITS,
+    questions: EN6B_QUESTIONS,
+  },
 ]
 
 export function getSubject(id: SubjectId): Subject {
@@ -1034,7 +1138,7 @@ export const PUBLISHER_LABELS: Record<PublisherKey, string> = {
   she: '上海教育出版社 · 沪教数学/英语',
 }
 
-// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、语文一下 zg、语文二下 zh、语文三下 zi、语文四下 zj、语文五下 zk、语文六下·六三制 zl、语文六下·五四 zm、数学一上沪 b、数学二上沪 r、数学三上沪 p、数学四上沪 n、数学五上沪 m、数学六上·六三制 u、数学六上·五四 v、数学一上人教 w、数学二上人教 j、数学三上人教 l、数学四上人教 o、数学五上人教 s、数学一下人教 zn、数学二下人教 zo、数学三下人教 zp、数学四下人教 zq、数学五下人教 zr、数学六下·六三制 zs、数学一下沪 zu、数学二下沪 zv、数学三下沪 zw、数学四下沪 zx、数学五下沪 zy、数学六下·五四 zz、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e、英语六上·五四 k、英语一上人教 za、英语二上人教 zb、英语三上人教 zc、英语四上人教 zd、英语五上人教 ze、英语六上人教 zf、英语一下人教 zta、英语二下人教 ztb、英语三下人教 ztc、英语四下人教 ztd、英语五下人教 zte、英语六下人教 ztf，不会冲突）
+// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、语文一下 zg、语文二下 zh、语文三下 zi、语文四下 zj、语文五下 zk、语文六下·六三制 zl、语文六下·五四 zm、数学一上沪 b、数学二上沪 r、数学三上沪 p、数学四上沪 n、数学五上沪 m、数学六上·六三制 u、数学六上·五四 v、数学一上人教 w、数学二上人教 j、数学三上人教 l、数学四上人教 o、数学五上人教 s、数学一下人教 zn、数学二下人教 zo、数学三下人教 zp、数学四下人教 zq、数学五下人教 zr、数学六下·六三制 zs、数学一下沪 zu、数学二下沪 zv、数学三下沪 zw、数学四下沪 zx、数学五下沪 zy、数学六下·五四 zz、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e、英语六上·五四 k、英语一上人教 za、英语二上人教 zb、英语三上人教 zc、英语四上人教 zd、英语五上人教 ze、英语六上人教 zf、英语一下人教 zta、英语二下人教 ztb、英语三下人教 ztc、英语四下人教 ztd、英语五下人教 zte、英语六下人教 ztf、英语一下沪教 ztg、英语二下沪教 zth、英语三下沪教 zti、英语四下沪教 ztj、英语五下沪教 ztk、英语六下·五四预备 ztl，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {
