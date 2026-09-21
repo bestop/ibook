@@ -216,7 +216,7 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                      「童学冒险岛」覆盖一至六年级上册语文、数学、英语，共 31 个科目岛、258 关 2580 道精选题，每题都配详细解析。
+                      「童学冒险岛」覆盖语文一至六年级上册＋下册、数学英语一至六年级上册，共 38 个科目岛、311 关 3110 道精选题，每题都配详细解析。语文下册六年级分六三制/五四学制两版。
                       语文采用统编教材（六上分六三制/五四学制两版），数学、英语各年级均提供沪教版与人教版两套题库，内容按 2024～2026 秋季最新课本编写。
                       顶部左上角可随时切换年级、上下册和版本，建议孩子每天玩 20 分钟。
                     </DialogDescription>

@@ -35,6 +35,13 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   english4rj: '🐳 Helping at home、My friends、The weather and us……把 PEP 四上英语岛闯个遍吧！',
   english5rj: '🦜 Different friends、Healthy habits、Food we eat……把 PEP 五上英语岛闯个遍吧！',
   english6rj: '🕊️ Amazing places、Exploring space、Managing money well……把 PEP 六上英语岛闯个遍吧！',
+  chinese1b: '🌷 从春夏秋冬到小壁虎借尾巴，把一年级下册语文岛全部点亮！',
+  chinese2b: '🪁 从村居咏柳到羿射九日，把二年级下册语文岛全部点亮！',
+  chinese3b: '🦋 从燕子荷花到漏，把三年级下册语文岛全部点亮！',
+  chinese4b: '🐝 从田园生活到中外童话，把四年级下册语文岛全部点亮！',
+  chinese5b: '🍃 从祖父的园子到手指，把五年级下册语文岛全部点亮！',
+  chinese6b: '🕊️ 从民风民俗到难忘小学生活，把六三制语文下册岛全部点亮！',
+  chinese54b: '🎋 从民风民俗到古诗词诵读，把五四学制语文下册岛全部点亮！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {

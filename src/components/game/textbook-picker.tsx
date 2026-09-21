@@ -40,6 +40,13 @@ const G6_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
 
 const publisherOptionsFor = (gradeNum: number) => (gradeNum === 6 ? G6_PUBLISHER_OPTIONS : BASE_PUBLISHER_OPTIONS)
 
+// 下册：目前已开放统编语文（六年级分六三制/五四学制），数学、英语下册建设中
+const B_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
+  { key: 'all', label: '全部版本' },
+  { key: 'rj', label: '人民教育出版社 · 统编语文（六三制）' },
+  { key: 'rj54', label: '人民教育出版社 · 统编语文（五·四学制）' },
+]
+
 /**
  * 教材选择器（顶部栏左上角）：
  * 按钮「📚 四年级·上册 ▼」+ 弹窗（年级 / 上下册 / 出版社 + 实时预览）
@@ -52,12 +59,23 @@ export default function TextbookPicker() {
 
   const visibleSubjects = subjectsFor(textbook)
 
+  // 当前学期/年级组合下真正有内容的版本选项（空选项自动隐藏）
+  const availablePublisherOptions = (gradeNum: number, term: 'a' | 'b') =>
+    (term === 'b' ? B_PUBLISHER_OPTIONS : publisherOptionsFor(gradeNum)).filter(
+      (p) =>
+        p.key === 'all' ||
+        subjectsFor({ gradeNum, term, publisher: p.key }).length > 0
+    )
+
   const pick = (patch: Partial<TextbookChoice>) => {
     sfx.click()
     let next = { ...textbook, ...patch }
-    // 版本选项随年级变化：切年级后若当前版本在新年级不可用，自动回退到全部
-    if (patch.gradeNum !== undefined && patch.gradeNum !== textbook.gradeNum) {
-      const validKeys = publisherOptionsFor(next.gradeNum).map((p) => p.key)
+    // 版本选项随年级/册别变化：切换后若当前版本不可用，自动回退到全部
+    if (
+      (patch.gradeNum !== undefined && patch.gradeNum !== textbook.gradeNum) ||
+      (patch.term !== undefined && patch.term !== textbook.term)
+    ) {
+      const validKeys = availablePublisherOptions(next.gradeNum, next.term).map((p) => p.key)
       if (!validKeys.includes(next.publisher as PubOptionKey)) next = { ...next, publisher: 'all' }
     }
     setTextbook(next)
@@ -130,19 +148,12 @@ export default function TextbookPicker() {
             {/* 上下册 */}
             <div>
               <p className="mb-2 text-sm font-black text-gray-700">🗓️ 上下册</p>
+              {textbook.term === 'b' && (
+                <p className="mb-2 text-[11px] font-bold text-violet-400">下册已开放统编语文一至六年级（六年级含六三制/五四学制），数学、英语下册正在建设中～</p>
+              )}
               <div className="flex flex-wrap gap-2">
                 {(['a', 'b'] as const).map((term) => {
                   const active = textbook.term === term
-                  if (term === 'b') {
-                    return (
-                      <span
-                        key={term}
-                        className="rounded-2xl border-2 border-gray-200 bg-gray-50 px-4 py-2 text-sm font-black text-gray-300"
-                      >
-                        下册 🚧
-                      </span>
-                    )
-                  }
                   return (
                     <button
                       key={term}
@@ -153,7 +164,7 @@ export default function TextbookPicker() {
                           : 'border-gray-200 bg-white text-gray-600 shadow-sm'
                       }`}
                     >
-                      上册
+                      {term === 'a' ? '上册' : '下册'}
                     </button>
                   )
                 })}
@@ -162,15 +173,15 @@ export default function TextbookPicker() {
 
             {/* 版本/出版社 */}
             <div>
-              <p className="mb-2 text-sm font-black text-gray-700">🏢 {textbook.gradeNum === 6 ? '学制版本' : '出版社'}</p>
-              {textbook.gradeNum === 6 && (
+              <p className="mb-2 text-sm font-black text-gray-700">🏢 {textbook.term === 'b' ? '版本' : textbook.gradeNum === 6 ? '学制版本' : '出版社'}</p>
+              {textbook.term === 'a' && textbook.gradeNum === 6 && (
                 <p className="mb-2 text-[11px] font-bold text-violet-400">六年级语文、数学、英语都有「六三制」和「五四学制」两个版本：六三制为人教社（统编语文 + 人教数学 + PEP英语），五四学制为沪教社（沪教数学 + 英语，预备年级），选好版本再开岛哦～</p>
               )}
-              {textbook.gradeNum < 6 && (
+              {textbook.term === 'a' && textbook.gradeNum < 6 && (
                 <p className="mb-2 text-[11px] font-bold text-violet-400">一至五年级数学、英语都有「沪教版」和「人教版」两个版本：人教版数学选用 2024～2026 秋季新版教材，人教版英语为 PEP 新版（一、二年级为一起点预备级，三年级起为六三制）；语文为统编教材，选好版本再开岛哦～</p>
               )}
               <div className="flex flex-col gap-2">
-                {publisherOptionsFor(textbook.gradeNum).map((p) => {
+                {availablePublisherOptions(textbook.gradeNum, textbook.term).map((p) => {
                   const active = textbook.publisher === p.key
                   return (
                     <button
@@ -195,7 +206,7 @@ export default function TextbookPicker() {
               <p className="text-xs font-black text-amber-700">
                 🗺️ {GRADE_LABELS[textbook.gradeNum] ?? textbook.gradeNum + '年级'}
                 {TERM_LABELS[textbook.term]}
-                （{textbook.publisher === 'all' ? publisherOptionsFor(textbook.gradeNum)[0].label : publisherOptionsFor(textbook.gradeNum).find((p) => p.key === textbook.publisher)?.label ?? '全部版本'}）
+                （{textbook.publisher === 'all' ? availablePublisherOptions(textbook.gradeNum, textbook.term)[0].label : availablePublisherOptions(textbook.gradeNum, textbook.term).find((p) => p.key === textbook.publisher)?.label ?? '全部版本'}）
                 已开岛 {visibleSubjects.length} 个科目岛 · 共 {visibleSubjects.reduce((n, s) => n + s.units.length, 0)} 关
               </p>
               <p className="mt-1 text-[11px] font-bold text-amber-500">

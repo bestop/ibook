@@ -124,11 +124,6 @@ Page({
     this.refreshStats()
   },
 
-  backToA() {
-    this.setData({ termIndex: 0 })
-    this.applyFilter()
-  },
-
   openSubject(e) {
     sfx.click()
     const id = e.currentTarget.dataset.id

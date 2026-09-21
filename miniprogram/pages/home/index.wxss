@@ -316,9 +316,6 @@
   text-align: center;
 }
 
-.back-btn {
-  margin: 10rpx 60rpx;
-}
 .tabbar-space {
   height: 140rpx;
 }
