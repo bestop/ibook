@@ -58,15 +58,23 @@
   margin: 0 60rpx;
 }
 
-/* ===== 每日挑战：活力黄盲盒卡 ===== */
+/* ===== 每日挑战：活力黄盲盒卡 + 波点糖纸 ===== */
 .daily-card {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20rpx 0 8rpx;
-  background: linear-gradient(135deg, #fffbea, #fff1bf);
+  overflow: hidden;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.55) 3rpx, rgba(255, 255, 255, 0) 4rpx) 0 0 / 44rpx 44rpx,
+    radial-gradient(circle, rgba(255, 199, 60, 0.12) 3rpx, rgba(255, 199, 60, 0) 4rpx) 22rpx 22rpx / 44rpx 44rpx,
+    linear-gradient(135deg, #fffbea, #fff1bf);
   border-color: #ffe066;
-  box-shadow: 0 10rpx 0 rgba(232, 164, 0, 0.1), 0 24rpx 44rpx rgba(93, 74, 156, 0.1);
+  box-shadow:
+    0 0 0 3rpx rgba(232, 164, 0, 0.12),
+    0 10rpx 0 rgba(232, 164, 0, 0.12),
+    0 24rpx 44rpx rgba(93, 74, 156, 0.1);
 }
 .daily-left {
   flex: 1;
@@ -100,7 +108,7 @@
   flex-shrink: 0;
 }
 
-/* ===== 关卡地图 ===== */
+/* ===== 关卡地图：奇偶交错缩进，蜿蜒路径感 ===== */
 .level-card {
   display: flex;
   align-items: center;
@@ -114,11 +122,24 @@
 .level-locked {
   opacity: 0.55;
 }
+/* 已通关：薄荷绿描边浅底，一眼识别战果 */
+.level-cleared {
+  background: linear-gradient(180deg, #f4fff9 0%, #ffffff 100%);
+  border-color: #a8f0d4;
+  box-shadow:
+    0 0 0 3rpx rgba(14, 159, 110, 0.1),
+    0 10rpx 0 rgba(14, 159, 110, 0.1),
+    0 26rpx 46rpx rgba(14, 159, 110, 0.08);
+}
+.level-alt {
+  margin-left: 44rpx; /* 奇偶交错：地图小径感 */
+  margin-right: 0;
+}
 .level-index {
   width: 64rpx;
   height: 64rpx;
   border-radius: 50%;
-  background: #ddf3ff;
+  background: linear-gradient(180deg, #e6f6ff 0%, #cfeaff 100%);
   border: 3rpx solid #fff;
   color: #1b8fd1;
   font-weight: 900;
@@ -127,8 +148,17 @@
   justify-content: center;
   font-size: 30rpx;
   flex-shrink: 0;
-  box-shadow: 0 5rpx 0 rgba(27, 143, 209, 0.16);
   box-sizing: border-box;
+  box-shadow:
+    inset 0 4rpx 0 rgba(255, 255, 255, 0.85),
+    0 5rpx 0 rgba(27, 143, 209, 0.18);
+}
+.level-cleared .level-index {
+  background: linear-gradient(180deg, #d9fbee 0%, #b5f2da 100%);
+  color: #0e9f6e;
+  box-shadow:
+    inset 0 4rpx 0 rgba(255, 255, 255, 0.85),
+    0 5rpx 0 rgba(14, 159, 110, 0.2);
 }
 .level-main {
   flex: 1;

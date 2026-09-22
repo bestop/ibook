@@ -2,6 +2,9 @@
 page {
   background-color: #eaf8ff;
   background-image:
+    /* 糖纸波点：白点+淡紫点双层点阵，蛋仔派对式奶油底纹 */
+    radial-gradient(circle, rgba(255, 255, 255, 0.6) 3rpx, rgba(255, 255, 255, 0) 4rpx) 0 0 / 52rpx 52rpx,
+    radial-gradient(circle, rgba(124, 77, 255, 0.05) 3rpx, rgba(124, 77, 255, 0) 4rpx) 26rpx 26rpx / 52rpx 52rpx,
     radial-gradient(circle at 12% 6%, rgba(255, 255, 255, 0.75) 0, rgba(255, 255, 255, 0) 14%),
     radial-gradient(circle at 88% 9%, rgba(255, 255, 255, 0.65) 0, rgba(255, 255, 255, 0) 13%),
     radial-gradient(circle at 78% 26%, rgba(255, 214, 102, 0.18) 0, rgba(255, 214, 102, 0) 10%),
@@ -20,12 +23,15 @@ button.btn-sun::after {
   border: none;
 }
 
-/* ===== 半悬浮果冻卡片：大圆角 + 轻微厚度 + 柔和投影 ===== */
+/* ===== 半悬浮果冻卡片：大圆角 + 白描边厚度 + 柔和投影 ===== */
 .card {
-  background: #fff;
-  border: 3rpx solid #f2edff;
-  border-radius: 40rpx;
-  box-shadow: 0 8rpx 0 rgba(148, 180, 255, 0.1), 0 24rpx 44rpx rgba(93, 74, 156, 0.12);
+  background: linear-gradient(180deg, #ffffff 0%, #fdfcff 100%);
+  border: 3rpx solid #fff;
+  border-radius: 44rpx;
+  box-shadow:
+    0 0 0 3rpx rgba(148, 180, 255, 0.14),
+    0 10rpx 0 rgba(148, 180, 255, 0.14),
+    0 26rpx 46rpx rgba(93, 74, 156, 0.13);
   padding: 28rpx;
   box-sizing: border-box;
 }
@@ -40,15 +46,18 @@ button.btn-sun::after {
   justify-content: center;
   background: linear-gradient(180deg, #56cdff 0%, #2bb3f5 55%, #1fa9ec 100%);
   color: #fff;
+  border: 4rpx solid #fff; /* 蛋仔式白描边 */
   border-radius: 999rpx;
   font-weight: 900;
   text-align: center;
-  padding: 38rpx 24rpx;
+  padding: 36rpx 24rpx;
   line-height: 1.3;
   text-indent: 2rpx;
   font-size: 34rpx;
   letter-spacing: 2rpx;
+  box-sizing: border-box;
   box-shadow:
+    0 0 0 3rpx rgba(18, 137, 201, 0.22),
     inset 0 8rpx 0 rgba(255, 255, 255, 0.35),
     0 8rpx 0 #1289c9,
     0 18rpx 30rpx rgba(31, 169, 236, 0.3);
@@ -58,6 +67,7 @@ button.btn-sun::after {
 .btn-primary:active {
   transform: translateY(7rpx) scale(0.99);
   box-shadow:
+    0 0 0 3rpx rgba(18, 137, 201, 0.18),
     inset 0 6rpx 0 rgba(255, 255, 255, 0.25),
     0 2rpx 0 #1289c9,
     0 8rpx 16rpx rgba(31, 169, 236, 0.22);
@@ -73,6 +83,7 @@ button.btn-sun::after {
   background: linear-gradient(180deg, #ffe066 0%, #ffc93c 100%);
   text-shadow: 0 2rpx 0 rgba(255, 255, 255, 0.4);
   box-shadow:
+    0 0 0 3rpx rgba(232, 164, 0, 0.25),
     inset 0 8rpx 0 rgba(255, 255, 255, 0.45),
     0 8rpx 0 #e8a400,
     0 18rpx 30rpx rgba(255, 201, 60, 0.35);
@@ -80,6 +91,7 @@ button.btn-sun::after {
 .btn-sun:active {
   transform: translateY(7rpx) scale(0.99);
   box-shadow:
+    0 0 0 3rpx rgba(232, 164, 0, 0.2),
     inset 0 6rpx 0 rgba(255, 255, 255, 0.3),
     0 2rpx 0 #e8a400,
     0 8rpx 16rpx rgba(255, 201, 60, 0.25);
@@ -195,4 +207,23 @@ button.btn-sun::after {
   15% { opacity: 1; }
   60% { transform: translateX(300%); opacity: 1; }
   100% { transform: translateX(300%); opacity: 0; }
+}
+/* 糖果条纹流动（进度条） */
+@keyframes stripe-move {
+  to { background-position: 34rpx 0, 0 0; }
+}
+/* 危险脉动（倒计时告急） */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+/* 连击跳动 */
+@keyframes combo-pulse {
+  0%, 100% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.1) rotate(2deg); }
+}
+/* 底部导航圆形底座弹跳 */
+@keyframes tab-bounce {
+  0%, 100% { transform: translateY(0) scale(1.18); }
+  50% { transform: translateY(-6rpx) scale(1.24); }
 }

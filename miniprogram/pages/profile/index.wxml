@@ -49,14 +49,14 @@
   <view class="card about-card">
     <view class="about-row" hover-class="row-hover" bindtap="openGuide">
       <view class="about-row-left">
-        <text class="about-row-icon">📖</text>
+        <view class="about-row-icon">📖</view>
         <text class="about-row-label">使用指南</text>
       </view>
       <text class="about-row-arrow">›</text>
     </view>
     <view class="about-row">
       <view class="about-row-left">
-        <text class="about-row-icon">🔊</text>
+        <view class="about-row-icon">🔊</view>
         <text class="about-row-label">游戏音效</text>
       </view>
       <switch checked="{{soundOn}}" bindchange="onSoundToggle" color="#2bb3f5" />

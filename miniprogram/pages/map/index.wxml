@@ -34,7 +34,7 @@
     <view
       wx:for="{{levels}}"
       wx:key="id"
-      class="card level-card {{item.unlocked ? '' : 'level-locked'}}"
+      class="card level-card {{item.unlocked ? '' : 'level-locked'}} {{item.completed ? 'level-cleared' : ''}} {{index % 2 === 1 ? 'level-alt' : ''}}"
       data-id="{{item.id}}"
       data-unlocked="{{item.unlocked}}"
       bindtap="startLevel"

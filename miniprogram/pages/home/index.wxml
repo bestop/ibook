@@ -6,7 +6,7 @@
     <text class="hero-star">🌟</text>
     <text class="hero-egg">🥚</text>
     <view class="hero-bubble">嗨，小岛民！今天想去哪个岛冒险呀？</view>
-    <text class="hero-island">🏝️</text>
+    <view class="hero-island">🏝️</view>
     <view class="hero-title">童学冒险岛</view>
     <view class="hero-sub">一至六年级 · 闯关赢金币 · 越玩越聪明</view>
     <view class="hero-chips">
@@ -37,15 +37,15 @@
       </view>
     </view>
 
-    <!-- 三维教材选择器 -->
+    <!-- 三维教材选择器：三等分一行，蛋仔式整齐大按钮 -->
     <view class="picker-row">
-      <picker mode="selector" range="{{gradeLabels}}" value="{{gradeIndex}}" bindchange="onPickGrade">
+      <picker class="picker-cell" mode="selector" range="{{gradeLabels}}" value="{{gradeIndex}}" bindchange="onPickGrade">
         <view class="picker-btn">🎓 {{gradeLabels[gradeIndex]}} ▾</view>
       </picker>
-      <picker mode="selector" range="{{termLabels}}" value="{{termIndex}}" bindchange="onPickTerm">
+      <picker class="picker-cell" mode="selector" range="{{termLabels}}" value="{{termIndex}}" bindchange="onPickTerm">
         <view class="picker-btn">📖 {{termLabels[termIndex]}} ▾</view>
       </picker>
-      <picker mode="selector" range="{{publisherLabels}}" value="{{pubIndex}}" bindchange="onPickPublisher">
+      <picker class="picker-cell" mode="selector" range="{{publisherLabels}}" value="{{pubIndex}}" bindchange="onPickPublisher">
         <view class="picker-btn">📚 {{publisherLabels[pubIndex]}} ▾</view>
       </picker>
     </view>
