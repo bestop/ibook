@@ -53,7 +53,9 @@
     <!-- 科目岛列表：标题左 + 分享胶囊右 -->
     <view class="section-row">
       <view class="section-title">🗺️ 选一个岛出发</view>
-      <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">分享</button>
+      <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">
+        <view class="share-pill">分享</view>
+      </button>
     </view>
 
     <view wx:if="{{subjects.length === 0}}" class="card empty-tip">
