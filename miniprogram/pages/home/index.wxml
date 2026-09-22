@@ -30,17 +30,14 @@
     <view class="card today-card">
       <view class="today-head">
         <text class="today-title">⛵ 今日 20 分钟小目标</text>
-        <view class="today-right">
-          <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
-          <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">🎁</button>
-        </view>
+        <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
       </view>
       <view class="progress-track">
         <view class="progress-fill" style="width: {{minutePct}}%"></view>
       </view>
     </view>
 
-    <!-- 三维教材选择器 -->
+    <!-- 三维教材选择器 + 分享 -->
     <view class="picker-row">
       <picker mode="selector" range="{{gradeLabels}}" value="{{gradeIndex}}" bindchange="onPickGrade">
         <view class="picker-btn">🎓 {{gradeLabels[gradeIndex]}} ▾</view>
@@ -51,6 +48,7 @@
       <picker mode="selector" range="{{publisherLabels}}" value="{{pubIndex}}" bindchange="onPickPublisher">
         <view class="picker-btn">📚 {{publisherLabels[pubIndex]}} ▾</view>
       </picker>
+      <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">分享</button>
     </view>
 
     <!-- 科目岛列表 -->
