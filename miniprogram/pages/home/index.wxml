@@ -30,10 +30,7 @@
     <view class="card today-card">
       <view class="today-head">
         <text class="today-title">⛵ 今日 20 分钟小目标</text>
-        <view class="today-right">
-          <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
-          <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">分享</button>
-        </view>
+        <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
       </view>
       <view class="progress-track">
         <view class="progress-fill" style="width: {{minutePct}}%"></view>
@@ -53,8 +50,11 @@
       </picker>
     </view>
 
-    <!-- 科目岛列表 -->
-    <view class="section-title">🗺️ 选一个岛出发</view>
+    <!-- 科目岛列表：标题左 + 分享胶囊右 -->
+    <view class="section-row">
+      <view class="section-title">🗺️ 选一个岛出发</view>
+      <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">分享</button>
+    </view>
 
     <view wx:if="{{subjects.length === 0}}" class="card empty-tip">
       <view style="font-size: 60rpx">🗺️</view>
