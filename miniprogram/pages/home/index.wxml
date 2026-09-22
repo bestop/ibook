@@ -14,7 +14,6 @@
       <view class="chip fire">🔥 连续 {{streak}} 天</view>
       <view class="chip wrong">📕 错题 {{wrongCount}}</view>
     </view>
-    <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">🎁</button>
   </view>
 
   <!-- 加载 / 错误态 -->
@@ -27,13 +26,14 @@
   </view>
 
   <block wx:else>
-    <view wx:if="{{error}}" class="offline-tip">{{error}}</view>
-
     <!-- 今日 20 分钟 -->
     <view class="card today-card">
       <view class="today-head">
         <text class="today-title">⛵ 今日 20 分钟小目标</text>
-        <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
+        <view class="today-right">
+          <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
+          <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">🎁</button>
+        </view>
       </view>
       <view class="progress-track">
         <view class="progress-fill" style="width: {{minutePct}}%"></view>
@@ -59,7 +59,7 @@
     <view wx:if="{{subjects.length === 0}}" class="card empty-tip">
       <view style="font-size: 60rpx">🗺️</view>
       <view style="margin: 16rpx 0">这个组合下暂无科目岛，换个年级或版本试试～</view>
-      <view style="font-size: 22rpx; color: #a5a1cc">下册已开放语文、人教版数学、PEP英语（六三制）与沪教版数学一至六年级（英语沪教版建设中）</view>
+      <view style="font-size: 22rpx; color: #a5a1cc">语数英一至六年级上下册已全部开放，换个年级或版本试试～</view>
     </view>
 
     <view
@@ -83,8 +83,6 @@
       </view>
       <view class="subject-go">出发 ›</view>
     </view>
-
-    <view wx:if="{{error && subjects.length > 0}}" class="offline-tip">{{error}}</view>
   </block>
 
   <view class="tabbar-space"></view>

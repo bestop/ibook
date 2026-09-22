@@ -77,7 +77,7 @@ Page({
         if (cached) {
           getApp().globalData.manifest = cached
           store.setSubjects(cached.subjects)
-          that.setData({ loading: false, error: '网络不太顺畅，先玩离线内容吧' })
+          that.setData({ loading: false })
           that.applyFilter()
         } else {
           that.setData({ loading: false, error: err.message || '加载失败' })
