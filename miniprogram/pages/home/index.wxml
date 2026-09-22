@@ -14,10 +14,7 @@
       <view class="chip fire">🔥 连续 {{streak}} 天</view>
       <view class="chip wrong">📕 错题 {{wrongCount}}</view>
     </view>
-    <button hover-class="none" class="share-btn" open-type="share">
-      <text class="share-emoji">🎁</text>
-      <text class="share-text">分享给小伙伴</text>
-    </button>
+    <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">🎁</button>
   </view>
 
   <!-- 加载 / 错误态 -->
