@@ -163,11 +163,11 @@
   color: #c21e6a;
 }
 
-/* ===== 分享小胶囊：今日卡标题行内「0/20 分钟」右侧，与标题同行（收窄 + 轻微摇晃） ===== */
+/* ===== 分享小胶囊：贴字最小宽（仅容「分享」二字），今日卡标题行内「0/20 分钟」右侧 ===== */
 .today-right {
   display: flex;
   align-items: center;
-  gap: 12rpx;
+  gap: 8rpx;
   flex-shrink: 0;
 }
 .share-fab {
@@ -175,7 +175,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 6rpx 14rpx;
+  padding: 4rpx; /* 贴字收窄：仅容「分享」二字，宽约 58rpx */
+  min-width: 0; /* 兜底排除任何默认最小宽 */
   line-height: 1.3;
   font-size: 22rpx;
   font-weight: 900;
@@ -218,6 +219,7 @@
 /* ===== 今日 20 分钟 ===== */
 .today-card {
   margin-bottom: 20rpx;
+  overflow: hidden; /* 外框硬保证：任何字况下内容不越出卡片边框 */
 }
 .today-head {
   display: flex;
@@ -230,6 +232,9 @@
   font-weight: 900;
   color: #3d3a6e;
   white-space: nowrap; /* 标题、时长胶囊、分享按钮一行排布保底 */
+  min-width: 0;
+  overflow: hidden; /* 极端窄字况下标题自动省略，把行宽让给胶囊与按钮 */
+  text-overflow: ellipsis;
 }
 .progress-track {
   height: 22rpx;
