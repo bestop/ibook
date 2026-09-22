@@ -2,9 +2,7 @@
   <!-- 首页 Hero：问候气泡 + 海岛 + 标题 + 状态胶囊（与网页版一致） -->
   <view class="hero">
     <text class="hero-cloud">☁️</text>
-    <text class="hero-rainbow">🌈</text>
     <text class="hero-star">🌟</text>
-    <text class="hero-egg">🥚</text>
     <view class="hero-bubble">嗨，小岛民！今天想去哪个岛冒险呀？</view>
     <view class="hero-island">🏝️</view>
     <view class="hero-title">童学冒险岛</view>
@@ -14,6 +12,13 @@
       <view class="chip fire">🔥 连续 {{streak}} 天</view>
       <view class="chip wrong">📕 错题 {{wrongCount}}</view>
     </view>
+    <!-- 分享 HUD 圆钮：蛋仔派对式右上角悬浮功能钮 -->
+    <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">
+      <view class="share-pill">
+        <text class="share-icon">🚀</text>
+        <text class="share-word">分享</text>
+      </view>
+    </button>
   </view>
 
   <!-- 加载 / 错误态 -->
@@ -50,13 +55,8 @@
       </picker>
     </view>
 
-    <!-- 科目岛列表：标题左 + 分享胶囊右 -->
-    <view class="section-row">
-      <view class="section-title">🗺️ 选一个岛出发</view>
-      <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">
-        <view class="share-pill">分享</view>
-      </button>
-    </view>
+    <!-- 科目岛列表标题 -->
+    <view class="section-title">🗺️ 选一个岛出发</view>
 
     <view wx:if="{{subjects.length === 0}}" class="card empty-tip">
       <view style="font-size: 60rpx">🗺️</view>

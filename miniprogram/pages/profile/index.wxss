@@ -125,7 +125,7 @@
   overflow: hidden;
   width: calc((100% - 48rpx) / 4);
   background: #f4f2fc;
-  border: 3rpx solid #e5e1f5;
+  border: 3rpx dashed #d5d0ec; /* 锁定态：虚线盲盒待拆感 */
   border-radius: 28rpx;
   text-align: center;
   padding: 18rpx 6rpx;
@@ -135,7 +135,7 @@
 }
 .ach-on {
   background: linear-gradient(180deg, #fffbea, #fff1bf);
-  border-color: #ffd335;
+  border: 3rpx solid #ffd335; /* 解锁态：实线金描边 */
   filter: none;
   opacity: 1;
   box-shadow: 0 6rpx 0 rgba(240, 164, 0, 0.2), 0 12rpx 20rpx rgba(255, 197, 61, 0.18);
