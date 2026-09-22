@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-/* ===== 首页 Hero：蛋仔天空（云朵+星星双装饰，右上角分享 HUD） ===== */
+/* ===== 首页 Hero：蛋仔天空（云朵星星点缀 + 小岛右上太阳分享钮） ===== */
 .hero {
   position: relative;
   text-align: center;
@@ -26,21 +26,6 @@
   font-size: 40rpx;
   animation: eggy-float 3.6s ease-in-out infinite;
   animation-delay: 1.2s;
-}
-.hero-bubble {
-  position: relative;
-  display: inline-block;
-  max-width: calc(100% - 150rpx); /* 右上角避开分享 HUD 圆钮 */
-  box-sizing: border-box;
-  background: #fff;
-  border: 4rpx solid #a9e2ff;
-  border-radius: 32rpx;
-  padding: 16rpx 32rpx;
-  font-size: 28rpx;
-  font-weight: 900;
-  color: #1289c9;
-  box-shadow: 0 8rpx 0 rgba(43, 179, 245, 0.18);
-  animation: eggy-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 @keyframes island-bob {
   0%,
@@ -78,10 +63,13 @@
   border-bottom: 4rpx solid #a9e2ff;
   transform: rotate(45deg);
 }
+.hero-island-wrap {
+  position: relative; /* 太阳分享钮的定位锚点：跟随小岛 */
+  margin-top: 36rpx;
+}
 .hero-island {
   position: relative;
   display: block;
-  margin-top: 36rpx;
   font-size: 130rpx;
   line-height: 1.1;
   animation: island-bob 3s ease-in-out infinite;
@@ -153,14 +141,14 @@
   color: #c21e6a;
 }
 
-/* ===== 分享 HUD 圆钮：蛋仔派对式右上角悬浮功能钮 =====
+/* ===== 太阳分享钮：小岛右上方的晴天太阳 =====
    结构解耦：button 仅作透明触发壳（!important 压制微信默认样式），
-   视觉全部由内部 .share-pill 承担，任何基础库下尺寸都稳定 */
-.share-fab {
+   视觉全部由内部 .sun-pill 承担，任何基础库下尺寸都稳定 */
+.sun-fab {
   position: absolute;
-  top: 84rpx;
-  right: 16rpx;
-  width: 88rpx !important;
+  top: -34rpx;
+  right: 196rpx;
+  width: 100rpx !important;
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -169,42 +157,48 @@
   border-radius: 0;
   line-height: 1 !important;
   overflow: visible;
+  z-index: 5;
 }
-.share-fab::after {
+.sun-fab::after {
   border: none; /* 重置微信 button 默认描边 */
 }
-.share-pill {
+.sun-pill {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rpx;
   box-sizing: border-box;
-  width: 88rpx;
-  height: 88rpx;
+  width: 100rpx;
+  height: 100rpx;
   border-radius: 50%;
-  background: linear-gradient(180deg, #ffe066 0%, #ffc93c 100%);
+  background: radial-gradient(circle at 50% 38%, #fff9d9 0%, #ffe066 52%, #ffc93c 100%);
   border: 4rpx solid #fff;
   box-shadow:
     0 0 0 3rpx rgba(232, 164, 0, 0.25),
-    inset 0 5rpx 0 rgba(255, 255, 255, 0.5),
+    0 0 30rpx 8rpx rgba(255, 214, 64, 0.5),
+    inset 0 6rpx 0 rgba(255, 255, 255, 0.65),
     0 6rpx 0 rgba(232, 164, 0, 0.4),
     0 12rpx 18rpx rgba(255, 201, 60, 0.35);
+  animation: sun-shine 2.6s ease-in-out infinite;
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.share-icon {
-  font-size: 32rpx;
+.sun-icon {
+  font-size: 54rpx;
   line-height: 1;
+  filter: drop-shadow(0 2rpx 0 rgba(255, 255, 255, 0.55));
 }
-.share-word {
-  font-size: 18rpx;
-  line-height: 1.2;
-  font-weight: 900;
-  color: #8a5a00;
-  text-shadow: 0 1rpx 0 rgba(255, 255, 255, 0.4);
+/* 晴天呼吸：轻轻鼓起 + 摇摆，像太阳在发光 */
+@keyframes sun-shine {
+  0%,
+  100% {
+    transform: scale(1) rotate(-6deg);
+  }
+  50% {
+    transform: scale(1.08) rotate(8deg);
+  }
 }
-.share-fab:active .share-pill {
-  transform: scale(0.9); /* 按压缩放反馈 */
+.sun-fab:active .sun-pill {
+  transform: scale(0.88); /* 按压缩放反馈 */
+  animation: none;
 }
 
 /* ===== 今日 20 分钟 ===== */
@@ -347,7 +341,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* 出发按钮：活力黄豆荚果冻（与分享胶囊同色系） */
+/* 出发按钮：活力黄豆荚果冻（与太阳钮同色系） */
 .subject-go {
   background: linear-gradient(180deg, #ffe066 0%, #ffc93c 100%);
   color: #8a5a00;

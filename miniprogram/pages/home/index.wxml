@@ -4,7 +4,15 @@
     <text class="hero-cloud">☁️</text>
     <text class="hero-star">🌟</text>
     <view class="hero-bubble">嗨，小岛民！今天想去哪个岛冒险呀？</view>
-    <view class="hero-island">🏝️</view>
+    <view class="hero-island-wrap">
+      <view class="hero-island">🏝️</view>
+      <!-- 太阳分享钮：小岛右上方的晴天太阳，点一点分享给小伙伴 -->
+      <button hover-class="none" class="sun-fab" open-type="share" aria-label="分享给小伙伴">
+        <view class="sun-pill">
+          <text class="sun-icon">☀️</text>
+        </view>
+      </button>
+    </view>
     <view class="hero-title">童学冒险岛</view>
     <view class="hero-sub">一至六年级 · 闯关赢金币 · 越玩越聪明</view>
     <view class="hero-chips">
@@ -12,13 +20,6 @@
       <view class="chip fire">🔥 连续 {{streak}} 天</view>
       <view class="chip wrong">📕 错题 {{wrongCount}}</view>
     </view>
-    <!-- 分享 HUD 圆钮：蛋仔派对式右上角悬浮功能钮 -->
-    <button hover-class="none" class="share-fab" open-type="share" aria-label="分享给小伙伴">
-      <view class="share-pill">
-        <text class="share-icon">🚀</text>
-        <text class="share-word">分享</text>
-      </view>
-    </button>
   </view>
 
   <!-- 加载 / 错误态 -->
