@@ -86,9 +86,9 @@ export const UNITS: Unit[] = [
 
 export const QUESTIONS: Record<string, Question[]> = {
   ztb1: [
-    { id: 'ztb1-1', type: 'choice', q: '"Put on my coat!" 的意思是：', options: ['穿上我的外套！', '脱下我的外套！', '洗我的外套！', '买一件外套！'], answer: 0, explain: 'put on 穿上，coat 外套，天冷了记得 Put on your coat!。', tag: '短语理解' },
+    { id: 'ztb1-1', type: 'choice', q: '"Put on my coat!" 的意思是：', options: ['穿上我的外套！', '脱下我的外套！', '洗我的外套！', '买一件外套！'], answer: 0, explain: 'put on 穿上，coat 外套，天冷了记得说 Put on your coat! 快穿上外套！', tag: '短语理解' },
     { id: 'ztb1-2', type: 'choice', q: '冬天保暖穿的"毛衣"是：', options: ['sweater', 'skirt', 'shirt', 'shoe'], answer: 0, explain: 'sweater 毛衣，冬天穿上暖和和；skirt 是短裙。', tag: '服装词汇' },
-    { id: 'ztb1-3', type: 'choice', q: '夏天天气热，适合穿：', options: ['a skirt 一条短裙', 'a big coat 一件厚外套', 'a sweater 一件毛衣', 'two scarves 两条围巾'], answer: 0, explain: 'skirt 短裙凉快，厚外套 sweater 留给冬天哦。', tag: '生活常识' },
+    { id: 'ztb1-3', type: 'choice', q: '夏天天气热，适合穿：', options: ['a skirt 一条短裙', 'a big coat 一件厚外套', 'a sweater 一件毛衣', 'two scarves 两条围巾'], answer: 0, explain: 'skirt 短裙凉快适合夏天；sweater 毛衣、coat 外套都是保暖的，留给冬天。', tag: '生活常识' },
     { id: 'ztb1-4', type: 'choice', q: '下雨出门要带的"雨伞"是：', options: ['umbrella', 'sweater', 'coat', 'skirt'], answer: 0, explain: 'umbrella 雨伞，下雨打伞，别淋湿衣服哦。', tag: '日常用品' },
     { id: 'ztb1-5', type: 'judge', q: '"Take off your shoes." 的意思是"脱下你的鞋子"。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'put on 穿上，take off 脱下，一对反义短语。', tag: '动词短语' },
     { id: 'ztb1-6', type: 'choice', q: '早上自己穿衣服，可以对妈妈说：', options: ['I can get dressed!', 'I can\'t do it!', 'Help me all the time!', 'You do it for me.'], answer: 0, explain: 'get dressed 穿好衣服，自己的事情自己做，能干又自信！', tag: '习惯养成' },
@@ -105,9 +105,9 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'ztb2-5', type: 'judge', q: '上下楼梯要靠右慢行，不推不挤。', options: ['√ 对', '✗ 错'], answer: 0, explain: '上下楼梯靠右走，一步一步踩踏实，安全习惯天天有。', tag: '安全规则' },
     { id: 'ztb2-6', type: 'choice', q: '看到小伙伴要摔倒，你应该：', options: ['赶紧扶一把', '哈哈大笑', '快跑开', '推他一把'], answer: 0, explain: '扶一把、问一句 Are you OK?，互相帮助才安全。', tag: '品德养成' },
     { id: 'ztb2-7', type: 'choice', q: '在马路边玩耍是：', options: ['危险的 dangerous', '安全的 safe', '好玩的 fun', '安静的 quiet'], answer: 0, explain: 'dangerous 危险的，马路边车多，千万不能玩耍！', tag: '安全词汇' },
-    { id: 'ztb2-8', type: 'judge', q: '玩滑梯要排队，一个一个来。', options: ['√ 对', '✗ 错'], answer: 0, explain: '排队 wait for my turn，一个一个滑，又安全又开心。', tag: '安全规则' },
+    { id: 'ztb2-8', type: 'judge', q: '玩滑梯不用排队，谁跑得快谁先玩。', options: ['√ 对', '✗ 错'], answer: 1, explain: '玩滑梯要排队 wait for my turn，一个一个来，推推挤挤会摔伤。', tag: '安全规则' },
     { id: 'ztb2-9', type: 'choice', q: '"shout" 的意思是：', options: ['大喊大叫', '轻轻说话', '安静看书', '慢慢走路'], answer: 0, explain: 'shout 喊叫，图书馆和走廊里 Don\'t shout! 不要大喊大叫。', tag: '动词' },
-    { id: 'ztb2-10', type: 'choice', q: '玩耍时受伤了，应该先：', options: ['告诉老师或家长', '自己躲起来', '继续玩', '哭个不停'], answer: 0, explain: '受伤先告诉大人：Tell your teacher.，及时处理好得快。', tag: '安全规则' },
+    { id: 'ztb2-10', type: 'choice', q: '玩耍时受伤了，应该先：', options: ['告诉老师或家长', '自己躲起来', '继续玩', '哭个不停'], answer: 0, explain: '受伤先告诉大人：Tell your teacher. 告诉老师，及时处理好得快。', tag: '安全规则' },
   ],
   ztb3: [
     { id: 'ztb3-1', type: 'choice', q: '"I can do it!" 的意思是：', options: ['我能做到！', '我不想做！', '你帮我做！', '我做不到！'], answer: 0, explain: 'I can do it! 我能行！相信自己，大声说出来！', tag: '短语理解' },
@@ -117,7 +117,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'ztb3-5', type: 'judge', q: '同学搬不动书箱，我可以帮忙一起搬。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'Let me help you. 我来帮你，互相帮助真温暖。', tag: '品德养成' },
     { id: 'ztb3-6', type: 'choice', q: '想请同学帮忙，可以说：', options: ['Can you help me?', 'You must go away.', 'I don\'t need you.', 'Watch TV with me.'], answer: 0, explain: 'Can you help me? 你能帮我吗？客气请求，别人更愿意帮。', tag: '句型' },
     { id: 'ztb3-7', type: 'choice', q: '擦桌子要用到的工具是：', options: ['a cloth 一块抹布', 'a spoon 一个勺子', 'a cup 一个杯子', 'a toothbrush 一把牙刷'], answer: 0, explain: 'cloth 抹布，Use a cloth to clean the table. 用抹布擦桌子。', tag: '日常用品' },
-    { id: 'ztb3-8', type: 'judge', q: '自己的书包自己整理，不用爸爸妈妈帮忙。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'I can do it! 自己的事情自己做，小小年纪有担当。', tag: '习惯养成' },
+    { id: 'ztb3-8', type: 'judge', q: '自己的书包都让爸爸妈妈整理，我不用动手。', options: ['√ 对', '✗ 错'], answer: 1, explain: 'I can do it! 自己的事情自己做，整理书包是小本领，小小年纪有担当。', tag: '习惯养成' },
     { id: 'ztb3-9', type: 'choice', q: '妈妈做饭时，你可以帮忙：', options: ['摆碗筷 set the table', '玩玩具', '看电视', '跑来跑去'], answer: 0, explain: 'set the table 摆碗筷，做个能干的小帮手！', tag: '劳动习惯' },
     { id: 'ztb3-10', type: 'choice', q: '别人帮了你，除了说谢谢还可以：', options: ['下次也帮助他', '转身就跑', '假装没发生', '让他再帮一次'], answer: 0, explain: 'Thank you! + 下次我也帮你，友谊就是这样暖暖的。', tag: '品德养成' },
   ],
@@ -126,7 +126,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'ztb4-2', type: 'choice', q: '公园里的"大树"是：', options: ['tree', 'flower', 'lake', 'hill'], answer: 0, explain: 'tree 树，Trees are green. 大树绿油油，还能净化空气。', tag: '自然词汇' },
     { id: 'ztb4-3', type: 'choice', q: '公园里能划船的"湖"是：', options: ['lake', 'tree', 'road', 'bench'], answer: 0, explain: 'lake 湖，There is a lake in the park. 公园里有个湖。', tag: '自然词汇' },
     { id: 'ztb4-4', type: 'choice', q: '香香的"花"是：', options: ['flower', 'tree', 'grass', 'hill'], answer: 0, explain: 'flower 花，Don\'t pick the flowers! 不要摘花哦。', tag: '自然词汇' },
-    { id: 'ztb4-5', type: 'judge', q: '"hill" 的意思是"小山"。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'hill 小山，爬上小山看风景，Climb the hill!。', tag: '自然词汇' },
+    { id: 'ztb4-5', type: 'judge', q: '"hill" 的意思是"小山"。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'hill 小山，爬上小山看风景：Climb the hill! 爬上小山！', tag: '自然词汇' },
     { id: 'ztb4-6', type: 'choice', q: '说公园里"有一个湖"，用：', options: ['There is a lake.', 'I have a lake.', 'It\'s a lake.', 'They are lakes.'], answer: 0, explain: 'There is... 有（一个）……，介绍景物用这个句型。', tag: '句型' },
     { id: 'ztb4-7', type: 'choice', q: '公园的长椅是用来：', options: ['坐下来休息的', '站上去跳的', '刻字画画的', '推来推去的'], answer: 0, explain: 'bench 长椅，坐一坐歇一歇，爱护公物人人夸。', tag: '公物爱护' },
     { id: 'ztb4-8', type: 'judge', q: '公园里的花很漂亮，可以摘一朵带回家。', options: ['√ 对', '✗ 错'], answer: 1, explain: 'Don\'t pick the flowers! 花是大家的，留在公园里大家看。', tag: '品德养成' },
