@@ -38,6 +38,7 @@
 }
 .hero-bubble {
   position: relative;
+  z-index: 2; /* 高于太阳钮(1)：太阳上半截藏到气泡后面 */
   display: inline-block;
   max-width: 100%;
   box-sizing: border-box;
@@ -146,9 +147,9 @@
    视觉全部由内部 .sun-pill 承担，任何基础库下尺寸都稳定 */
 .sun-fab {
   position: absolute;
-  top: -46rpx;
-  right: 182rpx;
-  width: 84rpx !important;
+  top: -52rpx;
+  right: 162rpx;
+  width: 72rpx !important;
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -157,7 +158,7 @@
   border-radius: 0;
   line-height: 1 !important;
   overflow: visible;
-  z-index: 5;
+  z-index: 1; /* 低于 .hero-bubble(2)：太阳上半截藏在气泡文字后面 */
 }
 .sun-fab::after {
   border: none; /* 重置微信 button 默认描边 */
@@ -167,8 +168,8 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 84rpx;
-  height: 84rpx;
+  width: 72rpx;
+  height: 72rpx;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 38%, #fff9d9 0%, #ffe066 52%, #ffc93c 100%);
   box-shadow:
@@ -180,7 +181,7 @@
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .sun-icon {
-  font-size: 46rpx;
+  font-size: 40rpx;
   line-height: 1;
   filter: drop-shadow(0 2rpx 0 rgba(255, 255, 255, 0.55));
 }
