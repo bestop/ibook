@@ -115,6 +115,17 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-3 pb-24 pt-4">
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => {
+          sfx.click()
+          onBack()
+        }}
+        className="mb-3 rounded-xl border-2 font-black"
+      >
+        ← 返回
+      </Button>
       <div className="mb-4 rounded-3xl border-2 border-rose-300 bg-gradient-to-br from-rose-50 to-orange-50 p-4 shadow-[0_6px_0_0_rgba(244,63,94,0.25)]">
         <div className="flex items-center justify-between gap-3">
           <div>

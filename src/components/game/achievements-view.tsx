@@ -21,6 +21,19 @@ export default function AchievementsView({ onBack }: { onBack: () => void }) {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-3 pb-24 pt-4">
+      {/* 返回钮固定在页首，避免被长成就列表压到底部不可见 */}
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => {
+          sfx.click()
+          onBack()
+        }}
+        className="mb-3 rounded-xl border-2 font-black"
+      >
+        ← 返回
+      </Button>
+
       {/* 数据总览 */}
       <div className="mb-4 grid grid-cols-4 gap-2">
         {[
@@ -77,19 +90,6 @@ export default function AchievementsView({ onBack }: { onBack: () => void }) {
             </motion.div>
           )
         })}
-      </div>
-
-      <div className="mt-5 text-center">
-        <Button
-          onClick={() => {
-            sfx.click()
-            onBack()
-          }}
-          variant="outline"
-          className="rounded-2xl border-2 px-8 py-4 font-black"
-        >
-          ← 返回
-        </Button>
       </div>
     </div>
   )

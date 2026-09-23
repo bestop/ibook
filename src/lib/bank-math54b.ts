@@ -106,7 +106,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zz3-5', type: 'choice', q: '不等式组 x > 1 且 x < 4 的解集是？', options: ['1 < x < 4', 'x < 1', 'x > 4', '无解'], answer: 0, explain: '两个条件都要满足，取公共部分：1 < x < 4。', tag: '不等式组' },
     { id: 'zz3-6', type: 'choice', q: '在数轴上表示 x > 2 时，2 处的点是空心还是实心？', options: ['空心（不包含 2）', '实心（包含 2）', '随意', '不画点'], answer: 0, explain: '大于号或小于号不含等号，画空心圈；含等号（大于等于、小于等于）画实心点。', tag: '数轴表示' },
     { id: 'zz3-7', type: 'choice', q: '不等式 -2x > 4 的解集是？', options: ['x < -2', 'x > -2', 'x < 2', 'x > 2'], answer: 0, explain: '两边同除以 -2，不等号变向：x < -2。', tag: '解不等式' },
-    { id: 'zz3-8', type: 'judge', q: '不等式 3x < 6 的解集是 x < 2。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！两边同除以正数 3，方向不变：x < 2。', tag: '解不等式' },
+    { id: 'zz3-8', type: 'judge', q: '不等式 3x < 6 的解集是 x > 2。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错！两边同除以正数 3，不等号方向不变，解集是 x < 2；只有两边同乘或除以负数时，不等号方向才要改变。', tag: '解不等式' },
     { id: 'zz3-9', type: 'choice', q: '小明有 50 元，笔每支 6 元，他最多能买几支（钱要够）？', options: ['8 支', '9 支', '7 支', '10 支'], answer: 0, explain: '6 × 8 = 48 ≤ 50，6 × 9 = 54 > 50，最多买 8 支。', tag: '应用题' },
     { id: 'zz3-10', type: 'judge', q: 'x ≤ 3 与 x < 3 的区别是：x ≤ 3 包含 3 本身。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！"≤"表示小于或等于，3 本身也是 x ≤ 3 的解。', tag: '解集' },
   ],
@@ -132,6 +132,6 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zz5-7', type: 'judge', q: '长方体相邻的两个面互相垂直。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！相邻两面相交，交成的二面角是直的，所以互相垂直。', tag: '面与面' },
     { id: 'zz5-8', type: 'choice', q: '一个长方体最多有几个面是正方形？', options: ['2 个', '6 个', '4 个', '1 个'], answer: 0, explain: '最多 2 个相对的面是正方形；若 6 个面都是正方形，它就变成正方体了。', tag: '长方体' },
     { id: 'zz5-9', type: 'choice', q: '长方体的 12 条棱可以分成几组，每组几条相等？', options: ['3 组，每组 4 条', '4 组，每组 3 条', '2 组，每组 6 条', '6 组，每组 2 条'], answer: 0, explain: '长、宽、高各 4 条，共 3 组，每组 4 条相等。', tag: '长方体元素' },
-    { id: 'zz5-10', type: 'judge', q: '正方体是特殊的长方体。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！棱都相等的长方体就是正方体。', tag: '正方体' },
+    { id: 'zz5-10', type: 'judge', q: '正方体不是长方体。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错！正方体是特殊的长方体——棱都相等的长方体就是正方体，它们是"包含"关系。', tag: '正方体' },
   ],
 }
