@@ -113,7 +113,7 @@ export const UNITS: Unit[] = [
 
 export const QUESTIONS: Record<string, Question[]> = {
   zp1: [
-    { id: 'zp1-1', type: 'choice', q: '太阳每天从哪个方向升起？', options: ['东方', '西方', '南方', '北方'], answer: 0, explain: '太阳从东方升起、西方落下，这是辨别方向的好办法。', tag: '认识方向' },
+    { id: 'zp1-1', type: 'choice', q: '早晨面对太阳，前面是东，后面是？', options: ['西方', '南方', '北方', '东方'], answer: 0, explain: '早晨太阳在东方，面对它时前面是东，后面就是西；左面是北，右面是南。', tag: '认识方向' },
     { id: 'zp1-2', type: 'choice', q: '当你面向北方时，你的右面是什么方向？', options: ['东方', '西方', '南方', '北方'], answer: 0, explain: '面向北，前面是北、后面是南、左面是西、右面是东。', tag: '认识方向' },
     { id: 'zp1-3', type: 'choice', q: '当你面向南方时，你的背后是什么方向？', options: ['北方', '东方', '西方', '南方'], answer: 0, explain: '南北相对：面向南，背后就是北。', tag: '认识方向' },
     { id: 'zp1-4', type: 'judge', q: '地图上通常是上北下南、左西右东。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！看地图先找方向标：上面是北，下面是南，左面是西，右面是东。', tag: '平面图' },

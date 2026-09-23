@@ -111,7 +111,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'ztd2-1', type: 'choice', q: '"Family rules" 的意思是：', options: ['家庭规则', '家庭照片', '家庭作业', '家庭聚会'], answer: 0, explain: 'family rules 家规，好家规让家更温暖！', tag: '短语理解' },
     { id: 'ztd2-2', type: 'choice', q: '下面哪条是合理的家规？', options: ['先完成作业再玩', '整天玩游戏', '想几点睡就几点睡', '不吃早饭'], answer: 0, explain: 'Finish homework first. 先作业后玩耍，好家规帮我们养成好习惯。', tag: '家规' },
     { id: 'ztd2-3', type: 'choice', q: '吃完饭帮忙洗碗，是在：', options: ['帮家里做家务', '浪费水', '捣乱', '表现给别人看'], answer: 0, explain: 'do the dishes 洗碗，帮家里做家务 do housework，人人有份！', tag: '劳动习惯' },
-    { id: 'ztd2-4', type: 'choice', q: '"sweep the floor" 的意思是：', options: ['扫地', '拖地', '擦窗户', '倒垃圾'], answer: 0, explain: 'sweep 扫，sweep the floor 扫地；mop the floor 才是拖地。', tag: '动词短语' },
+    { id: 'ztd2-4', type: 'choice', q: '"water the flowers" 的意思是：', options: ['浇花', '扫地', '擦窗户', '倒垃圾'], answer: 0, explain: 'water 不只是"水"，还能当动词"浇水"：water the flowers 给花浇水。', tag: '动词短语' },
     { id: 'ztd2-5', type: 'judge', q: '看电视的时间要和爸爸妈妈约定好。', options: ['√ 对', '✗ 错'], answer: 0, explain: '约定 screen time 屏幕时间，说到做到，眼睛也开心。', tag: '家规' },
     { id: 'ztd2-6', type: 'choice', q: '弟弟妹妹哭闹时，你可以：', options: ['耐心哄一哄、陪他玩', '冲他大喊大叫', '抢他的玩具', '跑去告状'], answer: 0, explain: '照顾家人是家规里最暖的一条：Be kind to your family。', tag: '品德养成' },
     { id: 'ztd2-7', type: 'choice', q: '晚上九点还在玩手机，违反了哪类约定？', options: ['作息时间约定', '班级规则', '交通规则', '游戏规则'], answer: 0, explain: '按时睡觉 go to bed on time，作息约定保护着你的身高和记忆力！', tag: '家规' },

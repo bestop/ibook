@@ -667,10 +667,10 @@ export const QUESTIONS: Record<string, Question[]> = {
     {
       id: 'g5q9',
       type: 'judge',
-      q: 'A museum is a place to see old things. 博物馆是看老物件的地方。',
+      q: 'A museum is a place to buy old things. 博物馆是买老物件的地方。',
       options: ['对', '错'],
-      answer: 0,
-      explain: '对！博物馆里能看到文物、老物件，学习历史和文化。',
+      answer: 1,
+      explain: 'museum 博物馆是看文物、老物件的地方，展品不能买哦；buy 是买，说错啦。',
       tag: '常识',
     },
     {
@@ -1035,10 +1035,10 @@ export const QUESTIONS: Record<string, Question[]> = {
     {
       id: 'g9q9',
       type: 'judge',
-      q: 'half past seven＝7:30。',
+      q: 'half past seven＝6:30。',
       options: ['对', '错'],
-      answer: 0,
-      explain: '对！half past seven 就是七点半。',
+      answer: 1,
+      explain: 'half past seven 是七点半：7 点又过半小时，才是 7:30。',
       tag: '时间',
     },
     {

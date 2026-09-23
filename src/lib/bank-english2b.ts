@@ -182,7 +182,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zth4-2', type: 'choice', q: '张开嘴巴唱动听的"唱歌"是：', options: ['singing', 'dancing', 'running', 'sleeping'], answer: 0, explain: 'sing 唱歌，I like singing. 我喜欢唱歌。', tag: '动词' },
     { id: 'zth4-3', type: 'choice', q: '跟着音乐转圈圈的"跳舞"是：', options: ['dancing', 'reading', 'swimming', 'jumping'], answer: 0, explain: 'dance 跳舞，I like dancing. 我喜欢跳舞。', tag: '动词' },
     { id: 'zth4-4', type: 'choice', q: '在泳池里扑腾的"游泳"是：', options: ['swimming', 'singing', 'drawing', 'cooking'], answer: 0, explain: 'swim 游泳，双写 m 加 ing：swimming。', tag: '动词' },
-    { id: 'zth4-5', type: 'choice', q: '"I like reading." 的意思是：', options: ['我喜欢读书。', '我会读书。', '我在读书。', '书很好看。'], answer: 0, explain: 'like doing 表示喜欢做：I like reading. 我喜欢阅读。', tag: '句型' },
+    { id: 'zth4-5', type: 'choice', q: '"I like reading and singing." 的意思是：', options: ['我喜欢读书和唱歌。', '我喜欢读书或唱歌。', '我在读书和唱歌。', '我不喜欢读书和唱歌。'], answer: 0, explain: 'like doing 表示喜欢做某事，and 把两件喜欢的事连起来：喜欢读书，也喜欢唱歌。', tag: '句型' },
     { id: 'zth4-6', type: 'judge', q: '说"我喜欢画画"，应该说 I like drawing。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'draw 画画 → I like drawing. 我喜欢画画。', tag: '句型' },
     { id: 'zth4-7', type: 'choice', q: '问同学喜欢做什么，可以说：', options: ['What do you like doing?', 'What is your name?', 'How old are you?', 'Where is your bag?'], answer: 0, explain: 'What do you like doing? 你喜欢做什么？', tag: '对话' },
     { id: 'zth4-8', type: 'choice', q: '回答"我喜欢跑步"，说：', options: ['I like running.', 'I like runing.', 'I like runs.', 'I like run.'], answer: 0, explain: 'run 要双写 n 再加 ing：running，小尾巴别写错。', tag: '语法' },
@@ -250,7 +250,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zth9-10', type: 'choice', q: 'shirt、sweater、coat、hat 都属于：', options: ['clothes 衣服类', 'food 食物类', 'animals 动物类', 'vehicles 交通类'], answer: 0, explain: '穿在身上的都是 clothes。', tag: '单词分类' },
   ],
   zth10: [
-    { id: 'zth10-1', type: 'choice', q: '"play football" 的意思是：', options: ['踢足球', '打篮球', '游泳', '跳绳'], answer: 0, explain: 'play football 踢足球，play + 球类运动。', tag: '动词短语' },
+    { id: 'zth10-1', type: 'choice', q: '"play sports" 的意思是：', options: ['做运动', '做游戏', '做作业', '做早操'], answer: 0, explain: 'sport 运动，play sports 就是做运动、参加体育活动。运动让身体棒棒！', tag: '动词短语' },
     { id: 'zth10-2', type: 'choice', q: '用手拍着玩的"篮球"是：', options: ['basketball', 'football', 'ping-pong', 'kite'], answer: 0, explain: 'basketball 篮球，basket 篮子 + ball 球，投进篮筐得分！', tag: '运动词汇' },
     { id: 'zth10-3', type: 'choice', q: '"fly a kite" 的意思是：', options: ['放风筝', '扔皮球', '踢毽子', '荡秋千'], answer: 0, explain: 'fly a kite 放风筝，选空旷的场地，注意安全。', tag: '动词短语' },
     { id: 'zth10-4', type: 'choice', q: '"Can you ride a bicycle?" 的意思是：', options: ['你会骑自行车吗？', '你会开汽车吗？', '你有自行车吗？', '自行车是你的吗？'], answer: 0, explain: 'Can you ride a bicycle? 回答 Yes, I can. 会 / No, I can\'t. 不会。', tag: '句型' },
