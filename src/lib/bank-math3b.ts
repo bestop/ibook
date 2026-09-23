@@ -118,7 +118,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zw2-10', type: 'choice', q: '解决问题：小丁家到学校 600 米，他每分钟走 60 米，几分钟到学校？', options: ['10 分钟', '6 分钟', '100 分钟', '16 分钟'], answer: 0, explain: '600 ÷ 60 = 10（分钟）。路程 ÷ 速度 = 时间。', tag: '速度时间路程' },
   ],
   zw3: [
-    { id: 'zw3-1', type: 'choice', q: '条形统计图用直条的什么来表示数量的多少？', options: ['长短', '颜色', '粗细', '位置'], answer: 0, explain: '直条越长表示数量越多，越长越短一目了然。', tag: '条形统计图' },
+    { id: 'zw3-1', type: 'choice', q: '条形统计图用直条的什么来表示数量的多少？', options: ['长短', '颜色', '粗细', '位置'], answer: 0, explain: '直条越长表示数量越多，一眼就能比较出来。', tag: '条形统计图' },
     { id: 'zw3-2', type: 'choice', q: '条形统计图 1 格表示 5 人，3 格的直条表示多少人？', options: ['15 人', '8 人', '30 人', '5 人'], answer: 0, explain: '1 格 5 人，3 格就是 5 × 3 = 15（人）。', tag: '一格多个' },
     { id: 'zw3-3', type: 'judge', q: '条形统计图中，直条越长表示的数量越多。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！直条的长短和数量成正比。', tag: '条形统计图' },
     { id: 'zw3-4', type: 'choice', q: '条形统计图上必须要有（ ），才能知道 1 格表示多少。', options: ['刻度和数量标注', '颜色', '图案', '标题'], answer: 0, explain: '要看清纵轴的刻度，每格代表几，才能读准数量。', tag: '读图' },
@@ -127,7 +127,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zw3-7', type: 'judge', q: '条形统计图能直观地比较出数量的多少。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！这就是条形统计图最大的优点。', tag: '统计' },
     { id: 'zw3-8', type: 'choice', q: '用画"正"字的方法记录投票，一个"正"字表示几票？', options: ['5 票', '1 票', '10 票', '4 票'], answer: 0, explain: '"正"字有 5 画，一个"正"字正好 5 票。', tag: '收集数据' },
     { id: 'zw3-9', type: 'choice', q: '45 人投票，用画"正"字记录，要画几个"正"字？', options: ['9 个', '5 个', '8 个', '10 个'], answer: 0, explain: '45 ÷ 5 = 9（个）。', tag: '收集数据' },
-    { id: 'zw3-10', type: 'judge', q: '从条形统计图里可以很快看出哪个数量最多、哪个最少。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！这就是统计图的好处：直观、好比较。', tag: '统计' },
+    { id: 'zw3-10', type: 'judge', q: '条形统计图中 1 格只能表示 1 个数量。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错。1 格可以表示 1，也可以表示 2、5、10……数量大时 1 格表示更多，画图更方便。', tag: '统计' },
   ],
   zw4: [
     { id: 'zw4-1', type: 'choice', q: '把一个月饼平均分成 2 份，每份是多少？', options: ['二分之一', '一半的一半', '1', '二分之二'], answer: 0, explain: '平均分成 2 份，每份是这个月饼的二分之一，写作 1/2。', tag: '几分之一' },
