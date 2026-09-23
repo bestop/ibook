@@ -71,5 +71,5 @@
   </view>
 
   <view class="tabbar-space"></view>
-  <mp-tabbar active="rewards" />
+  <mp-tabbar active="rewards" wrong-count="{{wrongCount}}" />
 </view>

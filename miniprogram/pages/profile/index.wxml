@@ -65,5 +65,5 @@
   </view>
 
   <view class="tabbar-space"></view>
-  <mp-tabbar active="profile" />
+  <mp-tabbar active="profile" wrong-count="{{wrongCount}}" />
 </view>

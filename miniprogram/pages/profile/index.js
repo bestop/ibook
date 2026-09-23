@@ -53,6 +53,7 @@ Page({
       totalCompleted: totalCompleted,
       achievements: list,
       unlockedCount: list.filter(function (a) { return a.unlocked }).length,
+      wrongCount: Object.keys(s.wrongBook).length,
       soundOn: sfx.isEnabled(),
     })
   },

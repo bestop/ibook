@@ -13,7 +13,12 @@
   </view>
 
   <block wx:else>
-    <button hover-class="none" class="btn-primary review-btn" bindtap="startReview">📖 开始复习（随机 10 题）</button>
+    <button hover-class="none" class="btn-primary review-btn" bindtap="startReview">
+      <view class="review-inner">
+        <text class="review-main">开始复习</text>
+        <text class="review-chip">随机 10 题</text>
+      </view>
+    </button>
 
     <view class="section-title">待消灭错题</view>
     <view wx:for="{{items}}" wx:key="qid" class="card wrong-card">

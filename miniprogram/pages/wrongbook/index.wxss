@@ -43,6 +43,30 @@
 .review-btn {
   margin-bottom: 8rpx;
 }
+/* 按钮内容：主文案 + 轻胶囊副标签，替代原「📖 开始复习（随机 10 题）」 */
+.review-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.review-main {
+  font-size: 34rpx;
+  font-weight: 900;
+  letter-spacing: 4rpx;
+  text-indent: 4rpx; /* 补偿 letter-spacing 尾随空隙 */
+}
+.review-chip {
+  margin-left: 16rpx;
+  font-size: 20rpx;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+  color: #eafaff;
+  background: rgba(255, 255, 255, 0.22);
+  border: 2rpx solid rgba(255, 255, 255, 0.55);
+  border-radius: 999rpx;
+  padding: 4rpx 16rpx;
+  line-height: 1.4;
+}
 .wrong-card {
   margin-bottom: 16rpx;
 }

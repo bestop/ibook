@@ -29,7 +29,7 @@ Page({
           d.getMonth() + 1 + '月' + d.getDate() + '日 ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'),
       })
     })
-    this.setData({ coins: s.coins, rewards: rewards, redeemLog: redeemLog })
+    this.setData({ coins: s.coins, rewards: rewards, redeemLog: redeemLog, wrongCount: Object.keys(s.wrongBook).length })
   },
 
   redeem(e) {
