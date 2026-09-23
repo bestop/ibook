@@ -90,7 +90,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'za1-2', type: 'choice', q: '"Hello, I\'m Bill." 的意思是：', options: ['你好，我是比尔。', '你好，比尔再见。', '你好，这是比尔。', '比尔，谢谢你。'], answer: 0, explain: 'I\'m... 我是……，介绍自己名字用 I\'m + 名字。', tag: '自我介绍' },
     { id: 'za1-3', type: 'choice', q: '放学和好朋友说再见，应该说：', options: ['Goodbye!', 'Hello!', 'Good morning!', 'Nice to meet you!'], answer: 0, explain: 'Goodbye! 再见！道别时说，也可以说 Bye-bye!。', tag: '打招呼' },
     { id: 'za1-4', type: 'choice', q: '想知道对方叫什么名字，应该问：', options: ['What\'s your name?', 'How are you?', 'How old are you?', 'Where are you?'], answer: 0, explain: 'What\'s your name? 你叫什么名字？回答：I\'m... / My name is...。', tag: '句型' },
-    { id: 'za1-5', type: 'judge', q: '"Good morning." 是早上问好用的。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'Good morning! 早上好，中午用 Good afternoon!，晚上用 Good evening!。', tag: '打招呼' },
+    { id: 'za1-5', type: 'judge', q: '"Good night." 是早上见面问好用的。', options: ['√ 对', '✗ 错'], answer: 1, explain: 'Good night 是睡前说的晚安；早上问好要说 Good morning!，中午用 Good afternoon!。', tag: '打招呼' },
     { id: 'za1-6', type: 'choice', q: '别人向你问好，你可以回答：', options: ['Hello! Hi!', 'Goodbye!', 'I\'m fine.', 'Thank you!'], answer: 0, explain: '别人说 Hello，你也回 Hello! 或 Hi!，礼貌又友好。', tag: '打招呼' },
     { id: 'za1-7', type: 'choice', q: '"Hi, I\'m Lily." 中 Lily 是：', options: ['名字', '动物', '颜色', '文具'], answer: 0, explain: 'Lily 是女孩的名字，英语里名字开头字母要大写哦。', tag: '名字' },
     { id: 'za1-8', type: 'choice', q: '和新朋友第一次见面，可以说：', options: ['Nice to meet you!', 'See you!', 'Good night!', 'Excuse me!'], answer: 0, explain: 'Nice to meet you! 很高兴见到你！对方会回答 Nice to meet you, too!。', tag: '句型' },
@@ -154,7 +154,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zar-6', type: 'choice', q: '放学回家和老师同学告别，说：', options: ['Goodbye! See you!', 'Good morning!', 'Nice to meet you!', 'How are you?'], answer: 0, explain: 'Goodbye! / See you! 再见！明天见可以说 See you tomorrow!。', tag: '打招呼' },
     { id: 'zar-7', type: 'choice', q: '"eyes and ears" 指的是：', options: ['眼睛和耳朵', '手和脚', '嘴巴和鼻子', '头和肩膀'], answer: 0, explain: 'eye→eyes 眼睛，ear→ears 耳朵，两个用复数，词尾加 s。', tag: '身体部位' },
     { id: 'zar-8', type: 'choice', q: '想认识新朋友，可以先说：', options: ['Hello! I\'m...', 'Goodbye!', 'You\'re wrong!', 'Give me that!'], answer: 0, explain: '先打招呼再自我介绍：Hello! I\'m...，交朋友就是这么简单！', tag: '交友' },
-    { id: 'zar-9', type: 'judge', q: '每天自己整理书包，是上学的第一天准备。', options: ['√ 对', '✗ 错'], answer: 0, explain: '自己的事情自己做，睡前整理书包，做能干的小学生！', tag: '习惯养成' },
+    { id: 'zar-9', type: 'judge', q: '每天自己整理书包，是上学前的好习惯。', options: ['√ 对', '✗ 错'], answer: 0, explain: '自己的事情自己做，睡前整理书包，做能干的小学生！', tag: '习惯养成' },
     { id: 'zar-10', type: 'choice', q: '"family" 的意思是：', options: ['家庭', '学校', '教室', '朋友'], answer: 0, explain: 'family 家庭，家里的爸爸妈妈和你，组成温暖的一家人。', tag: '家庭词汇' },
   ],
 }
