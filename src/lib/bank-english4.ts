@@ -216,10 +216,10 @@ export const QUESTIONS: Record<string, Question[]> = {
     {
       id: 'gstq10',
       type: 'choice',
-      q: '「sunny」是什么意思？',
-      options: ['晴朗的', '下雨的', '有风的', '下雪的'],
+      q: '「umbrella」是什么意思？',
+      options: ['雨伞', '大衣', '鞋子', '帽子'],
       answer: 0,
-      explain: 'sunny＝晴朗的（太阳 sun＋ny），rainy 下雨的，windy 有风的，snowy 下雪的。',
+      explain: 'umbrella＝雨伞，下雨时带上它就不怕淋湿啦。',
       tag: '天气',
     },
   ],
@@ -483,7 +483,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     {
       id: 'g3q9',
       type: 'choice',
-      q: ' Elephants in Yunnan 大象在云南旅行时，我们可以怎样保护它们？',
+      q: 'Elephants in Yunnan 大象在云南旅行时，我们可以怎样保护它们？',
       options: ['Keep away and don\'t feed them.', 'Give them candy.', 'Take them home.', 'Shout at them.'],
       answer: 0,
       explain: '保护野生动物：保持距离、不投喂（keep away and don\'t feed them）。',
