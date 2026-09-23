@@ -127,7 +127,7 @@ export const QUESTIONS: Record<string, Question[]> = {
   zr2: [
     { id: 'zr2-1', type: 'choice', q: '18 的因数一共有几个？', options: ['6 个', '4 个', '5 个', '8 个'], answer: 0, explain: '1、2、3、6、9、18，成对找不遗漏，共 6 个。', tag: '找因数' },
     { id: 'zr2-2', type: 'choice', q: '6 的最小倍数是多少？', options: ['6', '12', '1', '没有'], answer: 0, explain: '一个数的最小倍数是它本身，6 的最小倍数是 6。', tag: '倍数' },
-    { id: 'zr2-3', type: 'judge', q: '一个数的最小因数是 1，最大因数是它本身。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！因数是成对找的，最小 1，最大本身。', tag: '因数' },
+    { id: 'zr2-3', type: 'judge', q: '一个数的最小倍数是 1。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错！一个数的最小倍数是它本身，比如 6 的最小倍数是 6；1 是最小的因数，别弄混哦。', tag: '倍数' },
     { id: 'zr2-4', type: 'choice', q: '2 的倍数有什么特征？', options: ['个位是 0、2、4、6、8', '个位是 0 或 5', '各数位之和是 2 的倍数', '都是质数'], answer: 0, explain: '个位是偶数的就是 2 的倍数，也叫偶数。', tag: '2 的倍数' },
     { id: 'zr2-5', type: 'choice', q: '5 的倍数有什么特征？', options: ['个位是 0 或 5', '个位是 5', '各数位之和是 5', '都是奇数'], answer: 0, explain: '个位是 0 或 5 的数才是 5 的倍数，比如 10、15、100。', tag: '5 的倍数' },
     { id: 'zr2-6', type: 'choice', q: '3 的倍数有什么特征？', options: ['各数位上的数字之和是 3 的倍数', '个位是 3', '末两位是 3', '一定是奇数'], answer: 0, explain: '123：1+2+3=6，是 3 的倍数，所以 123 是 3 的倍数。', tag: '3 的倍数' },

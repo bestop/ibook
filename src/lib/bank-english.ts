@@ -737,7 +737,7 @@ const UNIT_E8: Question[] = [
     q: '"invention" 的意思是：',
     options: ['发明', '游戏', '运动', '节日'],
     answer: 0,
-    explain: 'invention 发明，是 invent（发明）的名词形式。an useful invention 一个有用的发明。',
+    explain: 'invention 发明，是 invent（发明）的名词形式。a useful invention 一个有用的发明。',
   },
   {
     id: 'e8-3', type: 'choice', tag: '单词',
