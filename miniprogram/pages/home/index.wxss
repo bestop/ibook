@@ -146,9 +146,9 @@
    视觉全部由内部 .sun-pill 承担，任何基础库下尺寸都稳定 */
 .sun-fab {
   position: absolute;
-  top: -34rpx;
-  right: 196rpx;
-  width: 100rpx !important;
+  top: -46rpx;
+  right: 182rpx;
+  width: 84rpx !important;
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -167,14 +167,12 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 100rpx;
-  height: 100rpx;
+  width: 84rpx;
+  height: 84rpx;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 38%, #fff9d9 0%, #ffe066 52%, #ffc93c 100%);
-  border: 4rpx solid #fff;
   box-shadow:
-    0 0 0 3rpx rgba(232, 164, 0, 0.25),
-    0 0 30rpx 8rpx rgba(255, 214, 64, 0.5),
+    0 0 26rpx 6rpx rgba(255, 214, 64, 0.5),
     inset 0 6rpx 0 rgba(255, 255, 255, 0.65),
     0 6rpx 0 rgba(232, 164, 0, 0.4),
     0 12rpx 18rpx rgba(255, 201, 60, 0.35);
@@ -182,7 +180,7 @@
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .sun-icon {
-  font-size: 54rpx;
+  font-size: 46rpx;
   line-height: 1;
   filter: drop-shadow(0 2rpx 0 rgba(255, 255, 255, 0.55));
 }
