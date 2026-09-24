@@ -391,11 +391,6 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             })}
           </div>
         )}
-
-        {/* 底部一句话 */}
-        <p className="mt-8 text-center text-xs font-bold text-gray-400">
-          🚧 英语沪教版下册和更多教材，正在开岛中…
-        </p>
       </div>
     </div>
   )
