@@ -148,7 +148,7 @@
   position: absolute;
   top: -52rpx;
   right: 162rpx;
-  width: 72rpx !important;
+  width: 64rpx !important;
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -167,31 +167,32 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 72rpx;
-  height: 72rpx;
+  width: 64rpx;
+  height: 64rpx;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 38%, #fff9d9 0%, #ffe066 52%, #ffc93c 100%);
+  /* 柔和日芯：亮核暖边过渡更细腻，无描边 */
+  background: radial-gradient(circle at 50% 36%, #fffbe6 0%, #ffe47a 48%, #ffce3d 100%);
   box-shadow:
-    0 0 26rpx 6rpx rgba(255, 214, 64, 0.5),
-    inset 0 6rpx 0 rgba(255, 255, 255, 0.65),
-    0 6rpx 0 rgba(232, 164, 0, 0.4),
-    0 12rpx 18rpx rgba(255, 201, 60, 0.35);
+    0 0 18rpx 5rpx rgba(255, 208, 62, 0.32), /* 柔光晕：由重外扩改轻盈呼吸光 */
+    inset 0 4rpx 0 rgba(255, 255, 255, 0.6),
+    0 3rpx 0 rgba(232, 164, 0, 0.3),
+    0 10rpx 18rpx rgba(255, 201, 60, 0.26);
   animation: sun-shine 2.6s ease-in-out infinite;
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .sun-icon {
-  font-size: 40rpx;
+  font-size: 34rpx;
   line-height: 1;
   filter: drop-shadow(0 2rpx 0 rgba(255, 255, 255, 0.55));
 }
-/* 晴天呼吸：轻轻鼓起 + 摇摆，像太阳在发光 */
+/* 晴天呼吸：轻轻鼓起 + 微摆，像太阳在发光 */
 @keyframes sun-shine {
   0%,
   100% {
-    transform: scale(1) rotate(-6deg);
+    transform: scale(1) rotate(-4deg);
   }
   50% {
-    transform: scale(1.08) rotate(8deg);
+    transform: scale(1.07) rotate(5deg);
   }
 }
 .sun-fab:active .sun-pill {
