@@ -301,8 +301,8 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         )}
       </AnimatePresence>
 
-      {/* 底部：金币 + 下一题 */}
-      <div className="fixed inset-x-0 bottom-16 z-40 border-t-2 border-orange-100 bg-white/95 p-3 backdrop-blur sm:bottom-0">
+      {/* 底部：金币 + 下一题（答题时无底部导航，直接贴底并适配安全区） */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-orange-100 bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-amber-100 px-3 py-1.5 text-sm font-black text-amber-700">

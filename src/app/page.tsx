@@ -19,7 +19,7 @@ import WrongBook from '@/components/game/wrong-book'
 import AchievementsView from '@/components/game/achievements-view'
 import RewardShop from '@/components/game/reward-shop'
 import TextbookPicker from '@/components/game/textbook-picker'
-import { getSubject, buildLevelQuestions, buildDailyQuestions, shuffle, ALL_QUESTIONS } from '@/lib/questions'
+import { getSubject, buildLevelQuestions, buildDailyQuestions } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { ACHIEVEMENTS, useGame, totalStars } from '@/lib/game'
 import { sfx, subscribeSound, getSoundSnapshot, loadSoundPref, setSoundEnabled } from '@/lib/sound'
@@ -42,15 +42,6 @@ type View =
   | { name: 'wrongbook' }
   | { name: 'achievements' }
   | { name: 'rewards' }
-
-function buildReviewItems(ids: string[]): QuizItem[] {
-  const qs = ALL_QUESTIONS.filter((q) => ids.includes(q.id))
-  return shuffle(qs).map((q) => {
-    if (q.type === 'judge') return { question: q, options: q.options, answer: q.answer }
-    const idx = shuffle(q.options.map((_, i) => i))
-    return { question: q, options: idx.map((i) => q.options[i]), answer: idx.indexOf(q.answer) }
-  })
-}
 
 export default function Home() {
   const hydrated = useHydrated()
@@ -168,10 +159,10 @@ export default function Home() {
   const showTabBar = view.name === 'home' || view.name === 'map' || view.name === 'wrongbook' || view.name === 'achievements' || view.name === 'rewards'
 
   const tabs = [
-    { key: 'home', label: '选科目', emoji: '🏠' },
+    { key: 'home', label: '科目', emoji: '🏠' },
     { key: 'map', label: '闯关地图', emoji: '🏰' },
-    { key: 'rewards', label: '礼物屋', emoji: '🎁' },
-    { key: 'wrongbook', label: `错题本${wrongCount ? `(${wrongCount})` : ''}`, emoji: '📕' },
+    { key: 'rewards', label: '礼物', emoji: '🎁' },
+    { key: 'wrongbook', label: '错题本', emoji: '📕' },
     { key: 'achievements', label: '成就墙', emoji: '🏆' },
   ] as const
 
@@ -311,7 +302,14 @@ export default function Home() {
                     active ? 'text-orange-600' : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
-                  <span className={`text-2xl transition-transform ${active ? 'scale-110' : ''}`}>{tab.emoji}</span>
+                  <span className={`relative text-2xl transition-transform ${active ? 'scale-110' : ''}`}>
+                    {tab.emoji}
+                    {tab.key === 'wrongbook' && wrongCount > 0 && (
+                      <span className="absolute -right-2.5 -top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-black leading-none text-white ring-2 ring-white">
+                        {wrongCount > 99 ? '99+' : wrongCount}
+                      </span>
+                    )}
+                  </span>
                   {tab.label}
                   {active && <span className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-orange-500" />}
                 </button>

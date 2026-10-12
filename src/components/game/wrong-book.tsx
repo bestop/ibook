@@ -75,11 +75,14 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
   )
 
   const startReview = () => {
-    const items: QuizItem[] = shuffle(wrongQuestions).map(({ q }) => {
-      if (q.type === 'judge') return { question: q, options: q.options, answer: q.answer }
-      const idx = shuffle(q.options.map((_, i) => i))
-      return { question: q, options: idx.map((i) => q.options[i]), answer: idx.indexOf(q.answer) }
-    })
+    // 与小程序对齐：随机抽 10 题为一轮复习（错题不足 10 道则全部）
+    const items: QuizItem[] = shuffle(wrongQuestions)
+      .slice(0, 10)
+      .map(({ q }) => {
+        if (q.type === 'judge') return { question: q, options: q.options, answer: q.answer }
+        const idx = shuffle(q.options.map((_, i) => i))
+        return { question: q, options: idx.map((i) => q.options[i]), answer: idx.indexOf(q.answer) }
+      })
     sfx.click()
     onStartReview(items)
   }
@@ -138,7 +141,12 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
             onClick={startReview}
             className="shrink-0 rounded-2xl bg-rose-500 px-5 py-3 font-black text-white shadow-[0_4px_0_0_rgba(244,63,94,0.4)] hover:bg-rose-600"
           >
-            🎯 开始复习
+            <span className="flex items-center gap-2">
+              开始复习
+              <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-black ring-1 ring-white/40">
+                随机 {Math.min(10, wrongQuestions.length)} 题
+              </span>
+            </span>
           </Button>
         </div>
       </div>
