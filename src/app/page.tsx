@@ -207,19 +207,19 @@ export default function Home() {
                   <DialogHeader>
                     <DialogTitle className="text-lg font-black">👨‍👩‍👧 使用指南</DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                      「童学冒险岛」覆盖语文、数学、英语一至六年级上册＋下册，共 62 个科目岛、509 关 5090 道精选题，每题都配详细解析。
-                      语文采用统编教材（六年级上下册均分六三制/五四学制两版），数学有人教版（六三制）与沪教版（五四学制）两套，英语有人教版 PEP（六三制）与沪教版牛津上海版两套，内容按 2024～2026 最新课本编写。
+                      「童学冒险岛」覆盖语文、数学、英语一至六年级上册＋下册，共 74 个科目岛、605 关 6050 道精选题，每题都配详细解析。
+                      语文采用统编教材（六年级上下册均分六三制/五四学制两版），数学有人教版（六三制）、沪教版（五四学制）与北师大版（一至六年级上下册）三套，英语有人教版 PEP（六三制）与沪教版牛津上海版两套，内容按 2024～2026 最新课本编写。
                       顶部左上角可随时切换年级、上下册和版本，建议孩子每天玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">
                     <div className="rounded-2xl bg-amber-50 p-3">
                       <p className="font-black text-amber-700">⏰ 每天 20 分钟怎么安排？</p>
-                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，六十多个科目岛可以搭配着玩。今日学习时长会自动累计。</p>
+                      <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关（约 12 分钟）+ 复习错题（约 5 分钟）+ 每日挑战（约 3 分钟）」，七十多个科目岛可以搭配着玩。今日学习时长会自动累计。</p>
                     </div>
                     <div className="rounded-2xl bg-emerald-50 p-3">
                       <p className="font-black text-emerald-700">🎁 奖励机制</p>
-                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，51 个成就徽章等你解锁</p>
+                      <p>· 答对 1 题 +10 金币；连击 3 次以上每题再 +5<br />· 通关奖励：1 星 +20 / 2 星 +50 / 3 星 +100<br />· 每日任务（闯关/20分钟/复习错题）各有金币奖励<br />· 每日签到 +10 金币，20 个成就徽章等你解锁</p>
                     </div>
                     <div className="rounded-2xl bg-rose-50 p-3">
                       <p className="font-black text-rose-700">⚖️ 惩罚机制</p>
@@ -276,7 +276,7 @@ export default function Home() {
               />
             )}
             {view.name === 'wrongbook' && <WrongBook onStartReview={startReview} onBack={() => setView({ name: 'home' })} />}
-            {view.name === 'achievements' && <AchievementsView onBack={() => setView({ name: 'home' })} />}
+            {view.name === 'achievements' && <AchievementsView />}
             {view.name === 'rewards' && <RewardShop />}
           </motion.div>
         </AnimatePresence>
