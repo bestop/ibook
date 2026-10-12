@@ -7,32 +7,34 @@
     <view class="coin-badge">🪙 {{coins}}</view>
   </view>
 
-  <!-- 奖励列表 -->
-  <view
-    wx:for="{{rewards}}"
-    wx:key="id"
-    class="card reward-card"
-  >
-    <view class="reward-emoji">{{item.emoji}}</view>
-    <view class="reward-main">
-      <view class="reward-name">{{item.name}}</view>
-      <view class="reward-desc">{{item.desc}}</view>
-    </view>
-    <view class="reward-right">
-      <view class="reward-cost">🪙 {{item.cost}}</view>
-      <button hover-class="none"
-        class="btn-primary reward-btn {{item.affordable ? '' : 'disabled'}}"
-        data-id="{{item.id}}"
-        data-name="{{item.name}}"
-        data-cost="{{item.cost}}"
-        bindtap="redeem"
-      >兑换</button>
-      <view
-        wx:if="{{item.custom}}"
-        class="reward-del"
-        data-id="{{item.id}}"
-        bindtap="removeReward"
-      >删除</view>
+  <!-- 奖励列表（交错浮起入场） -->
+  <view class="reward-list">
+    <view
+      wx:for="{{rewards}}"
+      wx:key="id"
+      class="card reward-card"
+    >
+      <view class="reward-emoji">{{item.emoji}}</view>
+      <view class="reward-main">
+        <view class="reward-name">{{item.name}}</view>
+        <view class="reward-desc">{{item.desc}}</view>
+      </view>
+      <view class="reward-right">
+        <view class="reward-cost">🪙 {{item.cost}}</view>
+        <button hover-class="none"
+          class="btn-primary reward-btn {{item.affordable ? '' : 'disabled'}}"
+          data-id="{{item.id}}"
+          data-name="{{item.name}}"
+          data-cost="{{item.cost}}"
+          bindtap="redeem"
+        >兑换</button>
+        <view
+          wx:if="{{item.custom}}"
+          class="reward-del"
+          data-id="{{item.id}}"
+          bindtap="removeReward"
+        >删除</view>
+      </view>
     </view>
   </view>
 

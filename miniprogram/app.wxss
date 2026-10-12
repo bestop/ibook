@@ -188,6 +188,11 @@ button.btn-sun::after {
   82% { transform: scale(0.96); }
   100% { transform: scale(1); opacity: 1; }
 }
+/* 列表交错入场：轻浮起不弹跳（backwards 填充保证延迟期间不可见） */
+@keyframes rise-in {
+  0% { transform: translateY(18rpx) scale(0.98); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
 @keyframes eggy-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-14rpx); }

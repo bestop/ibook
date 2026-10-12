@@ -31,24 +31,26 @@
 
     <view class="section-title">🏰 关卡地图（过一关解锁下一关）</view>
 
-    <view
-      wx:for="{{levels}}"
-      wx:key="id"
-      class="card level-card {{item.unlocked ? '' : 'level-locked'}} {{item.completed ? 'level-cleared' : ''}} {{index % 2 === 1 ? 'level-alt' : ''}}"
-      data-id="{{item.id}}"
-      data-unlocked="{{item.unlocked}}"
-      bindtap="startLevel"
-    >
-      <view class="level-index">{{item.index}}</view>
-      <view class="level-main">
-        <view class="level-name">{{item.emoji}} {{item.name}}</view>
-        <view class="level-title">{{item.title}}</view>
-        <view class="level-stars">
-          <text wx:for="{{[1,2,3]}}" wx:for-item="s" wx:key="*this" class="star {{s <= item.stars ? 'star-on' : ''}}">★</text>
-          <text wx:if="{{item.completed}}" class="level-done">已通关</text>
+    <view class="level-list">
+      <view
+        wx:for="{{levels}}"
+        wx:key="id"
+        class="card level-card {{item.unlocked ? '' : 'level-locked'}} {{item.completed ? 'level-cleared' : ''}} {{index % 2 === 1 ? 'level-alt' : ''}}"
+        data-id="{{item.id}}"
+        data-unlocked="{{item.unlocked}}"
+        bindtap="startLevel"
+      >
+        <view class="level-index">{{item.index}}</view>
+        <view class="level-main">
+          <view class="level-name">{{item.emoji}} {{item.name}}</view>
+          <view class="level-title">{{item.title}}</view>
+          <view class="level-stars">
+            <text wx:for="{{[1,2,3]}}" wx:for-item="s" wx:key="*this" class="star {{s <= item.stars ? 'star-on' : ''}}">★</text>
+            <text wx:if="{{item.completed}}" class="level-done">已通关</text>
+          </view>
         </view>
+        <view class="level-lock">{{item.unlocked ? '▶' : '🔒'}}</view>
       </view>
-      <view class="level-lock">{{item.unlocked ? '▶' : '🔒'}}</view>
     </view>
   </block>
 

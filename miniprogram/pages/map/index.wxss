@@ -107,14 +107,26 @@
   flex-shrink: 0;
 }
 
-/* ===== 关卡地图：奇偶交错缩进，蜿蜒路径感 ===== */
+/* 列表容器：交错入场的 nth-child 局部计数锚点 */
+.level-list {
+  min-width: 0;
+}
+
+/* ===== 关卡地图：奇偶交错缩进，蜿蜒路径感（交错浮起入场） ===== */
 .level-card {
   display: flex;
   align-items: center;
   gap: 20rpx;
   margin-bottom: 18rpx;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: rise-in 0.3s ease-out backwards;
 }
+/* 交错延迟：在 .level-list 容器内局部计数（小径逐关展开，5 关后统一档） */
+.level-card:nth-child(1) { animation-delay: 0.02s; }
+.level-card:nth-child(2) { animation-delay: 0.07s; }
+.level-card:nth-child(3) { animation-delay: 0.12s; }
+.level-card:nth-child(4) { animation-delay: 0.17s; }
+.level-card:nth-child(n + 5) { animation-delay: 0.22s; }
 .level-card:active {
   transform: scale(0.96);
 }
@@ -201,5 +213,5 @@
   font-weight: 900;
 }
 .tabbar-space {
-  height: 60rpx;
+  height: 36rpx; /* 无 Dock 页（原生导航返回）：仅底部呼吸空白 */
 }

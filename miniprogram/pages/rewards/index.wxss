@@ -50,7 +50,12 @@
   box-shadow: 0 8rpx 18rpx rgba(93, 74, 156, 0.12);
 }
 
-/* ===== 奖励列表：盲盒包装 + 镭射彩虹闪 ===== */
+/* 列表容器：交错入场的 nth-child 局部计数锚点 */
+.reward-list {
+  min-width: 0;
+}
+
+/* ===== 奖励列表：盲盒包装 + 镭射彩虹闪（交错浮起入场） ===== */
 .reward-card {
   position: relative;
   overflow: hidden;
@@ -58,7 +63,14 @@
   align-items: center;
   gap: 18rpx;
   margin-bottom: 16rpx;
+  animation: rise-in 0.3s ease-out backwards;
 }
+/* 交错延迟：在 .reward-list 容器内局部计数 */
+.reward-card:nth-child(1) { animation-delay: 0.02s; }
+.reward-card:nth-child(2) { animation-delay: 0.07s; }
+.reward-card:nth-child(3) { animation-delay: 0.12s; }
+.reward-card:nth-child(4) { animation-delay: 0.17s; }
+.reward-card:nth-child(n + 5) { animation-delay: 0.22s; }
 .reward-card::after {
   content: '';
   position: absolute;

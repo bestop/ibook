@@ -4,11 +4,12 @@
   box-sizing: border-box;
 }
 
-/* ===== 首页 Hero：蛋仔天空（云朵星星点缀 + 小岛右上太阳分享钮） ===== */
+/* ===== 首页 Hero：蛋仔天空（云朵星星点缀 + 小岛右上太阳分享钮）
+   垂直节奏收紧：让首屏更早露出今日任务与选择器 ===== */
 .hero {
   position: relative;
   text-align: center;
-  padding: 28rpx 8rpx 12rpx;
+  padding: 20rpx 8rpx 8rpx;
 }
 .hero-cloud,
 .hero-star {
@@ -69,12 +70,12 @@
 }
 .hero-island-wrap {
   position: relative; /* 太阳分享钮的定位锚点：跟随小岛 */
-  margin-top: 36rpx;
+  margin-top: 22rpx;
 }
 .hero-island {
   position: relative;
   display: block;
-  font-size: 130rpx;
+  font-size: 116rpx;
   line-height: 1.1;
   animation: island-bob 3s ease-in-out infinite;
 }
@@ -113,7 +114,7 @@
   color: #6b5bb8;
 }
 .hero-chips {
-  margin-top: 26rpx;
+  margin-top: 18rpx;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -277,14 +278,26 @@
     0 3rpx 10rpx rgba(93, 74, 156, 0.08);
 }
 
-/* ===== 科目岛卡片：软塑胶贴纸盒 ===== */
+/* 列表容器：交错入场的 nth-child 局部计数锚点 */
+.subject-list {
+  min-width: 0;
+}
+
+/* ===== 科目岛卡片：软塑胶贴纸盒（交错浮起入场） ===== */
 .subject-card {
   display: flex;
   align-items: center;
   gap: 20rpx;
   margin-bottom: 20rpx;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: rise-in 0.3s ease-out backwards;
 }
+/* 交错延迟：在 .subject-list 容器内局部计数（首屏 4 张内逐个浮现，其后统一档） */
+.subject-card:nth-child(1) { animation-delay: 0.02s; }
+.subject-card:nth-child(2) { animation-delay: 0.07s; }
+.subject-card:nth-child(3) { animation-delay: 0.12s; }
+.subject-card:nth-child(4) { animation-delay: 0.17s; }
+.subject-card:nth-child(n + 5) { animation-delay: 0.22s; }
 .subject-card:active {
   transform: scale(0.96);
 }
