@@ -123,7 +123,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'kd2-6', type: 'choice', q: '钟面上 3 时整，时针和分针成什么角？', options: ['直角', '锐角', '钝角', '平角'], answer: 0, explain: '3 时整分针指 12、时针指 3，正好张开 90°，是直角。', tag: '钟面角' },
     { id: 'kd2-7', type: 'choice', q: '180° 的角叫什么角？', options: ['平角', '周角', '直角', '锐角'], answer: 0, explain: '两边成一条直线的角是平角；360° 才是周角。', tag: '角的分类' },
     { id: 'kd2-8', type: 'choice', q: '下面哪个角不能用一副三角尺拼出来？', options: ['100°', '75°', '120°', '150°'], answer: 0, explain: '三角尺的角是 30°、45°、60°、90°：能拼 75°（30+45）、120°（30+90）、150°（60+90），拼不出 100°。', tag: '拼角' },
-    { id: 'kd2-9', type: 'judge', q: '大于 90° 而小于 180° 的角叫钝角。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！钝角比直角大、比平角小。', tag: '角的分类' },
+    { id: 'kd2-9', type: 'judge', q: '大于 0° 而小于 90° 的角叫钝角。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错啦：大于 0° 而小于 90° 的角是锐角；钝角要大于 90° 且小于 180°。', tag: '角的分类' },
     { id: 'kd2-10', type: 'judge', q: '直线比射线长。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错啦：直线和射线都无限长，不能比较长短。', tag: '线的认识' },
   ],
   kd3: [

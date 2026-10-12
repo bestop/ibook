@@ -42,12 +42,13 @@ const G6_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
 
 const publisherOptionsFor = (gradeNum: number) => (gradeNum === 6 ? G6_PUBLISHER_OPTIONS : BASE_PUBLISHER_OPTIONS)
 
-// 下册：目前已开放统编语文（六年级分六三制/五四学制）、人教版数学与 PEP 英语（六三制）与沪教版数学、英语（五四学制·牛津上海版）一至六年级
+// 下册：目前已开放统编语文（六年级分六三制/五四学制）、人教版数学与 PEP 英语（六三制）、沪教版数学、英语（五四学制·牛津上海版）与北师大版数学一至六年级
 const B_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
   { key: 'all', label: '全部版本' },
   { key: 'rj', label: '人民教育出版社（统编语文 + 人教数学 + PEP英语 · 六三制）' },
   { key: 'rj54', label: '人民教育出版社 · 统编语文（五·四学制）' },
   { key: 'she', label: '上海教育出版社（沪教数学 + 英语·五四学制）' },
+  { key: 'bs', label: '北京师范大学出版社（北师大版数学）' },
 ]
 
 /**
@@ -152,7 +153,7 @@ export default function TextbookPicker() {
             <div>
               <p className="mb-2 text-sm font-black text-gray-700">🗓️ 上下册</p>
               {textbook.term === 'b' && (
-                <p className="mb-2 text-[11px] font-bold text-violet-400">下册已开放统编语文一至六年级（六年级含六三制/五四学制）、人教版数学与 PEP 英语（六三制）以及沪教版数学、英语（五四学制·牛津上海版）一至六年级～</p>
+                <p className="mb-2 text-[11px] font-bold text-violet-400">下册已开放统编语文一至六年级（六年级含六三制/五四学制）、人教版数学与 PEP 英语（六三制）、沪教版数学、英语（五四学制）以及北师大版数学一至六年级（一二三年级用 2025/2026 春新教材目录）～</p>
               )}
               <div className="flex flex-wrap gap-2">
                 {(['a', 'b'] as const).map((term) => {

@@ -112,7 +112,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'kf1-7', type: 'choice', q: '车轮都做成圆形，是因为？', options: ['圆心到轮边距离处处相等，滚动平稳', '圆形好看', '省材料', '随便做的'], answer: 0, explain: '圆的特征：半径处处相等，车轴（圆心）离地面始终一样高，车身不颠簸。', tag: '圆的应用' },
     { id: 'kf1-8', type: 'choice', q: '钟面上分针长 10 厘米，走一圈针尖走过多少厘米？', options: ['62.8 厘米', '31.4 厘米', '100 厘米', '20 厘米'], answer: 0, explain: '分针画出一个圆：C=2πr=2×3.14×10=62.8（厘米）。', tag: '周长应用' },
     { id: 'kf1-9', type: 'judge', q: '圆只有 2 条对称轴。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错啦：每条直径所在的直线都是对称轴，圆有无数条对称轴。', tag: '对称轴' },
-    { id: 'kf1-10', type: 'judge', q: '同一个圆里，所有的半径都相等。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！半径处处相等，这是圆最重要的特征。', tag: '圆的认识' },
+    { id: 'kf1-10', type: 'judge', q: '同一个圆里，半径可以长短不一。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错啦：同一个圆里半径处处相等，这是圆最重要的特征。', tag: '圆的认识' },
   ],
   kf2: [
     { id: 'kf2-1', type: 'choice', q: '1/2 + 1/3 = ?', options: ['5/6', '2/5', '1/6', '1/5'], answer: 0, explain: '先通分：1/2=3/6，1/3=2/6，3/6+2/6=5/6。', tag: '分数加减' },
