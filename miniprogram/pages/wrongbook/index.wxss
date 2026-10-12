@@ -26,9 +26,8 @@
     linear-gradient(135deg, #fff5f8, #ffe3ee);
   border-color: #ffd9e8;
   box-shadow:
-    0 0 0 3rpx rgba(224, 64, 127, 0.08),
-    0 10rpx 0 rgba(224, 64, 127, 0.08),
-    0 26rpx 46rpx rgba(93, 74, 156, 0.1);
+    0 0 0 2rpx rgba(224, 64, 127, 0.1),
+    0 14rpx 30rpx rgba(93, 74, 156, 0.1);
 }
 .head-name {
   font-size: 32rpx;

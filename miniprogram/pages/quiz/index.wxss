@@ -23,10 +23,10 @@
   justify-content: space-between;
   margin-bottom: 12rpx;
 }
-/* HUD 贴纸化：白描边 + 微倾斜 + 果冻厚度 */
+/* HUD 贴纸化：半透明白描边 + 柔影（去倾斜与硬底） */
 .quiz-progress {
   background: linear-gradient(180deg, #ffffff, #f0faff);
-  border: 3rpx solid #bde7ff;
+  border: 2rpx solid #cfe9fb;
   border-radius: 999rpx;
   padding: 8rpx 22rpx;
   font-size: 28rpx;
@@ -34,8 +34,7 @@
   color: #1b8fd1;
   box-shadow:
     inset 0 4rpx 0 rgba(255, 255, 255, 0.85),
-    0 5rpx 0 rgba(27, 143, 209, 0.16);
-  transform: rotate(-1.5deg);
+    0 8rpx 18rpx rgba(93, 74, 156, 0.1);
 }
 .quiz-lives {
   display: flex;
@@ -52,7 +51,7 @@
 }
 .quiz-coins {
   background: linear-gradient(180deg, #fff1bf, #ffe066);
-  border: 3rpx solid #fff;
+  border: 2rpx solid rgba(255, 255, 255, 0.9);
   border-radius: 999rpx;
   padding: 8rpx 22rpx;
   font-size: 26rpx;
@@ -60,8 +59,7 @@
   color: #a16207;
   box-shadow:
     inset 0 4rpx 0 rgba(255, 255, 255, 0.6),
-    0 5rpx 0 rgba(240, 164, 0, 0.22);
-  transform: rotate(1.5deg);
+    0 8rpx 18rpx rgba(93, 74, 156, 0.1);
 }
 
 .quiz-sub {
@@ -83,7 +81,7 @@
   display: inline-block;
   background: linear-gradient(180deg, #ffd9e8, #ffc2da);
   color: #e0407f;
-  border: 3rpx solid #fff;
+  border: 2rpx solid rgba(255, 255, 255, 0.9);
   border-radius: 999rpx;
   padding: 4rpx 20rpx;
   font-weight: 900;
@@ -92,7 +90,7 @@
   flex-shrink: 0;
   box-shadow:
     inset 0 4rpx 0 rgba(255, 255, 255, 0.6),
-    0 5rpx 0 rgba(224, 64, 127, 0.18);
+    0 8rpx 18rpx rgba(224, 64, 127, 0.12);
   animation: combo-pulse 0.8s ease-in-out infinite;
 }
 
@@ -165,16 +163,16 @@
   align-items: center;
   gap: 16rpx;
   background: #fff;
-  border: 3rpx solid #f2edff;
+  border: 2rpx solid #f2edff;
   border-radius: 28rpx;
   padding: 24rpx;
   margin-bottom: 18rpx;
-  box-shadow: 0 6rpx 0 rgba(148, 180, 255, 0.12);
+  box-shadow: 0 8rpx 18rpx rgba(93, 74, 156, 0.08);
   transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .option:active {
-  transform: translateY(4rpx) scale(0.98);
-  box-shadow: 0 2rpx 0 rgba(148, 180, 255, 0.12);
+  transform: translateY(3rpx) scale(0.98);
+  box-shadow: 0 3rpx 10rpx rgba(93, 74, 156, 0.08);
 }
 /* 键位圆点：立体糖果按键 */
 .option-key {
@@ -208,7 +206,7 @@
 .option-correct {
   background: #dff9ee;
   border-color: #3ed598;
-  box-shadow: 0 6rpx 0 rgba(14, 159, 110, 0.22);
+  box-shadow: 0 8rpx 18rpx rgba(14, 159, 110, 0.16);
   animation: eggy-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .option-correct .option-key {
@@ -222,7 +220,7 @@
 .option-wrong {
   background: #ffe9ef;
   border-color: #ff5e7e;
-  box-shadow: 0 6rpx 0 rgba(240, 62, 107, 0.2);
+  box-shadow: 0 8rpx 18rpx rgba(240, 62, 107, 0.14);
 }
 .option-wrong .option-key {
   background: linear-gradient(180deg, #ff7d97, #ff5e7e);
@@ -238,17 +236,17 @@
 
 /* ===== 解析卡 ===== */
 .explain-card {
-  border-width: 3rpx;
+  border-width: 2rpx;
 }
 .explain-ok {
   background: #f0fff9;
   border-color: #a9f0d6;
-  box-shadow: 0 8rpx 0 rgba(14, 159, 110, 0.1), 0 20rpx 36rpx rgba(14, 159, 110, 0.08);
+  box-shadow: 0 14rpx 30rpx rgba(14, 159, 110, 0.1);
 }
 .explain-bad {
   background: #fff0f4;
   border-color: #ffc9da;
-  box-shadow: 0 8rpx 0 rgba(240, 62, 107, 0.08), 0 20rpx 36rpx rgba(240, 62, 107, 0.07);
+  box-shadow: 0 14rpx 30rpx rgba(240, 62, 107, 0.08);
 }
 .explain-head {
   font-size: 30rpx;

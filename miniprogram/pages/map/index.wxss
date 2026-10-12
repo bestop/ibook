@@ -72,9 +72,8 @@
     linear-gradient(135deg, #fffbea, #fff1bf);
   border-color: #ffe066;
   box-shadow:
-    0 0 0 3rpx rgba(232, 164, 0, 0.12),
-    0 10rpx 0 rgba(232, 164, 0, 0.12),
-    0 24rpx 44rpx rgba(93, 74, 156, 0.1);
+    0 0 0 2rpx rgba(232, 164, 0, 0.12),
+    0 14rpx 30rpx rgba(93, 74, 156, 0.1);
 }
 .daily-left {
   flex: 1;
@@ -127,9 +126,8 @@
   background: linear-gradient(180deg, #f4fff9 0%, #ffffff 100%);
   border-color: #a8f0d4;
   box-shadow:
-    0 0 0 3rpx rgba(14, 159, 110, 0.1),
-    0 10rpx 0 rgba(14, 159, 110, 0.1),
-    0 26rpx 46rpx rgba(14, 159, 110, 0.08);
+    0 0 0 2rpx rgba(14, 159, 110, 0.1),
+    0 14rpx 30rpx rgba(14, 159, 110, 0.08);
 }
 .level-alt {
   margin-left: 44rpx; /* 奇偶交错：地图小径感 */
