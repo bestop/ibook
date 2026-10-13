@@ -62,7 +62,7 @@
     <view wx:if="{{subjects.length === 0}}" class="card empty-tip">
       <view style="font-size: 60rpx">🗺️</view>
       <view style="margin: 16rpx 0">这个组合下暂无科目岛</view>
-      <view style="font-size: 22rpx; color: #a5a1cc">试试切换年级、上下册或版本～北师大版上下册与苏教版上册数学已全开放</view>
+      <view style="font-size: 22rpx; color: #a5a1cc">试试切换年级、上下册或版本～北师大版与苏教版数学上下册已全开放</view>
     </view>
 
     <view class="subject-list" wx:else>
