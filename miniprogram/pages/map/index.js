@@ -11,6 +11,7 @@ Page({
     subject: null,
     levels: [], // { id, name, title, emoji, stars, unlocked, completed, index }
     stats: { completed: 0, stars: 0, total: 0 },
+    statsPct: 0,
     dailyOpen: false,
     subjectName: '',
   },
@@ -64,7 +65,12 @@ Page({
         unlocked: store.isUnitUnlocked(subject, i),
       }
     })
-    this.setData({ levels: levels, stats: store.subjectStats(subject) })
+    const st = store.subjectStats(subject)
+    this.setData({
+      levels: levels,
+      stats: st,
+      statsPct: st.total > 0 ? Math.round((st.completed / st.total) * 100) : 0,
+    })
     // 每日挑战：至少有一个已解锁且有题的单元
     const unlockedIds = levels
       .filter(function (l) { return l.unlocked })

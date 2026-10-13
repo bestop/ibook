@@ -60,16 +60,18 @@
   <!-- 券包 -->
   <view class="section-title">🎫 券包（兑换记录）</view>
   <view wx:if="{{redeemLog.length === 0}}" class="card empty-tip">还没有兑换记录，攒够金币快来换奖励吧～</view>
-  <view wx:for="{{redeemLog}}" wx:key="id" class="card coupon {{item.fulfilled ? 'coupon-done' : ''}}">
-    <view class="coupon-left">
-      <text class="coupon-emoji">{{item.emoji}}</text>
-      <view class="coupon-info">
-        <view class="coupon-name">{{item.name}}</view>
-        <view class="coupon-time">🪙 -{{item.cost}} · {{item.timeText || ''}}</view>
+  <view class="coupon-list">
+    <view wx:for="{{redeemLog}}" wx:key="id" class="card coupon {{item.fulfilled ? 'coupon-done' : ''}}">
+      <view class="coupon-left">
+        <text class="coupon-emoji">{{item.emoji}}</text>
+        <view class="coupon-info">
+          <view class="coupon-name">{{item.name}}</view>
+          <view class="coupon-time">🪙 -{{item.cost}} · {{item.timeText || ''}}</view>
+        </view>
       </view>
+      <view wx:if="{{item.fulfilled}}" class="coupon-ok">✅ 已兑现</view>
+      <button hover-class="none" wx:else class="btn-ghost coupon-btn" data-id="{{item.id}}" bindtap="fulfill">已兑现</button>
     </view>
-    <view wx:if="{{item.fulfilled}}" class="coupon-ok">✅ 已兑现</view>
-    <button hover-class="none" wx:else class="btn-ghost coupon-btn" data-id="{{item.id}}" bindtap="fulfill">已兑现</button>
   </view>
 
   <view class="tabbar-space"></view>

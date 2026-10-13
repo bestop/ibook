@@ -16,9 +16,10 @@
     <view class="hero-title">童学冒险岛</view>
     <view class="hero-sub">一至六年级 · 闯关赢金币 · 越玩越聪明</view>
     <view class="hero-chips">
-      <view class="chip gold">🪙 {{coins}}</view>
-      <view class="chip fire">🔥 连续 {{streak}} 天</view>
-      <view class="chip wrong">📕 错题 {{wrongCount}}</view>
+      <!-- 状态胶囊即快捷入口：金币→礼物屋 / 连签→我的 / 错题→错题本 -->
+      <view class="chip gold chip-link" data-url="/pages/rewards/index" bindtap="onChipTap" aria-role="button">🪙 {{coins}}</view>
+      <view class="chip fire chip-link" data-url="/pages/profile/index" bindtap="onChipTap" aria-role="button">🔥 连续 {{streak}} 天</view>
+      <view class="chip wrong chip-link" data-url="/pages/wrongbook/index" bindtap="onChipTap" aria-role="button">📕 错题 {{wrongCount}}</view>
     </view>
   </view>
 

@@ -14,14 +14,24 @@ Page({
 
   refresh() {
     const s = store.getState()
+    // 科目友好名：从 manifest 映射 id → 「三年级数学」，离线无缓存时回退原始 id
+    const nameMap = {}
+    const manifest = getApp().globalData.manifest
+    if (manifest && manifest.subjects) {
+      manifest.subjects.forEach(function (sub) {
+        nameMap[sub.id] = (sub.grade || '') + (sub.name || '')
+      })
+    }
     const items = Object.keys(s.wrongBook)
       .map(function (qid) {
         const snap = s.wrongSnaps[qid]
+        const sid = snap ? snap.subjectId : ''
         return {
           qid: qid,
           q: snap ? snap.q : '（题目快照缺失）',
           count: s.wrongBook[qid],
-          subjectId: snap ? snap.subjectId : '',
+          subjectId: sid,
+          subjectLabel: nameMap[sid] || sid,
         }
       })
       .sort(function (a, b) { return b.count - a.count })

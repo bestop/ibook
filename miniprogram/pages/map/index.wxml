@@ -5,6 +5,9 @@
       <view class="head-texts">
         <view class="head-name">{{subjectName}}</view>
         <view class="head-sub">{{stats.completed}}/{{stats.total}} 关 · ⭐ {{stats.stars}}</view>
+        <view class="head-progress" aria-role="progressbar">
+          <view class="head-progress-fill" style="width: {{statsPct}}%"></view>
+        </view>
       </view>
     </view>
     <view wx:if="{{subject.badge}}" class="tag">{{subject.badge}}</view>

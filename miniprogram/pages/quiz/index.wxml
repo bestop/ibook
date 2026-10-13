@@ -28,23 +28,27 @@
     </view>
     <view class="timer-num {{timePct <= 25 ? 'num-danger' : ''}}">⏰ {{timeLeft}}s</view>
 
-    <!-- 题目 -->
-    <view class="card question-card">
-      <view class="q-tag" wx:if="{{question.tag}}">{{question.tag}}</view>
-      <view class="q-text">{{question.q}}</view>
-    </view>
+    <!-- 题目 + 选项：外层按题号重建节点，每题入场动效都会重放 -->
+    <block wx:for="{{[index]}}" wx:key="*this">
+      <view class="card question-card">
+        <view class="q-tag" wx:if="{{question.tag}}">{{question.tag}}</view>
+        <view class="q-text">{{question.q}}</view>
+      </view>
 
-    <!-- 选项 -->
-    <view
-      wx:for="{{options}}"
-      wx:key="*this"
-      class="option {{answered && item === question.options[question.answer] ? 'option-correct' : ''}} {{answered && picked === index && !isCorrect ? 'option-wrong' : ''}} {{answered && picked !== index && item !== question.options[question.answer] ? 'option-dim' : ''}}"
-      data-idx="{{index}}"
-      bindtap="pick"
-    >
-      <text class="option-key">{{['A','B','C','D'][index]}}</text>
-      <text class="option-text">{{item}}</text>
-    </view>
+      <!-- 选项 -->
+      <view class="option-list">
+        <view
+          wx:for="{{options}}"
+          wx:key="*this"
+          class="option {{answered && item === question.options[question.answer] ? 'option-correct' : ''}} {{answered && picked === index && !isCorrect ? 'option-wrong' : ''}} {{answered && picked !== index && item !== question.options[question.answer] ? 'option-dim' : ''}}"
+          data-idx="{{index}}"
+          bindtap="pick"
+        >
+          <text class="option-key">{{['A','B','C','D'][index]}}</text>
+          <text class="option-text">{{item}}</text>
+        </view>
+      </view>
+    </block>
 
     <!-- 解析 -->
     <view wx:if="{{answered}}" class="card explain-card {{isCorrect ? 'explain-ok' : 'explain-bad'}}">

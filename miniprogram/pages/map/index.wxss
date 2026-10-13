@@ -45,6 +45,26 @@
   color: #8a87b8;
   margin-top: 4rpx;
 }
+/* 关卡完成度进度条：薄荷→湖蓝渐变，白描边软胶托盘 */
+.head-progress {
+  margin-top: 12rpx;
+  width: 300rpx;
+  max-width: 100%;
+  height: 14rpx;
+  background: #eef6ff;
+  border: 2rpx solid #fff;
+  border-radius: 999rpx;
+  overflow: hidden;
+  box-shadow: inset 0 2rpx 4rpx rgba(93, 74, 156, 0.12);
+  box-sizing: border-box;
+}
+.head-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3ed598, #3ec6ff);
+  border-radius: 999rpx;
+  box-shadow: inset 0 2rpx 0 rgba(255, 255, 255, 0.5);
+  transition: width 0.4s ease;
+}
 
 .error-box {
   text-align: center;

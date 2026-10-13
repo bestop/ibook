@@ -157,7 +157,11 @@
   color: #3d3a6e;
 }
 
-/* ===== 选项：果冻条 ===== */
+/* ===== 选项：果冻条（交错浮起入场，每题重放） ===== */
+/* 列表容器：交错入场的 nth-child 局部计数锚点 */
+.option-list {
+  min-width: 0;
+}
 .option {
   display: flex;
   align-items: center;
@@ -169,7 +173,14 @@
   margin-bottom: 18rpx;
   box-shadow: 0 8rpx 18rpx rgba(93, 74, 156, 0.08);
   transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: rise-in 0.24s ease-out backwards;
 }
+/* 交错延迟：选项逐个浮现（延迟极短，不拖慢作答节奏） */
+.option:nth-child(1) { animation-delay: 0.03s; }
+.option:nth-child(2) { animation-delay: 0.06s; }
+.option:nth-child(3) { animation-delay: 0.09s; }
+.option:nth-child(4) { animation-delay: 0.12s; }
+.option:nth-child(n + 5) { animation-delay: 0.15s; }
 .option:active {
   transform: translateY(3rpx) scale(0.98);
   box-shadow: 0 3rpx 10rpx rgba(93, 74, 156, 0.08);
@@ -208,6 +219,7 @@
   border-color: #3ed598;
   box-shadow: 0 8rpx 18rpx rgba(14, 159, 110, 0.16);
   animation: eggy-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-delay: 0s; /* 答题反馈必须即时：归零入场交错延迟 */
 }
 .option-correct .option-key {
   background: linear-gradient(180deg, #4ee0a8, #3ed598);
@@ -221,6 +233,7 @@
   background: #ffe9ef;
   border-color: #ff5e7e;
   box-shadow: 0 8rpx 18rpx rgba(240, 62, 107, 0.14);
+  animation-delay: 0s; /* 答题反馈必须即时：归零入场交错延迟 */
 }
 .option-wrong .option-key {
   background: linear-gradient(180deg, #ff7d97, #ff5e7e);
@@ -237,6 +250,7 @@
 /* ===== 解析卡 ===== */
 .explain-card {
   border-width: 2rpx;
+  animation: rise-in 0.25s ease-out; /* 每次作答后新建节点，入场浮起 */
 }
 .explain-ok {
   background: #f0fff9;

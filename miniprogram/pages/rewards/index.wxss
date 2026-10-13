@@ -127,9 +127,14 @@
   white-space: nowrap;
 }
 .reward-del {
-  font-size: 20rpx;
+  font-size: 22rpx;
   color: #c9c4e8;
-  padding: 2rpx 10rpx;
+  /* 热区扩大：视觉占位不变，可点面积翻倍（负外边距抵消内边距） */
+  padding: 10rpx 22rpx;
+  margin: -12rpx -14rpx -8rpx;
+}
+.reward-del:active {
+  color: #f03e6b;
 }
 
 .add-btn {
@@ -164,7 +169,11 @@
   text-align: center;
 }
 
-/* ===== 券包：镭射票券 ===== */
+/* ===== 券包：镭射票券（交错浮起入场） ===== */
+/* 列表容器：交错入场的 nth-child 局部计数锚点 */
+.coupon-list {
+  min-width: 0;
+}
 .coupon {
   position: relative;
   overflow: hidden;
@@ -174,7 +183,14 @@
   gap: 14rpx;
   margin-bottom: 14rpx;
   padding: 22rpx;
+  animation: rise-in 0.3s ease-out backwards;
 }
+/* 交错延迟：票券逐张滑入（5 张后统一档） */
+.coupon:nth-child(1) { animation-delay: 0.02s; }
+.coupon:nth-child(2) { animation-delay: 0.07s; }
+.coupon:nth-child(3) { animation-delay: 0.12s; }
+.coupon:nth-child(4) { animation-delay: 0.17s; }
+.coupon:nth-child(n + 5) { animation-delay: 0.22s; }
 .coupon::after {
   content: '';
   position: absolute;

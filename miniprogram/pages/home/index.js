@@ -105,6 +105,12 @@ Page({
     })
   },
 
+  // 状态胶囊快捷入口：与 Dock 同款跳转语义（redirectTo 保持栈深一致）
+  onChipTap(e) {
+    sfx.click()
+    wx.redirectTo({ url: e.currentTarget.dataset.url })
+  },
+
   onPickGrade(e) {
     sfx.click()
     this.data.gradeIndex = Number(e.detail.value)

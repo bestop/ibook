@@ -141,6 +141,13 @@
   background: #ffd9e8;
   color: #c21e6a;
 }
+/* 快捷入口：可点状态胶囊，按压轻缩反馈 */
+.chip-link {
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.chip-link:active {
+  transform: scale(0.9);
+}
 
 /* ===== 太阳分享钮：小岛右上方的晴天太阳 =====
    结构解耦：button 仅作透明触发壳（!important 压制微信默认样式），

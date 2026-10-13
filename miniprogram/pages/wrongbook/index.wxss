@@ -66,9 +66,20 @@
   padding: 4rpx 16rpx;
   line-height: 1.4;
 }
+/* 列表容器：交错入场的 nth-child 局部计数锚点 */
+.wrong-list {
+  min-width: 0;
+}
 .wrong-card {
   margin-bottom: 16rpx;
+  animation: rise-in 0.3s ease-out backwards;
 }
+/* 交错延迟：消灭清单逐张浮现（5 张后统一档） */
+.wrong-card:nth-child(1) { animation-delay: 0.02s; }
+.wrong-card:nth-child(2) { animation-delay: 0.07s; }
+.wrong-card:nth-child(3) { animation-delay: 0.12s; }
+.wrong-card:nth-child(4) { animation-delay: 0.17s; }
+.wrong-card:nth-child(n + 5) { animation-delay: 0.22s; }
 .wrong-q {
   font-size: 26rpx;
   font-weight: 700;

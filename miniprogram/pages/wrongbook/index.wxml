@@ -21,11 +21,13 @@
     </button>
 
     <view class="section-title">待消灭错题</view>
-    <view wx:for="{{items}}" wx:key="qid" class="card wrong-card">
-      <view class="wrong-q">{{item.q}}</view>
-      <view class="wrong-meta">
-        <text class="tag">{{item.subjectId}}</text>
-        <text class="wrong-count">答错 {{item.count}} 次</text>
+    <view class="wrong-list">
+      <view wx:for="{{items}}" wx:key="qid" class="card wrong-card">
+        <view class="wrong-q">{{item.q}}</view>
+        <view class="wrong-meta">
+          <text class="tag">{{item.subjectLabel}}</text>
+          <text class="wrong-count">答错 {{item.count}} 次</text>
+        </view>
       </view>
     </view>
   </block>
