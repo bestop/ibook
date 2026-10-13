@@ -9,7 +9,9 @@
 //       数学北师大版（北京师范大学出版社）一～六年级上册（id math1bs~math6bs，前缀 ka~kf，一二三年级用
 //       2024/2025 秋新教材目录，四～六年级为现行版目录，2026 秋新教材过渡期知识体系一致）；
 //       数学北师大版（北京师范大学出版社）一～六年级下册（id math1bsb~math6bsb，前缀 kg~kl，一二三年级用
-//       2025/2026 春新教材目录，四～六年级为现行版目录）
+//       2025/2026 春新教材目录，四～六年级为现行版目录）；
+//       数学苏教版（江苏凤凰教育出版社）一～六年级上册（id math1sj~math6sj，前缀 sa~sf，现行版目录，
+//       一至三年级 2024~2026 秋新教材滚动替换，过渡期知识体系一致）；
 //       数学沪教版（五四学制）一～六年级下册（id math1b~math5b、math54b，前缀 zu/zv/zw/zx/zy/zz，一下为
 //       2025 春新版目录，二～六下为现行版目录，六下为预备年级第二学期第五～八章）；
 //       英语人教版 PEP（六三制）一～六年级下册（id english1rjb~english6rjb，前缀 zta/ztb/ztc/ztd/zte/ztf，
@@ -17,9 +19,11 @@
 //       六下现行版仅 4 单元 + Recycle，另编两个小升初总复习关）；
 //       英语沪教版（牛津上海版·五四学制）一～六年级下册（id english1b~english5b、english6b，前缀
 //       ztg/zth/zti/ztj/ztk/ztl，一～五下为现行版目录，六下预备年级为新教材 2025 春版目录）
-// 数学：一上～五上每级分两个版本——沪教版（上海教育出版社，id math1~math/math4，前缀 b/r/p/n/m）
-//       与人教版（六三制·人民教育出版社 2024~2026 秋新版，id math1rj~math5rj，前缀 w/j/l/o/s）；
-//       六年级上册分两个学制版本：六三制·人教版（2026 秋版 9 关，id math6，前缀 u）与 五·四学制·沪教版（预备年级 8 关，id math54，前缀 v）
+// 数学：一上～五上每级分三个版本——沪教版（上海教育出版社，id math1~math/math4，前缀 b/r/p/n/m）、
+//       人教版（六三制·人民教育出版社 2024~2026 秋新版，id math1rj~math5rj，前缀 w/j/l/o/s）
+//       与苏教版（江苏凤凰教育出版社，id math1sj~math5sj，前缀 sa~se，现行版目录）；
+//       六年级上册分两个学制版本：六三制·人教版（2026 秋版 9 关，id math6，前缀 u）与 五·四学制·沪教版（预备年级 8 关，id math54，前缀 v），
+//       另有北师大版（id math6bs，前缀 kf）与苏教版（id math6sj，前缀 sf）
 // 英语：每级分两个版本——沪教版（五四学制·上海教育出版社，id english1~english/english4，前缀 i/h/f/g/e，三上起 Starter+10 单元；一上含 3 个 IPA 语音角）
 //       与人教版 PEP（人民教育出版社 2024~2026 秋新版，id english1rj~english6rj，前缀 za~zf，一/二上为一起点预备级，三上起三年级起点六三制）；
 //       六年级上册沪教版为 2024 新教材（五·四学制·预备年级）Starter + Unit 1-6，人教版为 2026 秋新版 PEP（六三制）
@@ -63,6 +67,12 @@ import { UNITS as MATH3BS_UNITS, QUESTIONS as MATH3BS_QUESTIONS } from './bank-m
 import { UNITS as MATH4BS_UNITS, QUESTIONS as MATH4BS_QUESTIONS } from './bank-math4bs'
 import { UNITS as MATH5BS_UNITS, QUESTIONS as MATH5BS_QUESTIONS } from './bank-math5bs'
 import { UNITS as MATH6BS_UNITS, QUESTIONS as MATH6BS_QUESTIONS } from './bank-math6bs'
+import { UNITS as MATH1SJ_UNITS, QUESTIONS as MATH1SJ_QUESTIONS } from './bank-math1sj'
+import { UNITS as MATH2SJ_UNITS, QUESTIONS as MATH2SJ_QUESTIONS } from './bank-math2sj'
+import { UNITS as MATH3SJ_UNITS, QUESTIONS as MATH3SJ_QUESTIONS } from './bank-math3sj'
+import { UNITS as MATH4SJ_UNITS, QUESTIONS as MATH4SJ_QUESTIONS } from './bank-math4sj'
+import { UNITS as MATH5SJ_UNITS, QUESTIONS as MATH5SJ_QUESTIONS } from './bank-math5sj'
+import { UNITS as MATH6SJ_UNITS, QUESTIONS as MATH6SJ_QUESTIONS } from './bank-math6sj'
 import { UNITS as MATH1BSB_UNITS, QUESTIONS as MATH1BSB_QUESTIONS } from './bank-math1bsb'
 import { UNITS as MATH2BSB_UNITS, QUESTIONS as MATH2BSB_QUESTIONS } from './bank-math2bsb'
 import { UNITS as MATH3BSB_UNITS, QUESTIONS as MATH3BSB_QUESTIONS } from './bank-math3bsb'
@@ -122,10 +132,10 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'chinese1b' | 'chinese2b' | 'chinese3b' | 'chinese4b' | 'chinese5b' | 'chinese6b' | 'chinese54b' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6' | 'math1rj' | 'math2rj' | 'math3rj' | 'math4rj' | 'math5rj' | 'math1rjb' | 'math2rjb' | 'math3rjb' | 'math4rjb' | 'math5rjb' | 'math6rjb' | 'math1b' | 'math2b' | 'math3b' | 'math4b' | 'math5b' | 'math54b' | 'english1rj' | 'english2rj' | 'english3rj' | 'english4rj' | 'english5rj' | 'english6rj' | 'english1rjb' | 'english2rjb' | 'english3rjb' | 'english4rjb' | 'english5rjb' | 'english6rjb' | 'english1b' | 'english2b' | 'english3b' | 'english4b' | 'english5b' | 'english6b' | 'math1bs' | 'math2bs' | 'math3bs' | 'math4bs' | 'math5bs' | 'math6bs' | 'math1bsb' | 'math2bsb' | 'math3bsb' | 'math4bsb' | 'math5bsb' | 'math6bsb'
+export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'chinese1b' | 'chinese2b' | 'chinese3b' | 'chinese4b' | 'chinese5b' | 'chinese6b' | 'chinese54b' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6' | 'math1rj' | 'math2rj' | 'math3rj' | 'math4rj' | 'math5rj' | 'math1rjb' | 'math2rjb' | 'math3rjb' | 'math4rjb' | 'math5rjb' | 'math6rjb' | 'math1b' | 'math2b' | 'math3b' | 'math4b' | 'math5b' | 'math54b' | 'english1rj' | 'english2rj' | 'english3rj' | 'english4rj' | 'english5rj' | 'english6rj' | 'english1rjb' | 'english2rjb' | 'english3rjb' | 'english4rjb' | 'english5rjb' | 'english6rjb' | 'english1b' | 'english2b' | 'english3b' | 'english4b' | 'english5b' | 'english6b' | 'math1bs' | 'math2bs' | 'math3bs' | 'math4bs' | 'math5bs' | 'math6bs' | 'math1bsb' | 'math2bsb' | 'math3bsb' | 'math4bsb' | 'math5bsb' | 'math6bsb' | 'math1sj' | 'math2sj' | 'math3sj' | 'math4sj' | 'math5sj' | 'math6sj'
 
 // 出版社/版本 key：rj 人民教育出版社（统编语文 + 人教数学 + PEP 英语）、rj54 人民教育出版社统编教材（五·四学制）、she 上海教育出版社（沪教数学/英语）、bs 北京师范大学出版社（北师大数学）
-export type PublisherKey = 'rj' | 'rj54' | 'she' | 'bs'
+export type PublisherKey = 'rj' | 'rj54' | 'she' | 'bs' | 'sj'
 
 export interface Subject {
   id: SubjectId
@@ -552,6 +562,22 @@ export const SUBJECTS: Subject[] = [
     questions: MATH1BS_QUESTIONS,
   },
   {
+    id: 'math1sj',
+    name: '数学',
+    grade: '一年级上册',
+    gradeNum: 1,
+    term: 'a',
+    publisher: '苏教版 · 江苏凤凰教育出版社 · 一年级上册',
+    publisherKey: 'sj',
+    badge: '苏教版',
+    emoji: '🦊',
+    theme: 'lime',
+    qidPrefix: 'sa',
+    tagline: '数一数 → 10以内加减 → 20以内进位加法',
+    units: MATH1SJ_UNITS,
+    questions: MATH1SJ_QUESTIONS,
+  },
+  {
     id: 'math2rj',
     name: '数学',
     grade: '二年级上册',
@@ -582,6 +608,22 @@ export const SUBJECTS: Subject[] = [
     tagline: '100以内加减 → 乘法口诀 → 平均分除法',
     units: MATH2BS_UNITS,
     questions: MATH2BS_QUESTIONS,
+  },
+  {
+    id: 'math2sj',
+    name: '数学',
+    grade: '二年级上册',
+    gradeNum: 2,
+    term: 'a',
+    publisher: '苏教版 · 江苏凤凰教育出版社 · 二年级上册',
+    publisherKey: 'sj',
+    badge: '苏教版',
+    emoji: '🐼',
+    theme: 'lime',
+    qidPrefix: 'sb',
+    tagline: '表内乘法口诀 → 表内除法 → 厘米和米',
+    units: MATH2SJ_UNITS,
+    questions: MATH2SJ_QUESTIONS,
   },
   {
     id: 'math3rj',
@@ -616,6 +658,22 @@ export const SUBJECTS: Subject[] = [
     questions: MATH3BS_QUESTIONS,
   },
   {
+    id: 'math3sj',
+    name: '数学',
+    grade: '三年级上册',
+    gradeNum: 3,
+    term: 'a',
+    publisher: '苏教版 · 江苏凤凰教育出版社 · 三年级上册',
+    publisherKey: 'sj',
+    badge: '苏教版',
+    emoji: '🐯',
+    theme: 'lime',
+    qidPrefix: 'sc',
+    tagline: '两三位数乘除一位数 → 周长 → 分数初步',
+    units: MATH3SJ_UNITS,
+    questions: MATH3SJ_QUESTIONS,
+  },
+  {
     id: 'math4rj',
     name: '数学',
     grade: '四年级上册',
@@ -646,6 +704,22 @@ export const SUBJECTS: Subject[] = [
     tagline: '亿以内大数 → 运算律 → 生活中的负数',
     units: MATH4BS_UNITS,
     questions: MATH4BS_QUESTIONS,
+  },
+  {
+    id: 'math4sj',
+    name: '数学',
+    grade: '四年级上册',
+    gradeNum: 4,
+    term: 'a',
+    publisher: '苏教版 · 江苏凤凰教育出版社 · 四年级上册',
+    publisherKey: 'sj',
+    badge: '苏教版',
+    emoji: '🐬',
+    theme: 'lime',
+    qidPrefix: 'sd',
+    tagline: '除以两位数 → 混合运算 → 垂线与平行线',
+    units: MATH4SJ_UNITS,
+    questions: MATH4SJ_QUESTIONS,
   },
   {
     id: 'math5rj',
@@ -680,6 +754,22 @@ export const SUBJECTS: Subject[] = [
     questions: MATH5BS_QUESTIONS,
   },
   {
+    id: 'math5sj',
+    name: '数学',
+    grade: '五年级上册',
+    gradeNum: 5,
+    term: 'a',
+    publisher: '苏教版 · 江苏凤凰教育出版社 · 五年级上册',
+    publisherKey: 'sj',
+    badge: '苏教版',
+    emoji: '🦉',
+    theme: 'lime',
+    qidPrefix: 'se',
+    tagline: '多边形面积 → 小数四则运算 → 用字母表示数',
+    units: MATH5SJ_UNITS,
+    questions: MATH5SJ_QUESTIONS,
+  },
+  {
     id: 'math6',
     name: '数学',
     grade: '六年级上册',
@@ -710,6 +800,22 @@ export const SUBJECTS: Subject[] = [
     tagline: '圆 → 百分数 → 比的认识',
     units: MATH6BS_UNITS,
     questions: MATH6BS_QUESTIONS,
+  },
+  {
+    id: 'math6sj',
+    name: '数学',
+    grade: '六年级上册',
+    gradeNum: 6,
+    term: 'a',
+    publisher: '苏教版 · 江苏凤凰教育出版社 · 六年级上册',
+    publisherKey: 'sj',
+    badge: '苏教版',
+    emoji: '⛵',
+    theme: 'lime',
+    qidPrefix: 'sf',
+    tagline: '长方体正方体 → 分数乘除与比 → 百分数',
+    units: MATH6SJ_UNITS,
+    questions: MATH6SJ_QUESTIONS,
   },
   {
     id: 'math54',
@@ -1345,15 +1451,21 @@ export const PUBLISHER_LABELS: Record<PublisherKey, string> = {
   rj54: '人民教育出版社 · 统编语文（五·四学制）',
   she: '上海教育出版社 · 沪教数学/英语',
   bs: '北京师范大学出版社 · 北师大版数学',
+  sj: '江苏凤凰教育出版社 · 苏教版数学',
 }
 
-// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、语文一下 zg、语文二下 zh、语文三下 zi、语文四下 zj、语文五下 zk、语文六下·六三制 zl、语文六下·五四 zm、数学一上沪 b、数学二上沪 r、数学三上沪 p、数学四上沪 n、数学五上沪 m、数学六上·六三制 u、数学六上·五四 v、数学一上人教 w、数学二上人教 j、数学三上人教 l、数学四上人教 o、数学五上人教 s、数学一下人教 zn、数学二下人教 zo、数学三下人教 zp、数学四下人教 zq、数学五下人教 zr、数学六下·六三制 zs、数学一下沪 zu、数学二下沪 zv、数学三下沪 zw、数学四下沪 zx、数学五下沪 zy、数学六下·五四 zz、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e、英语六上·五四 k、英语一上人教 za、英语二上人教 zb、英语三上人教 zc、英语四上人教 zd、英语五上人教 ze、英语六上人教 zf、英语一下人教 zta、英语二下人教 ztb、英语三下人教 ztc、英语四下人教 ztd、英语五下人教 zte、英语六下人教 ztf、英语一下沪教 ztg、英语二下沪教 zth、英语三下沪教 zti、英语四下沪教 ztj、英语五下沪教 ztk、英语六下·五四预备 ztl、数学北师大一上 ka、数学北师大二上 kb、数学北师大三上 kc、数学北师大四上 kd、数学北师大五上 ke、数学北师大六上 kf、数学北师大一下 kg、数学北师大二下 kh、数学北师大三下 ki、数学北师大四下 kj、数学北师大五下 kk、数学北师大六下 kl，不会冲突）
+// 全科题库合集（错题本用；题目 id 前缀区分科目：语文一上 a、语文二上 d、语文三上 t、语文四上 c、语文五上 q、语文六上·六三制 x、语文六上·五四 y、语文一下 zg、语文二下 zh、语文三下 zi、语文四下 zj、语文五下 zk、语文六下·六三制 zl、语文六下·五四 zm、数学一上沪 b、数学二上沪 r、数学三上沪 p、数学四上沪 n、数学五上沪 m、数学六上·六三制 u、数学六上·五四 v、数学一上人教 w、数学二上人教 j、数学三上人教 l、数学四上人教 o、数学五上人教 s、数学一下人教 zn、数学二下人教 zo、数学三下人教 zp、数学四下人教 zq、数学五下人教 zr、数学六下·六三制 zs、数学一下沪 zu、数学二下沪 zv、数学三下沪 zw、数学四下沪 zx、数学五下沪 zy、数学六下·五四 zz、英语一上 i、英语二上 h、英语三上 f、英语四上 g、英语五上 e、英语六上·五四 k、英语一上人教 za、英语二上人教 zb、英语三上人教 zc、英语四上人教 zd、英语五上人教 ze、英语六上人教 zf、英语一下人教 zta、英语二下人教 ztb、英语三下人教 ztc、英语四下人教 ztd、英语五下人教 zte、英语六下人教 ztf、英语一下沪教 ztg、英语二下沪教 zth、英语三下沪教 zti、英语四下沪教 ztj、英语五下沪教 ztk、英语六下·五四预备 ztl、数学北师大一上 ka、数学北师大二上 kb、数学北师大三上 kc、数学北师大四上 kd、数学北师大五上 ke、数学北师大六上 kf、数学北师大一下 kg、数学北师大二下 kh、数学北师大三下 ki、数学北师大四下 kj、数学北师大五下 kk、数学北师大六下 kl、数学苏教版一上 sa、二上 sb、三上 sc、四上 sd、五上 se、六上 sf，不会冲突）
 export const ALL_QUESTIONS: Question[] = SUBJECTS.flatMap((s) => Object.values(s.questions).flat())
 
 export function subjectOfQuestion(qid: string): Subject {
-  const s = SUBJECTS.find((x) => qid.startsWith(x.qidPrefix))
-  if (!s) throw new Error(`unknown subject for question: ${qid}`)
-  return s
+  // 最长前缀匹配：避免「双字母前缀科目被单字母前缀科目抢匹配」
+  // （如 se/sf=数学苏教版五/六上 vs s=数学人教五上、kf/kl=数学北师大六上下 vs k=英语六上·五四）
+  let best: Subject | undefined
+  for (const x of SUBJECTS) {
+    if (qid.startsWith(x.qidPrefix) && (!best || x.qidPrefix.length > best.qidPrefix.length)) best = x
+  }
+  if (!best) throw new Error(`unknown subject for question: ${qid}`)
+  return best
 }
 
 export const QUESTIONS_PER_LEVEL = 10
