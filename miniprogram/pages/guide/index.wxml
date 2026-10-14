@@ -38,6 +38,16 @@
     <view class="sec-text">· 各科目进度分开记录，金币、错题本、成就、礼物屋通用；首页可切换年级/册别/出版社</view>
   </view>
 
+  <!-- 宠物伙伴 -->
+  <view class="card sec sec-sky">
+    <view class="sec-title">🐾 虚拟宠物伙伴</view>
+    <view class="sec-text">· 在「宠物」页领养小狗或小猫，为它取个名字，它是你在冒险岛上的专属伙伴</view>
+    <view class="sec-text">· 通关（按星级 +20/30/40）、每日挑战（+25）、复习错题、签到、玩满 20 分钟都会变成宠物经验</view>
+    <view class="sec-text">· 宠物有幼年期→少年期→成年期→传说期四种形态（15 级满级），升级时会进化</view>
+    <view class="sec-text">· 每只宠物都有 8 章专属冒险剧情（小狗线《旺旺冒险记》/小猫线《喵喵奇遇记》），升到对应等级自动解锁</view>
+    <view class="sec-text">· 用金币喂食可提升心情（每天最多 3 次，每次 20 金币）；心情只会影响表情，不会饿坏小伙伴</view>
+  </view>
+
   <!-- 小建议 -->
   <view class="card sec sec-violet-soft">
     <view class="sec-title">💡 给家长的小建议</view>

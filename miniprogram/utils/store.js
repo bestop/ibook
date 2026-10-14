@@ -1,6 +1,8 @@
-// 本地进度存储 + 游戏机制（与网页版同构：进度键 `科目:关卡`，金币/星级/错题/签到/礼物屋规则一致）
+// 本地进度存储 + 游戏机制（与网页版同构：进度键 `科目:关卡`，金币/星级/错题/签到/礼物屋/宠物规则一致）
 // 注意：小程序与网页版的进度各自独立保存（浏览器 localStorage vs 微信 storage），
 // 同步的是「教材与闯关内容」（题库从网页端 API 获取）。
+const pet = require('./pet')
+
 const DEFAULT_REWARDS = [
   { id: 'reading', name: '亲子阅读 30 分钟', emoji: '📖', cost: 50, desc: '和爸爸妈妈一起读一本喜欢的书' },
   { id: 'cartoon', name: '看动画片 15 分钟', emoji: '📺', cost: 80, desc: '兑换后可以看 15 分钟喜欢的动画' },
@@ -41,6 +43,8 @@ function defaultState() {
     clearedTotal: 0,
     redeemLog: [], // { id, rewardId, name, emoji, cost, at, fulfilled }
     customRewards: [],
+    pet: null, // 虚拟宠物（与网页版同构：kind/name/exp/mood/storyRead...）
+    petEvents: [], // 升级/剧情解锁事件队列（结算页/宠物页弹窗消费）
   }
 }
 
@@ -77,7 +81,22 @@ function ensureToday() {
   s.todayReviewCorrect = 0
   s.dailyDone = { level: false, minutes: false, review: false }
   s.streak = keepStreak
+  // 宠物：跨天结算心情轻度衰减（保底不惩罚）与喂食计数重置
+  if (s.pet) {
+    const days = Math.max(1, daysBetween(s.pet.lastActiveDate, t))
+    s.pet.mood = Math.max(pet.MOOD_MIN, s.pet.mood - days * pet.MOOD_DECAY_PER_DAY)
+    s.pet.lastActiveDate = t
+    s.pet.feedCount = s.pet.feedDate === t ? s.pet.feedCount : 0
+    s.pet.feedDate = t
+  }
   save()
+}
+
+// 两个 YYYY-MM-DD 之间的天数差（宠物跨天心情衰减用）
+function daysBetween(from, to) {
+  const a = new Date(from + 'T00:00:00')
+  const b = new Date(to + 'T00:00:00')
+  return Math.round((b.getTime() - a.getTime()) / 86400000)
 }
 
 // ---------- 成就 ----------
@@ -183,6 +202,7 @@ function signIn() {
   s.streak = s.signInDates.indexOf(todayStr(-1)) >= 0 ? s.streak + 1 : 1
   s.coins += 10
   save()
+  grantPetExp(pet.PET_EXP.signIn) // 签到宠物经验（统一走事件队列）
   const newly = refreshAchievements()
   return { ok: true, msg: '签到成功，金币 +10', newly: newly }
 }
@@ -194,6 +214,7 @@ function addTodaySeconds(n) {
     s.dailyDone.minutes = true
     s.coins += TASK_REWARDS.minutes
     save()
+    grantPetExp(pet.PET_EXP.dailyGoal) // 玩满 20 分钟宠物经验
     return { taskDone: 'minutes', coins: TASK_REWARDS.minutes }
   }
   return null
@@ -259,6 +280,7 @@ function removeWrong(qid) {
   delete s.wrongSnaps[qid]
   s.clearedTotal += 1
   save()
+  grantPetExp(pet.PET_EXP.reviewCleared) // 消灭错题宠物经验
   return refreshAchievements()
 }
 
@@ -328,6 +350,70 @@ function setTextbook(choice) {
   save()
 }
 
+// ---------- 宠物 ----------
+function adoptPet(kind, name) {
+  const s = load()
+  const clean = (name || '').trim().slice(0, 8) || (kind === 'dog' ? '旺旺' : '喵喵')
+  s.pet = {
+    kind: kind,
+    name: clean,
+    exp: 0,
+    mood: 80,
+    lastActiveDate: todayStr(),
+    feedDate: todayStr(),
+    feedCount: 0,
+    adoptedAt: Date.now(),
+    storyRead: [],
+  }
+  save()
+}
+
+// 发放宠物经验；升级时推送升级/剧情解锁事件（与网页版 grantPetExp 同构）
+function grantPetExp(amount) {
+  ensureToday()
+  const s = load()
+  if (!s.pet || !(amount > 0)) return
+  const prevLevel = pet.petLevelOf(s.pet.exp)
+  s.pet.exp += amount
+  const level = pet.petLevelOf(s.pet.exp)
+  if (level > prevLevel) {
+    s.petEvents.push({ type: 'levelup', level: level, petName: s.pet.name, petKind: s.pet.kind })
+    pet.STORY_UNLOCK_LEVELS.forEach(function (ul, i) {
+      if (ul > prevLevel && ul <= level) {
+        s.petEvents.push({ type: 'story', chapterId: s.pet.kind + '-' + (i + 1), petKind: s.pet.kind, level: ul })
+      }
+    })
+  }
+  save()
+}
+
+function feedPet() {
+  ensureToday()
+  const s = load()
+  if (!s.pet) return { ok: false, msg: '还没有领养宠物' }
+  if (s.pet.feedCount >= pet.FEED_DAILY_LIMIT) return { ok: false, msg: '今天吃得太饱啦，明天再喂吧～' }
+  if (s.coins < pet.FEED_COST) return { ok: false, msg: '金币不够哦（需要 ' + pet.FEED_COST + ' 枚），去闯关赚金币吧！' }
+  s.coins -= pet.FEED_COST
+  s.pet.mood = Math.min(pet.MOOD_MAX, s.pet.mood + pet.FEED_MOOD)
+  s.pet.feedCount += 1
+  s.pet.feedDate = todayStr()
+  save()
+  return { ok: true, msg: s.pet.name + ' 吃得香喷喷，心情 +30！' }
+}
+
+function markStoryRead(chapterId) {
+  const s = load()
+  if (!s.pet || s.pet.storyRead.indexOf(chapterId) >= 0) return
+  s.pet.storyRead.push(chapterId)
+  save()
+}
+
+function clearPetEvents() {
+  const s = load()
+  s.petEvents = []
+  save()
+}
+
 function resetAll() {
   state = defaultState()
   save()
@@ -393,6 +479,11 @@ module.exports = {
   addCustomReward: addCustomReward,
   removeCustomReward: removeCustomReward,
   setTextbook: setTextbook,
+  adoptPet: adoptPet,
+  grantPetExp: grantPetExp,
+  feedPet: feedPet,
+  markStoryRead: markStoryRead,
+  clearPetEvents: clearPetEvents,
   resetAll: resetAll,
   subjectStats: subjectStats,
   totalStars: totalStars,

@@ -3,6 +3,7 @@ const api = require('../../utils/api')
 const store = require('../../utils/store')
 const quiz = require('../../utils/quiz')
 const sfx = require('../../utils/sfx')
+const pet = require('../../utils/pet')
 
 const TIME_PER_QUESTION = 40
 const LIVES = 3
@@ -245,6 +246,19 @@ Page({
       finalCoins = this.data.coinsEarned + levelBonus
       s.coins += finalCoins
     }
+
+    // 宠物经验：与金币同处结算，保证展示与发放一致（升级/剧情事件由结算页弹窗消费）
+    let petExp = 0
+    let petName = ''
+    if (s.pet) {
+      petName = s.pet.name
+      if (dead) petExp = this.mode === 'review' ? 0 : pet.PET_EXP.failComfort
+      else if (this.mode === 'level') petExp = pet.petExpForLevelStars(stars)
+      else if (this.mode === 'daily') petExp = pet.PET_EXP.daily
+      else if (this.mode === 'review') petExp = pet.PET_EXP.review
+    }
+    if (petExp > 0) store.grantPetExp(petExp)
+
     store.save()
     const passed = !dead && stars > 0
     wx.redirectTo({
@@ -270,7 +284,11 @@ Page({
         '&unit=' +
         encodeURIComponent((this.data.question && this.data.question.tag) || this.titles[this.mode] || '') +
         '&newly=' +
-        encodeURIComponent(newly.map(function (a) { return a.name }).join('、')),
+        encodeURIComponent(newly.map(function (a) { return a.name }).join('、')) +
+        '&petExp=' +
+        petExp +
+        '&petName=' +
+        encodeURIComponent(petName),
     })
   },
 

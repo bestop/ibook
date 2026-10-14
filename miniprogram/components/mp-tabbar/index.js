@@ -9,6 +9,7 @@ Component({
   data: {
     tabs: [
       { key: 'home', label: '科目', emoji: '🏠', url: '/pages/home/index' },
+      { key: 'pet', label: '宠物', emoji: '🐾', url: '/pages/pet/index' },
       { key: 'wrongbook', label: '错题本', emoji: '📕', url: '/pages/wrongbook/index' },
       { key: 'rewards', label: '礼物', emoji: '🎁', url: '/pages/rewards/index' },
       { key: 'profile', label: '我的', emoji: '🏆', url: '/pages/profile/index' },

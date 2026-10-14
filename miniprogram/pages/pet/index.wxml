@@ -1,0 +1,155 @@
+<view class="page">
+  <!-- ============ 领养流程（未领养） ============ -->
+  <block wx:if="{{!hasPet}}">
+    <view class="adopt-head">
+      <view class="adopt-egg">🥚</view>
+      <view class="adopt-title">遇见你的冒险伙伴</view>
+      <view class="adopt-sub">完成学习任务就能帮它长大，还能解锁专属剧情！</view>
+    </view>
+
+    <view class="adopt-cards">
+      <view class="adopt-card {{kind === 'dog' ? 'adopt-card-active' : ''}}" bindtap="pickKind" data-kind="dog" hover-class="press">
+        <text class="adopt-emoji">🐶</text>
+        <view class="adopt-name">小狗</view>
+        <view class="adopt-desc">忠诚勇敢 · 元气满满</view>
+        <view class="adopt-traits">
+          <text class="trait {{kind === 'dog' ? 'trait-active' : ''}}">蹦蹦跳跳</text>
+          <text class="trait {{kind === 'dog' ? 'trait-active' : ''}}">爱交朋友</text>
+          <text class="trait {{kind === 'dog' ? 'trait-active' : ''}}">汪汪加油</text>
+        </view>
+        <view class="adopt-picked" wx:if="{{kind === 'dog'}}">✓ 就决定是它啦！</view>
+      </view>
+      <view class="adopt-card {{kind === 'cat' ? 'adopt-card-active' : ''}}" bindtap="pickKind" data-kind="cat" hover-class="press">
+        <text class="adopt-emoji">🐱</text>
+        <view class="adopt-name">小猫</view>
+        <view class="adopt-desc">聪明优雅 · 魔法满满</view>
+        <view class="adopt-traits">
+          <text class="trait {{kind === 'cat' ? 'trait-active' : ''}}">好奇心强</text>
+          <text class="trait {{kind === 'cat' ? 'trait-active' : ''}}">夜观星象</text>
+          <text class="trait {{kind === 'cat' ? 'trait-active' : ''}}">喵喵灵巧</text>
+        </view>
+        <view class="adopt-picked" wx:if="{{kind === 'cat'}}">✓ 就决定是它啦！</view>
+      </view>
+    </view>
+
+    <view class="adopt-naming" wx:if="{{kind}}">
+      <view class="naming-title">给它取个名字吧（最多 8 个字）</view>
+      <view class="naming-row">
+        <text class="naming-emoji">{{kind === 'dog' ? '🐶' : '🐱'}}</text>
+        <input class="naming-input" value="{{name}}" maxlength="8" placeholder="{{kind === 'dog' ? '比如：旺旺' : '比如：喵喵'}}" bindinput="onNameInput" />
+      </view>
+      <view class="naming-chips">
+        <view class="chip {{name === item ? 'chip-active' : ''}}" wx:for="{{suggestions}}" wx:key="*this" bindtap="pickName" data-name="{{item}}">{{item}}</view>
+      </view>
+      <button class="adopt-btn" bindtap="confirmAdopt" hover-class="press">🎉 领养{{name || (kind === 'dog' ? '旺旺' : '喵喵')}}，开始冒险！</button>
+    </view>
+  </block>
+
+  <!-- ============ 宠物主页（已领养） ============ -->
+  <block wx:else>
+    <!-- 宠物展示卡 -->
+    <view class="hero">
+      <view class="hero-cloud c1">☁️</view>
+      <view class="hero-cloud c2">☁️</view>
+      <view class="hero-grass g1">🌿</view>
+      <view class="hero-grass g2">🌸</view>
+
+      <view class="mood-bubble">{{mood.emoji}} {{mood.text}}</view>
+
+      <view class="pet-stage" bindtap="tapPet">
+        <view class="pet-emoji {{bouncing ? 'pet-bounce' : ''}}" style="animation-play-state: {{bouncing ? 'paused' : 'running'}}">{{emoji}}</view>
+        <view class="pet-crown" wx:if="{{isLegend}}">👑</view>
+        <view class="tap-bubble" wx:if="{{bubble}}">{{bubble}}</view>
+      </view>
+
+      <view class="pet-name">{{pet.name}}<text class="pet-tag">{{stage.name}} · {{stage.title}}</text></view>
+      <view class="pet-stage-desc">{{stage.desc}}</view>
+
+      <view class="exp-box">
+        <view class="exp-row">
+          <text class="exp-level">Lv.{{pet.exp}}{{fullLevel ? ' · 满级传说！' : ''}}</text>
+          <text class="exp-hint">{{expHint}}</text>
+        </view>
+        <view class="exp-bar"><view class="exp-bar-fill" style="width: {{expPct}}%"></view></view>
+      </view>
+    </view>
+
+    <!-- 心情 + 喂食 -->
+    <view class="care-row">
+      <view class="care-card mood-card">
+        <view class="care-title">🍖 心情值</view>
+        <view class="mood-num">{{pet.mood}}<text class="mood-max">/100</text></view>
+        <view class="mood-bar"><view class="mood-bar-fill" style="width: {{moodPct}}%"></view></view>
+        <view class="care-tip">每天会慢慢下降（不会饿坏），喂食可恢复</view>
+      </view>
+      <view class="care-card feed-card">
+        <view class="care-title">🪙 喂食（20 金币/次）</view>
+        <view class="feed-info">今日还可喂 {{feedLeft}} 次</view>
+        <view class="care-tip">喂一次心情 +30</view>
+        <button class="feed-btn {{feedLeft <= 0 || coins < 20 ? 'feed-btn-disabled' : ''}}" bindtap="feed" hover-class="press">
+          {{feedLeft <= 0 ? '今日已喂饱' : '投喂小零食'}}
+        </button>
+      </view>
+    </view>
+
+    <!-- 经验来源提示 -->
+    <view class="exp-tip">💡 {{pet.name}}的经验来自你的学习：通关 +20/30/40（按星级）· 每日挑战 +25 · 复习完成 +15 · 消灭错题 +3/题 · 签到 +10 · 玩满 20 分钟 +20</view>
+
+    <!-- 专属剧情 -->
+    <view class="story-head">
+      <view class="story-title">📚 专属剧情《{{bookTitle}}》</view>
+      <view class="story-count">已读 {{readCount}}/{{storyTotal}}</view>
+    </view>
+    <view class="story-list">
+      <view
+        wx:for="{{stories}}"
+        wx:key="id"
+        class="story-item {{item.locked ? 'story-locked' : (item.read ? 'story-read' : 'story-new')}}"
+        hover-class="{{item.locked ? 'none' : 'press'}}"
+        bindtap="openStory"
+        data-id="{{item.id}}"
+      >
+        <text class="story-icon {{item.locked ? 'story-icon-locked' : ''}}">{{item.locked ? '🔒' : (item.read ? '📗' : '📘')}}</text>
+        <view class="story-main">
+          <view class="story-name">第 {{item.index}} 章 · {{item.locked ? '？？？？？' : item.title}}</view>
+          <view class="story-status">{{item.locked ? '宠物 Lv.' + item.unlockLv + ' 解锁' : (item.read ? '已读完这段冒险' : '新章节！点开阅读')}}</view>
+        </view>
+        <view class="story-new-badge" wx:if="{{!item.locked && !item.read}}">NEW</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- ============ 剧情阅读器 ============ -->
+  <view class="reader-mask" wx:if="{{reading}}" catchtap="closeReader">
+    <view class="reader" catchtap="noop">
+      <view class="reader-head">
+        <view>
+          <view class="reader-book">《{{bookTitle}}》第 {{reading.index}} 章</view>
+          <view class="reader-chapter">{{reading.title}}</view>
+        </view>
+        <view class="reader-close" catchtap="closeReader">✕</view>
+      </view>
+      <scroll-view class="reader-body" scroll-y scroll-top="{{readerLines.length * 200}}" scroll-with-animation>
+        <view wx:for="{{readerLines}}" wx:key="index" class="line {{item.who === '旁白' ? 'line-narr' : ''}}">
+          <text class="line-emoji" wx:if="{{item.who !== '旁白'}}">{{item.emoji}}</text>
+          <view class="line-bubble {{item.who === '旁白' ? 'line-bubble-narr' : ''}}">
+            <view class="line-who" wx:if="{{item.who !== '旁白'}}">{{item.who}}{{item.who === pet.name ? '（你的伙伴）' : ''}}</view>
+            <view class="line-text">{{item.text}}</view>
+          </view>
+          <text class="line-emoji line-emoji-empty" wx:if="{{item.who !== '旁白'}}">&nbsp;</text>
+        </view>
+      </scroll-view>
+      <view class="reader-foot">
+        <view class="reader-dots">
+          <view class="dot {{index <= lineIdx ? 'dot-on' : ''}}" wx:for="{{reading.lines}}" wx:key="index"></view>
+        </view>
+        <button class="reader-btn" bindtap="nextLine" hover-class="press">
+          {{isLastLine ? '📖 合上书本，收下这段冒险！' : '下一句 ▶'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view class="tabbar-space"></view>
+  <mp-tabbar active="pet" />
+</view>

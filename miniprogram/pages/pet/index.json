@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "宠物伙伴",
+  "usingComponents": {
+    "mp-tabbar": "/components/mp-tabbar/index"
+  }
+}

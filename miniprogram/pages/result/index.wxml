@@ -29,6 +29,8 @@
 
     <view wx:if="{{!passed && mode === 'level'}}" class="result-note">💔 生命用完，本局金币减半入账</view>
     <view wx:if="{{newly}}" class="result-note">🏆 解锁成就：{{newly}}</view>
+    <view wx:if="{{hasPet && petExp > 0}}" class="result-note result-note-pet">🐾 {{petName}}获得 {{petExp}} 点成长经验{{passed ? '，说不定升级或解锁了新剧情哦～' : ''}}</view>
+    <view wx:if="{{!hasPet}}" class="result-note result-note-pet-muted">🐾 在「宠物」页领养小狗或小猫，学习会变成它的成长经验</view>
 
     <button hover-class="none" class="btn-primary result-btn" bindtap="onRetry">
       {{mode === 'level' ? '返回关卡地图' : (mode === 'review' ? '返回错题本' : '返回地图')}}
