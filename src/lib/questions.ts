@@ -22,7 +22,9 @@
 //       英语沪教版（牛津上海版·五四学制）一～六年级下册（id english1b~english5b、english6b，前缀
 //       ztg/zth/zti/ztj/ztk/ztl，一～五下为现行版目录，六下预备年级为新教材 2025 春版目录）；
 //       英语外研版（新标准·一年级起点）一～六年级上册（id english1wy~english6wy，前缀 wa~wf，
-//       现行版目录，每册 10 个 Module）
+//       现行版目录，每册 10 个 Module）；
+//       英语外研版（新标准·一年级起点）一～六年级下册（id english1wyb~english6wyb，前缀 wg~wl，
+//       现行版目录，每册 10 个 Module）；
 // 数学：一上～五上每级分三个版本——沪教版（上海教育出版社，id math1~math/math4，前缀 b/r/p/n/m）、
 //       人教版（六三制·人民教育出版社 2024~2026 秋新版，id math1rj~math5rj，前缀 w/j/l/o/s）
 //       与苏教版（江苏凤凰教育出版社，id math1sj~math5sj，前缀 sa~se，现行版目录）；
@@ -31,7 +33,8 @@
 // 英语：每级分两个版本——沪教版（五四学制·上海教育出版社，id english1~english/english4，前缀 i/h/f/g/e，三上起 Starter+10 单元；一上含 3 个 IPA 语音角）
 //       与人教版 PEP（人民教育出版社 2024~2026 秋新版，id english1rj~english6rj，前缀 za~zf，一/二上为一起点预备级，三上起三年级起点六三制）；
 //       六年级上册沪教版为 2024 新教材（五·四学制·预备年级）Starter + Unit 1-6，人教版为 2026 秋新版 PEP（六三制）；
-//       另有外研版（外语教学与研究出版社·新标准一年级起点，id english1wy~english6wy，前缀 wa~wf，每册 10 个 Module）
+//       另有外研版（外语教学与研究出版社·新标准一年级起点，id english1wy~english6wy 上册前缀 wa~wf、
+//       english1wyb~english6wyb 下册前缀 wg~wl，每册 10 个 Module）
 // 每关 10 题
 
 import { UNITS as CN_UNITS, QUESTIONS as CN_QUESTIONS } from './bank-chinese'
@@ -126,6 +129,12 @@ import { UNITS as EN3WY_UNITS, QUESTIONS as EN3WY_QUESTIONS } from './bank-engli
 import { UNITS as EN4WY_UNITS, QUESTIONS as EN4WY_QUESTIONS } from './bank-english4wy'
 import { UNITS as EN5WY_UNITS, QUESTIONS as EN5WY_QUESTIONS } from './bank-english5wy'
 import { UNITS as EN6WY_UNITS, QUESTIONS as EN6WY_QUESTIONS } from './bank-english6wy'
+import { UNITS as EN1WYB_UNITS, QUESTIONS as EN1WYB_QUESTIONS } from './bank-english1wyb'
+import { UNITS as EN2WYB_UNITS, QUESTIONS as EN2WYB_QUESTIONS } from './bank-english2wyb'
+import { UNITS as EN3WYB_UNITS, QUESTIONS as EN3WYB_QUESTIONS } from './bank-english3wyb'
+import { UNITS as EN4WYB_UNITS, QUESTIONS as EN4WYB_QUESTIONS } from './bank-english4wyb'
+import { UNITS as EN5WYB_UNITS, QUESTIONS as EN5WYB_QUESTIONS } from './bank-english5wyb'
+import { UNITS as EN6WYB_UNITS, QUESTIONS as EN6WYB_QUESTIONS } from './bank-english6wyb'
 
 export type QType = 'choice' | 'judge'
 
@@ -149,7 +158,7 @@ export interface Unit {
   intro: string
 }
 
-export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'chinese1b' | 'chinese2b' | 'chinese3b' | 'chinese4b' | 'chinese5b' | 'chinese6b' | 'chinese54b' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6' | 'math1rj' | 'math2rj' | 'math3rj' | 'math4rj' | 'math5rj' | 'math1rjb' | 'math2rjb' | 'math3rjb' | 'math4rjb' | 'math5rjb' | 'math6rjb' | 'math1b' | 'math2b' | 'math3b' | 'math4b' | 'math5b' | 'math54b' | 'english1rj' | 'english2rj' | 'english3rj' | 'english4rj' | 'english5rj' | 'english6rj' | 'english1rjb' | 'english2rjb' | 'english3rjb' | 'english4rjb' | 'english5rjb' | 'english6rjb' | 'english1b' | 'english2b' | 'english3b' | 'english4b' | 'english5b' | 'english6b' | 'math1bs' | 'math2bs' | 'math3bs' | 'math4bs' | 'math5bs' | 'math6bs' | 'math1bsb' | 'math2bsb' | 'math3bsb' | 'math4bsb' | 'math5bsb' | 'math6bsb' | 'math1sj' | 'math2sj' | 'math3sj' | 'math4sj' | 'math5sj' | 'math6sj' | 'math1sjb' | 'math2sjb' | 'math3sjb' | 'math4sjb' | 'math5sjb' | 'math6sjb' | 'english1wy' | 'english2wy' | 'english3wy' | 'english4wy' | 'english5wy' | 'english6wy'
+export type SubjectId = 'chinese1' | 'chinese2' | 'chinese3' | 'chinese4' | 'chinese' | 'chinese6' | 'chinese54' | 'chinese1b' | 'chinese2b' | 'chinese3b' | 'chinese4b' | 'chinese5b' | 'chinese6b' | 'chinese54b' | 'math1' | 'math2' | 'math3' | 'math4' | 'math' | 'math6' | 'math54' | 'english1' | 'english2' | 'english3' | 'english4' | 'english' | 'english6' | 'math1rj' | 'math2rj' | 'math3rj' | 'math4rj' | 'math5rj' | 'math1rjb' | 'math2rjb' | 'math3rjb' | 'math4rjb' | 'math5rjb' | 'math6rjb' | 'math1b' | 'math2b' | 'math3b' | 'math4b' | 'math5b' | 'math54b' | 'english1rj' | 'english2rj' | 'english3rj' | 'english4rj' | 'english5rj' | 'english6rj' | 'english1rjb' | 'english2rjb' | 'english3rjb' | 'english4rjb' | 'english5rjb' | 'english6rjb' | 'english1b' | 'english2b' | 'english3b' | 'english4b' | 'english5b' | 'english6b' | 'math1bs' | 'math2bs' | 'math3bs' | 'math4bs' | 'math5bs' | 'math6bs' | 'math1bsb' | 'math2bsb' | 'math3bsb' | 'math4bsb' | 'math5bsb' | 'math6bsb' | 'math1sj' | 'math2sj' | 'math3sj' | 'math4sj' | 'math5sj' | 'math6sj' | 'math1sjb' | 'math2sjb' | 'math3sjb' | 'math4sjb' | 'math5sjb' | 'math6sjb' | 'english1wy' | 'english2wy' | 'english3wy' | 'english4wy' | 'english5wy' | 'english6wy' | 'english1wyb' | 'english2wyb' | 'english3wyb' | 'english4wyb' | 'english5wyb' | 'english6wyb'
 
 // 出版社/版本 key：rj 人民教育出版社（统编语文 + 人教数学 + PEP 英语）、rj54 人民教育出版社统编教材（五·四学制）、she 上海教育出版社（沪教数学/英语）、bs 北京师范大学出版社（北师大数学）、sj 江苏凤凰教育出版社（苏教数学）、wy 外语教学与研究出版社（外研英语）
 export type PublisherKey = 'rj' | 'rj54' | 'she' | 'bs' | 'sj' | 'wy'
@@ -1633,6 +1642,102 @@ export const SUBJECTS: Subject[] = [
     tagline: '长度量度 → 集邮爱好 → 动物习性 → 联合国之行',
     units: EN6WY_UNITS,
     questions: EN6WY_QUESTIONS,
+  },
+  {
+    id: 'english1wyb',
+    name: '英语',
+    grade: '一年级下册',
+    gradeNum: 1,
+    term: 'b',
+    publisher: '外研版新标准英语（一年级起点）· 外语教学与研究出版社 · 一年级下册',
+    publisherKey: 'wy',
+    badge: '外研版',
+    emoji: '🐥',
+    theme: 'emerald',
+    qidPrefix: 'wg',
+    tagline: '职业称谓 → 方位问答 → 动物描述 → there be → 运动喜好',
+    units: EN1WYB_UNITS,
+    questions: EN1WYB_QUESTIONS,
+  },
+  {
+    id: 'english2wyb',
+    name: '英语',
+    grade: '二年级下册',
+    gradeNum: 2,
+    term: 'b',
+    publisher: '外研版新标准英语（一年级起点）· 外语教学与研究出版社 · 二年级下册',
+    publisherKey: 'wy',
+    badge: '外研版',
+    emoji: '🦊',
+    theme: 'amber',
+    qidPrefix: 'wh',
+    tagline: '天气表达 → 现在进行时 → usually 习惯 → 方位指路',
+    units: EN2WYB_UNITS,
+    questions: EN2WYB_QUESTIONS,
+  },
+  {
+    id: 'english3wyb',
+    name: '英语',
+    grade: '三年级下册',
+    gradeNum: 3,
+    term: 'b',
+    publisher: '外研版新标准英语（一年级起点）· 外语教学与研究出版社 · 三年级下册',
+    publisherKey: 'wy',
+    badge: '外研版',
+    emoji: '🐳',
+    theme: 'cyan',
+    qidPrefix: 'wi',
+    tagline: 'will 将来计划 → 数字星期 → there be 问答 → was/were 过去',
+    units: EN3WYB_UNITS,
+    questions: EN3WYB_QUESTIONS,
+  },
+  {
+    id: 'english4wyb',
+    name: '英语',
+    grade: '四年级下册',
+    gradeNum: 4,
+    term: 'b',
+    publisher: '外研版新标准英语（一年级起点）· 外语教学与研究出版社 · 四年级下册',
+    publisherKey: 'wy',
+    badge: '外研版',
+    emoji: '🦜',
+    theme: 'fuchsia',
+    qidPrefix: 'wj',
+    tagline: "Don't 祈使句 → 价格表达 → 一般过去时 → 东西南北方位",
+    units: EN4WYB_UNITS,
+    questions: EN4WYB_QUESTIONS,
+  },
+  {
+    id: 'english5wyb',
+    name: '英语',
+    grade: '五年级下册',
+    gradeNum: 5,
+    term: 'b',
+    publisher: '外研版新标准英语（一年级起点）· 外语教学与研究出版社 · 五年级下册',
+    publisherKey: 'wy',
+    badge: '外研版',
+    emoji: '🦉',
+    theme: 'indigo',
+    qidPrefix: 'wk',
+    tagline: 'was 过去职业 → have got → 物主代词 → 一般过去时',
+    units: EN5WYB_UNITS,
+    questions: EN5WYB_QUESTIONS,
+  },
+  {
+    id: 'english6wyb',
+    name: '英语',
+    grade: '六年级下册',
+    gradeNum: 6,
+    term: 'b',
+    publisher: '外研版新标准英语（一年级起点）· 外语教学与研究出版社 · 六年级下册',
+    publisherKey: 'wy',
+    badge: '外研版',
+    emoji: '🚀',
+    theme: 'orange',
+    qidPrefix: 'wl',
+    tagline: '点餐表达 → 将来计划 → 太空故事 → 毕业告别祝福',
+    units: EN6WYB_UNITS,
+    questions: EN6WYB_QUESTIONS,
   },
 ]
 

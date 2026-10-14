@@ -66,6 +66,12 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   english4wy: '🦒 I helped my mum、invented paper、the Great Wall……把外研四上英语岛闯个遍吧！',
   english5wy: '🦘 Halloween、It is mine、tidy your toys……把外研五上英语岛闯个遍吧！',
   english6wy: '🌍 The Great Wall、Collecting stamps、the UN building……把外研六上英语岛闯个遍吧！',
+  english1wyb: "🐥 Doctor、Where's the bird?、There is a cat……把外研一下英语岛闯个遍吧！",
+  english2wyb: "🦊 Weather、listening to the radio、Turn left……把外研二下英语岛闯个遍吧！",
+  english3wyb: '🐳 Tower Bridge、Will you take your ball?、was and were……把外研三下英语岛闯个遍吧！',
+  english4wyb: "🦜 Don't touch、Wolf, wolf!、Kangaroos……把外研四下英语岛闯个遍吧！",
+  english5wyb: '🦉 driver before、Stonehenge、made a kite……把外研五下英语岛闯个遍吧！',
+  english6wyb: '🚀 hot dog、Shenzhou V、Best wishes……把外研六下英语岛闯个遍吧！',
 }
 
 // 新增科目专属 tip（主题色复用语数主题时，每日任务提示文案按科目覆盖）
@@ -76,6 +82,12 @@ const SUBJECT_TIPS: Partial<Record<string, string>> = {
   english4wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
   english5wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
   english6wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english1wyb: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english2wyb: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english3wyb: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english4wyb: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english5wyb: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english6wyb: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {

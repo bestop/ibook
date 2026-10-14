@@ -46,7 +46,7 @@ const G6_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
 
 const publisherOptionsFor = (gradeNum: number) => (gradeNum === 6 ? G6_PUBLISHER_OPTIONS : BASE_PUBLISHER_OPTIONS)
 
-// 下册：目前已开放统编语文（六年级分六三制/五四学制）、人教版数学与 PEP 英语（六三制）、沪教版数学、英语（五四学制·牛津上海版）、北师大版与苏教版数学一至六年级
+// 下册：目前已开放统编语文（六年级分六三制/五四学制）、人教版数学与 PEP 英语（六三制）、沪教版数学、英语（五四学制·牛津上海版）、北师大版与苏教版数学、外研版英语（一年级起点）一至六年级
 const B_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
   { key: 'all', label: '全部版本' },
   { key: 'rj', label: '人民教育出版社（统编语文 + 人教数学 + PEP英语 · 六三制）' },
@@ -54,6 +54,7 @@ const B_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
   { key: 'she', label: '上海教育出版社（沪教数学 + 英语·五四学制）' },
   { key: 'bs', label: '北京师范大学出版社（北师大版数学）' },
   { key: 'sj', label: '江苏凤凰教育出版社（苏教版数学）' },
+  { key: 'wy', label: '外研版 · 英语（外语教学与研究出版社·一年级起点）' },
 ]
 
 /**
