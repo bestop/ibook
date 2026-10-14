@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useGame } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import {
-  petEmoji,
+  petStageIndexOf,
   petStageOf,
   petLevelProgress,
   moodLabel,
@@ -15,10 +15,10 @@ import {
   MOOD_MAX,
   PET_NAME_SUGGESTIONS,
   PET_MAX_LEVEL,
-  PET_STAGES,
   storyUnlockLevel,
 } from '@/lib/pet'
 import type { PetKind } from '@/lib/pet'
+import PetAvatar from '@/components/game/pet-avatar'
 import { PET_STORIES, STORY_BOOK_TITLE } from '@/lib/pet-stories'
 import type { StoryChapter } from '@/lib/pet-stories'
 
@@ -50,8 +50,8 @@ function AdoptFlow() {
       <div className="mt-5 grid grid-cols-2 gap-3">
         {(
           [
-            { kind: 'dog' as PetKind, emoji: '🐶', name: '小狗', desc: '忠诚勇敢\n元气满满', traits: ['蹦蹦跳跳', '爱交朋友', '汪汪加油'] },
-            { kind: 'cat' as PetKind, emoji: '🐱', name: '小猫', desc: '聪明优雅\n魔法满满', traits: ['好奇心强', '夜观星象', '喵喵灵巧'] },
+            { kind: 'dog' as PetKind, name: '小狗', desc: '忠诚勇敢\n元气满满', traits: ['蹦蹦跳跳', '爱交朋友', '汪汪加油'] },
+            { kind: 'cat' as PetKind, name: '小猫', desc: '聪明优雅\n魔法满满', traits: ['好奇心强', '夜观星象', '喵喵灵巧'] },
           ] as const
         ).map((opt) => {
           const active = kind === opt.kind
@@ -69,11 +69,11 @@ function AdoptFlow() {
               }`}
             >
               <motion.span
-                animate={active ? { scale: [1, 1.15, 1], rotate: [0, -8, 8, 0] } : {}}
-                transition={{ duration: 0.6 }}
-                className="block text-6xl"
+                animate={active ? { scale: [1, 1.12, 1], rotate: [0, -6, 6, 0] } : { y: [0, -5, 0] }}
+                transition={active ? { duration: 0.6 } : { repeat: Infinity, duration: 2.6, ease: 'easeInOut' }}
+                className="block"
               >
-                {opt.emoji}
+                <PetAvatar kind={opt.kind} stage={1} size={104} />
               </motion.span>
               <p className="mt-2 text-lg font-black text-gray-800">{opt.name}</p>
               <p className="mt-0.5 whitespace-pre-line text-xs font-bold text-gray-500">{opt.desc}</p>
@@ -96,7 +96,7 @@ function AdoptFlow() {
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-4 rounded-3xl border-2 border-amber-200 bg-white p-4">
             <p className="text-sm font-black text-gray-700">给它取个名字吧（最多 8 个字）</p>
             <div className="mt-2 flex items-center gap-2">
-              <span className="text-2xl">{kind === 'dog' ? '🐶' : '🐱'}</span>
+              <PetAvatar kind={kind} stage={1} size={40} />
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value.slice(0, 8))}
@@ -255,9 +255,8 @@ export default function PetView() {
 
   const prog = petLevelProgress(pet.exp)
   const stage = petStageOf(prog.level)
-  const emoji = petEmoji(pet.kind, prog.level)
+  const stageNo = petStageIndexOf(prog.level)
   const mood = moodLabel(pet.mood)
-  const isLegend = prog.level >= PET_STAGES[3].minLevel
   const stories = PET_STORIES[pet.kind].map((ch) => ({ ...ch, locked: prog.level < storyUnlockLevel(ch.index) }))
   const readCount = pet.storyRead.length
   const feedLeft = FEED_DAILY_LIMIT - pet.feedCount
@@ -319,25 +318,16 @@ export default function PetView() {
           </motion.div>
         </div>
 
-        {/* 宠物本体（可点击互动） */}
-        <button onClick={spawnHearts} aria-label={`摸摸${pet.name}`} className="relative mx-auto block px-16 py-2">
-          <motion.span
-            key={emoji + bounce}
-            animate={{ y: [0, -8, 0], scale: [1, 1.06, 1], rotate: [0, -4, 4, 0] }}
-            transition={bounce ? { duration: 0.5 } : { repeat: Infinity, duration: 2.6, ease: 'easeInOut' }}
-            className="block text-8xl drop-shadow-[0_6px_10px_rgba(0,0,0,0.12)]"
+        {/* 宠物本体（全身动画形象，可点击互动） */}
+        <button onClick={spawnHearts} aria-label={`摸摸${pet.name}`} className="relative mx-auto block px-14 py-2">
+          <motion.div
+            key={`${pet.kind}-${stageNo}-${bounce}`}
+            animate={{ y: [0, -8, 0], scale: [1, 1.05, 1], rotate: [0, -3, 3, 0] }}
+            transition={bounce ? { duration: 0.5 } : { repeat: Infinity, duration: 2.8, ease: 'easeInOut' }}
+            className="drop-shadow-[0_8px_12px_rgba(0,0,0,0.14)]"
           >
-            {emoji}
-          </motion.span>
-          {isLegend && (
-            <motion.span
-              animate={{ y: [0, -4, 0], rotate: [-8, 8, -8] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="absolute -top-1 right-8 text-3xl"
-            >
-              👑
-            </motion.span>
-          )}
+            <PetAvatar kind={pet.kind} stage={stageNo} size={176} />
+          </motion.div>
           {/* 爱心粒子 */}
           <AnimatePresence>
             {hearts.map((h) => (

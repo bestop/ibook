@@ -98,6 +98,15 @@ export function petEmoji(kind: PetKind, level: number): string {
   return kind === 'dog' ? stage.dogEmoji : stage.catEmoji
 }
 
+// 全身动画形象阶段序号（1-4），供 PetAvatar（web SVG / 小程序 GIF）取图
+export function petStageIndexOf(level: number): number {
+  let idx = 1
+  PET_STAGES.forEach((s, i) => {
+    if (level >= s.minLevel) idx = i + 1
+  })
+  return idx
+}
+
 // ---------- 喂食与心情 ----------
 export const MOOD_DECAY_PER_DAY = 10 // 每天衰减
 export const MOOD_MIN = 20 // 保底心情（不惩罚）

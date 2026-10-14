@@ -12,7 +12,7 @@
 
 /* ---------- 领养流 ---------- */
 .adopt-head { text-align: center; padding: 30rpx 0 10rpx; }
-.adopt-egg { font-size: 88rpx; animation: breathe 2.4s ease-in-out infinite; }
+.adopt-egg { font-size: 88rpx; animation: float 2.4s ease-in-out infinite; }
 .adopt-title { margin-top: 14rpx; font-size: 42rpx; font-weight: 900; color: #f97316; }
 .adopt-sub { margin-top: 8rpx; font-size: 26rpx; font-weight: 700; color: #9ca3af; }
 .adopt-cards { margin-top: 26rpx; display: flex; gap: 22rpx; }
@@ -32,8 +32,13 @@
   box-shadow: 0 10rpx 0 rgba(251, 146, 60, 0.35);
   transform: translateY(-4rpx);
 }
-.adopt-emoji { font-size: 100rpx; line-height: 1; display: inline-block; }
-.adopt-card-active .adopt-emoji { animation: wiggle 0.6s ease; }
+.adopt-img { width: 170rpx; height: 170rpx; }
+.adopt-card-active .adopt-img { animation: wiggle 0.6s ease; }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-7deg) scale(1.06); }
+  60% { transform: rotate(6deg) scale(1.04); }
+}
 .adopt-name { margin-top: 14rpx; font-size: 34rpx; font-weight: 900; color: #1f2937; }
 .adopt-desc { margin-top: 6rpx; font-size: 23rpx; font-weight: 700; color: #9ca3af; }
 .adopt-traits { margin-top: 14rpx; display: flex; flex-wrap: wrap; justify-content: center; gap: 8rpx; }
@@ -49,7 +54,7 @@
 }
 .naming-title { font-size: 27rpx; font-weight: 800; color: #374151; }
 .naming-row { margin-top: 16rpx; display: flex; align-items: center; gap: 14rpx; }
-.naming-emoji { font-size: 44rpx; }
+.naming-img { width: 76rpx; height: 76rpx; flex-shrink: 0; }
 .naming-input {
   flex: 1;
   border: 3rpx solid #e5e7eb;
@@ -105,16 +110,16 @@
   color: #4b5563;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06);
 }
-.pet-stage { position: relative; display: inline-block; padding: 16rpx 90rpx 4rpx; }
-.pet-emoji {
-  font-size: 150rpx;
-  line-height: 1.15;
-  filter: drop-shadow(0 10rpx 14rpx rgba(0, 0, 0, 0.12));
-  animation: breathe 2.6s ease-in-out infinite;
+.pet-stage { position: relative; display: inline-block; padding: 4rpx 60rpx 0; }
+/* 全身动画形象：GIF 自带呼吸/摇尾/眨眼，CSS 只做整体悬浮 */
+.pet-img {
+  width: 320rpx;
+  height: 320rpx;
+  animation: float 2.8s ease-in-out infinite;
 }
-@keyframes breathe {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-12rpx) scale(1.05); }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12rpx); }
 }
 .pet-bounce { animation: bounceOnce 0.5s ease !important; }
 @keyframes bounceOnce {
@@ -122,17 +127,6 @@
   35% { transform: scale(1.12) rotate(-5deg); }
   70% { transform: scale(0.96) rotate(4deg); }
   100% { transform: scale(1); }
-}
-.pet-crown {
-  position: absolute;
-  top: -8rpx;
-  right: 52rpx;
-  font-size: 52rpx;
-  animation: crownFloat 2s ease-in-out infinite;
-}
-@keyframes crownFloat {
-  0%, 100% { transform: translateY(0) rotate(-8deg); }
-  50% { transform: translateY(-8rpx) rotate(8deg); }
 }
 .tap-bubble {
   position: absolute;

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { getSubject, levelKey } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { useGame, coinForLevel } from '@/lib/game'
-import { petExpForLevelStars, PET_EXP } from '@/lib/pet'
+import { petExpForLevelStars, PET_EXP, petLevelOf, petStageIndexOf } from '@/lib/pet'
 import { sfx } from '@/lib/sound'
 import type { QuizResult, QuizMode } from './quiz-view'
 
@@ -157,7 +157,10 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
             )}
             {pet && petGain > 0 && (
               <div className="flex justify-between text-sky-600">
-                <span>🐾 {pet.name}获得经验</span>
+                <span className="flex items-center gap-1.5">
+                  <img src={`/pet/${pet.kind}-s${petStageIndexOf(petLevelOf(pet.exp))}.svg`} alt="" width={22} height={22} className="inline-block" draggable={false} />
+                  {pet.name}获得经验
+                </span>
                 <span className="tabular-nums">+{petGain}</span>
               </div>
             )}
@@ -200,8 +203,9 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
           </p>
         )}
         {pet && petGain > 0 && (
-          <p className="mt-3 rounded-xl bg-sky-50 px-3 py-2 text-xs font-bold text-sky-600">
-            🐾 {pet.name}也获得了 {petGain} 点成长经验！去「宠物」页看看它，说不定升级或解锁了新剧情哦～
+          <p className="mt-3 flex items-center gap-1.5 rounded-xl bg-sky-50 px-3 py-2 text-xs font-bold text-sky-600">
+            <img src={`/pet/${pet.kind}-s${petStageIndexOf(petLevelOf(pet.exp))}.svg`} alt="" width={26} height={26} className="shrink-0" draggable={false} />
+            <span>{pet.name}也获得了 {petGain} 点成长经验！去「宠物」页看看它，说不定升级或解锁了新剧情哦～</span>
           </p>
         )}
       </motion.div>

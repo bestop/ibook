@@ -67,6 +67,19 @@ function petEmoji(kind, level) {
   return kind === 'dog' ? stage.dogEmoji : stage.catEmoji
 }
 
+// 全身动画形象（GIF）：阶段序号 1-4 → /images/pet/{kind}-s{n}.gif
+function petStageIndex(level) {
+  let idx = 1
+  PET_STAGES.forEach(function (s, i) {
+    if (level >= s.minLevel) idx = i + 1
+  })
+  return idx
+}
+
+function petImage(kind, level) {
+  return '/images/pet/' + kind + '-s' + petStageIndex(level) + '.gif'
+}
+
 function moodLabel(mood) {
   if (mood >= 85) return { text: '开心得转圈圈！', emoji: '💕' }
   if (mood >= 60) return { text: '心情不错，想出去探险～', emoji: '😊' }
@@ -279,6 +292,8 @@ module.exports = {
   petLevelProgress: petLevelProgress,
   petStageOf: petStageOf,
   petEmoji: petEmoji,
+  petStageIndex: petStageIndex,
+  petImage: petImage,
   moodLabel: moodLabel,
   storyUnlockLevel: storyUnlockLevel,
   petExpForLevelStars: petExpForLevelStars,

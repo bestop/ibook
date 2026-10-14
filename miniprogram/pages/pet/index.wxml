@@ -9,7 +9,7 @@
 
     <view class="adopt-cards">
       <view class="adopt-card {{kind === 'dog' ? 'adopt-card-active' : ''}}" bindtap="pickKind" data-kind="dog" hover-class="press">
-        <text class="adopt-emoji">🐶</text>
+        <image class="adopt-img" src="/images/pet/dog-s1.gif" mode="aspectFit"/>
         <view class="adopt-name">小狗</view>
         <view class="adopt-desc">忠诚勇敢 · 元气满满</view>
         <view class="adopt-traits">
@@ -20,7 +20,7 @@
         <view class="adopt-picked" wx:if="{{kind === 'dog'}}">✓ 就决定是它啦！</view>
       </view>
       <view class="adopt-card {{kind === 'cat' ? 'adopt-card-active' : ''}}" bindtap="pickKind" data-kind="cat" hover-class="press">
-        <text class="adopt-emoji">🐱</text>
+        <image class="adopt-img" src="/images/pet/cat-s1.gif" mode="aspectFit"/>
         <view class="adopt-name">小猫</view>
         <view class="adopt-desc">聪明优雅 · 魔法满满</view>
         <view class="adopt-traits">
@@ -35,7 +35,7 @@
     <view class="adopt-naming" wx:if="{{kind}}">
       <view class="naming-title">给它取个名字吧（最多 8 个字）</view>
       <view class="naming-row">
-        <text class="naming-emoji">{{kind === 'dog' ? '🐶' : '🐱'}}</text>
+        <image class="naming-img" src="/images/pet/{{kind}}-s1.gif" mode="aspectFit"/>
         <input class="naming-input" value="{{name}}" maxlength="8" placeholder="{{kind === 'dog' ? '比如：旺旺' : '比如：喵喵'}}" bindinput="onNameInput" />
       </view>
       <view class="naming-chips">
@@ -57,8 +57,7 @@
       <view class="mood-bubble">{{mood.emoji}} {{mood.text}}</view>
 
       <view class="pet-stage" bindtap="tapPet">
-        <view class="pet-emoji {{bouncing ? 'pet-bounce' : ''}}" style="animation-play-state: {{bouncing ? 'paused' : 'running'}}">{{emoji}}</view>
-        <view class="pet-crown" wx:if="{{isLegend}}">👑</view>
+        <image class="pet-img {{bouncing ? 'pet-bounce' : ''}}" style="animation-play-state: {{bouncing ? 'paused' : 'running'}}" src="{{img}}" mode="aspectFit"/>
         <view class="tap-bubble" wx:if="{{bubble}}">{{bubble}}</view>
       </view>
 

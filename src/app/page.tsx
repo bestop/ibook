@@ -23,8 +23,9 @@ import TextbookPicker from '@/components/game/textbook-picker'
 import { getSubject, buildLevelQuestions, buildDailyQuestions } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { ACHIEVEMENTS, useGame, totalStars } from '@/lib/game'
-import { petEmoji, petStageOf, PET_STAGES } from '@/lib/pet'
+import { petStageIndexOf, petStageOf, PET_STAGES } from '@/lib/pet'
 import type { PetEvent } from '@/lib/pet'
+import PetAvatar from '@/components/game/pet-avatar'
 import { PET_STORIES, STORY_BOOK_TITLE } from '@/lib/pet-stories'
 import { sfx, subscribeSound, getSoundSnapshot, loadSoundPref, setSoundEnabled } from '@/lib/sound'
 
@@ -399,9 +400,9 @@ export default function Home() {
             >
               {petEvent.type === 'levelup' ? (
                 <>
-                  <motion.p animate={{ scale: [1, 1.2, 1], rotate: [0, -6, 6, 0] }} transition={{ repeat: Infinity, duration: 1.6 }} className="text-6xl">
-                    {petEmoji(petEvent.petKind, petEvent.level)}
-                  </motion.p>
+                  <motion.div animate={{ scale: [1, 1.12, 1], rotate: [0, -5, 5, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="flex justify-center drop-shadow-[0_8px_12px_rgba(0,0,0,0.12)]">
+                    <PetAvatar kind={petEvent.petKind} stage={petStageIndexOf(petEvent.level)} size={112} />
+                  </motion.div>
                   <p className="mt-2 text-xs font-black tracking-widest text-sky-600">🐾 宠物升级</p>
                   <p className="mt-1 text-xl font-black text-gray-800">
                     {petEvent.petName} 升到 Lv.{petEvent.level}！

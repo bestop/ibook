@@ -12,9 +12,8 @@ Page({
     // 宠物主页
     hasPet: false,
     pet: null,
-    emoji: '',
+    img: '',
     stage: null,
-    isLegend: false,
     mood: { emoji: '', text: '' },
     expPct: 0,
     expHint: '',
@@ -68,9 +67,8 @@ Page({
     this.setData({
       hasPet: true,
       pet: p,
-      emoji: pet.petEmoji(p.kind, prog.level),
+      img: pet.petImage(p.kind, prog.level),
       stage: stage,
-      isLegend: prog.level >= pet.PET_STAGES[3].minLevel,
       mood: mood,
       expPct: Math.round(prog.pct * 100),
       expHint: fullLevel ? '满级传说！冒险之心仍在燃烧' : '距离 Lv.' + (prog.level + 1) + ' 还差 ' + (prog.need - prog.cur) + ' 经验',
