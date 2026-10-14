@@ -11,6 +11,7 @@ const PUBLISHER_OPTIONS = [
   { key: 'she', label: '沪教版' },
   { key: 'bs', label: '北师大版' },
   { key: 'sj', label: '苏教版' },
+  { key: 'wy', label: '外研版' },
 ]
 
 Page({

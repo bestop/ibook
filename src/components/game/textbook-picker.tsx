@@ -21,18 +21,19 @@ const GRADE_OPTIONS: { num: number; open: boolean }[] = [
   { num: 6, open: true },
 ]
 
-type PubOptionKey = 'all' | 'rj' | 'rj54' | 'she' | 'bs' | 'sj'
+type PubOptionKey = 'all' | 'rj' | 'rj54' | 'she' | 'bs' | 'sj' | 'wy'
 
-// 一～五年级：语文统编（人教社）；数学分沪教版、人教版、北师大版、苏教版四个版本
+// 一～五年级：语文统编（人教社）；数学分沪教版、人教版、北师大版、苏教版四个版本；英语另有外研版（一年级起点）
 const BASE_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
   { key: 'all', label: '全部版本' },
   { key: 'she', label: '上海教育出版社（沪教数学 + 沪教英语）' },
   { key: 'rj', label: '人民教育出版社（统编语文 + 人教数学 + PEP英语）' },
   { key: 'bs', label: '北京师范大学出版社（北师大版数学）' },
   { key: 'sj', label: '江苏凤凰教育出版社（苏教版数学）' },
+  { key: 'wy', label: '外语教学与研究出版社（外研版英语·一年级起点）' },
 ]
 
-// 六年级语文、数学、英语分六三制与五四学制两个版本：六三制＝统编语文+人教数学+PEP英语（人教社），五四学制＝沪教数学+沪教英语（沪教社），另含统编语文五四学制版、北师大版与苏教版数学
+// 六年级语文、数学、英语分六三制与五四学制两个版本：六三制＝统编语文+人教数学+PEP英语（人教社），五四学制＝沪教数学+沪教英语（沪教社），另含统编语文五四学制版、北师大版与苏教版数学、外研版英语
 const G6_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
   { key: 'all', label: '全部版本' },
   { key: 'rj', label: '六三制 · 人民教育出版社（语文 + 数学 + PEP英语）' },
@@ -40,6 +41,7 @@ const G6_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
   { key: 'she', label: '五四学制 · 沪教数学 + 英语（上海教育出版社）' },
   { key: 'bs', label: '北师大版 · 数学（北京师范大学出版社）' },
   { key: 'sj', label: '苏教版 · 数学（江苏凤凰教育出版社）' },
+  { key: 'wy', label: '外研版 · 英语（外语教学与研究出版社·一年级起点）' },
 ]
 
 const publisherOptionsFor = (gradeNum: number) => (gradeNum === 6 ? G6_PUBLISHER_OPTIONS : BASE_PUBLISHER_OPTIONS)

@@ -60,6 +60,22 @@ const SUBJECT_FOOTERS: Partial<Record<string, string>> = {
   english4rjb: '🐬 Class rules、Going shopping、On the farm……把 PEP 四下英语岛闯个遍吧！',
   english5rjb: '🐝 My day、My favourite season、Work quietly!……把 PEP 五下英语岛闯个遍吧！',
   english6rjb: '🎓 How tall are you?、Last weekend、小升初总复习……把 PEP 毕业岛闯个遍吧！',
+  english1wy: '🐼 Hello!、Sit down!、Happy birthday……把外研一上英语岛闯个遍吧！',
+  english2wy: '🐨 I like football、At 7, I get up、Happy New Year……把外研二上英语岛闯个遍吧！',
+  english3wy: '🦁 Making a cake、I can jump、Hong Kong……把外研三上英语岛闯个遍吧！',
+  english4wy: '🦒 I helped my mum、invented paper、the Great Wall……把外研四上英语岛闯个遍吧！',
+  english5wy: '🦘 Halloween、It is mine、tidy your toys……把外研五上英语岛闯个遍吧！',
+  english6wy: '🌍 The Great Wall、Collecting stamps、the UN building……把外研六上英语岛闯个遍吧！',
+}
+
+// 新增科目专属 tip（主题色复用语数主题时，每日任务提示文案按科目覆盖）
+const SUBJECT_TIPS: Partial<Record<string, string>> = {
+  english1wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english2wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english3wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english4wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english5wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
+  english6wy: '每天玩 20 分钟，闯关赢金币，快乐学英语！',
 }
 
 const UNIT_STYLES: Record<string, { card: string; badge: string; btn: string; locked: string }> = {
@@ -450,7 +466,7 @@ export default function MapView({ subject, onStartLevel, onStartDaily, onBackHom
         </div>
         <Progress value={(todaySeconds / DAILY_GOAL_SECONDS) * 100} className={`h-3.5 ${t.heroBar}`} />
         <p className={`mt-2 text-xs font-bold ${t.accent}`}>
-          {dailyDone.minutes ? '🎉 太厉害了！今日 20 分钟任务已完成！' : t.tip}
+          {dailyDone.minutes ? '🎉 太厉害了！今日 20 分钟任务已完成！' : SUBJECT_TIPS[subject] ?? t.tip}
         </p>
 
         {/* 每日任务列表 */}
