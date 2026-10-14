@@ -18,10 +18,14 @@ import ResultView from '@/components/game/result-view'
 import WrongBook from '@/components/game/wrong-book'
 import AchievementsView from '@/components/game/achievements-view'
 import RewardShop from '@/components/game/reward-shop'
+import PetView from '@/components/game/pet-view'
 import TextbookPicker from '@/components/game/textbook-picker'
 import { getSubject, buildLevelQuestions, buildDailyQuestions } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { ACHIEVEMENTS, useGame, totalStars } from '@/lib/game'
+import { petEmoji, petStageOf, PET_STAGES } from '@/lib/pet'
+import type { PetEvent } from '@/lib/pet'
+import { PET_STORIES, STORY_BOOK_TITLE } from '@/lib/pet-stories'
 import { sfx, subscribeSound, getSoundSnapshot, loadSoundPref, setSoundEnabled } from '@/lib/sound'
 
 const emptySubscribe = () => () => {}
@@ -37,6 +41,7 @@ function useHydrated(): boolean {
 type View =
   | { name: 'home' }
   | { name: 'map' }
+  | { name: 'pet' }
   | { name: 'quiz'; mode: QuizMode; title: string; emoji: string; items: QuizItem[]; levelId?: string }
   | { name: 'result'; mode: QuizMode; levelId?: string; result: QuizResult }
   | { name: 'wrongbook' }
@@ -58,6 +63,20 @@ export default function Home() {
   const signIn = useGame((s) => s.signIn)
   const markSeen = useGame((s) => s.markAchievementsSeen)
   const ensureToday = useGame((s) => s.ensureToday)
+  const petEvents = useGame((s) => s.petEvents)
+  const dismissPetEvent = useGame((s) => s.dismissPetEvent)
+  const pet = useGame((s) => s.pet)
+  const [petEvent, setPetEvent] = useState<PetEvent | null>(null)
+
+  // 宠物事件（升级/剧情解锁）逐条弹出：队列里有事件且当前无弹窗时取出第一条
+  useEffect(() => {
+    if (petEvents.length > 0 && !petEvent) setPetEvent(petEvents[0])
+  }, [petEvents, petEvent])
+
+  const closePetEvent = useCallback(() => {
+    setPetEvent(null)
+    dismissPetEvent()
+  }, [dismissPetEvent])
 
   useEffect(() => {
     loadSoundPref()
@@ -156,11 +175,12 @@ export default function Home() {
     )
   }
 
-  const showTabBar = view.name === 'home' || view.name === 'map' || view.name === 'wrongbook' || view.name === 'achievements' || view.name === 'rewards'
+  const showTabBar = view.name === 'home' || view.name === 'map' || view.name === 'pet' || view.name === 'wrongbook' || view.name === 'achievements' || view.name === 'rewards'
 
   const tabs = [
     { key: 'home', label: '科目', emoji: '🏠' },
     { key: 'map', label: '闯关地图', emoji: '🏰' },
+    { key: 'pet', label: '宠物', emoji: '🐾' },
     { key: 'rewards', label: '礼物', emoji: '🎁' },
     { key: 'wrongbook', label: '错题本', emoji: '📕' },
     { key: 'achievements', label: '成就墙', emoji: '🏆' },
@@ -230,6 +250,10 @@ export default function Home() {
                       <p>· 孩子用金币在「礼物屋」兑换亲子奖励（亲子阅读、看动画片 15 分钟、公园游乐场、假日出游等）<br />· 兑换后生成「兑换券」，请家长尽快兑现约定，并在券包里点「已兑现」<br />· 支持家长添加自定义奖励和价格，建议和孩子一起商定<br />· 各科目进度分开记录，金币、错题本、成就、礼物屋通用；左上角可切换年级/册别/出版社</p>
                     </div>
                     <div className="rounded-2xl bg-violet-50/60 p-3">
+                      <p className="font-black text-violet-700">🐾 虚拟宠物伙伴</p>
+                      <p>· 在「宠物」页领养小狗或小猫，为它取个名字，它是你在冒险岛上的专属伙伴<br />· 通关（按星级 +20/30/40）、每日挑战（+25）、复习错题、签到、玩满 20 分钟都会变成宠物经验<br />· 宠物有幼年期→少年期→成年期→传说期四种形态（15 级满级），升级时会进化<br />· 每只宠物都有 8 章专属冒险剧情（小狗线《旺旺冒险记》/小猫线《崤崤奇遇记》），升到对应等级自动解锁<br />· 用金币喂食可提升心情（每天最多 3 次，每次 20 金币）；心情只会影响表情，不会饿坏小伙伴</p>
+                    </div>
+                    <div className="rounded-2xl bg-violet-50/60 p-3">
                       <p className="font-black text-violet-700">💡 给家长的小建议</p>
                       <p>· 星级规则：全对 3 星，错 1 题 2 星，错 2 题 1 星——鼓励孩子冲 3 星<br />· 可以和孩子约定：金币/星星达到目标可获得小奖励<br />· 各科目进度分开记录，金币、错题本、成就、礼物屋是通用的<br />· 所有进度自动保存在本设备浏览器中，无需注册</p>
                     </div>
@@ -278,6 +302,7 @@ export default function Home() {
             {view.name === 'wrongbook' && <WrongBook onStartReview={startReview} onBack={() => setView({ name: 'home' })} />}
             {view.name === 'achievements' && <AchievementsView />}
             {view.name === 'rewards' && <RewardShop />}
+            {view.name === 'pet' && <PetView />}
           </motion.div>
         </AnimatePresence>
       </main>
@@ -288,7 +313,7 @@ export default function Home() {
           className="sticky bottom-0 z-40 border-t-2 border-amber-200/70 bg-white/95 backdrop-blur"
           style={{ paddingBottom: 'max(0.25rem, env(safe-area-inset-bottom))' }}
         >
-          <div className="mx-auto grid w-full max-w-2xl grid-cols-5">
+          <div className="mx-auto grid w-full max-w-2xl grid-cols-6">
             {tabs.map((tab) => {
               const active = view.name === tab.key
               return (
@@ -351,6 +376,76 @@ export default function Home() {
               >
                 太棒了！收下 🪙
               </Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* 宠物升级/剧情解锁弹窗 */}
+      <AnimatePresence>
+        {petEvent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4"
+            onClick={closePetEvent}
+          >
+            <motion.div
+              initial={{ scale: 0.5, y: 40 }}
+              animate={{ scale: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-xs rounded-3xl border-4 border-sky-300 bg-gradient-to-b from-sky-50 to-emerald-50 p-6 text-center shadow-2xl"
+            >
+              {petEvent.type === 'levelup' ? (
+                <>
+                  <motion.p animate={{ scale: [1, 1.2, 1], rotate: [0, -6, 6, 0] }} transition={{ repeat: Infinity, duration: 1.6 }} className="text-6xl">
+                    {petEmoji(petEvent.petKind, petEvent.level)}
+                  </motion.p>
+                  <p className="mt-2 text-xs font-black tracking-widest text-sky-600">🐾 宠物升级</p>
+                  <p className="mt-1 text-xl font-black text-gray-800">
+                    {petEvent.petName} 升到 Lv.{petEvent.level}！
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-gray-500">
+                    {PET_STAGES.some((st) => st.minLevel === petEvent.level)
+                      ? `进化为「${petStageOf(petEvent.level).name} · ${petStageOf(petEvent.level).title}」！`
+                      : '每天学习都能让它慢慢变强哦！'}
+                  </p>
+                  <Button
+                    onClick={closePetEvent}
+                    className="mt-4 w-full rounded-2xl bg-sky-500 py-3 font-black text-white shadow-[0_4px_0_0_rgba(14,165,233,0.5)] hover:bg-sky-600"
+                  >
+                    和 {petEvent.petName} 一起加油！
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {(() => {
+                    const ch = PET_STORIES[petEvent.petKind].find((c) => c.id === petEvent.chapterId)
+                    return (
+                      <>
+                        <motion.p animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="text-6xl">
+                          📖
+                        </motion.p>
+                        <p className="mt-2 text-xs font-black tracking-widest text-violet-600">✨ 解锁新剧情</p>
+                        <p className="mt-1 text-lg font-black text-gray-800">《{STORY_BOOK_TITLE[petEvent.petKind]}》第 {ch?.index ?? '?'} 章</p>
+                        <p className="mt-1 text-base font-black text-violet-500">{ch?.title ?? '神秘的新冒险'}</p>
+                        <p className="mt-1 text-sm font-bold text-gray-500">{pet?.name ?? '你的伙伴'}想给你讲这段冒险故事！</p>
+                        <Button
+                          onClick={() => {
+                            sfx.coin()
+                            closePetEvent()
+                            setView({ name: 'pet' })
+                          }}
+                          className="mt-4 w-full rounded-2xl bg-violet-500 py-3 font-black text-white shadow-[0_4px_0_0_rgba(139,92,246,0.5)] hover:bg-violet-600"
+                        >
+                          📖 去读故事
+                        </Button>
+                      </>
+                    )
+                  })()}
+                </>
+              )}
             </motion.div>
           </motion.div>
         )}

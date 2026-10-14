@@ -63,3 +63,4 @@ server.log
 /examples
 /Caddyfile
 /worklog.md
+package-lock.json

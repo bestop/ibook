@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { getSubject, levelKey } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { useGame, coinForLevel } from '@/lib/game'
+import { petExpForLevelStars, PET_EXP } from '@/lib/pet'
 import { sfx } from '@/lib/sound'
 import type { QuizResult, QuizMode } from './quiz-view'
 
@@ -21,10 +22,13 @@ interface ResultViewProps {
 export default function ResultView({ subject, mode, levelId, result, onRetry, onHome }: ResultViewProps) {
   const finishLevel = useGame((s) => s.finishLevel)
   const coins = useGame((s) => s.coins)
+  const pet = useGame((s) => s.pet)
+  const grantPetExp = useGame((s) => s.grantPetExp)
   const [stars, setStars] = useState(0)
   const [payout, setPayout] = useState(0)
   const [levelBonus, setLevelBonus] = useState(0)
   const [penalty, setPenalty] = useState(false)
+  const [petGain, setPetGain] = useState(0)
   const settledRef = useRef(false)
 
   const passed = result.finished
@@ -67,6 +71,16 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
     const st = useGame.getState()
     useGame.setState({ coins: st.coins + pay + bonus })
 
+    // 宠物经验：与金币同处结算，保证展示与发放一致（宠物事件队列负责升级/剧情弹窗）
+    let pg = 0
+    if (mode === 'level') pg = passed ? petExpForLevelStars(s) : PET_EXP.failComfort
+    else if (mode === 'daily') pg = passed ? PET_EXP.daily : PET_EXP.failComfort
+    else if (mode === 'review') pg = passed ? PET_EXP.review : 0
+    if (pg > 0) {
+      grantPetExp(pg)
+      setPetGain(pg)
+    }
+
     if (passed) {
       sfx.win()
       const delays = s > 0 ? [0, 300, 600].slice(0, s) : []
@@ -74,7 +88,7 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
     } else {
       sfx.lose()
     }
-  }, [finishLevel, mode, levelId, passed, result])
+  }, [finishLevel, mode, levelId, passed, result, grantPetExp])
 
   const title = passed
     ? mode === 'level'
@@ -141,6 +155,17 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
                 <span className="tabular-nums">−{result.coinsEarned - payout}</span>
               </div>
             )}
+            {pet && petGain > 0 && (
+              <div className="flex justify-between text-sky-600">
+                <span>🐾 {pet.name}获得经验</span>
+                <span className="tabular-nums">+{petGain}</span>
+              </div>
+            )}
+            {!pet && (
+              <div className="flex justify-between text-sky-600/60">
+                <span>🐾 领养宠物后，学习会变成它的成长经验</span>
+              </div>
+            )}
             <div className="mt-1 flex justify-between border-t border-amber-200 pt-2 text-base font-black text-amber-700">
               <span>本次共获得</span>
               <span className="tabular-nums">+{payout + levelBonus} 🪙</span>
@@ -172,6 +197,11 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
         {result.wrongIds.length > 0 && (
           <p className="mt-3 rounded-xl bg-rose-50 px-3 py-2 text-xs font-bold text-rose-500">
             📌 答错的题已经收进「错题本」了，去复习答对就能消灭它们！
+          </p>
+        )}
+        {pet && petGain > 0 && (
+          <p className="mt-3 rounded-xl bg-sky-50 px-3 py-2 text-xs font-bold text-sky-600">
+            🐾 {pet.name}也获得了 {petGain} 点成长经验！去「宠物」页看看它，说不定升级或解锁了新剧情哦～
           </p>
         )}
       </motion.div>

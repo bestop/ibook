@@ -4,6 +4,8 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { SUBJECTS } from '@/lib/questions'
 import type { SubjectId, PublisherKey } from '@/lib/questions'
+import { petLevelOf, MOOD_DECAY_PER_DAY, MOOD_MIN, MOOD_MAX, FEED_COST, FEED_MOOD, FEED_DAILY_LIMIT, PET_EXP, STORY_UNLOCK_LEVELS } from '@/lib/pet'
+import type { PetKind, PetState, PetEvent } from '@/lib/pet'
 
 // 教材选择（顶栏左上角选择器）：年级 + 上下册 + 出版社
 export interface TextbookChoice {
@@ -44,8 +46,16 @@ export interface GameState {
   // 礼物屋（亲子奖励）
   redeemLog: RedeemRecord[] // 兑换记录（最新在前）
   customRewards: RewardItem[] // 家长自定义奖励
+  // 虚拟宠物（学习任务驱动成长）
+  pet: PetState | null
+  petEvents: PetEvent[] // 升级/剧情解锁事件队列（全局弹窗消费）
   // actions
   setTextbook: (t: TextbookChoice) => void
+  adoptPet: (kind: PetKind, name: string) => void
+  grantPetExp: (amount: number) => void
+  feedPet: () => boolean
+  markStoryRead: (chapterId: string) => void
+  dismissPetEvent: () => void
   ensureToday: () => void
   signIn: () => void
   addTodaySeconds: (n: number) => void
@@ -159,6 +169,13 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'clear10', emoji: '🎯', name: '错题克星', desc: '复习消灭 10 道错题', check: (s) => s.clearedTotal >= 10, progress: (s) => ({ cur: s.clearedTotal, goal: 10 }) },
 ]
 
+// 两个 YYYY-MM-DD 之间的天数差（宠物跨天心情衰减用）
+function daysBetween(from: string, to: string): number {
+  const a = new Date(`${from}T00:00:00`)
+  const b = new Date(`${to}T00:00:00`)
+  return Math.round((b.getTime() - a.getTime()) / 86400000)
+}
+
 function todayStr(): string {
   const d = new Date()
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -212,8 +229,74 @@ export const useGame = create<GameState>()(
       clearedTotal: 0,
       redeemLog: [],
       customRewards: [],
+      pet: null,
+      petEvents: [],
 
       setTextbook: (t) => set({ textbook: t }),
+
+      adoptPet: (kind, name) => {
+        const clean = name.trim().slice(0, 8) || (kind === 'dog' ? '旺旺' : '喵喵')
+        set({
+          pet: {
+            kind,
+            name: clean,
+            exp: 0,
+            mood: 80,
+            lastActiveDate: todayStr(),
+            feedDate: todayStr(),
+            feedCount: 0,
+            adoptedAt: Date.now(),
+            storyRead: [],
+          },
+        })
+      },
+
+      grantPetExp: (amount) => {
+        get().ensureToday()
+        const s = get()
+        const pet = s.pet
+        if (!pet || amount <= 0) return
+        const prevLevel = petLevelOf(pet.exp)
+        const exp = pet.exp + amount
+        const level = petLevelOf(exp)
+        const events: PetEvent[] = []
+        if (level > prevLevel) {
+          events.push({ type: 'levelup', level, petName: pet.name, petKind: pet.kind })
+          // 升级跨过的剧情解锁等级 → 推送剧情解锁事件
+          STORY_UNLOCK_LEVELS.forEach((ul, i) => {
+            if (ul > prevLevel && ul <= level) {
+              events.push({ type: 'story', chapterId: `${pet.kind}-${i + 1}`, petKind: pet.kind, level: ul })
+            }
+          })
+        }
+        set({ pet: { ...pet, exp }, petEvents: [...s.petEvents, ...events] })
+      },
+
+      feedPet: () => {
+        get().ensureToday()
+        const s = get()
+        if (!s.pet) return false
+        if (s.pet.feedCount >= FEED_DAILY_LIMIT) return false
+        if (s.coins < FEED_COST) return false
+        set({
+          coins: s.coins - FEED_COST,
+          pet: {
+            ...s.pet,
+            mood: Math.min(MOOD_MAX, s.pet.mood + FEED_MOOD),
+            feedCount: s.pet.feedCount + 1,
+            feedDate: todayStr(),
+          },
+        })
+        return true
+      },
+
+      markStoryRead: (chapterId) => {
+        const s = get()
+        if (!s.pet || s.pet.storyRead.includes(chapterId)) return
+        set({ pet: { ...s.pet, storyRead: [...s.pet.storyRead, chapterId] } })
+      },
+
+      dismissPetEvent: () => set((s) => ({ petEvents: s.petEvents.slice(1) })),
 
       ensureToday: () => {
         const s = get()
@@ -221,13 +304,25 @@ export const useGame = create<GameState>()(
         if (s.todayDate === t) return
         // 跨天：重置今日任务与计时；若昨天未签到则断签
         const keepStreak = s.signInDates.includes(yesterdayStr()) ? s.streak : 0
-        set({
+        const patch: Partial<GameState> = {
           todayDate: t,
           todaySeconds: 0,
           todayReviewCorrect: 0,
           dailyDone: { level: false, minutes: false, review: false },
           streak: keepStreak,
-        })
+        }
+        // 宠物：跨天结算心情轻度衰减（保底不惩罚）与喂食计数重置
+        if (s.pet) {
+          const days = Math.max(1, daysBetween(s.pet.lastActiveDate, t))
+          patch.pet = {
+            ...s.pet,
+            mood: Math.max(MOOD_MIN, s.pet.mood - days * MOOD_DECAY_PER_DAY),
+            lastActiveDate: t,
+            feedCount: s.pet.feedDate === t ? s.pet.feedCount : 0,
+            feedDate: t,
+          }
+        }
+        set(patch)
       },
 
       signIn: () => {
@@ -243,6 +338,7 @@ export const useGame = create<GameState>()(
         }
         const extra = grantAchievements(signed)
         set({ ...signed, ...(extra || {}) })
+        get().grantPetExp(PET_EXP.signIn) // 签到宠物经验（统一走事件队列，升级可弹窗）
       },
 
       addTodaySeconds: (n) => {
@@ -257,6 +353,7 @@ export const useGame = create<GameState>()(
         const merged = { ...s, ...patch }
         const extra = grantAchievements(merged)
         set({ ...patch, ...(extra ? { achievements: extra.achievements, unseenAchievements: extra.unseenAchievements } : {}) })
+        if (patch.dailyDone?.minutes) get().grantPetExp(PET_EXP.dailyGoal) // 玩满 20 分钟宠物经验（统一走事件队列）
       },
 
       finishLevel: (levelId, stars) => {
@@ -317,6 +414,7 @@ export const useGame = create<GameState>()(
           clearedTotal,
           ...(extra ? { achievements: extra.achievements, unseenAchievements: extra.unseenAchievements } : {}),
         })
+        get().grantPetExp(PET_EXP.reviewCleared) // 消灭错题宠物经验（统一走事件队列）
       },
 
       grantCombo: (combo) => {
@@ -392,6 +490,8 @@ export const useGame = create<GameState>()(
           clearedTotal: 0,
           redeemLog: [],
           customRewards: [],
+          pet: null,
+          petEvents: [],
         }),
     }),
     { name: 'study-game-v3' } // v3：多科目架构，进度键为 `科目:关卡`；新增科目/礼物屋字段由默认值合并，无需迁移旧存档
