@@ -74,6 +74,15 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
     [wrongBook]
   )
 
+  // 薄弱考点 Top3：聚合错题 tag 频次（对标聪聪学堂掌握度闭环，数据真实来自错题本）
+  const weakTags = useMemo(() => {
+    const m = new Map<string, number>()
+    for (const { q } of wrongQuestions) {
+      if (q.tag) m.set(q.tag, (m.get(q.tag) || 0) + 1)
+    }
+    return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3)
+  }, [wrongQuestions])
+
   const startReview = () => {
     // 与小程序对齐：随机抽 10 题为一轮复习（错题不足 10 道则全部）
     const items: QuizItem[] = shuffle(wrongQuestions)
@@ -150,6 +159,25 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
           </Button>
         </div>
       </div>
+
+      {/* 薄弱考点 Top3 */}
+      {weakTags.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-4 rounded-2xl border-2 border-rose-200 bg-rose-50 px-4 py-3"
+        >
+          <p className="text-xs font-black text-rose-600">🎯 薄弱考点 · 优先消灭它们！</p>
+          <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {weakTags.map(([tag, n]) => (
+              <span key={tag} className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-rose-500 shadow-sm">
+                {tag} ×{n}
+              </span>
+            ))}
+          </div>
+          <p className="mt-1.5 text-[11px] font-bold text-rose-400">这些考点你答错的次数最多，复习时重点留意～</p>
+        </motion.div>
+      )}
 
       <div className="flex flex-col gap-3">
         {wrongQuestions.map(({ q, count }, i) => {

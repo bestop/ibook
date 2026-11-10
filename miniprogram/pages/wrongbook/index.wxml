@@ -13,6 +13,15 @@
   </view>
 
   <block wx:else>
+    <!-- 薄弱考点 Top3 -->
+    <view wx:if="{{weakTags.length}}" class="weak-card">
+      <view class="weak-title">🎯 薄弱考点 · 优先消灭它们！</view>
+      <view class="weak-chips">
+        <view class="weak-chip" wx:for="{{weakTags}}" wx:key="tag">{{item.tag}} ×{{item.count}}</view>
+      </view>
+      <view class="weak-sub">这些考点你答错的次数最多，复习时重点留意～</view>
+    </view>
+
     <button hover-class="none" class="btn-primary review-btn" bindtap="startReview">
       <view class="review-inner">
         <text class="review-main">开始复习</text>
@@ -25,6 +34,7 @@
       <view wx:for="{{items}}" wx:key="qid" class="card wrong-card">
         <view class="wrong-q">{{item.q}}</view>
         <view class="wrong-meta">
+          <text class="tag" wx:if="{{item.tag}}">{{item.tag}}</text>
           <text class="tag">{{item.subjectLabel}}</text>
           <text class="wrong-count">答错 {{item.count}} 次</text>
         </view>

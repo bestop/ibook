@@ -23,6 +23,9 @@ Page({
     answered: false,
     picked: -1,
     isCorrect: false,
+    // 本关考点锦囊（仅第 1 题上方展示，对标聪聪学堂课前知识讲解）
+    levelTagsText: '',
+    tipOpen: false,
     // 资源态
     lives: LIVES,
     combo: 0,
@@ -96,8 +99,20 @@ Page({
       this.setData({ loadError: this.mode === 'review' ? '太棒了，错题本已经空啦！' : '该关卡暂无题目' })
       return
     }
-    this.setData({ ready: true, total: this.items.length })
+    // 本关考点去重（真实来自题库 tag，不剧透具体题目）
+    const seen = []
+    for (let i = 0; i < this.items.length; i++) {
+      const t = this.items[i].question ? this.items[i].question.tag : this.items[i].tag
+      if (t && seen.indexOf(t) < 0) seen.push(t)
+      if (seen.length >= 4) break
+    }
+    this.setData({ ready: true, total: this.items.length, levelTagsText: seen.join(' · '), tipOpen: seen.length > 0 })
     this.showQuestion(0)
+  },
+
+  dismissTip() {
+    sfx.click()
+    this.setData({ tipOpen: false })
   },
 
   showQuestion(i) {

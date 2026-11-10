@@ -107,3 +107,24 @@
 .tabbar-space {
   height: 200rpx; /* 悬浮 Dock：胶囊高+bottom 16rpx+safe-area */
 }
+
+/* ---------- 薄弱考点 Top3（对标聪聪学堂掌握度闭环） ---------- */
+.weak-card {
+  background: #fff1f2;
+  border: 3rpx solid #fecdd3;
+  border-radius: 30rpx;
+  padding: 22rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+.weak-title { font-size: 24rpx; font-weight: 900; color: #e11d48; }
+.weak-chips { margin-top: 12rpx; display: flex; flex-wrap: wrap; gap: 12rpx; }
+.weak-chip {
+  background: #fff;
+  color: #f43f5e;
+  font-size: 21rpx;
+  font-weight: 800;
+  border-radius: 999rpx;
+  padding: 8rpx 22rpx;
+  box-shadow: 0 3rpx 8rpx rgba(244, 63, 94, 0.1);
+}
+.weak-sub { margin-top: 10rpx; font-size: 20rpx; font-weight: 700; color: #fb7185; }

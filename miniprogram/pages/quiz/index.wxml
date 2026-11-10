@@ -28,6 +28,15 @@
     </view>
     <view class="timer-num {{timePct <= 25 ? 'num-danger' : ''}}">⏰ {{timeLeft}}s</view>
 
+    <!-- 本关考点锦囊（仅第 1 题展示，可收起） -->
+    <view wx:if="{{tipOpen && index === 1 && levelTagsText}}" class="ktip">
+      <view class="ktip-row">
+        <view class="ktip-title">📚 本关考点：{{levelTagsText}}</view>
+        <view class="ktip-btn" hover-class="press" bindtap="dismissTip">知道了</view>
+      </view>
+      <view class="ktip-sub">先看一眼考点，答题时想想每道题属于哪一类！</view>
+    </view>
+
     <!-- 题目 + 选项：外层按题号重建节点，每题入场动效都会重放 -->
     <block wx:for="{{[index]}}" wx:key="*this">
       <view class="card question-card">

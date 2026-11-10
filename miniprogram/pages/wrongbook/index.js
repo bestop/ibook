@@ -4,8 +4,9 @@ const sfx = require('../../utils/sfx')
 
 Page({
   data: {
-    items: [], // { qid, q, count, subjectId }
+    items: [], // { qid, q, count, subjectId, tag }
     wrongCount: 0,
+    weakTags: [], // 薄弱考点 Top3：{ tag, count }（真实来自错题快照 tag 聚合）
   },
 
   onShow() {
@@ -32,10 +33,20 @@ Page({
           count: s.wrongBook[qid],
           subjectId: sid,
           subjectLabel: nameMap[sid] || sid,
+          tag: snap && snap.tag ? snap.tag : '',
         }
       })
       .sort(function (a, b) { return b.count - a.count })
-    this.setData({ items: items, wrongCount: items.length })
+    // 薄弱考点 Top3：聚合错题 tag 频次，指明优先消灭对象（对标聪聪学堂掌握度闭环）
+    const tagCount = {}
+    items.forEach(function (it) {
+      if (it.tag) tagCount[it.tag] = (tagCount[it.tag] || 0) + 1
+    })
+    const weakTags = Object.keys(tagCount)
+      .map(function (t) { return { tag: t, count: tagCount[t] } })
+      .sort(function (a, b) { return b.count - a.count })
+      .slice(0, 3)
+    this.setData({ items: items, wrongCount: items.length, weakTags: weakTags })
   },
 
   startReview() {

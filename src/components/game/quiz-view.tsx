@@ -1,12 +1,13 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { QUESTIONS_PER_LEVEL, TIME_PER_QUESTION, LIVES } from '@/lib/questions'
 import { useGame, coinForAnswer } from '@/lib/game'
 import { sfx } from '@/lib/sound'
+import { speak, stopSpeak, ttsSupported } from '@/lib/tts'
 import type { Question } from '@/lib/questions'
 
 export interface QuizItem {
@@ -53,6 +54,8 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION)
   const [shake, setShake] = useState(false)
   const [gainFloat, setGainFloat] = useState<string | null>(null)
+  const [canSpeak, setCanSpeak] = useState(false) // Web Speech API 可用性（挂载后探测，避免水合不一致）
+  const [tipOpen, setTipOpen] = useState(true)
 
   const answeredRef = useRef(false)
   const coinsRef = useRef(0)
@@ -63,11 +66,26 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const total = items.length
   const isLast = idx >= total - 1
 
+  // 本关考点去重（最多 4 个，真实来自题库 tag，不剧透具体题目）
+  const levelTags = useMemo(() => {
+    const seen: string[] = []
+    for (const it of items) {
+      if (it.question.tag && !seen.includes(it.question.tag)) seen.push(it.question.tag)
+    }
+    return seen.slice(0, 4)
+  }, [items])
+
   // 学习时长累计（每秒 +1，仅答题中）
   useEffect(() => {
     const timer = setInterval(() => addTodaySeconds(1), 1000)
     return () => clearInterval(timer)
   }, [addTodaySeconds])
+
+  // 语音可用性探测 + 离开页面时停止朗读
+  useEffect(() => {
+    setCanSpeak(ttsSupported())
+    return () => stopSpeak()
+  }, [])
 
   const finish = useCallback(
     (finished: boolean) => {
@@ -135,6 +153,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   }, [timeLeft, answer])
 
   const next = () => {
+    stopSpeak() // 切题时停止上一题的朗读
     if (lives <= 0) {
       finish(false)
       return
@@ -203,6 +222,29 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         </span>
       </div>
 
+      {/* 本关考点锦囊（仅第一题上方展示，可收起） */}
+      {idx === 0 && tipOpen && levelTags.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-2xl border-2 border-sky-200 bg-sky-50 px-4 py-2.5"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <p className="truncate text-xs font-black text-sky-700">📚 本关考点：{levelTags.join(' · ')}</p>
+            <button
+              onClick={() => {
+                sfx.click()
+                setTipOpen(false)
+              }}
+              className="shrink-0 rounded-full bg-sky-100 px-2.5 py-0.5 text-[11px] font-black text-sky-500 transition-transform active:scale-90"
+            >
+              知道了
+            </button>
+          </div>
+          <p className="mt-0.5 text-[11px] font-bold text-sky-400">先看一眼考点，答题时想想每道题属于哪一类！</p>
+        </motion.div>
+      )}
+
       {/* 连击 */}
       <AnimatePresence>
         {combo >= 3 && (
@@ -231,6 +273,18 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
           </span>
           {current.question.type === 'judge' && (
             <span className="rounded-lg bg-teal-100 px-2 py-0.5 text-xs font-bold text-teal-700">判断题</span>
+          )}
+          {canSpeak && (
+            <button
+              onClick={() => {
+                const opts = current.options.map((o, i) => (current.question.type === 'judge' ? o : `${LETTERS[i]}，${o}`)).join('；')
+                speak(`${current.question.q}。选项：${opts}`)
+              }}
+              aria-label="朗读题目和选项"
+              className="ml-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-100 text-base transition-transform active:scale-90"
+            >
+              🔊
+            </button>
           )}
         </div>
         <p className="text-lg font-bold leading-relaxed text-gray-800 sm:text-xl">{current.question.q}</p>
@@ -277,9 +331,20 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
                   isCorrect ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'
                 }`}
               >
-                <p className={`mb-1 font-black ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}`}>
-                  {isCorrect ? (combo >= 3 ? '🔥 太棒了，连击中！' : '✅ 答对啦！') : selected === null ? '⏰ 时间到！' : '💪 答错了，看解析记住它'}
-                </p>
+                <div className={`mb-1 flex items-start justify-between gap-2`}>
+                  <p className={`font-black ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    {isCorrect ? (combo >= 3 ? '🔥 太棒了，连击中！' : '✅ 答对啦！') : selected === null ? '⏰ 时间到！' : '💪 答错了，看解析记住它'}
+                  </p>
+                  {canSpeak && (
+                    <button
+                      onClick={() => speak(current.question.explain)}
+                      aria-label="朗读解析"
+                      className="shrink-0 rounded-full bg-white/70 px-2 py-0.5 text-xs transition-transform active:scale-90"
+                    >
+                      🔊 听解析
+                    </button>
+                  )}
+                </div>
                 <p className="text-sm leading-relaxed text-gray-600">{current.question.explain}</p>
               </div>
             </motion.div>
