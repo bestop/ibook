@@ -197,6 +197,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
   const streak = useGame((s) => s.streak)
   const todaySeconds = useGame((s) => s.todaySeconds)
   const dailyDone = useGame((s) => s.dailyDone)
+  const todayReviewCorrect = useGame((s) => s.todayReviewCorrect)
   const wrongBook = useGame((s) => s.wrongBook)
   const textbook = useGame((s) => s.textbook)
   const setTextbook = useGame((s) => s.setTextbook)
@@ -303,6 +304,24 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 ? '🎉 今日目标达成！明天继续来冒险～'
                 : `再学 ${DAILY_GOAL_SECONDS / 60 - minutes} 分钟，小帆船就到终点啦！`}
           </p>
+          {/* 今日任务行（借鉴聪聪学堂 DailyQuestsPanel：只读状态展示，完成自动发金币，与小程序同源） */}
+          <div className="mt-3 flex gap-2">
+            <span
+              className={`flex-1 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-black ${dailyDone.level ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}
+            >
+              🎮 闯关 1 局{dailyDone.level ? ' ✅' : ''}
+            </span>
+            <span
+              className={`flex-1 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-black ${dailyDone.minutes ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}
+            >
+              ⏰ 20 分钟{dailyDone.minutes ? ' ✅' : ''}
+            </span>
+            <span
+              className={`flex-1 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-black ${dailyDone.review ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}
+            >
+              📕 复习 {todayReviewCorrect}/5{dailyDone.review ? ' ✅' : ''}
+            </span>
+          </div>
         </motion.section>
 
         {/* 科目岛选择 */}

@@ -166,7 +166,7 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
             <span className="flex items-center gap-2">
               开始复习
               <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-black ring-1 ring-white/40">
-                随机 {Math.min(10, wrongQuestions.length)} 题
+                薄弱优先 {Math.min(10, wrongQuestions.length)} 题
               </span>
             </span>
           </Button>

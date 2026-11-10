@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ACHIEVEMENTS, useGame } from '@/lib/game'
+import { todayKey, weekSignDays } from '@/lib/week'
 
 export default function AchievementsView() {
   const achievements = useGame((s) => s.achievements)
@@ -11,11 +12,15 @@ export default function AchievementsView() {
   const coins = useGame((s) => s.coins)
   const levels = useGame((s) => s.levels)
   const clearedTotal = useGame((s) => s.clearedTotal)
+  const signInDates = useGame((s) => s.signInDates)
 
   const accuracy = totalCorrect + totalWrong > 0 ? Math.round((totalCorrect / (totalCorrect + totalWrong)) * 100) : 0
   // 只统计当前成就列表内的解锁数（旧存档里已下线的成就 ID 不计入）
   const unlockedCount = ACHIEVEMENTS.filter((a) => achievements.includes(a.id)).length
   const stats = { levels, coins, streak, totalCorrect, clearedTotal }
+  // 本周签到格（借鉴聪聪学堂 week.ts 本周报告：周一起始的日历周，与小程序同构）
+  const today = todayKey()
+  const weekDays = weekSignDays(signInDates, today)
 
   return (
     <div className="mx-auto w-full max-w-2xl px-3 pb-24 pt-4">
@@ -33,6 +38,21 @@ export default function AchievementsView() {
             <p className="text-xl">{s.emoji}</p>
             <p className="mt-0.5 text-base font-black tabular-nums">{s.value}</p>
             <p className="text-[11px] font-bold opacity-70">{s.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* 本周签到格（借鉴聪聪学堂 week.ts 本周报告：周一起始，与小程序同构） */}
+      <div className="mb-4 flex gap-1.5">
+        {weekDays.map((d) => (
+          <div
+            key={d.key}
+            className={`flex-1 rounded-xl border-2 py-2 text-center ${
+              d.signed ? 'border-emerald-200 bg-emerald-50' : 'border-gray-100 bg-gray-50'
+            } ${d.isToday ? 'ring-2 ring-amber-300' : ''}`}
+          >
+            <p className="text-[10px] font-black text-gray-400">周{d.label}</p>
+            <p className={`text-sm ${d.signed ? 'text-emerald-600' : 'text-gray-300'}`}>{d.signed ? '✅' : '·'}</p>
           </div>
         ))}
       </div>

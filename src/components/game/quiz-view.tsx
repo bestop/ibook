@@ -8,6 +8,7 @@ import { QUESTIONS_PER_LEVEL, TIME_PER_QUESTION, LIVES } from '@/lib/questions'
 import { useGame, coinForAnswer } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import { speak, stopSpeak, ttsSupported } from '@/lib/tts'
+import * as cheers from '@/lib/cheers'
 import type { Question } from '@/lib/questions'
 
 export interface QuizItem {
@@ -43,6 +44,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const removeWrong = useGame((s) => s.removeWrong)
   const grantCombo = useGame((s) => s.grantCombo)
   const addTodaySeconds = useGame((s) => s.addTodaySeconds)
+  const pet = useGame((s) => s.pet)
 
   const [idx, setIdx] = useState(0)
   const [lives, setLives] = useState(LIVES)
@@ -54,6 +56,10 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION)
   const [shake, setShake] = useState(false)
   const [gainFloat, setGainFloat] = useState<string | null>(null)
+  // 反馈标题（借鉴聪聪学堂 FeedbackPanel 随机鼓励语，答对夸奖/答错安慰轮换，与小程序同构）
+  const [feedbackTitle, setFeedbackTitle] = useState('')
+  // 宠物应援（借鉴聪聪学堂 Mascot reaction：答题后宠物随对错变化应援句）
+  const [petCheerText, setPetCheerText] = useState('')
   const [canSpeak, setCanSpeak] = useState(false) // Web Speech API 可用性（挂载后探测，避免水合不一致）
   const [tipOpen, setTipOpen] = useState(true)
   // 连击里程碑（借鉴聪聪学堂 ComboOverlay：3/5/10 连击居中大徽章，与小程序同构）
@@ -121,10 +127,11 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
       setSelected(choice)
       const correct = choice !== null && choice === current.answer
       recordAnswer(current.question.id, correct, mode === 'review')
+      // 本题后的连击数：提到外层作用域，反馈标题也需要（答对夸奖随连击档位变化）
+      const newCombo = combo + 1
 
       if (correct) {
         correctCount.current += 1
-        const newCombo = combo + 1
         setCombo(newCombo)
         setMaxCombo((m) => Math.max(m, newCombo))
         grantCombo(newCombo)
@@ -153,8 +160,11 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
       }
       if (choice === null) setTimedOut(true) // 超时：显示解析与“下一题”按钮
       setTimeout(() => setGainFloat(null), 1200)
+      // 随机反馈标题（答对夸奖/答错安慰/超时固定）+ 宠物应援（与小程序同构）
+      setFeedbackTitle(correct ? cheers.praise(newCombo) : choice === null ? '⏰ 时间到！' : cheers.comfort())
+      setPetCheerText(pet ? (correct ? cheers.petCheer(pet.name) : cheers.petComfort(pet.name)) : '')
     },
-    [combo, current, grantCombo, mode, recordAnswer, removeWrong]
+    [combo, current, grantCombo, mode, pet, recordAnswer, removeWrong]
   )
 
   // 倒计时（超时判定放在 setTimeout 异步回调中，避免级联渲染）
@@ -185,6 +195,8 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
     setSelected(null)
     setTimedOut(false)
     setTimeLeft(TIME_PER_QUESTION)
+    setFeedbackTitle('')
+    setPetCheerText('')
     setIdx((i) => i + 1)
     sfx.click()
   }
@@ -382,7 +394,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
               >
                 <div className={`mb-1 flex items-start justify-between gap-2`}>
                   <p className={`font-black ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}`}>
-                    {isCorrect ? (combo >= 3 ? '🔥 太棒了，连击中！' : '✅ 答对啦！') : selected === null ? '⏰ 时间到！' : '💪 答错了，看解析记住它'}
+                    {feedbackTitle || (isCorrect ? (combo >= 3 ? '🔥 太棒了，连击中！' : '✅ 答对啦！') : selected === null ? '⏰ 时间到！' : '💪 答错了，看解析记住它')}
                   </p>
                   {canSpeak && (
                     <button
@@ -395,6 +407,12 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
                   )}
                 </div>
                 <p className="text-sm leading-relaxed text-gray-600">{current.question.explain}</p>
+                {/* 宠物应援条：解析卡内轻量气泡（借鉴聪聪学堂 Mascot reaction，与小程序同构） */}
+                {petCheerText && (
+                  <div className="mt-2 rounded-xl bg-violet-50 px-3 py-2 text-sm font-bold text-violet-600">
+                    {cheers.petFace(pet?.kind)} {petCheerText}
+                  </div>
+                )}
               </div>
             </motion.div>
           )}
