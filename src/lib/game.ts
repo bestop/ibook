@@ -41,6 +41,9 @@ export interface GameState {
   streak: number // 连续签到天数
   todaySeconds: number
   todayDate: string
+  // 每日学习秒数历史（'YYYY-MM-DD' -> 秒）：本周报告柱状图数据源（借鉴聪聪学堂 WeeklyReportCard）
+  // 旧档无此字段由默认值合并，无需迁移；ensureToday 跨天时收口至最近 28 天
+  dayStats: Record<string, number>
   todayReviewCorrect: number // 今日复习答对数
   dailyDone: DailyDone
   totalCorrect: number
@@ -71,6 +74,9 @@ export interface GameState {
   markRedeemFulfilled: (recordId: string) => void
   addCustomReward: (r: { name: string; emoji: string; cost: number; desc?: string }) => void
   removeCustomReward: (id: string) => void
+  // 存档备份导入（借鉴聪聪学堂 BackupEnvelope：白名单键合并）
+  // data 来自 lib/backup.ts validateEnvelope 的消毒结果；返回实际合并的键名列表
+  applyBackup: (data: Record<string, unknown>) => string[]
   resetAll: () => void
 }
 
@@ -191,6 +197,19 @@ function yesterdayStr(): string {
 }
 
 export const DAILY_GOAL_SECONDS = 20 * 60 // 每天 20 分钟
+// 每日学习时长历史封顶（本周报告用，借鉴聪聪学堂 WeeklyReportCard；与小程序同构）
+const DAY_STATS_LIMIT = 28
+
+// 每日时长历史封顶：按日期键从新到旧保留最近 28 天（防长期运行无界增长）
+function pruneDayStats(stats: Record<string, number>): Record<string, number> {
+  const keys = Object.keys(stats).sort().reverse()
+  if (keys.length <= DAY_STATS_LIMIT) return stats
+  const capped: Record<string, number> = {}
+  keys.slice(0, DAY_STATS_LIMIT).forEach((k) => {
+    capped[k] = stats[k]
+  })
+  return capped
+}
 
 interface Rewards {
   level: number
@@ -228,6 +247,7 @@ export const useGame = create<GameState>()(
       todayDate: todayStr(),
       todayReviewCorrect: 0,
       dailyDone: { level: false, minutes: false, review: false },
+      dayStats: {},
       totalCorrect: 0,
       totalWrong: 0,
       clearedTotal: 0,
@@ -314,6 +334,7 @@ export const useGame = create<GameState>()(
           todayReviewCorrect: 0,
           dailyDone: { level: false, minutes: false, review: false },
           streak: keepStreak,
+          dayStats: pruneDayStats(s.dayStats && typeof s.dayStats === 'object' ? s.dayStats : {}),
         }
         // 宠物：跨天结算心情轻度衰减（保底不惩罚）与喂食计数重置
         if (s.pet) {
@@ -349,7 +370,11 @@ export const useGame = create<GameState>()(
         get().ensureToday()
         const s = get()
         const total = s.todaySeconds + n
-        const patch: Partial<GameState> = { todaySeconds: total }
+        // 每日时长历史（本周报告柱状图数据源；与 todaySeconds 同步覆盖写，幂等不重复计）
+        const patch: Partial<GameState> = {
+          todaySeconds: total,
+          dayStats: { ...(s.dayStats || {}), [s.todayDate]: total },
+        }
         if (total >= DAILY_GOAL_SECONDS && !s.dailyDone.minutes) {
           patch.dailyDone = { ...s.dailyDone, minutes: true }
           patch.coins = s.coins + TASK_REWARDS.minutes
@@ -483,6 +508,46 @@ export const useGame = create<GameState>()(
         set({ customRewards: s.customRewards.filter((r) => r.id !== id) })
       },
 
+      // 存档备份导入（借鉴聪聪学堂 backup.ts：白名单键合并，与小程序 applyBackup 同构）
+      // data 已由 lib/backup.ts validateEnvelope 逐字段消毒；这里只做「认识才合并」：
+      // 与当前状态同类型才覆盖（对象深拷贝），pet 允许显式置空，缺失键保留当前值（前向兼容）
+      applyBackup: (data) => {
+        const s = get()
+        const patch: Partial<GameState> = {}
+        const imported: string[] = []
+        Object.keys(data || {}).forEach((key) => {
+          if (!(key in s)) return
+          const v = data[key]
+          const cur = (s as unknown as Record<string, unknown>)[key]
+          if (v === null) {
+            if (key === 'pet') {
+              patch.pet = null
+              imported.push(key)
+            }
+            return
+          }
+          if (typeof v !== typeof cur) return
+          if (typeof v === 'number' && !Number.isFinite(v)) return
+          if (typeof v === 'object') {
+            ;(patch as Record<string, unknown>)[key] = JSON.parse(JSON.stringify(v))
+          } else {
+            ;(patch as Record<string, unknown>)[key] = v
+          }
+          imported.push(key)
+        })
+        if (imported.length === 0) return imported
+        // 导入后统一收口：签到列表/每日时长重新封顶；跨天字段由 ensureToday 校正
+        if (Array.isArray(patch.signInDates) && patch.signInDates.length > 400) {
+          patch.signInDates = patch.signInDates.slice(-400)
+        }
+        if (patch.dayStats && typeof patch.dayStats === 'object') {
+          patch.dayStats = pruneDayStats(patch.dayStats as Record<string, number>)
+        }
+        set(patch)
+        get().ensureToday()
+        return imported
+      },
+
       resetAll: () =>
         set({
           coins: 0,
@@ -496,6 +561,7 @@ export const useGame = create<GameState>()(
           todaySeconds: 0,
           todayReviewCorrect: 0,
           dailyDone: { level: false, minutes: false, review: false },
+          dayStats: {},
           totalCorrect: 0,
           totalWrong: 0,
           clearedTotal: 0,

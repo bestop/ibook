@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { QUESTIONS_PER_LEVEL, TIME_PER_QUESTION, LIVES } from '@/lib/questions'
 import { useGame, coinForAnswer } from '@/lib/game'
 import { sfx } from '@/lib/sound'
@@ -54,7 +55,10 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const [selected, setSelected] = useState<number | null>(null)
   const [timedOut, setTimedOut] = useState(false) // 超时也算已作答，避免卡死在本题
   const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION)
+  // 答错抖动（与小程序同构）
   const [shake, setShake] = useState(false)
+  // 退出二次确认（借鉴聪聪学堂「退出二次确认」）：已有作答进度时拦截直接退出，防手滑丢进度
+  const [confirmExit, setConfirmExit] = useState(false)
   const [gainFloat, setGainFloat] = useState<string | null>(null)
   // 反馈标题（借鉴聪聪学堂 FeedbackPanel 随机鼓励语，答对夸奖/答错安慰轮换，与小程序同构）
   const [feedbackTitle, setFeedbackTitle] = useState('')
@@ -153,7 +157,9 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
       } else {
         setCombo(0)
         wrongIds.current.push(current.question.id)
-        setLives((l) => l - 1)
+        // 复习模式不扣命（借鉴聪聪学堂「错题复习不扣爱心且奖励经验值」）：
+        // 复习是巩固不是惩罚，让孩子完整刷完复习题；普通关/每日挑战保持 3 命规则不变
+        if (mode !== 'review') setLives((l) => l - 1)
         setShake(true)
         setTimeout(() => setShake(false), 500)
         sfx.wrong()
@@ -183,7 +189,8 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
 
   const next = () => {
     stopSpeak() // 切题时停止上一题的朗读
-    if (lives <= 0) {
+    // 复习模式无生命限制，永远走完整卷（普通关/每日挑战仍按 3 命判定）
+    if (lives <= 0 && mode !== 'review') {
       finish(false)
       return
     }
@@ -219,22 +226,36 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-3 pb-28 pt-3 sm:gap-4 sm:pt-5">
       {/* 顶部 HUD */}
       <div className="flex items-center justify-between gap-2">
-        <Button variant="outline" size="sm" className="rounded-xl border-2 font-bold" onClick={onExit}>
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-xl border-2 font-bold"
+          onClick={() => {
+            // 已有作答进度 → 先二次确认（借鉴聪聪学堂）；尚未作答直接退出
+            if (idx > 0 || answeredRef.current) setConfirmExit(true)
+            else onExit()
+          }}
+        >
           ← 退出
         </Button>
         <div className="flex min-w-0 items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm">
           <span className="truncate text-xs font-bold text-gray-500">{emoji} {title}</span>
         </div>
         <div className="flex items-center gap-1">
-          {Array.from({ length: LIVES }).map((_, i) => (
-            <motion.span
-              key={i}
-              animate={i < lives ? { scale: [1, 1.15, 1] } : { scale: 1 }}
-              className={`text-xl transition-opacity ${i < lives ? '' : 'opacity-25 grayscale'}`}
-            >
-              ❤️
-            </motion.span>
-          ))}
+          {mode === 'review' ? (
+            // 复习模式不扣命：红心位改展示「答对即掌握」徽标（与小程序同构）
+            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-700">📚 答对即掌握</span>
+          ) : (
+            Array.from({ length: LIVES }).map((_, i) => (
+              <motion.span
+                key={i}
+                animate={i < lives ? { scale: [1, 1.15, 1] } : { scale: 1 }}
+                className={`text-xl transition-opacity ${i < lives ? '' : 'opacity-25 grayscale'}`}
+              >
+                ❤️
+              </motion.span>
+            ))
+          )}
         </div>
       </div>
 
@@ -450,16 +471,34 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
             <Button
               onClick={next}
               className={`min-w-[110px] rounded-2xl px-6 py-3 text-base font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] ${
-                lives <= 0
+                lives <= 0 && mode !== 'review'
                   ? 'bg-rose-500 hover:bg-rose-600'
                   : 'bg-orange-500 hover:bg-orange-600'
               }`}
             >
-              {lives <= 0 ? '查看结果 →' : isLast ? '完成 →' : '下一题 →'}
+              {lives <= 0 && mode !== 'review' ? '查看结果 →' : isLast ? '完成 →' : '下一题 →'}
             </Button>
           )}
         </div>
       </div>
+
+      {/* 退出二次确认（借鉴聪聪学堂「退出二次确认」，与小程序 enableAlertBeforeUnload 同语义） */}
+      <Dialog open={confirmExit} onOpenChange={setConfirmExit}>
+        <DialogContent className="max-w-sm rounded-3xl">
+          <DialogHeader>
+            <DialogTitle>退出闯关？</DialogTitle>
+            <DialogDescription>本局进度不会保存哦，确定要离开吗？</DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex-row gap-2">
+            <Button variant="outline" className="flex-1 rounded-2xl font-bold" onClick={() => setConfirmExit(false)}>
+              继续答题
+            </Button>
+            <Button variant="destructive" className="flex-1 rounded-2xl font-bold" onClick={onExit}>
+              退出
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

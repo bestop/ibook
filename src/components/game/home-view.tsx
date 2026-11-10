@@ -322,6 +322,12 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
               📕 复习 {todayReviewCorrect}/5{dailyDone.review ? ' ✅' : ''}
             </span>
           </div>
+          {/* 全部达成庆祝徽标（借鉴聪聪学堂每日达标庆祝，与小程序同构） */}
+          {dailyDone.level && dailyDone.minutes && dailyDone.review && (
+            <div className="mt-2 rounded-2xl bg-gradient-to-r from-amber-100 to-yellow-200 px-3 py-2 text-center text-xs font-black text-amber-700">
+              🎉 今日任务全部达成，太棒了！
+            </div>
+          )}
         </motion.section>
 
         {/* 科目岛选择 */}
