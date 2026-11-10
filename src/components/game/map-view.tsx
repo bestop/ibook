@@ -404,6 +404,10 @@ function UnitCard({ subject, unit, index, onStart }: { subject: SubjectId; unit:
         <p className={`mt-1 line-clamp-1 text-xs sm:text-sm ${unlocked ? 'text-gray-500' : 'text-gray-400'}`}>
           {unlocked ? unit.lessons.join(' · ') : `先通过「${prevTitle}」才能解锁`}
         </p>
+        {/* 单元主题简介（借鉴聪聪学堂知识讲解形式，与小程序同构） */}
+        {unlocked && unit.intro && (
+          <p className="mt-0.5 line-clamp-1 text-[11px] text-sky-600/80 sm:text-xs">{unit.intro}</p>
+        )}
         {progress?.completed && (
           <p className="mt-1 text-xs font-bold text-emerald-600">
             ✅ 已通关 · 已挑战 {progress.plays} 次{progress.stars < 3 ? ' · 再拿 3 星试试！' : ' · 满星神童！'}

@@ -32,6 +32,9 @@ export interface GameState {
   coins: number
   levels: Record<string, LevelProgress>
   wrongBook: Record<string, number> // questionId -> 错误次数
+  // 最近答错日期（questionId -> YYYY-MM-DD）：错题复习「越久未错越优先」排序用
+  // （借鉴聪聪学堂 SRS 间隔复习思想，与小程序同构；旧档无此字段由默认值合并，无需迁移）
+  wrongLastAt: Record<string, string>
   achievements: string[]
   unseenAchievements: string[] // 待展示的新成就
   signInDates: string[] // YYYY-MM-DD
@@ -216,6 +219,7 @@ export const useGame = create<GameState>()(
       coins: 0,
       levels: {},
       wrongBook: {},
+      wrongLastAt: {},
       achievements: [],
       unseenAchievements: [],
       signInDates: [],
@@ -382,11 +386,14 @@ export const useGame = create<GameState>()(
         get().ensureToday()
         const s = get()
         const wrongBook = { ...s.wrongBook }
+        const wrongLastAt = { ...(s.wrongLastAt || {}) }
         if (!correct) {
           wrongBook[qid] = (wrongBook[qid] || 0) + 1
+          wrongLastAt[qid] = todayStr()
         }
         const patch: Partial<GameState> = {
           wrongBook,
+          wrongLastAt,
           totalCorrect: s.totalCorrect + (correct ? 1 : 0),
           totalWrong: s.totalWrong + (correct ? 0 : 1),
         }
@@ -407,10 +414,13 @@ export const useGame = create<GameState>()(
         const wrongBook = { ...s.wrongBook }
         if (!(qid in wrongBook)) return
         delete wrongBook[qid]
+        const wrongLastAt = { ...(s.wrongLastAt || {}) }
+        delete wrongLastAt[qid]
         const clearedTotal = s.clearedTotal + 1
         const extra = grantAchievements({ ...s, wrongBook, clearedTotal })
         set({
           wrongBook,
+          wrongLastAt,
           clearedTotal,
           ...(extra ? { achievements: extra.achievements, unseenAchievements: extra.unseenAchievements } : {}),
         })
@@ -478,6 +488,7 @@ export const useGame = create<GameState>()(
           coins: 0,
           levels: {},
           wrongBook: {},
+          wrongLastAt: {},
           achievements: [],
           unseenAchievements: [],
           signInDates: [],

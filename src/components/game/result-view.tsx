@@ -106,6 +106,25 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
 
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-4 px-4 pb-28 pt-8">
+      {/* 通关撒花（借鉴聪聪学堂 ConfettiCanvas，纯 CSS 实现，与小程序同构）：通关 ≥2 星时播放 */}
+      {passed && stars >= 2 && (
+        <div className="pointer-events-none fixed inset-0 z-[80] overflow-hidden" aria-hidden>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <span
+              key={i}
+              className="confetti-bit absolute"
+              style={{
+                top: '-30px',
+                left: `${i * 8.3 + 2}%`,
+                fontSize: '22px',
+                animation: `confetti-web-fall-${i % 6} 2.6s ease-in ${(i % 4) * 0.28}s forwards`,
+              }}
+            >
+              {i % 3 === 0 ? '🎉' : i % 3 === 1 ? '✨' : '🎊'}
+            </span>
+          ))}
+        </div>
+      )}
       <motion.div
         initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

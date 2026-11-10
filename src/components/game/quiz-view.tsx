@@ -56,11 +56,24 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const [gainFloat, setGainFloat] = useState<string | null>(null)
   const [canSpeak, setCanSpeak] = useState(false) // Web Speech API 可用性（挂载后探测，避免水合不一致）
   const [tipOpen, setTipOpen] = useState(true)
+  // 连击里程碑（借鉴聪聪学堂 ComboOverlay：3/5/10 连击居中大徽章，与小程序同构）
+  const [comboMilestone, setComboMilestone] = useState<number | null>(null)
+  const comboMilestoneTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const answeredRef = useRef(false)
   const coinsRef = useRef(0)
   const correctCount = useRef(0)
   const wrongIds = useRef<string[]>([])
+
+  // 组件卸载时清理里程碑定时器（避免离页后 setState）
+  useEffect(() => {
+    return () => {
+      if (comboMilestoneTimer.current) {
+        clearTimeout(comboMilestoneTimer.current)
+        comboMilestoneTimer.current = null
+      }
+    }
+  }, [])
 
   const current = items[idx]
   const total = items.length
@@ -119,6 +132,12 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         coinsRef.current += gain
         setCoins(coinsRef.current)
         setGainFloat(`+${gain} 金币`)
+        if (newCombo === 3 || newCombo === 5 || newCombo === 10) {
+          // 连击里程碑：居中大徽章，弹入→上浮→淡出后自动清理（与小程序同构）
+          if (comboMilestoneTimer.current) clearTimeout(comboMilestoneTimer.current)
+          setComboMilestone(newCombo)
+          comboMilestoneTimer.current = setTimeout(() => setComboMilestone(null), 1400)
+        }
         if (newCombo >= 3) sfx.combo()
         else sfx.correct()
         if (mode === 'review') {
@@ -255,6 +274,36 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
             className="mx-auto rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-4 py-1 text-sm font-black text-white shadow-lg"
           >
             🔥 连击 ×{combo} · 每题额外 +5 金币！
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 连击里程碑：3/5/10 连击居中大徽章（借鉴聪聪学堂 ComboOverlay，与小程序同构） */}
+      <AnimatePresence>
+        {comboMilestone !== null && (
+          <motion.div
+            key={comboMilestone}
+            initial={{ scale: 0.2, rotate: -15, opacity: 0, y: 0 }}
+            animate={{
+              scale: [0.2, 1.25, 1, 1],
+              rotate: [-15, 5, 0, 0],
+              opacity: [0, 1, 1, 0],
+              y: [0, 0, 0, -50],
+            }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.4, times: [0, 0.25, 0.5, 1] }}
+            className="pointer-events-none fixed inset-0 z-[90] flex items-center justify-center"
+          >
+            <div
+              className="rounded-3xl px-7 py-4 text-3xl font-extrabold text-white sm:text-4xl"
+              style={{
+                background: 'linear-gradient(135deg, #FFC800 0%, #FF9600 50%, #FF4B4B 100%)',
+                boxShadow: '0 8px 0 0 rgba(180,90,0,0.4), 0 20px 40px rgba(255,150,0,0.4)',
+                textShadow: '0 2px 0 rgba(0,0,0,0.2)',
+              }}
+            >
+              🔥 连击 ×{comboMilestone}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

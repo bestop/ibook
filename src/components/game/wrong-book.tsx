@@ -68,11 +68,23 @@ const SUBJECT_BADGE = {
 
 export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
   const wrongBook = useGame((s) => s.wrongBook)
+  const wrongLastAt = useGame((s) => s.wrongLastAt)
 
-  const wrongQuestions = useMemo(
-    () => ALL_QUESTIONS.filter((q) => q.id in wrongBook).map((q) => ({ q, count: wrongBook[q.id] })),
-    [wrongBook]
-  )
+  // 薄弱优先排序（借鉴聪聪学堂 SRS，与小程序同构）：
+  // 1) 越久没答错的题优先（lastWrongAt 旧者优先，遗忘风险最高；旧档无该字段视作最久未复习）
+  // 2) 同期按错误次数多者优先
+  const wrongQuestions = useMemo(() => {
+    const list = ALL_QUESTIONS.filter((q) => q.id in wrongBook).map((q) => ({
+      q,
+      count: wrongBook[q.id],
+      lastAt: (wrongLastAt || {})[q.id] || '',
+    }))
+    list.sort((a, b) => {
+      if (a.lastAt !== b.lastAt) return a.lastAt < b.lastAt ? -1 : 1
+      return b.count - a.count
+    })
+    return list
+  }, [wrongBook, wrongLastAt])
 
   // 薄弱考点 Top3：聚合错题 tag 频次（对标聪聪学堂掌握度闭环，数据真实来自错题本）
   const weakTags = useMemo(() => {
@@ -84,8 +96,9 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
   }, [wrongQuestions])
 
   const startReview = () => {
-    // 与小程序对齐：随机抽 10 题为一轮复习（错题不足 10 道则全部）
-    const items: QuizItem[] = shuffle(wrongQuestions)
+    // 与小程序对齐：按薄弱度优先抽 10 题为一轮复习（错题不足 10 道则全部）；
+    // wrongQuestions 已按 SRS 优先级排好，直接取前 10，不再随机洗牌
+    const items: QuizItem[] = wrongQuestions
       .slice(0, 10)
       .map(({ q }) => {
         if (q.type === 'judge') return { question: q, options: q.options, answer: q.answer }
