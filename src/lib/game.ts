@@ -32,9 +32,15 @@ export interface GameState {
   coins: number
   levels: Record<string, LevelProgress>
   wrongBook: Record<string, number> // questionId -> 错误次数
-  // 最近答错日期（questionId -> YYYY-MM-DD）：错题复习「越久未错越优先」排序用
+  // 最近答错日期（questionId -> YYYY-MM-DD）：SRS 到期组内「越久未错越优先」的次级排序键
   // （借鉴聪聪学堂 SRS 间隔复习思想，与小程序同构；旧档无此字段由默认值合并，无需迁移）
   wrongLastAt: Record<string, string>
+  // SRS 间隔调度（借鉴聪聪学堂 srs.ts Leitner 3 盒，与小程序快照内 box/nextReviewAt 同义异构）：
+  // wrongBox 盒位 1|2|3（答错回盒 1；非复习答对晋升：盒1→2 明天 / 盒2→3 3天后 / 盒3→3 7天后）；
+  // wrongNextAt 下次复习日（缺失/空 = 立即到期）；复习模式答对 → 消灭出库（既有「答对即消灭」语义）。
+  // 旧档无此两字段由默认值合并，无需迁移
+  wrongBox: Record<string, number>
+  wrongNextAt: Record<string, string>
   achievements: string[]
   unseenAchievements: string[] // 待展示的新成就
   signInDates: string[] // YYYY-MM-DD
@@ -185,9 +191,28 @@ function daysBetween(from: string, to: string): number {
   return Math.round((b.getTime() - a.getTime()) / 86400000)
 }
 
-function todayStr(): string {
+export function todayStr(): string {
   const d = new Date()
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+// 今天 + n 天的 YYYY-MM-DD（SRS 间隔调度落 nextReviewAt 用；setDate 自动进位跨月/跨年安全）
+function datePlusDays(n: number): string {
+  const d = new Date()
+  d.setDate(d.getDate() + n)
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+// SRS 有效盒位：非法/缺失一律回盒 1（旧档兼容口径，与小程序 quiz.srsBoxOf 同构）
+export function srsBoxOf(box: unknown): number {
+  return box === 2 || box === 3 ? box : 1
+}
+
+// 盒位晋升表：当前盒 → { 晋升后盒位, 间隔天数 }（与小程序 quiz.SRS_BOX_NEXT 同构）
+const SRS_BOX_NEXT: Record<number, { box: number; days: number }> = {
+  1: { box: 2, days: 1 },
+  2: { box: 3, days: 3 },
+  3: { box: 3, days: 7 },
 }
 
 function yesterdayStr(): string {
@@ -239,6 +264,8 @@ export const useGame = create<GameState>()(
       levels: {},
       wrongBook: {},
       wrongLastAt: {},
+      wrongBox: {},
+      wrongNextAt: {},
       achievements: [],
       unseenAchievements: [],
       signInDates: [],
@@ -412,13 +439,27 @@ export const useGame = create<GameState>()(
         const s = get()
         const wrongBook = { ...s.wrongBook }
         const wrongLastAt = { ...(s.wrongLastAt || {}) }
+        const wrongBox = { ...(s.wrongBox || {}) }
+        const wrongNextAt = { ...(s.wrongNextAt || {}) }
         if (!correct) {
           wrongBook[qid] = (wrongBook[qid] || 0) + 1
           wrongLastAt[qid] = todayStr()
+          // SRS 间隔调度：答错（任意模式）→ 回盒 1、今日到期（镜像参考 reviewSrsEntry 答错分支）
+          wrongBox[qid] = 1
+          wrongNextAt[qid] = todayStr()
+        } else if (!isReview && wrongBook[qid] !== undefined) {
+          // SRS 间隔调度：非复习模式答对错题本中的题 → 盒位晋升、复习推迟
+          // （在间隔里又答对了，说明记得住，集中复习往后缓一缓；再答错会回到盒 1）
+          // 复习模式答对走 removeWrong 消灭出库（既有「答对即消灭」语义），不在此晋升
+          const promote = SRS_BOX_NEXT[srsBoxOf(wrongBox[qid])] || SRS_BOX_NEXT[1]
+          wrongBox[qid] = promote.box
+          wrongNextAt[qid] = datePlusDays(promote.days)
         }
         const patch: Partial<GameState> = {
           wrongBook,
           wrongLastAt,
+          wrongBox,
+          wrongNextAt,
           totalCorrect: s.totalCorrect + (correct ? 1 : 0),
           totalWrong: s.totalWrong + (correct ? 0 : 1),
         }
@@ -441,11 +482,17 @@ export const useGame = create<GameState>()(
         delete wrongBook[qid]
         const wrongLastAt = { ...(s.wrongLastAt || {}) }
         delete wrongLastAt[qid]
+        const wrongBox = { ...(s.wrongBox || {}) }
+        delete wrongBox[qid]
+        const wrongNextAt = { ...(s.wrongNextAt || {}) }
+        delete wrongNextAt[qid]
         const clearedTotal = s.clearedTotal + 1
         const extra = grantAchievements({ ...s, wrongBook, clearedTotal })
         set({
           wrongBook,
           wrongLastAt,
+          wrongBox,
+          wrongNextAt,
           clearedTotal,
           ...(extra ? { achievements: extra.achievements, unseenAchievements: extra.unseenAchievements } : {}),
         })
@@ -554,6 +601,8 @@ export const useGame = create<GameState>()(
           levels: {},
           wrongBook: {},
           wrongLastAt: {},
+          wrongBox: {},
+          wrongNextAt: {},
           achievements: [],
           unseenAchievements: [],
           signInDates: [],

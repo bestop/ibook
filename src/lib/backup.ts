@@ -33,6 +33,8 @@ const EXPORT_KEYS = [
   'levels',
   'wrongBook',
   'wrongLastAt', // 网页端独有：错题最近答错日期（SRS 排序用）
+  'wrongBox', // 网页端独有：SRS 盒位 1|2|3（与小程序快照内 box 同义异构）
+  'wrongNextAt', // 网页端独有：SRS 下次复习日（与小程序快照内 nextReviewAt 同义异构）
   'achievements',
   'signInDates',
   'streak',
@@ -165,6 +167,28 @@ export function validateEnvelope(text: string): ValidateResult {
     })
     clean.wrongLastAt = map
   } else if (data.wrongLastAt !== undefined) errors.push('wrongLastAt 字段无效，已跳过')
+
+  // —— SRS 盒位（网页端独有）：qid -> 1|2|3（非 1..3 整数丢弃 → 回盒 1，与小程序快照消毒同构）
+  if (isPlainObject(data.wrongBox)) {
+    const wb = data.wrongBox
+    const map: Record<string, number> = {}
+    Object.keys(wb).forEach((k) => {
+      const n = clampInt(wb[k], 1, 3)
+      if (k && n !== null) map[k] = n
+    })
+    clean.wrongBox = map
+  } else if (data.wrongBox !== undefined) errors.push('wrongBox 字段无效，已跳过')
+
+  // —— SRS 下次复习日（网页端独有）：qid -> 'YYYY-MM-DD'（非日期格式丢弃 → 视作立即到期）
+  if (isPlainObject(data.wrongNextAt)) {
+    const wna = data.wrongNextAt
+    const map: Record<string, string> = {}
+    Object.keys(wna).forEach((k) => {
+      const v = wna[k]
+      if (k && typeof v === 'string' && DATE_RE.test(v)) map[k] = v
+    })
+    clean.wrongNextAt = map
+  } else if (data.wrongNextAt !== undefined) errors.push('wrongNextAt 字段无效，已跳过')
 
   // —— 签到日期（去重、按日期保留最新 N 条）
   if (Array.isArray(data.signInDates)) {

@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ALL_QUESTIONS, shuffle, subjectOfQuestion } from '@/lib/questions'
-import { useGame } from '@/lib/game'
+import { useGame, todayStr, srsBoxOf } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import type { QuizItem } from './quiz-view'
 
@@ -69,22 +69,35 @@ const SUBJECT_BADGE = {
 export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
   const wrongBook = useGame((s) => s.wrongBook)
   const wrongLastAt = useGame((s) => s.wrongLastAt)
+  const wrongBox = useGame((s) => s.wrongBox || {})
+  const wrongNextAt = useGame((s) => s.wrongNextAt || {})
+  const today = todayStr()
 
-  // 薄弱优先排序（借鉴聪聪学堂 SRS，与小程序同构）：
-  // 1) 越久没答错的题优先（lastWrongAt 旧者优先，遗忘风险最高；旧档无该字段视作最久未复习）
-  // 2) 同期按错误次数多者优先
+  // SRS 间隔调度排序（借鉴聪聪学堂 srs.ts Leitner 3 盒，与小程序 quiz.srsSortList 同构）：
+  // 1) 到期题优先（nextAt 缺失或 <= 今天）：盒低优先 → 越久未错优先 → 错次多者优先
+  // 2) 未到期补位：最近到期优先 → 盒低优先
+  // 旧档无 SRS 字段时视作「盒 1 + 立即到期」，排序退化与历史行为一致（向后兼容）
   const wrongQuestions = useMemo(() => {
     const list = ALL_QUESTIONS.filter((q) => q.id in wrongBook).map((q) => ({
       q,
       count: wrongBook[q.id],
       lastAt: (wrongLastAt || {})[q.id] || '',
+      box: srsBoxOf((wrongBox || {})[q.id]),
+      nextAt: (wrongNextAt || {})[q.id] || '',
     }))
-    list.sort((a, b) => {
+    const due = list.filter((it) => !it.nextAt || it.nextAt <= today)
+    const later = list.filter((it) => !!it.nextAt && it.nextAt > today)
+    due.sort((a, b) => {
+      if (a.box !== b.box) return a.box - b.box
       if (a.lastAt !== b.lastAt) return a.lastAt < b.lastAt ? -1 : 1
       return b.count - a.count
     })
-    return list
-  }, [wrongBook, wrongLastAt])
+    later.sort((a, b) => {
+      if (a.nextAt !== b.nextAt) return a.nextAt < b.nextAt ? -1 : 1
+      return a.box - b.box
+    })
+    return [...due, ...later]
+  }, [wrongBook, wrongLastAt, wrongBox, wrongNextAt, today])
 
   // 薄弱考点 Top3：聚合错题 tag 频次（对标聪聪学堂掌握度闭环，数据真实来自错题本）
   const weakTags = useMemo(() => {
@@ -96,8 +109,8 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
   }, [wrongQuestions])
 
   const startReview = () => {
-    // 与小程序对齐：按薄弱度优先抽 10 题为一轮复习（错题不足 10 道则全部）；
-    // wrongQuestions 已按 SRS 优先级排好，直接取前 10，不再随机洗牌
+    // 与小程序对齐：SRS 到期优先抽 10 题为一轮复习（错题不足 10 道则全部）；
+    // wrongQuestions 已按「到期优先→未到期补位」排好，直接取前 10，不再随机洗牌
     const items: QuizItem[] = wrongQuestions
       .slice(0, 10)
       .map(({ q }) => {
@@ -166,7 +179,7 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
             <span className="flex items-center gap-2">
               开始复习
               <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-black ring-1 ring-white/40">
-                薄弱优先 {Math.min(10, wrongQuestions.length)} 题
+                先练容易忘的 {Math.min(10, wrongQuestions.length)} 题
               </span>
             </span>
           </Button>
@@ -193,8 +206,9 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
       )}
 
       <div className="flex flex-col gap-3">
-        {wrongQuestions.map(({ q, count }, i) => {
+        {wrongQuestions.map(({ q, count, nextAt }, i) => {
           const subj = subjectOfQuestion(q.id)
+          const due = !nextAt || nextAt <= today
           return (
             <motion.div
               key={q.id}
@@ -211,6 +225,14 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
                 <span className="rounded-md bg-rose-100 px-1.5 py-0.5 text-[11px] font-black text-rose-600">
                   错了 {count} 次
                 </span>
+                {/* 间隔状态徽标（SRS 间隔调度，与复习组卷/小程序同规则） */}
+                {due ? (
+                  <span className="rounded-md bg-rose-100 px-1.5 py-0.5 text-[11px] font-black text-rose-600">🔁 今日该练</span>
+                ) : (
+                  <span className="rounded-md bg-indigo-100 px-1.5 py-0.5 text-[11px] font-black text-indigo-600">
+                    🌙 {nextAt.slice(5)} 该练
+                  </span>
+                )}
               </div>
               <p className="text-[15px] font-bold leading-relaxed text-gray-800">{q.q}</p>
               <p className="mt-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-bold text-emerald-700">
