@@ -80,9 +80,6 @@ export interface GameState {
   markRedeemFulfilled: (recordId: string) => void
   addCustomReward: (r: { name: string; emoji: string; cost: number; desc?: string }) => void
   removeCustomReward: (id: string) => void
-  // 存档备份导入（借鉴聪聪学堂 BackupEnvelope：白名单键合并）
-  // data 来自 lib/backup.ts validateEnvelope 的消毒结果；返回实际合并的键名列表
-  applyBackup: (data: Record<string, unknown>) => string[]
   resetAll: () => void
 }
 
@@ -553,46 +550,6 @@ export const useGame = create<GameState>()(
       removeCustomReward: (id) => {
         const s = get()
         set({ customRewards: s.customRewards.filter((r) => r.id !== id) })
-      },
-
-      // 存档备份导入（借鉴聪聪学堂 backup.ts：白名单键合并，与小程序 applyBackup 同构）
-      // data 已由 lib/backup.ts validateEnvelope 逐字段消毒；这里只做「认识才合并」：
-      // 与当前状态同类型才覆盖（对象深拷贝），pet 允许显式置空，缺失键保留当前值（前向兼容）
-      applyBackup: (data) => {
-        const s = get()
-        const patch: Partial<GameState> = {}
-        const imported: string[] = []
-        Object.keys(data || {}).forEach((key) => {
-          if (!(key in s)) return
-          const v = data[key]
-          const cur = (s as unknown as Record<string, unknown>)[key]
-          if (v === null) {
-            if (key === 'pet') {
-              patch.pet = null
-              imported.push(key)
-            }
-            return
-          }
-          if (typeof v !== typeof cur) return
-          if (typeof v === 'number' && !Number.isFinite(v)) return
-          if (typeof v === 'object') {
-            ;(patch as Record<string, unknown>)[key] = JSON.parse(JSON.stringify(v))
-          } else {
-            ;(patch as Record<string, unknown>)[key] = v
-          }
-          imported.push(key)
-        })
-        if (imported.length === 0) return imported
-        // 导入后统一收口：签到列表/每日时长重新封顶；跨天字段由 ensureToday 校正
-        if (Array.isArray(patch.signInDates) && patch.signInDates.length > 400) {
-          patch.signInDates = patch.signInDates.slice(-400)
-        }
-        if (patch.dayStats && typeof patch.dayStats === 'object') {
-          patch.dayStats = pruneDayStats(patch.dayStats as Record<string, number>)
-        }
-        set(patch)
-        get().ensureToday()
-        return imported
       },
 
       resetAll: () =>
