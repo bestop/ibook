@@ -32,21 +32,25 @@ model Post {
 }
 
 // ── 统一账号与云端存档（小程序 + 网页端共用一套账号）──────────────────
-// 账号以 uid 为键，两种来源：
+// 账号以 uid 为键，三种来源：
 //   1) 小程序微信登录：openid 经 salt 哈希为 `w1_<40位hex>`（openid 明文不出服务端）；
-//   2) 小程序本机降级身份：客户端生成的 `gid-...`（同设备恒定）。
-// 网页端不独立注册：在小程序「我的 → 云端同步」生成一次性绑定码，
-// 网页端输入后 claim 到同一 uid —— 两端同一账号、同一份云端进度。
+//   2) 小程序本机降级身份：客户端生成的 `gid-...`（同设备恒定）；
+//   3) 网页端注册：服务端生成 `wu_<40位hex>`（用户名+密码，见 Player.username）。
+// 网页端登录方式（二选一）：
+//   a) 用户名+密码：小程序「云端同步」卡设置，或网页端直接注册（/api/account/weblogin|register）；
+//   b) 绑定码（兼容保留）：小程序生成一次性码，网页端 claim 到同一 uid。
 model Player {
-  uid       String      @id
-  nickname  String? // 昵称（跨端同步的展示资料）
-  avatar    String? // 仅网页端使用的 emoji 头像；小程序头像为本机文件路径，不上传
-  source    String      @default("local") // wechat | local
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  tokens    AuthToken[]
-  pairs     PairCode[]
-  save      CloudSave?
+  uid          String   @id
+  nickname     String? // 昵称（跨端同步的展示资料）
+  avatar       String? // 仅网页端使用的 emoji 头像；小程序头像为本机文件路径，不上传
+  username     String?  @unique // 网页登录用户名（可选；小写归一存储，不设置则仅小程序使用）
+  passwordHash String? // 网页登录密码 scrypt 加盐哈希（s2$salt$key），明文永不落库/落端
+  source       String   @default("local") // wechat | local | web
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  tokens       AuthToken[]
+  pairs        PairCode[]
+  save         CloudSave?
 }
 
 // 登录令牌：登录/绑定成功后签发，客户端随身携带（Authorization: Bearer）。

@@ -12,12 +12,13 @@
 // 安全边界（家庭自用产品口径，详见小程序 README「云端同步与统一账号」）：
 //   - openid / session_key 明文不出服务端，uid 为哈希后标识；
 //   - 令牌不设过期，退出登录吊销；账号「先到先得」——已有活跃令牌的账号
-//     不能被无令牌请求重新开通（防陌生设备顶号），绑定码是唯一跨设备入口。
+//     不能被无令牌请求重新开通（防陌生设备顶号），绑定码与网页账号密码是跨设备入口。
 import { NextRequest } from 'next/server'
-import { createHash, randomBytes } from 'crypto'
+import { createHash, randomBytes, scryptSync, timingSafeEqual } from 'crypto'
+import { Prisma } from '@prisma/client'
 import { db } from '@/lib/db'
 
-const UID_RE = /^(w1_[0-9a-f]{40}|gid-[0-9a-z-]{4,48})$/
+const UID_RE = /^(w1_[0-9a-f]{40}|wu_[0-9a-f]{40}|gid-[0-9a-z-]{4,48})$/
 export const SAVE_MAX_BYTES = 768 * 1024 // canonical 存档上限（错题快照形态 ≈ 数百 KB 内）
 export const PAIR_TTL_MS = 10 * 60 * 1000 // 绑定码有效期 10 分钟
 
@@ -69,10 +70,17 @@ export async function ensurePlayer(uid: string, source: 'wechat' | 'local', patc
   await db.player.create({ data: { uid, source, nickname: patch?.nickname || null } })
 }
 
-// 对外资料视图（昵称跨端同步；avatar 为网页端 emoji，小程序不用）
-export async function publicProfile(uid: string): Promise<{ uid: string; nickname: string; avatarEmoji: string }> {
+// 对外资料视图（昵称跨端同步；avatar 为网页端 emoji，小程序不用；
+// username/hasWebLogin 供两端展示「网页登录账号」设置状态，密码哈希永不出服务端）
+export async function publicProfile(uid: string): Promise<{ uid: string; nickname: string; avatarEmoji: string; username: string; hasWebLogin: boolean }> {
   const p = await db.player.findUnique({ where: { uid } })
-  return { uid, nickname: (p && p.nickname) || '', avatarEmoji: (p && p.avatar) || '' }
+  return {
+    uid,
+    nickname: (p && p.nickname) || '',
+    avatarEmoji: (p && p.avatar) || '',
+    username: (p && p.username) || '',
+    hasWebLogin: !!(p && p.passwordHash),
+  }
 }
 
 // 账号是否已被占用（存在任一未吊销令牌）：无令牌的 session 请求不得顶号
@@ -105,6 +113,103 @@ export async function consumePairCode(code: string): Promise<string | null> {
   if (!row || row.usedAt || row.expiresAt.getTime() <= Date.now()) return null
   await db.pairCode.update({ where: { code }, data: { usedAt: new Date() } })
   return row.uid
+}
+
+// ---------- 网页登录账号（用户名 + 密码，可选） ----------
+
+// 用户名：2-24 位字母/数字/汉字/下划线/连字符（无空格与符号），
+// 小写归一后存储保证唯一性大小写不敏感（汉字 toLowerCase 不变）
+const USERNAME_RE = /^[\p{L}\p{N}_-]+$/u
+export function normalizeUsername(u: unknown): string | null {
+  if (typeof u !== 'string') return null
+  const s = u.trim().toLowerCase()
+  if (s.length < 2 || s.length > 24) return null
+  if (!USERNAME_RE.test(s)) return null
+  return s
+}
+
+// 密码：6-32 位（原样参与哈希，不做归一；太短易被猜、太长无意义）
+export function passwordOk(p: unknown): string | null {
+  if (typeof p !== 'string') return null
+  if (p.length < 6 || p.length > 32) return null
+  return p
+}
+
+// scrypt 加盐哈希（Node 内置，无外部依赖）：格式 s2$<salt 16B hex>$<key 32B hex>
+const SCRYPT_KEYLEN = 32
+export function hashPassword(pw: string): string {
+  const salt = randomBytes(16)
+  const key = scryptSync(pw, salt, SCRYPT_KEYLEN)
+  return 's2$' + salt.toString('hex') + '$' + key.toString('hex')
+}
+
+export function verifyPassword(pw: string, stored: string): boolean {
+  try {
+    const parts = stored.split('$')
+    if (parts.length !== 3 || parts[0] !== 's2') return false
+    const salt = Buffer.from(parts[1], 'hex')
+    const key = Buffer.from(parts[2], 'hex')
+    if (salt.length !== 16 || key.length !== SCRYPT_KEYLEN) return false
+    return timingSafeEqual(scryptSync(pw, salt, SCRYPT_KEYLEN), key)
+  } catch (e) {
+    return false
+  }
+}
+
+// 登录失败限速（单实例内存口径，家庭自用产品）：同用户名 5 次失败锁 60s，成功即清零
+const loginFails = new Map<string, { n: number; until: number }>()
+function loginLocked(username: string): boolean {
+  const e = loginFails.get(username)
+  return !!e && e.until > Date.now()
+}
+function noteLoginFail(username: string) {
+  const e = loginFails.get(username) || { n: 0, until: 0 }
+  e.n += 1
+  if (e.n >= 5) {
+    e.until = Date.now() + 60 * 1000
+    e.n = 0
+  }
+  loginFails.set(username, e)
+}
+function noteLoginOk(username: string) {
+  loginFails.delete(username)
+}
+
+// 设置/更新网页登录账号：username 全局唯一（冲突返回 taken），密码覆盖旧值
+export async function setWebCredentials(uid: string, username: string, password: string): Promise<'ok' | 'taken'> {
+  try {
+    await db.player.update({ where: { uid }, data: { username, passwordHash: hashPassword(password) } })
+    return 'ok'
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') return 'taken'
+    throw e
+  }
+}
+
+// 用户名密码登录：成功返回 uid；用户不存在/未设密码/密码错误/被限速一律 'bad'（不区分原因，防枚举）
+export async function webLogin(username: string, password: string): Promise<{ uid: string } | 'bad'> {
+  if (loginLocked(username)) return 'bad'
+  const p = await db.player.findUnique({ where: { username } })
+  if (!p || !p.passwordHash || !verifyPassword(password, p.passwordHash)) {
+    noteLoginFail(username)
+    return 'bad'
+  }
+  noteLoginOk(username)
+  return { uid: p.uid }
+}
+
+// 网页端注册新账号：wu_ 前缀 uid，昵称默认取用户名；用户名冲突返回 'taken'
+export async function webRegister(username: string, password: string): Promise<{ uid: string } | 'taken'> {
+  const uid = 'wu_' + randomBytes(20).toString('hex')
+  try {
+    await db.player.create({
+      data: { uid, source: 'web', username, passwordHash: hashPassword(password), nickname: username },
+    })
+    return { uid }
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') return 'taken'
+    throw e
+  }
 }
 
 // ---------- 云端存档 ----------

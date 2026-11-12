@@ -2,9 +2,9 @@
 
 // 网页端云同步（统一账号）：与小程序端同一账号、同一份云端进度
 //
-// 账号统一方式：网页端不独立注册，凭小程序「我的 → 云端同步」生成的一次性
-// 绑定码（6 位，10 分钟有效）登录（/api/account/claim），绑定到同一 uid，
-// 之后两端共享同一份云端存档（last-write-wins，按服务端 savedAt 对齐）。
+// 账号统一方式：网页端用「用户名+密码」登录 —— 小程序「云端同步」卡设置的网页账号，
+// 或在网页端直接注册新账号（/api/account/weblogin|register）；绑定码登录（/api/account/claim）
+// 兼容保留。登录后两端共享同一份云端存档（last-write-wins，按服务端 savedAt 对齐）。
 //
 // 存档格式（canonical v1，两端通用，见小程序 README）：state 采用「小程序原生
 // 形态」为超集 —— wrongSnaps 内嵌题目快照（复习离线可用）；网页端上传时从
@@ -30,6 +30,8 @@ export interface CloudProfile {
   uid: string
   nickname: string
   avatarEmoji: string
+  username: string // 网页登录用户名（未设置时为空）
+  hasWebLogin: boolean // 是否已设置网页登录账号（密码哈希在服务端，本端只存状态位）
 }
 
 interface CloudSavePayload {
@@ -75,7 +77,13 @@ export function cloudProfile(): CloudProfile | null {
     if (!raw) return null
     const p = JSON.parse(raw) as CloudProfile
     if (!p || typeof p.uid !== 'string' || !p.uid) return null
-    return { uid: p.uid, nickname: typeof p.nickname === 'string' ? p.nickname : '', avatarEmoji: typeof p.avatarEmoji === 'string' ? p.avatarEmoji : '' }
+    return {
+      uid: p.uid,
+      nickname: typeof p.nickname === 'string' ? p.nickname : '',
+      avatarEmoji: typeof p.avatarEmoji === 'string' ? p.avatarEmoji : '',
+      username: typeof p.username === 'string' ? p.username : '',
+      hasWebLogin: p.hasWebLogin === true,
+    }
   } catch (e) {
     return null
   }
@@ -151,9 +159,51 @@ export async function claimByCode(code: string): Promise<CloudProfile> {
   const d = res.data as { uid?: string; token?: string; profile?: CloudProfile }
   if (!d.uid || !d.token) throw new Error('code_invalid')
   setToken(d.token)
-  const profile: CloudProfile = { uid: d.uid, nickname: d.profile?.nickname || '', avatarEmoji: d.profile?.avatarEmoji || '' }
+  const profile: CloudProfile = {
+    uid: d.uid,
+    nickname: d.profile?.nickname || '',
+    avatarEmoji: d.profile?.avatarEmoji || '',
+    username: d.profile?.username || '',
+    hasWebLogin: d.profile?.hasWebLogin === true,
+  }
   setProfile(profile)
   return profile
+}
+
+// 网页账号登录/注册（用户名+密码）：成功后缓存令牌与资料（对齐由调用方 alignCloud 完成）
+// 错误语义：'bad_credentials'=用户名或密码错误；'username_taken'=用户名被占用；其余=网络/服务异常
+async function webAuth(path: string, body: { username: string; password: string }): Promise<CloudProfile> {
+  let res: { ok: boolean; status: number; data: unknown }
+  try {
+    res = await apiFetch(path, { method: 'POST', body: JSON.stringify(body) })
+  } catch (e) {
+    throw new Error('network')
+  }
+  if (res.status === 401) throw new Error('bad_credentials')
+  if (res.status === 409) throw new Error('username_taken')
+  if (!res.ok || !res.data || typeof res.data !== 'object') throw new Error('failed')
+  const d = res.data as { uid?: string; token?: string; profile?: CloudProfile }
+  if (!d.uid || !d.token) throw new Error('failed')
+  setToken(d.token)
+  const profile: CloudProfile = {
+    uid: d.uid,
+    nickname: d.profile?.nickname || '',
+    avatarEmoji: d.profile?.avatarEmoji || '',
+    username: d.profile?.username || '',
+    hasWebLogin: d.profile?.hasWebLogin === true,
+  }
+  setProfile(profile)
+  return profile
+}
+
+// 用户名密码登录（小程序端设置的网页账号 / 网页端注册的账号，同一账号体系）
+export function webLogin(username: string, password: string): Promise<CloudProfile> {
+  return webAuth('/api/account/weblogin', { username, password })
+}
+
+// 网页端注册新账号（注册即登录，云端同步同步开通）
+export function webRegister(username: string, password: string): Promise<CloudProfile> {
+  return webAuth('/api/account/register', { username, password })
 }
 
 // 更新跨端资料（昵称同步到云端，小程序下次 claim/会话可见）
@@ -162,7 +212,13 @@ export async function saveCloudProfile(patch: { nickname?: string; avatarEmoji?:
   if (!res.ok || !res.data || typeof res.data !== 'object') throw new Error('profile_failed')
   const d = res.data as { profile?: CloudProfile }
   if (!d.profile) throw new Error('profile_failed')
-  const profile: CloudProfile = { uid: d.profile.uid, nickname: d.profile.nickname || '', avatarEmoji: d.profile.avatarEmoji || '' }
+  const profile: CloudProfile = {
+    uid: d.profile.uid,
+    nickname: d.profile.nickname || '',
+    avatarEmoji: d.profile.avatarEmoji || '',
+    username: d.profile.username || '',
+    hasWebLogin: d.profile.hasWebLogin === true,
+  }
   setProfile(profile)
   return profile
 }

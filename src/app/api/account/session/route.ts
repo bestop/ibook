@@ -2,7 +2,7 @@
 // POST { uid, platform: 'mp', nickname? } → 200 { uid, token, profile }
 //
 // 防顶号：账号已存在且持有任一未吊销令牌时，无有效 Bearer 的请求一律 403
-// ——绑定码（/api/account/claim）是唯一合法的跨设备入口。
+// ——绑定码（/api/account/claim）与网页账号密码（/api/account/weblogin）是合法的跨设备入口。
 import { NextRequest, NextResponse } from 'next/server'
 import { accountOwned, auth, ensurePlayer, issueToken, publicProfile, uidOk } from '@/lib/cloud-server'
 import { db } from '@/lib/db'
