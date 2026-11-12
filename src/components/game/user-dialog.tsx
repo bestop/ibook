@@ -214,9 +214,11 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
       await afterAuth(p)
     } catch (e) {
       const msg = e instanceof Error ? e.message : ''
+      // 服务端 5xx（多半是数据库未建表/未配 DATABASE_URL）与网络异常分开提示，避免误导排查方向
+      const serverErr = msg === 'network' ? '网络异常，请检查连接后重试' : '服务暂时不可用，请确认服务器已完成部署初始化'
       toast({
-        title: msg === 'bad_credentials' ? '用户名或密码错误' : '登录失败，请检查网络后重试',
-        description: msg === 'bad_credentials' ? '账号在小程序「云端同步 → 网页登录账号」设置' : undefined,
+        title: msg === 'bad_credentials' ? '用户名或密码错误' : '登录失败，请稍后重试',
+        description: msg === 'bad_credentials' ? '账号在小程序「云端同步 → 网页登录账号」设置' : msg === 'bad_credentials' ? undefined : serverErr,
       })
     } finally {
       setBusy(false)
@@ -243,9 +245,11 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
       await afterAuth(p)
     } catch (e) {
       const msg = e instanceof Error ? e.message : ''
+      // 服务端 5xx（多半是数据库未建表/未配 DATABASE_URL）与网络异常分开提示，避免误导排查方向
+      const serverErr = msg === 'network' ? '网络异常，请检查连接后重试' : '服务暂时不可用，请确认服务器已完成部署初始化'
       toast({
-        title: msg === 'username_taken' ? '用户名已被占用，换一个试试' : '注册失败，请检查网络后重试',
-        description: msg === 'username_taken' ? '2-24 位字母、数字、汉字、下划线或连字符' : undefined,
+        title: msg === 'username_taken' ? '用户名已被占用，换一个试试' : '注册失败，请稍后重试',
+        description: msg === 'username_taken' ? '2-24 位字母、数字、汉字、下划线或连字符' : serverErr,
       })
     } finally {
       setBusy(false)
