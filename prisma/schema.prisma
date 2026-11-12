@@ -50,6 +50,7 @@ model Player {
   updatedAt    DateTime @updatedAt
   tokens       AuthToken[]
   pairs        PairCode[]
+  qrLogins     QrLogin[]
   save         CloudSave?
 }
 
@@ -76,6 +77,22 @@ model PairCode {
   createdAt DateTime  @default(now())
   expiresAt DateTime
   usedAt    DateTime?
+
+  @@index([uid])
+}
+
+// 微信扫码登录：网页端发起（5 分钟有效、一码一用）→ 网页展示小程序码 →
+// 用户微信扫码进入小程序确认页 → 确认后网页轮询本表换取网页令牌。
+// 状态机 pending（待扫码确认）→ confirmed（小程序已确认，待网页消费）→ used（网页已登录）；
+// 过期按时间判定（pending 且 expiresAt 已过即失效，懒清理）。
+model QrLogin {
+  token       String    @id
+  uid         String?
+  player      Player?   @relation(fields: [uid], references: [uid], onDelete: SetNull)
+  status      String    @default("pending")
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime
+  confirmedAt DateTime?
 
   @@index([uid])
 }

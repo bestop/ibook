@@ -206,6 +206,67 @@ export function webRegister(username: string, password: string): Promise<CloudPr
   return webAuth('/api/account/register', { username, password })
 }
 
+// ---------- 微信扫码登录（网页端发起，小程序端确认） ----------
+
+// 错误语义：'disabled'=服务端未启用（未配置微信凭据）；'network'=网络异常；其余=服务端错误原样透出
+export async function qrCreate(): Promise<{ token: string; qrUrl: string; expiresAt: string }> {
+  let res: Awaited<ReturnType<typeof apiFetch>>
+  try {
+    res = await apiFetch('/api/web/qr/create', { method: 'POST' })
+  } catch (e) {
+    throw new Error('network')
+  }
+  if (res.status === 503) throw new Error('disabled')
+  if (!res.ok || !res.data || typeof res.data !== 'object') throw new Error('failed')
+  const d = res.data as { token?: string; qrUrl?: string; expiresAt?: string }
+  if (!d.token || !d.qrUrl) throw new Error('failed')
+  return { token: d.token, qrUrl: d.qrUrl, expiresAt: d.expiresAt || '' }
+}
+
+// 拉取小程序码图片（服务端直出 PNG）：成功返回 objectURL（调用方负责 revokeObjectURL）
+export async function qrImage(qrUrl: string): Promise<string> {
+  let res: Response
+  try {
+    res = await fetch(qrUrl)
+  } catch (e) {
+    throw new Error('network')
+  }
+  if (res.status === 410) throw new Error('expired')
+  if (!res.ok) {
+    const data = (await res.json().catch(() => null)) as { error?: string } | null
+    throw new Error((data && data.error) || 'failed')
+  }
+  const blob = await res.blob()
+  return URL.createObjectURL(blob)
+}
+
+// 轮询扫码状态：'pending'（继续等）| 'confirmed'（已登录，令牌与资料已落本地）| 'expired'
+// 网络抖动不中断轮询（返回 pending，由调用方以连续失败次数/超时兜底）
+export async function qrPoll(token: string): Promise<'pending' | 'confirmed' | 'expired'> {
+  let res: Awaited<ReturnType<typeof apiFetch>>
+  try {
+    res = await apiFetch('/api/web/qr/status?token=' + encodeURIComponent(token))
+  } catch (e) {
+    return 'pending'
+  }
+  if (!res.ok || !res.data || typeof res.data !== 'object') return 'pending'
+  const d = res.data as { status?: string; uid?: string; token?: string; profile?: CloudProfile }
+  if (d.status === 'confirmed' && d.token && d.uid) {
+    setToken(d.token)
+    const profile: CloudProfile = {
+      uid: d.uid,
+      nickname: d.profile?.nickname || '',
+      avatarEmoji: d.profile?.avatarEmoji || '',
+      username: d.profile?.username || '',
+      hasWebLogin: d.profile?.hasWebLogin === true,
+    }
+    setProfile(profile)
+    return 'confirmed'
+  }
+  if (d.status === 'expired') return 'expired'
+  return 'pending'
+}
+
 // 更新跨端资料（昵称同步到云端，小程序下次 claim/会话可见）
 export async function saveCloudProfile(patch: { nickname?: string; avatarEmoji?: string }): Promise<CloudProfile> {
   const res = await apiFetch('/api/account/profile', { method: 'POST', body: JSON.stringify(patch) })

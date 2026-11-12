@@ -239,7 +239,7 @@ export default function Home() {
               >
                 {soundOn ? '🔊' : '🔇'}
               </button>
-              {/* 账号徽章：未登录提示绑定码登录；已登录展示 emoji 头像 + 昵称（与小程序同一账号） */}
+              {/* 账号徽章：未登录提示登录（微信扫码 / 账号密码）；已登录展示 emoji 头像 + 昵称（与小程序同一账号） */}
               <button
                 onClick={() => {
                   sfx.click()
