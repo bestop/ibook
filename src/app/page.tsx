@@ -28,6 +28,9 @@ import type { PetEvent } from '@/lib/pet'
 import PetAvatar from '@/components/game/pet-avatar'
 import { PET_STORIES, STORY_BOOK_TITLE } from '@/lib/pet-stories'
 import { sfx, subscribeSound, getSoundSnapshot, loadSoundPref, setSoundEnabled } from '@/lib/sound'
+import UserDialog from '@/components/game/user-dialog'
+import { alignCloud, cloudProfile, getCloudUISnapshot, startAutoSync, subscribeCloudUI } from '@/lib/cloud'
+import { toast } from '@/hooks/use-toast'
 
 const emptySubscribe = () => () => {}
 
@@ -84,6 +87,27 @@ export default function Home() {
     ensureToday()
     signIn()
   }, [ensureToday, signIn])
+
+  // 云端对齐 + 自动同步（登录态下生效；拉到更新的云端档后补一次今日签到，幂等）
+  useEffect(() => {
+    if (!hydrated) return
+    const stop = startAutoSync()
+    alignCloud().then((r) => {
+      if (r === 'pulled') {
+        ensureToday()
+        signIn()
+        toast({ title: '☁️ 已同步云端进度' })
+      } else if (r === 'pushed') {
+        toast({ title: '☁️ 本机进度已备份到云端' })
+      }
+    })
+    return stop
+  }, [hydrated, ensureToday, signIn])
+
+  // 用户徽章随登录态/同步时间变化重渲染（登录态数据在渲染时从 cloudProfile 读取）
+  useSyncExternalStore(subscribeCloudUI, getCloudUISnapshot, () => '')
+  const cloudUser = hydrated ? cloudProfile() : null
+  const [userOpen, setUserOpen] = useState(false)
 
   const stars = totalStars(levels)
   const wrongCount = Object.keys(wrongBook).length
@@ -215,6 +239,18 @@ export default function Home() {
               >
                 {soundOn ? '🔊' : '🔇'}
               </button>
+              {/* 账号徽章：未登录提示绑定码登录；已登录展示 emoji 头像 + 昵称（与小程序同一账号） */}
+              <button
+                onClick={() => {
+                  sfx.click()
+                  setUserOpen(true)
+                }}
+                aria-label="账号与云端同步"
+                title="账号与云端同步"
+                className="shrink-0 max-w-[8rem] truncate rounded-full bg-sky-100 px-2 py-1 text-xs font-black text-sky-700 transition-transform active:scale-90 sm:px-2.5"
+              >
+                {cloudUser ? `${cloudUser.avatarEmoji || '🙂'} ${cloudUser.nickname || '我的账号'}` : '🙂 登录'}
+              </button>
               <Dialog open={guideOpen} onOpenChange={setGuideOpen}>
                 <DialogTrigger asChild>
                   <button
@@ -344,6 +380,9 @@ export default function Home() {
           </div>
         </nav>
       )}
+
+      {/* 账号与云端同步对话框（绑定码登录 / 资料与同步状态） */}
+      <UserDialog open={userOpen} onOpenChange={setUserOpen} />
 
       {/* 成就解锁弹窗 */}
       <AnimatePresence>

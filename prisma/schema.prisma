@@ -30,3 +30,60 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// ── 统一账号与云端存档（小程序 + 网页端共用一套账号）──────────────────
+// 账号以 uid 为键，两种来源：
+//   1) 小程序微信登录：openid 经 salt 哈希为 `w1_<40位hex>`（openid 明文不出服务端）；
+//   2) 小程序本机降级身份：客户端生成的 `gid-...`（同设备恒定）。
+// 网页端不独立注册：在小程序「我的 → 云端同步」生成一次性绑定码，
+// 网页端输入后 claim 到同一 uid —— 两端同一账号、同一份云端进度。
+model Player {
+  uid       String      @id
+  nickname  String? // 昵称（跨端同步的展示资料）
+  avatar    String? // 仅网页端使用的 emoji 头像；小程序头像为本机文件路径，不上传
+  source    String      @default("local") // wechat | local
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  tokens    AuthToken[]
+  pairs     PairCode[]
+  save      CloudSave?
+}
+
+// 登录令牌：登录/绑定成功后签发，客户端随身携带（Authorization: Bearer）。
+// 不设过期时间（家庭应用，减少失效摩擦），退出登录时吊销。
+model AuthToken {
+  token      String   @id
+  uid        String
+  player     Player   @relation(fields: [uid], references: [uid], onDelete: Cascade)
+  platform   String // mp | web
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  revoked    Boolean  @default(false)
+
+  @@index([uid])
+}
+
+// 一次性绑定码：小程序生成（10 分钟有效、一码一用），网页端输入后 claim 同一账号；
+// 同一账号同时只有一个活跃码（生成新码时旧码删除）。
+model PairCode {
+  code      String    @id
+  uid       String
+  player    Player    @relation(fields: [uid], references: [uid], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  @@index([uid])
+}
+
+// 云端存档：每账号一份（last-write-wins，客户端按 savedAt 对齐），
+// rev 单调递增仅作展示与排障；data 为 canonical v1 完整进度 JSON
+// （格式见小程序 README「云端同步与统一账号」一节）。
+model CloudSave {
+  uid      String   @id
+  player   Player   @relation(fields: [uid], references: [uid], onDelete: Cascade)
+  data     String
+  rev      Int      @default(0)
+  platform String   @default("mp")
+  savedAt  DateTime @default(now()) @updatedAt
+}
