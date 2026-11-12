@@ -8,9 +8,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// 数据库：PostgreSQL（Neon serverless，Vercel 部署；标准 pg URL，可平移任意 Postgres）
+// DATABASE_URL=Neon Pooled 连接串（建议加 pgbouncer=true，运行时走 PgBouncer 事务池）
+// DIRECT_URL=Neon Direct（UNPOOLED）连接串，仅建表/迁移（db push / migrate）使用
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {

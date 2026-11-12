@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# 服务器一键初始化（ibook 网页端/服务端）：生成 .env → 安装依赖 → 建 5 张表 → 构建
-# 用法：在服务器仓库根目录执行  bash scripts/setup-server.sh
+# 服务器一键初始化（ibook 网页端/服务端，PostgreSQL/Neon 版）：生成 .env → 安装依赖 → 建 5 张表 → 构建
+# 用法：在服务器仓库根目录执行  bash deploy/setup-server.sh
+#   - 数据库需提前建好 Neon 项目（neon.tech 免费层即可），把 Pooled / Direct 两条连接串按提示粘贴
 #   - .env 已存在时默认沿用（回车跳过），需重配可删除 .env 后重跑或选 r
 #   - 微信凭据（WX_APPID/WX_SECRET）取自 mp.weixin.qq.com → 开发管理 → 开发设置
 #   - 完成后按提示启动/重启进程，并用 curl 验证 /api/web/qr/create
@@ -42,7 +43,9 @@ fi
 if [ ! -f .env ]; then
   cp .env.example .env
   say "${C_B}—— 逐项配置（回车 = 用方括号里的默认值）——${C_0}"
-  ask "SQLite 数据库路径" "file:/data/ibook.db" DB_URL
+  say "数据库连接串：Neon 控制台 → Connection Details → 复制 Pooled / Direct 两条"
+  ask "DATABASE_URL（Pooled）" "postgresql://USER:PASSWORD@ep-xxx-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&pgbouncer=true&connect_timeout=15" DB_URL
+  ask "DIRECT_URL（Direct/UNPOOLED）" "postgresql://USER:PASSWORD@ep-xxx.ap-southeast-1.aws.neon.tech/neondb?sslmode=require" DB_DIRECT
   ask "小程序 AppID" "wx4af46626b47c7cb1" WX_APPID_IN
   say "AppSecret：mp.weixin.qq.com → 开发管理 → 开发设置（32 位十六进制；留空=暂不开通微信登录/扫码，其余功能不受影响）"
   read -r -p "小程序 AppSecret []: " WX_SECRET_IN
@@ -50,6 +53,7 @@ if [ ! -f .env ]; then
   ask "WX_QR_ENV_VERSION" "release" QR_ENV_IN
 
   sed -i "s|^DATABASE_URL=.*|DATABASE_URL=${DB_URL}|" .env
+  sed -i "s|^DIRECT_URL=.*|DIRECT_URL=${DB_DIRECT}|" .env
   sed -i "s|^WX_APPID=.*|WX_APPID=${WX_APPID_IN}|" .env
   sed -i "s|^WX_SECRET=.*|WX_SECRET=${WX_SECRET_IN}|" .env
   # 模板中该变量默认处于注释态，仅在用户显式选择了非默认值时启用
@@ -58,22 +62,19 @@ if [ ! -f .env ]; then
   fi
   chmod 600 .env
   say "${C_G}✓ .env 已生成（权限 600，勿提交 git）${C_0}"
+  case "${DB_URL}" in
+    postgresql://*) say "${C_G}✓ Postgres 连接串格式 OK${C_0}" ;;
+    *) say "${C_Y}  提示：DATABASE_URL 不是 postgresql:// 开头，db:push 可能失败（当前 schema 仅支持 PostgreSQL）${C_0}" ;;
+  esac
   if [ -z "${WX_SECRET_IN}" ]; then
     say "${C_Y}  提示：AppSecret 未填，微信登录与扫码登录暂不生效；之后补填进 .env 重启即可${C_0}"
   fi
 fi
 
-# ── 2. 数据目录（SQLite 路径的父目录，确保存在且可写）──────────────
-DB_PATH="$(sed -n 's/^DATABASE_URL=file://p' .env | head -1)"
-if [ -n "${DB_PATH}" ]; then
-  mkdir -p "$(dirname "${DB_PATH}")" && say "✓ 数据目录就绪：$(dirname "${DB_PATH}")"
-fi
-
-# ── 3. 依赖 + 建表 + 构建 ─────────────────────────────────────────
 say "${C_B}—— bun install（首次较慢）——${C_0}"
 bun install || die "bun install 失败"
 say "${C_B}—— 建表 db:push（幂等，可重复执行）——${C_0}"
-bun run db:push || die "建表失败：检查 DATABASE_URL 目录权限"
+bun run db:push || die "建表失败：检查两条连接串是否贴对（DIRECT_URL 需为 UNPOOLED 串）"
 say "${C_B}—— next build（1-3 分钟）——${C_0}"
 bun run build || die "构建失败"
 
