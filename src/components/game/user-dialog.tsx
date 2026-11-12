@@ -15,6 +15,7 @@ import {
   claimByCode,
   cloudLogout,
   cloudProfile,
+  getCloudUISnapshot,
   lastPushText,
   pushCloudNow,
   saveCloudProfile,
@@ -24,7 +25,9 @@ import {
 const AVATARS = ['🙂', '😃', '🐱', '🐶', '🐼', '🦊', '🐸', '🐵', '🦁', '🌟', '🚀', '🏝️']
 
 function useCloudUI(): void {
-  useSyncExternalStore(subscribeCloudUI, () => String(Date.now()), () => '')
+  // 快照必须是稳定值（昵称|lastpush），随登录态/资料/同步时间变化触发重渲染；
+  // 不能用 Date.now() —— 每次快照都不同会导致无限重渲染（Maximum update depth）
+  useSyncExternalStore(subscribeCloudUI, getCloudUISnapshot, () => '')
 }
 
 export default function UserDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
