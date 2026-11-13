@@ -1,9 +1,10 @@
 'use client'
 
 // 用户对话框（网页端统一账号入口）：
-//   - 未登录：三通道 —— 微信扫码登录（默认推荐：微信扫小程序码 → 小程序内确认 → 网页自动登录）
-//     + 账号密码登录（小程序里设置的网页账号 / 网页端注册的账号）+ 注册新账号；
-//     绑定码登录已由账号密码/扫码取代（服务端接口兼容保留）
+//   - 未登录：微信扫码登录（默认视图：微信扫小程序码 → 小程序内确认 → 网页自动登录）
+//     + 账号密码登录（网页端注册的账号）+ 注册新账号；
+//     小程序端不设网页账号入口（云同步全自动，无界面），密码通道仅限网页端注册的账号；
+//     绑定码登录已由扫码取代（服务端接口兼容保留）
 //   - 已登录：资料（emoji 头像 + 昵称，跨端同步）、网页账号展示、云端同步状态、立即同步、退出登录
 // 顶栏徽章（page.tsx）随登录态/同步时间经 subscribeCloudUI 微 store 刷新。
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
@@ -157,7 +158,7 @@ function QrLoginView({ onBack, onDone }: { onBack: () => void; onDone: (p: Cloud
           }}
           className="text-sm font-bold text-sky-600 hover:underline"
         >
-          ← 返回账号密码登录
+          ← 使用账号密码登录
         </button>
       </div>
     </>
@@ -167,7 +168,7 @@ function QrLoginView({ onBack, onDone }: { onBack: () => void; onDone: (p: Cloud
 export default function UserDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   useCloudUI() // 登录态/资料/同步时间变化时重渲染
   const profile = open ? cloudProfile() : null
-  const [tab, setTab] = useState<'signin' | 'register' | 'qr'>('signin')
+  const [tab, setTab] = useState<'signin' | 'register' | 'qr'>('qr') // 默认微信扫码（两端微信登录口径）
   const [switching, setSwitching] = useState(false) // 「切换账号」显式进入登录 Tab
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -189,7 +190,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
     setPassword('')
     setPassword2('')
     setSwitching(false)
-    setTab('signin')
+    setTab('qr') // 登录完成后重置回默认扫码视图
     onOpenChange(false)
   }
 
@@ -218,7 +219,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
       const serverErr = msg === 'network' ? '网络异常，请检查连接后重试' : '服务暂时不可用，请确认服务器已完成部署初始化'
       toast({
         title: msg === 'bad_credentials' ? '用户名或密码错误' : '登录失败，请稍后重试',
-        description: msg === 'bad_credentials' ? '账号在小程序「云端同步 → 网页登录账号」设置' : msg === 'bad_credentials' ? undefined : serverErr,
+        description: msg === 'bad_credentials' ? '请核对后重试；微信账号请用扫码登录' : msg === 'bad_credentials' ? undefined : serverErr,
       })
     } finally {
       setBusy(false)
@@ -302,7 +303,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
             <DialogHeader>
               <DialogTitle className="text-lg font-black">🌐 账号登录</DialogTitle>
               <DialogDescription className="text-left text-sm font-bold leading-relaxed">
-                与小程序共用同一账号、同一份云端进度：推荐微信扫码登录，也可用小程序「云端同步 → 设置网页登录账号」里设置的用户名密码，或直接注册新账号。
+                与小程序共用同一账号、同一份云端进度：微信扫一扫即可登录（推荐），也可注册新账号或用已注册的账号密码登录。
               </DialogDescription>
             </DialogHeader>
             {tab === 'qr' ? (
@@ -462,7 +463,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
                   onClick={() => {
                     sfx.click()
                     setSwitching(true)
-                    setTab('signin')
+                    setTab('qr') // 切换账号也回到默认扫码视图
                   }}
                   className="text-sky-600 hover:underline"
                 >

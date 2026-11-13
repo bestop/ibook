@@ -381,7 +381,7 @@ export default function Home() {
         </nav>
       )}
 
-      {/* 账号与云端同步对话框（绑定码登录 / 资料与同步状态） */}
+      {/* 账号与云端同步对话框（微信扫码/账号密码登录 / 资料与同步状态） */}
       <UserDialog open={userOpen} onOpenChange={setUserOpen} />
 
       {/* 成就解锁弹窗 */}
