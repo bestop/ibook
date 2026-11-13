@@ -262,9 +262,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
             className="mt-4 flex justify-center"
           >
-            <IconChip tone="sky" size="lg" round className="h-28 w-28 text-[72px] sm:h-36 sm:w-36 sm:text-[92px]">
-              🏝️
-            </IconChip>
+            <span className="inline-block text-[72px] leading-none sm:text-[92px]">🏝️</span>
           </motion.div>
           <h1 className="mt-2 bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl">
             童学冒险岛
