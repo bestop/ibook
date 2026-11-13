@@ -30,7 +30,8 @@ import {
   type CloudProfile,
 } from '@/lib/cloud'
 
-const AVATARS = ['🙂', '😃', '🐱', '🐶', '🐼', '🦊', '🐸', '🐵', '🦁', '🌟', '🚀', '🏝️']
+// 11 个：单行排满弹窗内容区（11×36px + 10×6px 间距 = 456px ≤ 464px），去掉重复的笑脸 😃
+const AVATARS = ['🙂', '🐱', '🐶', '🐼', '🦊', '🐸', '🐵', '🦁', '🌟', '🚀', '🏝️']
 
 function useCloudUI(): void {
   // 快照必须是稳定值（昵称|lastpush），随登录态/资料/同步时间变化触发重渲染；
@@ -175,9 +176,19 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
   const [password2, setPassword2] = useState('')
   const [busy, setBusy] = useState(false)
   const [nick, setNick] = useState('')
-  const [emoji, setEmoji] = useState('🙂')
+  const [emoji, setEmoji] = useState('') // 空 = 未改选，展示已保存头像
+
+  // 打开弹窗时清掉上次未保存的草稿（昵称/头像选择），避免脏状态残留
+  useEffect(() => {
+    if (open) {
+      setEmoji('')
+      setNick('')
+    }
+  }, [open])
 
   const showLogin = !profile || switching
+  // 选中态基准：点击后未保存时用本地选择，否则用已保存头像（点击立即高亮，不再“无反应”）
+  const currentEmoji = emoji || (profile?.avatarEmoji || '🙂')
 
   const afterAuth = async (p: { nickname: string }) => {
     const r = await alignCloud()
@@ -265,8 +276,8 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
     }
     setBusy(true)
     try {
-      await saveCloudProfile({ nickname, avatarEmoji: emoji })
-      toast({ title: '资料已保存，昵称将同步到小程序端' })
+      await saveCloudProfile({ nickname, avatarEmoji: currentEmoji })
+      toast({ title: '资料已保存，头像昵称将同步到小程序端' })
     } catch (e) {
       toast({ title: '保存失败，请稍后再试' })
     } finally {
@@ -409,7 +420,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <p className="mb-2 text-sm font-black text-gray-600">头像（网页端展示）</p>
+                <p className="mb-2 text-sm font-black text-gray-600">头像</p>
                 <div className="flex flex-wrap gap-1.5">
                   {AVATARS.map((a) => (
                     <button
@@ -419,7 +430,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
                         setEmoji(a)
                       }}
                       className={`h-9 w-9 rounded-xl text-xl transition-transform ${
-                        (profile?.avatarEmoji || '🙂') === a ? 'scale-110 bg-amber-200 ring-2 ring-orange-400' : 'bg-gray-100 hover:bg-amber-100'
+                        currentEmoji === a ? 'scale-110 bg-amber-200 ring-2 ring-orange-400' : 'bg-gray-100 hover:bg-amber-100'
                       }`}
                     >
                       {a}
