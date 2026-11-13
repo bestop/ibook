@@ -10,16 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+          "bg-[#58cc02] text-white rounded-2xl font-bold shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113] active:translate-y-[4px] active:shadow-[0_0_0_0_#58a700]",
         destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-[#ff4b4b] text-white rounded-2xl font-bold shadow-[0_4px_0_0_#d63131] hover:bg-[#ff6060] active:translate-y-[4px] active:shadow-[0_0_0_0_#d63131] focus-visible:ring-[#ff4b4b]/20",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border-2 border-[#e5e5e5] bg-white text-[#1cb0f6] rounded-2xl font-bold shadow-[0_4px_0_0_#e5e5e5] hover:bg-[#f7f7f7] hover:border-[#c9e9ff] active:translate-y-[4px] active:shadow-[0_0_0_0_#e5e5e5]",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "bg-[#f7f7f7] text-[#3c3c3c] rounded-2xl font-bold shadow-[0_4px_0_0_#e5e5e5] hover:bg-[#f2f2f2] active:translate-y-[4px] active:shadow-[0_0_0_0_#e5e5e5]",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+          "hover:bg-[#f7f7f7] hover:text-[#3c3c3c] rounded-2xl",
+        link: "text-[#1cb0f6] underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

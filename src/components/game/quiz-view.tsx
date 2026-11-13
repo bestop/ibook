@@ -347,7 +347,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         initial={{ opacity: 0, x: 40 }}
         animate={{ opacity: 1, x: shake ? [0, -10, 10, -6, 6, 0] : 0 }}
         transition={{ duration: 0.4 }}
-        className="rounded-3xl border-2 border-orange-200 bg-white p-4 shadow-[0_6px_0_0_rgba(251,146,60,0.35)] sm:p-6"
+        className="dl-card p-4 sm:p-6"
       >
         <div className="mb-3 flex items-center gap-2">
           <span className="rounded-lg bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-700">
@@ -376,10 +376,10 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
           {current.options.map((opt, i) => {
             const base =
               'relative flex min-h-[52px] items-center gap-2 rounded-2xl border-2 px-3.5 py-2.5 text-left font-bold transition-all active:scale-[0.98]'
-            let cls = 'border-gray-200 bg-white hover:border-orange-300 hover:bg-orange-50 text-gray-700'
+            let cls = 'border-[#e5e5e5] bg-white hover:border-[#89e219] hover:bg-[#dbf8c5]/40 text-gray-700'
             if (answered) {
-              if (i === current.answer) cls = 'border-emerald-400 bg-emerald-50 text-emerald-700 shadow-[0_0_0_3px_rgba(52,211,153,0.25)]'
-              else if (i === selected) cls = 'border-rose-400 bg-rose-50 text-rose-600'
+              if (i === current.answer) cls = 'border-[#58cc02] bg-[#dbf8c5] text-[#3f8f00]'
+              else if (i === selected) cls = 'border-[#ff4b4b] bg-[#ffdfe0] text-[#d63131]'
               else cls = 'border-gray-200 bg-gray-50 text-gray-400 opacity-60'
             }
             return (
@@ -390,7 +390,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
                 className={`${base} ${cls}`}
               >
                 {current.question.type !== 'judge' && (
-                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-black ${answered && i === current.answer ? 'bg-emerald-400 text-white' : answered && i === selected ? 'bg-rose-400 text-white' : 'bg-orange-100 text-orange-600'}`}>
+                  <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-black ${answered && i === current.answer ? 'bg-[#58cc02] text-white' : answered && i === selected ? 'bg-[#ff4b4b] text-white' : 'bg-[#e5f5ff] text-[#1899d6]'}`}>
                     {LETTERS[i]}
                   </span>
                 )}
@@ -470,10 +470,10 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
           {answered && (
             <Button
               onClick={next}
-              className={`min-w-[110px] rounded-2xl px-6 py-3 text-base font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] ${
+              className={`min-w-[110px] rounded-2xl px-6 py-3 text-base font-black text-white shadow-[0_4px_0_0_#d63131] ${
                 lives <= 0 && mode !== 'review'
-                  ? 'bg-rose-500 hover:bg-rose-600'
-                  : 'bg-orange-500 hover:bg-orange-600'
+                  ? 'bg-[#ff4b4b] hover:bg-[#ff6060]'
+                  : 'bg-[#58cc02] shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]'
               }`}
             >
               {lives <= 0 && mode !== 'review' ? '查看结果 →' : isLast ? '完成 →' : '下一题 →'}

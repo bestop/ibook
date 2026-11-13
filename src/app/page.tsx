@@ -363,7 +363,7 @@ export default function Home() {
                     )}
                   </span>
                   {tab.label}
-                  {active && <span className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-orange-500" />}
+                  {active && <span className="absolute inset-x-4 top-0 h-0.5 rounded-full bg-[#58cc02]" />}
                 </button>
               )
             })}
@@ -402,7 +402,7 @@ export default function Home() {
                   sfx.coin()
                   markSeen()
                 }}
-                className="mt-4 w-full rounded-2xl bg-orange-500 py-3 font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] hover:bg-orange-600"
+                className="mt-4 w-full rounded-2xl bg-[#58cc02] py-3 font-black text-white shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]"
               >
                 太棒了！收下 🪙
               </Button>

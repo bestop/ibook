@@ -1,10 +1,95 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* 儿童游戏全局字体与体验优化 */
+/* 儿童游戏全局字体与体验优化（多邻国风圆润体 Nunito 优先，中文回退苹方/雅黑） */
 html {
-  font-family: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-family: var(--font-nunito), var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   Duolingo-style Design Tokens（多邻国设计令牌）
+   主色猫头鹰绿 + 3D 按压按钮 + 描边卡片 + 药丸进度
+   ============================================ */
+:root {
+  /* 色彩：主色 */
+  --dl-owl-green:        #58CC02;
+  --dl-owl-green-deep:   #58A700;
+  --dl-owl-green-light:  #89E219;
+  --dl-owl-green-pale:   #DBF8C5;
+  /* 色彩：次级强调 */
+  --dl-streak-orange:    #FF9600;
+  --dl-gem-pink:         #CE82FF;
+  --dl-eel-blue:         #1CB0F6;
+  --dl-cardinal-red:     #FF4B4B;
+  --dl-bee-yellow:       #FFC800;
+  /* 色彩：表面与文字 */
+  --dl-snow:             #FFFFFF;
+  --dl-eel:              #F7F7F7;
+  --dl-swan:             #E5E5E5;
+  --dl-ink:              #3C3C3C;
+  --dl-ink-soft:         #777777;
+  --dl-ink-mute:         #AFAFAF;
+  /* 圆角与深度 */
+  --dl-radius-card:      18px;
+  --dl-radius-button:    16px;
+  --dl-depth:            4px;
+  /* 动效 */
+  --dl-ease-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 多邻国风主按钮：3D 底边按压（压下去底边消失，像真按键） */
+.dl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--dl-snow);
+  background: var(--dl-owl-green);
+  border: none;
+  border-radius: var(--dl-radius-button);
+  box-shadow: 0 var(--dl-depth) 0 0 var(--dl-owl-green-deep);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 100ms ease, background 200ms ease, box-shadow 100ms ease;
+}
+.dl-btn:hover { background: var(--dl-owl-green-light); }
+.dl-btn:active {
+  transform: translateY(var(--dl-depth));
+  box-shadow: none;
+}
+.dl-btn:disabled {
+  background: var(--dl-swan);
+  box-shadow: 0 var(--dl-depth) 0 0 var(--dl-ink-mute);
+  color: var(--dl-ink-mute);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 多邻国风卡片：白底 + 2px 灰描边 + 平底影 */
+.dl-card {
+  background: var(--dl-snow);
+  border: 2px solid var(--dl-swan);
+  border-radius: var(--dl-radius-card);
+  box-shadow: 0 2px 0 var(--dl-swan);
+}
+
+/* 多邻国风药丸进度条 */
+.dl-progress {
+  width: 100%;
+  height: 16px;
+  background: var(--dl-swan);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.dl-progress__fill {
+  height: 100%;
+  background: var(--dl-owl-green);
+  border-radius: 9999px;
+  transition: width 200ms var(--dl-ease-spring);
 }
 
 body {

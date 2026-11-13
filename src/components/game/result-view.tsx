@@ -233,7 +233,7 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
       <div className="flex w-full flex-col gap-2.5 sm:flex-row sm:justify-center">
         <Button
           onClick={onRetry}
-          className="rounded-2xl bg-orange-500 px-8 py-5 text-base font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] hover:bg-orange-600"
+          className="rounded-2xl bg-[#58cc02] px-8 py-5 text-base font-black text-white shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]"
         >
           🔁 {passed ? '再玩一次' : '再来挑战'}
         </Button>

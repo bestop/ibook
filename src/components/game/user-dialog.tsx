@@ -137,7 +137,7 @@ function QrLoginView({ onBack, onDone }: { onBack: () => void; onDone: (p: Cloud
               <Button
                 disabled={busy}
                 onClick={handleRefresh}
-                className="rounded-2xl bg-orange-500 font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] hover:bg-orange-600"
+                className="rounded-2xl bg-[#58cc02] font-black text-white shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]"
               >
                 {busy ? '刷新中…' : '刷新二维码'}
               </Button>
@@ -382,7 +382,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
               <Button
                 disabled={busy}
                 onClick={tab === 'signin' ? handleLogin : handleRegister}
-                className="w-full rounded-2xl bg-orange-500 py-3 font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] hover:bg-orange-600"
+                className="w-full rounded-2xl bg-[#58cc02] py-3 font-black text-white shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]"
               >
                 {busy ? (tab === 'signin' ? '登录中…' : '注册中…') : tab === 'signin' ? '登录' : '注册并登录'}
               </Button>
@@ -464,7 +464,7 @@ export default function UserDialog({ open, onOpenChange }: { open: boolean; onOp
                 <Button
                   disabled={busy}
                   onClick={handleSync}
-                  className="rounded-2xl bg-orange-500 font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] hover:bg-orange-600"
+                  className="rounded-2xl bg-[#58cc02] font-black text-white shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]"
                 >
                   立即同步
                 </Button>

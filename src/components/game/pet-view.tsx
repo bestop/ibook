@@ -125,7 +125,7 @@ function AdoptFlow() {
                 sfx.coin()
                 adoptPet(kind, name)
               }}
-              className="mt-3 w-full rounded-2xl bg-orange-500 py-4 text-base font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] hover:bg-orange-600"
+              className="mt-3 w-full rounded-2xl bg-[#58cc02] py-4 text-base font-black text-white shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]"
             >
               🎉 领养{name.trim() || (kind === 'dog' ? '旺旺' : '喵喵')}，开始冒险！
             </Button>
@@ -217,7 +217,7 @@ function StoryReader({ chapter, petKind, petName, onClose }: { chapter: StoryCha
           </div>
           <Button
             onClick={next}
-            className="w-full rounded-2xl bg-orange-500 py-3 font-black text-white shadow-[0_4px_0_0_rgba(234,88,12,0.5)] hover:bg-orange-600"
+            className="w-full rounded-2xl bg-[#58cc02] py-3 font-black text-white shadow-[0_4px_0_0_#58a700] hover:bg-[#6fe113]"
           >
             {isLast ? '📖 合上书本，收下这段冒险！' : '下一句 ▶'}
           </Button>
