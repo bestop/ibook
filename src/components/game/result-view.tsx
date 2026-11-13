@@ -129,7 +129,7 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
       <motion.div
         initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="w-full rounded-3xl border-2 border-orange-200 bg-white p-6 text-center shadow-[0_8px_0_0_rgba(251,146,60,0.35)] sm:p-8"
+        className="w-full rounded-3xl border-2 border-orange-200 bg-white p-6 text-center dl-shadow-lift sm:p-8"
       >
         <h1 className={`text-2xl font-black sm:text-3xl ${passed ? 'text-orange-600' : 'text-rose-500'}`}>
           {title}

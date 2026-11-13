@@ -224,7 +224,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   const timeRatio = timeLeft / TIME_PER_QUESTION
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-3 pb-28 pt-3 sm:gap-4 sm:pt-5">
+    <div className="mx-auto flex min-h-[100svh] w-full max-w-2xl flex-col gap-3 px-3 pb-28 pt-3 sm:gap-4 sm:pt-5">
       {/* 顶部 HUD */}
       <div className="flex items-center justify-between gap-2">
         <Button
@@ -276,6 +276,8 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         </span>
       </div>
 
+      {/* 主内容：剩余视口内垂直居中（短题卡不再悬顶，重心稳定） */}
+      <div className="flex flex-1 flex-col justify-center gap-3 sm:gap-4">
       {/* 本关考点锦囊（仅第一题上方展示，可收起） */}
       {idx === 0 && tipOpen && levelTags.length > 0 && (
         <motion.div
@@ -309,7 +311,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
             initial={{ scale: 0, y: -20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="mx-auto rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-4 py-1 text-sm font-black text-white shadow-lg"
+            className="mx-auto rounded-full bg-gradient-to-r from-[#ff9600] to-[#f43f5e] px-4 py-1 text-sm font-black text-white shadow-lg"
           >
             🔥 连击 ×{combo} · 每题额外 +5 金币！
           </motion.div>
@@ -459,15 +461,17 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         )}
       </AnimatePresence>
 
+      </div>
+
       {/* 底部：金币 + 下一题（答题时无底部导航，直接贴底并适配安全区） */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-orange-100 bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-[#e5e5e5] bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="gloss-pill rounded-full bg-amber-100 px-3 py-1.5 text-sm font-black text-amber-700">
+            <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-sm font-black text-[#3c3c3c]">
               🪙 本局 {coins}
             </span>
             {maxCombo >= 2 && (
-              <span className="gloss-pill rounded-full bg-orange-100 px-3 py-1.5 text-sm font-black text-orange-600">
+              <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-sm font-black text-[#3c3c3c]">
                 🔥 ×{maxCombo}
               </span>
             )}

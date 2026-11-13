@@ -16,106 +16,106 @@ interface HomeViewProps {
 
 const THEME = {
   orange: {
-    card: 'border-orange-300 bg-gradient-to-br from-orange-100 via-orange-50 to-amber-50 shadow-[0_10px_0_0_rgba(251,146,60,0.35)]',
-    title: 'text-orange-700',
+    card: 'border-orange-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-orange-400 to-orange-500 shadow-[0_5px_0_0_rgba(234,88,12,0.55)]',
     bar: 'bg-orange-100 [&>div]:bg-gradient-to-r [&>div]:from-amber-400 [&>div]:to-orange-500',
     ring: 'ring-orange-200',
   },
   emerald: {
-    card: 'border-emerald-300 bg-gradient-to-br from-emerald-100 via-emerald-50 to-teal-50 shadow-[0_10px_0_0_rgba(16,185,129,0.35)]',
-    title: 'text-emerald-700',
+    card: 'border-emerald-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-emerald-400 to-emerald-500 shadow-[0_5px_0_0_rgba(5,150,105,0.55)]',
     bar: 'bg-emerald-100 [&>div]:bg-gradient-to-r [&>div]:from-teal-400 [&>div]:to-emerald-500',
     ring: 'ring-emerald-200',
   },
   sky: {
-    card: 'border-sky-300 bg-gradient-to-br from-sky-100 via-sky-50 to-cyan-50 shadow-[0_10px_0_0_rgba(14,165,233,0.35)]',
-    title: 'text-sky-700',
+    card: 'border-sky-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-sky-400 to-sky-500 shadow-[0_5px_0_0_rgba(2,132,199,0.55)]',
     bar: 'bg-sky-100 [&>div]:bg-gradient-to-r [&>div]:from-cyan-400 [&>div]:to-sky-500',
     ring: 'ring-sky-200',
   },
   rose: {
-    card: 'border-rose-300 bg-gradient-to-br from-rose-100 via-rose-50 to-pink-50 shadow-[0_10px_0_0_rgba(244,63,94,0.35)]',
-    title: 'text-rose-700',
+    card: 'border-rose-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-rose-400 to-rose-500 shadow-[0_5px_0_0_rgba(225,29,72,0.55)]',
     bar: 'bg-rose-100 [&>div]:bg-gradient-to-r [&>div]:from-pink-400 [&>div]:to-rose-500',
     ring: 'ring-rose-200',
   },
   violet: {
-    card: 'border-violet-300 bg-gradient-to-br from-violet-100 via-violet-50 to-purple-50 shadow-[0_10px_0_0_rgba(139,92,246,0.35)]',
-    title: 'text-violet-700',
+    card: 'border-violet-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-violet-400 to-violet-500 shadow-[0_5px_0_0_rgba(124,58,237,0.55)]',
     bar: 'bg-violet-100 [&>div]:bg-gradient-to-r [&>div]:from-purple-400 [&>div]:to-violet-500',
     ring: 'ring-violet-200',
   },
   teal: {
-    card: 'border-teal-300 bg-gradient-to-br from-teal-100 via-teal-50 to-cyan-50 shadow-[0_10px_0_0_rgba(20,184,166,0.35)]',
-    title: 'text-teal-700',
+    card: 'border-teal-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-teal-400 to-teal-500 shadow-[0_5px_0_0_rgba(13,148,136,0.55)]',
     bar: 'bg-teal-100 [&>div]:bg-gradient-to-r [&>div]:from-cyan-400 [&>div]:to-teal-500',
     ring: 'ring-teal-200',
   },
   amber: {
-    card: 'border-amber-300 bg-gradient-to-br from-amber-100 via-amber-50 to-yellow-50 shadow-[0_10px_0_0_rgba(245,158,11,0.35)]',
-    title: 'text-amber-700',
+    card: 'border-amber-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-amber-400 to-amber-500 shadow-[0_5px_0_0_rgba(217,119,6,0.55)]',
     bar: 'bg-amber-100 [&>div]:bg-gradient-to-r [&>div]:from-yellow-400 [&>div]:to-amber-500',
     ring: 'ring-amber-200',
   },
   lime: {
-    card: 'border-lime-300 bg-gradient-to-br from-lime-100 via-lime-50 to-green-50 shadow-[0_10px_0_0_rgba(132,204,22,0.35)]',
-    title: 'text-lime-700',
+    card: 'border-lime-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-lime-400 to-lime-500 shadow-[0_5px_0_0_rgba(101,163,13,0.55)]',
     bar: 'bg-lime-100 [&>div]:bg-gradient-to-r [&>div]:from-green-400 [&>div]:to-lime-500',
     ring: 'ring-lime-200',
   },
   cyan: {
-    card: 'border-cyan-300 bg-gradient-to-br from-cyan-100 via-cyan-50 to-sky-50 shadow-[0_10px_0_0_rgba(6,182,212,0.35)]',
-    title: 'text-cyan-700',
+    card: 'border-cyan-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-cyan-400 to-cyan-500 shadow-[0_5px_0_0_rgba(8,145,178,0.55)]',
     bar: 'bg-cyan-100 [&>div]:bg-gradient-to-r [&>div]:from-sky-400 [&>div]:to-cyan-500',
     ring: 'ring-cyan-200',
   },
   pink: {
-    card: 'border-pink-300 bg-gradient-to-br from-pink-100 via-pink-50 to-rose-50 shadow-[0_10px_0_0_rgba(236,72,153,0.35)]',
-    title: 'text-pink-700',
+    card: 'border-pink-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-pink-400 to-pink-500 shadow-[0_5px_0_0_rgba(219,39,119,0.55)]',
     bar: 'bg-pink-100 [&>div]:bg-gradient-to-r [&>div]:from-rose-300 [&>div]:to-pink-500',
     ring: 'ring-pink-200',
   },
   indigo: {
-    card: 'border-indigo-300 bg-gradient-to-br from-indigo-100 via-indigo-50 to-blue-50 shadow-[0_10px_0_0_rgba(99,102,241,0.35)]',
-    title: 'text-indigo-700',
+    card: 'border-indigo-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-indigo-400 to-indigo-500 shadow-[0_5px_0_0_rgba(79,70,229,0.55)]',
     bar: 'bg-indigo-100 [&>div]:bg-gradient-to-r [&>div]:from-blue-400 [&>div]:to-indigo-500',
     ring: 'ring-indigo-200',
   },
   fuchsia: {
-    card: 'border-fuchsia-300 bg-gradient-to-br from-fuchsia-100 via-fuchsia-50 to-pink-50 shadow-[0_10px_0_0_rgba(217,70,239,0.35)]',
-    title: 'text-fuchsia-700',
+    card: 'border-fuchsia-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-fuchsia-400 to-fuchsia-500 shadow-[0_5px_0_0_rgba(192,38,211,0.55)]',
     bar: 'bg-fuchsia-100 [&>div]:bg-gradient-to-r [&>div]:from-pink-400 [&>div]:to-fuchsia-500',
     ring: 'ring-fuchsia-200',
   },
   blue: {
-    card: 'border-blue-300 bg-gradient-to-br from-blue-100 via-blue-50 to-sky-50 shadow-[0_10px_0_0_rgba(59,130,246,0.35)]',
-    title: 'text-blue-700',
+    card: 'border-blue-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-blue-400 to-blue-500 shadow-[0_5px_0_0_rgba(37,99,235,0.55)]',
     bar: 'bg-blue-100 [&>div]:bg-gradient-to-r [&>div]:from-sky-400 [&>div]:to-blue-500',
     ring: 'ring-blue-200',
   },
   green: {
-    card: 'border-green-300 bg-gradient-to-br from-green-100 via-green-50 to-lime-50 shadow-[0_10px_0_0_rgba(34,197,94,0.35)]',
-    title: 'text-green-700',
+    card: 'border-green-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-green-400 to-green-500 shadow-[0_5px_0_0_rgba(22,163,74,0.55)]',
     bar: 'bg-green-100 [&>div]:bg-gradient-to-r [&>div]:from-lime-400 [&>div]:to-green-500',
     ring: 'ring-green-200',
   },
   red: {
-    card: 'border-red-300 bg-gradient-to-br from-red-100 via-red-50 to-orange-50 shadow-[0_10px_0_0_rgba(239,68,68,0.35)]',
-    title: 'text-red-700',
+    card: 'border-red-200 bg-white dl-shadow-lift',
+    title: 'text-[#3c3c3c]',
     btn: 'bg-gradient-to-b from-red-400 to-red-500 shadow-[0_5px_0_0_rgba(220,38,38,0.55)]',
     bar: 'bg-red-100 [&>div]:bg-gradient-to-r [&>div]:from-orange-400 [&>div]:to-red-500',
     ring: 'ring-red-200',
@@ -251,10 +251,10 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             transition={{ type: 'spring', stiffness: 260, damping: 16, delay: 0.15 }}
             className="relative mx-auto mt-3 inline-block"
           >
-            <p className="rounded-2xl border-2 border-orange-200 bg-white px-4 py-2 text-sm font-black text-orange-500 shadow-[0_4px_0_0_rgba(251,146,60,0.2)] sm:text-base">
+            <p className="dl-sticker rounded-2xl px-4 py-2 text-sm font-black text-[#3c3c3c] sm:text-base">
               嗨，小岛民！今天想去哪个岛冒险呀？
             </p>
-            <span className="absolute -bottom-[9px] left-10 h-3.5 w-3.5 rotate-45 border-b-2 border-r-2 border-orange-200 bg-white" />
+            <span className="absolute -bottom-[11px] left-10 h-3.5 w-3.5 rotate-45 border-b-2 border-r-2 border-[#e5e5e5] bg-white" />
           </motion.div>
 
           <motion.div
@@ -267,14 +267,14 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           <h1 className="mt-2 bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl">
             童学冒险岛
           </h1>
-          <p className="mt-1 text-sm font-black text-amber-600 sm:text-base">
+          <p className="mt-1 text-sm font-black text-gray-600 sm:text-base">
             一至六年级 · 闯关赢金币 · 越玩越聪明
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
-            <span className="gloss-pill rounded-full bg-amber-100 px-3 py-1.5 text-amber-700">🪙 {coins}</span>
-            <span className="gloss-pill rounded-full bg-emerald-100 px-3 py-1.5 text-emerald-700">🔥 连续 {streak} 天</span>
-            <span className="gloss-pill rounded-full bg-rose-100 px-3 py-1.5 text-rose-700">📕 错题 {wrongCount}</span>
+            <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-[#3c3c3c]">🪙 {coins}</span>
+            <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-[#3c3c3c]">🔥 连续 {streak} 天</span>
+            <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-[#3c3c3c]">📕 错题 {wrongCount}</span>
           </div>
         </motion.section>
 
@@ -283,10 +283,10 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="mt-5 rounded-3xl border-2 border-amber-200 bg-white/90 p-4 shadow-[0_6px_0_0_rgba(251,191,36,0.25)]"
+          className="mt-5 rounded-3xl border-2 border-[#e5e5e5] bg-white/90 p-4 dl-shadow-lift"
         >
           <div className="mb-2 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-sm font-black text-amber-800 sm:text-base">
+            <h2 className="flex items-center gap-2 text-sm font-black text-[#3c3c3c] sm:text-base">
               <IconChip tone="sky" size="sm">⛵</IconChip> 今日 20 分钟小目标
             </h2>
             <span
@@ -298,7 +298,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             </span>
           </div>
           <div className="relative">
-            <Progress value={pct} className="h-4 rounded-full bg-amber-100 [&>div]:bg-gradient-to-r [&>div]:from-amber-300 [&>div]:to-orange-400" />
+            <Progress value={pct} className="h-4 rounded-full bg-[#e5e5e5] [&>div]:bg-[#58cc02]" />
             <span
               className="absolute -top-1.5 text-2xl transition-all duration-700"
               style={{ left: `calc(${pct}% - 16px)` }}
@@ -306,7 +306,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
               ⛵
             </span>
           </div>
-          <p className="mt-2 text-xs font-bold text-amber-600">
+          <p className="mt-2 text-xs font-bold text-gray-500">
             {todaySeconds === 0
               ? '选一个岛出发吧，小帆船会跟着你前进哦～'
               : dailyDone.minutes
@@ -333,7 +333,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           </div>
           {/* 全部达成庆祝徽标（借鉴聪聪学堂每日达标庆祝，与小程序同构） */}
           {dailyDone.level && dailyDone.minutes && dailyDone.review && (
-            <div className="mt-2 rounded-2xl bg-gradient-to-r from-amber-100 to-yellow-200 px-3 py-2 text-center text-xs font-black text-amber-700">
+            <div className="dl-sticker mt-2 rounded-2xl px-3 py-2 text-center text-xs font-black text-[#3c3c3c]">
               🎉 今日任务全部达成，太棒了！
             </div>
           )}

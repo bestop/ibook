@@ -165,10 +165,10 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
       >
         ← 返回
       </Button>
-      <div className="mb-4 rounded-3xl border-2 border-rose-300 bg-gradient-to-br from-rose-50 to-orange-50 p-4 shadow-[0_6px_0_0_rgba(244,63,94,0.25)]">
+      <div className="mb-4 rounded-3xl border-2 border-rose-200 bg-white p-4 dl-shadow-lift">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h2 className="flex items-center gap-2 text-lg font-black text-rose-700"><IconChip tone="red" size="md">📕</IconChip>错题集中营</h2>
+            <h2 className="flex items-center gap-2 text-lg font-black text-[#3c3c3c]"><IconChip tone="red" size="md">📕</IconChip>错题集中营</h2>
             <p className="mt-0.5 text-xs font-bold text-rose-500">
               共 {wrongQuestions.length} 道错题待消灭 · 复习时答对 1 题就能消灭它，还有金币拿！
             </p>

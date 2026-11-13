@@ -38,7 +38,7 @@ function AdoptFlow() {
         <motion.p animate={{ rotate: [0, -6, 6, 0] }} transition={{ repeat: Infinity, duration: 2.4 }} className="text-5xl">
           🥚
         </motion.p>
-        <h1 className="mt-2 text-2xl font-black text-orange-600">遇见你的冒险伙伴</h1>
+        <h1 className="mt-2 text-2xl font-black text-[#3c3c3c]">遇见你的冒险伙伴</h1>
         <p className="mt-1 text-sm font-bold text-gray-500">
           完成学习任务就能帮它长大，还能解锁专属冒险剧情！
         </p>
@@ -297,7 +297,7 @@ export default function PetView() {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-3xl border-2 border-sky-200 bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 p-5 text-center shadow-[0_8px_0_0_rgba(56,189,248,0.3)]"
+        className="relative overflow-hidden rounded-3xl border-2 border-sky-200 bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 p-5 text-center dl-shadow-lift"
       >
         {/* 装饰云朵 */}
         <span className="pointer-events-none absolute left-4 top-3 text-2xl opacity-70">☁️</span>

@@ -89,7 +89,7 @@ export default function RewardShop() {
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-3xl border-2 border-violet-300 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-rose-50 p-5 text-center shadow-[0_8px_0_0_rgba(139,92,246,0.3)]"
+        className="rounded-3xl border-2 border-violet-200 bg-white p-5 text-center dl-shadow-lift"
       >
         <motion.span
           animate={{ rotate: [0, -8, 8, 0] }}
@@ -98,7 +98,7 @@ export default function RewardShop() {
         >
           <IconChip tone="red" size="xl" round>🎁</IconChip>
         </motion.span>
-        <h2 className="mt-1 text-xl font-black text-violet-700 sm:text-2xl">礼物屋</h2>
+        <h2 className="mt-1 text-xl font-black text-[#3c3c3c] sm:text-2xl">礼物屋</h2>
         <p className="mt-1 text-xs font-bold text-violet-500 sm:text-sm">
           攒金币 → 换奖励 → 请爸爸妈妈兑现，说到做到哦！
         </p>
@@ -121,7 +121,7 @@ export default function RewardShop() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.04 * i }}
-              className="relative rounded-3xl border-2 border-violet-200 bg-white p-4 shadow-[0_5px_0_0_rgba(139,92,246,0.18)]"
+              className="relative rounded-3xl border-2 border-violet-200 bg-white p-4 dl-shadow-flat"
             >
               <div className="flex items-center gap-3">
                 <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-violet-50 text-4xl">
@@ -198,7 +198,7 @@ export default function RewardShop() {
             record.fulfilled ? (
               <CouponTicket key={record.id} record={record} />
             ) : (
-              <motion.div key={record.id} className="rounded-2xl border-2 border-amber-200 bg-white p-4 shadow-[0_5px_0_0_rgba(251,191,36,0.2)]">
+              <motion.div key={record.id} className="rounded-2xl border-2 border-amber-200 bg-white p-4 dl-shadow-flat">
                 <CouponTicketInner record={record} onFulfill={() => markRedeemFulfilled(record.id)} />
               </motion.div>
             )

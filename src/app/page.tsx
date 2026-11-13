@@ -213,30 +213,30 @@ export default function Home() {
   ] as const
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-amber-50 via-orange-50 to-orange-100">
+    <div className="dl-paper flex min-h-screen flex-col">
       {/* 顶部资源栏 */}
       {view.name !== 'quiz' && (
-        <header className="sticky top-0 z-40 border-b-2 border-amber-200/70 bg-white/85 backdrop-blur">
+        <header className="sticky top-0 z-40 border-b-2 border-[#e5e5e5] bg-white/85 backdrop-blur">
           <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-1 px-1.5 py-2.5 sm:px-2">
             <div className="flex items-center gap-1.5">
               <IconChip tone="sky" size="sm" round>🏝️</IconChip>
-              <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">童学冒险岛</h1>
+              <h1 className="hidden text-lg font-black tracking-tight text-[#3c3c3c] sm:block">童学冒险岛</h1>
               <TextbookPicker />
             </div>
             <div className="flex items-center gap-1 sm:gap-2">
-              <span className="gloss-pill shrink-0 whitespace-nowrap rounded-full bg-amber-100 px-1.5 py-1 text-xs font-black text-amber-700 sm:px-2" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
+              <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
                 🪙 {coins}
               </span>
-              <span className="gloss-pill shrink-0 whitespace-nowrap rounded-full bg-orange-100 px-1.5 py-1 text-xs font-black text-orange-700 sm:px-2" title="星星总数（所有科目）">
+              <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="星星总数（所有科目）">
                 ⭐ {stars}
               </span>
-              <span className="gloss-pill shrink-0 whitespace-nowrap rounded-full bg-emerald-100 px-1.5 py-1 text-xs font-black text-emerald-700 sm:px-2" title="连续签到">
+              <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="连续签到">
                 🔥 {streak}天
               </span>
               <button
                 onClick={toggleSound}
                 aria-label="音效开关"
-                className="gloss-pill shrink-0 rounded-full bg-gray-100 px-1 py-1 text-xs transition-transform active:scale-90 sm:px-1.5"
+                className="dl-sticker gloss-pill shrink-0 rounded-full px-1 py-1 text-xs transition-transform active:scale-90 sm:px-1.5"
               >
                 {soundOn ? '🔊' : '🔇'}
               </button>
@@ -248,7 +248,7 @@ export default function Home() {
                 }}
                 aria-label="账号与云端同步"
                 title="账号与云端同步"
-                className="shrink-0 max-w-[6rem] truncate rounded-full bg-sky-100 px-1.5 py-1 text-xs font-black text-sky-700 transition-transform active:scale-90 sm:px-2"
+                className="dl-sticker shrink-0 max-w-[6rem] truncate rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] transition-transform active:scale-90 sm:px-2"
               >
                 {cloudUser ? `${cloudUser.avatarEmoji || '🙂'} ${cloudUser.nickname || '我的账号'}` : '🙂 登录'}
               </button>
@@ -256,7 +256,7 @@ export default function Home() {
                 <DialogTrigger asChild>
                   <button
                     aria-label="使用指南"
-                    className="gloss-pill shrink-0 rounded-full bg-violet-100 px-1 py-1 text-xs transition-transform active:scale-90 sm:px-1.5"
+                    className="dl-sticker gloss-pill shrink-0 rounded-full px-1 py-1 text-xs transition-transform active:scale-90 sm:px-1.5"
                   >
                     👨‍👩‍👧
                   </button>
@@ -340,7 +340,7 @@ export default function Home() {
       {/* 底部导航 */}
       {showTabBar && (
         <nav
-          className="sticky bottom-0 z-40 border-t-2 border-amber-200/70 bg-white/95 backdrop-blur"
+          className="sticky bottom-0 z-40 border-t-2 border-[#e5e5e5] bg-white/95 backdrop-blur"
           style={{ paddingBottom: 'max(0.25rem, env(safe-area-inset-bottom))' }}
         >
           <div className="mx-auto grid w-full max-w-2xl grid-cols-6">
@@ -354,7 +354,7 @@ export default function Home() {
                     setView({ name: tab.key } as View)
                   }}
                   className={`relative flex flex-col items-center gap-0.5 py-3 text-xs font-black transition-colors ${
-                    active ? 'text-orange-600' : 'text-gray-400 hover:text-gray-600'
+                    active ? 'text-[#58a700]' : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
                   <span className="relative transition-transform">

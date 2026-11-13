@@ -121,7 +121,7 @@ export default function AchievementsView() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.04 * i }}
               className={`rounded-2xl border-2 p-4 text-center ${
-                got ? 'border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50 shadow-[0_4px_0_0_rgba(251,191,36,0.35)]' : 'border-gray-200 bg-gray-50 opacity-80'
+                got ? 'border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50 dl-shadow-flat' : 'border-gray-200 bg-gray-50 opacity-80'
               }`}
             >
               <div className="flex justify-center">
