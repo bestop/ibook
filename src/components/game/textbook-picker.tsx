@@ -7,6 +7,7 @@ import { subjectsFor } from '@/lib/questions'
 import { useGame } from '@/lib/game'
 import type { TextbookChoice } from '@/lib/game'
 import { sfx } from '@/lib/sound'
+import IconChip from '@/components/game/icon-chip'
 
 export const GRADE_LABELS: Record<number, string> = { 1: '一年级', 2: '二年级', 3: '三年级', 4: '四年级', 5: '五年级', 6: '六年级' }
 export const TERM_LABELS: Record<'a' | 'b', string> = { a: '上册', b: '下册' }
@@ -101,7 +102,7 @@ export default function TextbookPicker() {
           sfx.click()
           setOpen(true)
         }}
-        className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border-2 border-violet-200 bg-white px-2.5 py-1 text-xs font-black text-violet-600 shadow-[0_3px_0_0_rgba(139,92,246,0.25)] transition-transform active:translate-y-[2px] active:shadow-none sm:px-3 sm:text-sm"
+        className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border-2 border-violet-200 bg-white px-2 py-1 text-xs font-black text-violet-600 shadow-[0_3px_0_0_rgba(139,92,246,0.25)] transition-transform active:translate-y-[2px] active:shadow-none sm:px-3 sm:text-sm"
         aria-label="选择年级、册别和出版社"
         title="点击切换年级 / 上下册 / 出版社"
       >
@@ -115,7 +116,7 @@ export default function TextbookPicker() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-h-[80vh] overflow-y-auto rounded-3xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black">📚 选择你的教材</DialogTitle>
+            <DialogTitle className="flex items-center gap-2 text-lg font-black"><IconChip tone="green" size="md">📚</IconChip>选择你的教材</DialogTitle>
             <DialogDescription className="text-left text-xs font-bold">
               选好年级、册别和出版社，对应的科目岛就会出现！
             </DialogDescription>

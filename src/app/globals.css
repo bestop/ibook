@@ -92,6 +92,82 @@ html {
   transition: width 200ms var(--dl-ease-spring);
 }
 
+/* ============================================
+   统一图标体系：彩色扁平 + 轻微拟物光泽（Icon Chip）
+   彩色浅底芯片承载 emoji 图标：顶部弧形光泽面 + 内高光 +
+   饱和色轻拟物底边。与小程序端 app.wxss 的 .ico-chip 同构同名，
+   尺寸/色调/光泽三要素全端一致。
+   ============================================ */
+@layer components {
+  .ico-chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    border-radius: 30%;
+    line-height: 1;
+    background: var(--ico-bg, var(--dl-owl-green-pale));
+    box-shadow:
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.65),
+      inset 0 -3px 0 rgba(0, 0, 0, 0.055),
+      0 3px 0 var(--ico-edge, var(--dl-owl-green-deep));
+  }
+  /* 光泽面：顶部弧形高光，轻微拟物但不油腻 */
+  .ico-chip::before {
+    content: '';
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    top: 8%;
+    height: 34%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    pointer-events: none;
+  }
+  .ico-chip-glyph {
+    position: relative;
+    z-index: 1;
+    display: block;
+    line-height: 1;
+    font-size: inherit;
+  }
+  .ico-round { border-radius: 50%; }
+  /* 尺寸档：xs 角标 / sm 行内胶囊 / md 导航与标题 / lg 贴片 / xl 英雄 */
+  .ico-xs {
+    width: 24px; height: 24px; font-size: 14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.65), inset 0 -2px 0 rgba(0,0,0,.055), 0 2px 0 var(--ico-edge, var(--dl-owl-green-deep));
+  }
+  .ico-sm {
+    width: 30px; height: 30px; font-size: 18px;
+    box-shadow: inset 0 1.5px 0 rgba(255,255,255,.65), inset 0 -2px 0 rgba(0,0,0,.055), 0 2px 0 var(--ico-edge, var(--dl-owl-green-deep));
+  }
+  .ico-md { width: 36px; height: 36px; font-size: 22px; }
+  .ico-lg {
+    width: 60px; height: 60px; font-size: 36px;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.65), inset 0 -3px 0 rgba(0,0,0,.055), 0 4px 0 var(--ico-edge, var(--dl-owl-green-deep));
+  }
+  .ico-xl {
+    width: 96px; height: 96px; font-size: 58px;
+    box-shadow: inset 0 3px 0 rgba(255,255,255,.6), inset 0 -4px 0 rgba(0,0,0,.055), 0 5px 0 var(--ico-edge, var(--dl-owl-green-deep));
+  }
+  /* 色调：彩色扁平 = 浅彩底 + 同系饱和底边（多邻国官方色系派生） */
+  .ico-green  { --ico-bg: #DBF8C5; --ico-edge: #58CC02; }
+  .ico-amber  { --ico-bg: #FFF3C2; --ico-edge: #FFC800; }
+  .ico-orange { --ico-bg: #FFE9CF; --ico-edge: #FF9600; }
+  .ico-red    { --ico-bg: #FFDFE0; --ico-edge: #FF4B4B; }
+  .ico-pink   { --ico-bg: #FFE3F1; --ico-edge: #FF67A0; }
+  .ico-sky    { --ico-bg: #DCF4FF; --ico-edge: #1CB0F6; }
+  .ico-violet { --ico-bg: #F1E6FF; --ico-edge: #CE82FF; }
+  .ico-teal   { --ico-bg: #DAF6F0; --ico-edge: #23BFA6; }
+  .ico-gray   { --ico-bg: #F1F1F1; --ico-edge: #C9C9C9; }
+  /* 通用光泽材质：任意彩色胶囊加顶部高光 + 底部收影（不动布局与字色） */
+  .gloss-pill {
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 0 rgba(0, 0, 0, 0.06);
+  }
+}
+
 body {
   user-select: none;
 }

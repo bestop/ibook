@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { useGame } from '@/lib/game'
 import { sfx } from '@/lib/sound'
+import IconChip from '@/components/game/icon-chip'
 import {
   petStageIndexOf,
   petStageOf,
@@ -432,7 +433,9 @@ export default function PetView() {
                   ch.locked ? 'border-gray-100 bg-gray-50' : read ? 'border-emerald-200 bg-emerald-50/60 hover:bg-emerald-50' : 'border-violet-200 bg-white hover:bg-violet-50'
                 }`}
               >
-                <span className={`shrink-0 text-3xl ${ch.locked ? 'opacity-30 grayscale' : ''}`}>{ch.locked ? '🔒' : read ? '📗' : '📘'}</span>
+                <span className={`shrink-0 ${ch.locked ? 'opacity-30 grayscale' : ''}`}>
+                  <IconChip tone={ch.locked ? 'gray' : read ? 'green' : 'sky'} size="md">{ch.locked ? '🔒' : read ? '📗' : '📘'}</IconChip>
+                </span>
                 <div className="min-w-0 flex-1">
                   <p className={`truncate text-sm font-black ${ch.locked ? 'text-gray-400' : 'text-gray-800'}`}>
                     第 {ch.index} 章 · {ch.locked ? '？？？？？' : ch.title}

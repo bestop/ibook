@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ACHIEVEMENTS, useGame } from '@/lib/game'
 import { todayKey, weekSignDays, weekReport } from '@/lib/week'
+import IconChip, { type IconTone } from '@/components/game/icon-chip'
 
 export default function AchievementsView() {
   const achievements = useGame((s) => s.achievements)
@@ -32,15 +33,17 @@ export default function AchievementsView() {
 
       {/* 数据总览 */}
       <div className="mb-4 grid grid-cols-4 gap-2">
-        {[
-          { label: '总金币', value: coins, emoji: '🪙', cls: 'bg-amber-50 text-amber-700' },
-          { label: '连续签到', value: `${streak}天`, emoji: '📅', cls: 'bg-emerald-50 text-emerald-700' },
-          { label: '答题总数', value: totalCorrect + totalWrong, emoji: '✏️', cls: 'bg-orange-50 text-orange-700' },
-          { label: '正确率', value: `${accuracy}%`, emoji: '🎯', cls: 'bg-rose-50 text-rose-700' },
-        ].map((s) => (
+        {([
+          { label: '总金币', value: coins, emoji: '🪙', tone: 'amber', cls: 'bg-amber-50 text-amber-700' },
+          { label: '连续签到', value: `${streak}天`, emoji: '📅', tone: 'green', cls: 'bg-emerald-50 text-emerald-700' },
+          { label: '答题总数', value: totalCorrect + totalWrong, emoji: '✏️', tone: 'orange', cls: 'bg-orange-50 text-orange-700' },
+          { label: '正确率', value: `${accuracy}%`, emoji: '🎯', tone: 'red', cls: 'bg-rose-50 text-rose-700' },
+        ] as { label: string; value: string | number; emoji: string; tone: IconTone; cls: string }[]).map((s) => (
           <div key={s.label} className={`rounded-2xl p-3 text-center ${s.cls}`}>
-            <p className="text-xl">{s.emoji}</p>
-            <p className="mt-0.5 text-base font-black tabular-nums">{s.value}</p>
+            <div className="flex justify-center">
+              <IconChip tone={s.tone} size="sm">{s.emoji}</IconChip>
+            </div>
+            <p className="mt-1 text-base font-black tabular-nums">{s.value}</p>
             <p className="text-[11px] font-bold opacity-70">{s.label}</p>
           </div>
         ))}
@@ -64,7 +67,7 @@ export default function AchievementsView() {
       {/* 本周报告（借鉴聪聪学堂 WeeklyReportCard：每日分钟柱状图 + 学习天数 + 与上周对比，与小程序同构） */}
       <div className="mb-4 rounded-3xl border-2 border-gray-100 bg-white p-4 shadow-[0_4px_0_0_rgba(0,0,0,0.04)]">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-black text-gray-800">📊 本周报告</h2>
+          <h2 className="flex items-center gap-2 text-sm font-black text-gray-800"><IconChip tone="sky" size="sm">📊</IconChip>本周报告</h2>
           {report.deltaMinutes !== 0 && (
             <span className={`text-xs font-black ${report.deltaMinutes > 0 ? 'text-emerald-600' : 'text-gray-400'}`}>
               {report.deltaMinutes > 0 ? '+' : ''}
@@ -102,7 +105,7 @@ export default function AchievementsView() {
         </div>
       </div>
 
-      <h2 className="mb-1 mt-5 text-lg font-black text-gray-800">🏆 成就墙</h2>
+      <h2 className="mb-1 mt-5 flex items-center gap-2 text-lg font-black text-gray-800"><IconChip tone="amber" size="md">🏆</IconChip>成就墙</h2>
       <p className="mb-3 text-xs font-bold text-gray-400">
         已解锁 {unlockedCount}/{ACHIEVEMENTS.length} 个成就
       </p>
@@ -121,9 +124,11 @@ export default function AchievementsView() {
                 got ? 'border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50 shadow-[0_4px_0_0_rgba(251,191,36,0.35)]' : 'border-gray-200 bg-gray-50 opacity-80'
               }`}
             >
-              <span className={`block text-4xl ${got ? '' : 'grayscale opacity-40'}`}>
-                {got ? a.emoji : '🔒'}
-              </span>
+              <div className="flex justify-center">
+                <IconChip tone={got ? 'amber' : 'gray'} size="lg" className={`h-16 w-16 text-4xl ${got ? '' : 'grayscale opacity-40'}`}>
+                  {got ? a.emoji : '🔒'}
+                </IconChip>
+              </div>
               <p className={`mt-2 text-sm font-black ${got ? 'text-amber-700' : 'text-gray-500'}`}>{a.name}</p>
               <p className="mt-0.5 text-xs font-bold text-gray-400">{a.desc}</p>
               {p && (

@@ -8,6 +8,7 @@ import type { SubjectId } from '@/lib/questions'
 import { useGame, coinForLevel } from '@/lib/game'
 import { petExpForLevelStars, PET_EXP, petLevelOf, petStageIndexOf } from '@/lib/pet'
 import { sfx } from '@/lib/sound'
+import IconChip from '@/components/game/icon-chip'
 import type { QuizResult, QuizMode } from './quiz-view'
 
 interface ResultViewProps {
@@ -143,10 +144,11 @@ export default function ResultView({ subject, mode, levelId, result, onRetry, on
                 initial={{ scale: 0, rotate: -60 }}
                 animate={stars > i ? { scale: 1, rotate: 0 } : { scale: 0.6, opacity: 0.2 }}
                 transition={{ delay: 0.5 + i * 0.3, type: 'spring', stiffness: 260 }}
-                className="text-5xl sm:text-6xl"
-                style={stars > i ? { filter: 'drop-shadow(0 0 8px rgba(251,191,36,0.8))' } : { opacity: 0.2 }}
+                style={stars > i ? { filter: 'drop-shadow(0 0 8px rgba(251,191,36,0.8))' } : undefined}
               >
-                {stars > i ? '⭐' : '☆'}
+                <IconChip tone={stars > i ? 'amber' : 'gray'} size="lg" round className="h-16 w-16 text-4xl sm:h-20 sm:w-20 sm:text-5xl">
+                  {stars > i ? '⭐' : '☆'}
+                </IconChip>
               </motion.span>
             ))}
           </div>

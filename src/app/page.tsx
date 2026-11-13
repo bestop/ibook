@@ -29,6 +29,7 @@ import PetAvatar from '@/components/game/pet-avatar'
 import { PET_STORIES, STORY_BOOK_TITLE } from '@/lib/pet-stories'
 import { sfx, subscribeSound, getSoundSnapshot, loadSoundPref, setSoundEnabled } from '@/lib/sound'
 import UserDialog from '@/components/game/user-dialog'
+import IconChip from '@/components/game/icon-chip'
 import { alignCloud, cloudProfile, getCloudUISnapshot, startAutoSync, subscribeCloudUI } from '@/lib/cloud'
 import { toast } from '@/hooks/use-toast'
 
@@ -191,8 +192,8 @@ export default function Home() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-amber-50 to-orange-100">
         <div className="flex flex-col items-center gap-3">
-          <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.2 }} className="text-6xl">
-            🏝️
+          <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.2 }} className="inline-flex">
+            <IconChip tone="sky" size="xl" round>🏝️</IconChip>
           </motion.span>
           <p className="font-black text-orange-500">童学冒险岛加载中…</p>
         </div>
@@ -203,12 +204,12 @@ export default function Home() {
   const showTabBar = view.name === 'home' || view.name === 'map' || view.name === 'pet' || view.name === 'wrongbook' || view.name === 'achievements' || view.name === 'rewards'
 
   const tabs = [
-    { key: 'home', label: '科目', emoji: '🏠' },
-    { key: 'map', label: '闯关地图', emoji: '🏰' },
-    { key: 'pet', label: '宠物', emoji: '🐾' },
-    { key: 'rewards', label: '礼物', emoji: '🎁' },
-    { key: 'wrongbook', label: '错题本', emoji: '📕' },
-    { key: 'achievements', label: '成就墙', emoji: '🏆' },
+    { key: 'home', label: '科目', emoji: '🏠', tone: 'sky' },
+    { key: 'map', label: '闯关地图', emoji: '🏰', tone: 'violet' },
+    { key: 'pet', label: '宠物', emoji: '🐾', tone: 'orange' },
+    { key: 'rewards', label: '礼物', emoji: '🎁', tone: 'pink' },
+    { key: 'wrongbook', label: '错题本', emoji: '📕', tone: 'red' },
+    { key: 'achievements', label: '成就墙', emoji: '🏆', tone: 'amber' },
   ] as const
 
   return (
@@ -216,26 +217,26 @@ export default function Home() {
       {/* 顶部资源栏 */}
       {view.name !== 'quiz' && (
         <header className="sticky top-0 z-40 border-b-2 border-amber-200/70 bg-white/85 backdrop-blur">
-          <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-3 py-2.5">
+          <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-1 px-1.5 py-2.5 sm:px-2">
             <div className="flex items-center gap-1.5">
-              <span className="text-2xl">🏝️</span>
+              <IconChip tone="sky" size="sm" round>🏝️</IconChip>
               <h1 className="hidden text-lg font-black tracking-tight text-orange-600 sm:block">童学冒险岛</h1>
               <TextbookPicker />
             </div>
             <div className="flex items-center gap-1 sm:gap-2">
-              <span className="shrink-0 whitespace-nowrap rounded-full bg-amber-100 px-2 py-1 text-xs font-black text-amber-700 sm:px-2.5" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
+              <span className="gloss-pill shrink-0 whitespace-nowrap rounded-full bg-amber-100 px-1.5 py-1 text-xs font-black text-amber-700 sm:px-2" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
                 🪙 {coins}
               </span>
-              <span className="shrink-0 whitespace-nowrap rounded-full bg-orange-100 px-2 py-1 text-xs font-black text-orange-700 sm:px-2.5" title="星星总数（所有科目）">
+              <span className="gloss-pill shrink-0 whitespace-nowrap rounded-full bg-orange-100 px-1.5 py-1 text-xs font-black text-orange-700 sm:px-2" title="星星总数（所有科目）">
                 ⭐ {stars}
               </span>
-              <span className="shrink-0 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-1 text-xs font-black text-emerald-700 sm:px-2.5" title="连续签到">
+              <span className="gloss-pill shrink-0 whitespace-nowrap rounded-full bg-emerald-100 px-1.5 py-1 text-xs font-black text-emerald-700 sm:px-2" title="连续签到">
                 🔥 {streak}天
               </span>
               <button
                 onClick={toggleSound}
                 aria-label="音效开关"
-                className="shrink-0 rounded-full bg-gray-100 px-1.5 py-1 text-xs transition-transform active:scale-90 sm:px-2"
+                className="gloss-pill shrink-0 rounded-full bg-gray-100 px-1 py-1 text-xs transition-transform active:scale-90 sm:px-1.5"
               >
                 {soundOn ? '🔊' : '🔇'}
               </button>
@@ -247,7 +248,7 @@ export default function Home() {
                 }}
                 aria-label="账号与云端同步"
                 title="账号与云端同步"
-                className="shrink-0 max-w-[8rem] truncate rounded-full bg-sky-100 px-2 py-1 text-xs font-black text-sky-700 transition-transform active:scale-90 sm:px-2.5"
+                className="shrink-0 max-w-[6rem] truncate rounded-full bg-sky-100 px-1.5 py-1 text-xs font-black text-sky-700 transition-transform active:scale-90 sm:px-2"
               >
                 {cloudUser ? `${cloudUser.avatarEmoji || '🙂'} ${cloudUser.nickname || '我的账号'}` : '🙂 登录'}
               </button>
@@ -255,33 +256,35 @@ export default function Home() {
                 <DialogTrigger asChild>
                   <button
                     aria-label="使用指南"
-                    className="shrink-0 rounded-full bg-violet-100 px-1.5 py-1 text-xs transition-transform active:scale-90 sm:px-2"
+                    className="gloss-pill shrink-0 rounded-full bg-violet-100 px-1 py-1 text-xs transition-transform active:scale-90 sm:px-1.5"
                   >
                     👨‍👩‍👧
                   </button>
                 </DialogTrigger>
                 <DialogContent className="max-h-[80vh] overflow-y-auto rounded-3xl">
                   <DialogHeader>
-                    <DialogTitle className="text-lg font-black">👨‍👩‍👧 使用指南</DialogTitle>
+                    <DialogTitle className="flex items-center gap-2 text-lg font-black">
+                      <IconChip tone="violet" size="md">👨‍👩‍👧</IconChip> 使用指南
+                    </DialogTitle>
                     <DialogDescription className="text-left text-sm font-bold leading-relaxed">
                       覆盖语文、数学、英语一至六年级上下册，共 98 个科目岛、821 关 8210 道精选题，每题配详细解析。左上角可切换年级、册别和版本，建议孩子每天玩 20 分钟。
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-3 text-sm leading-relaxed text-gray-600">
                     <div className="rounded-2xl bg-amber-50 p-3">
-                      <p className="font-black text-amber-700">⏰ 每天 20 分钟</p>
+                      <p className="flex items-center gap-2 font-black text-amber-700"><IconChip tone="sky" size="sm">⏰</IconChip>每天 20 分钟</p>
                       <p>1 关 ≈ 10 题 ≈ 5-8 分钟。推荐「闯 2 关 + 复习错题 + 每日挑战」，98 个科目岛可搭配着玩，时长自动累计。</p>
                     </div>
                     <div className="rounded-2xl bg-emerald-50 p-3">
-                      <p className="font-black text-emerald-700">🎁 奖励与惩罚</p>
+                      <p className="flex items-center gap-2 font-black text-emerald-700"><IconChip tone="green" size="sm">🎁</IconChip>奖励与惩罚</p>
                       <p>答对 +10 金币、连击再 +5，通关按星级 +20/50/100；每关 3 颗❤️，答错或超时扣 1 颗，用完闯关失败、本局金币减半，错题自动进错题本、复习答对才能「消灭」。</p>
                     </div>
                     <div className="rounded-2xl bg-violet-50 p-3">
-                      <p className="font-black text-violet-700">👪 礼物屋与宠物</p>
+                      <p className="flex items-center gap-2 font-black text-violet-700"><IconChip tone="violet" size="sm">👪</IconChip>礼物屋与宠物</p>
                       <p>金币可在礼物屋兑换亲子奖励，生成兑换券、家长兑现后点「已兑现」；宠物页领养猫狗伙伴，通关、挑战、复习、签到都涨经验，升级会进化。</p>
                     </div>
                     <div className="rounded-2xl bg-sky-50 p-3">
-                      <p className="font-black text-sky-700">💡 小贴士</p>
+                      <p className="flex items-center gap-2 font-black text-sky-700"><IconChip tone="amber" size="sm">💡</IconChip>小贴士</p>
                       <p>全对 3 星、错 1 题 2 星，鼓励孩子冲 3 星；进度自动保存，登录后云端跨端同步，可与孩子约定金币/星星目标小奖励。</p>
                     </div>
                   </div>
@@ -354,8 +357,10 @@ export default function Home() {
                     active ? 'text-orange-600' : 'text-gray-400 hover:text-gray-600'
                   }`}
                 >
-                  <span className={`relative text-2xl transition-transform ${active ? 'scale-110' : ''}`}>
-                    {tab.emoji}
+                  <span className="relative transition-transform">
+                    <IconChip tone={tab.tone} size="md" className={active ? 'scale-110' : ''}>
+                      {tab.emoji}
+                    </IconChip>
                     {tab.key === 'wrongbook' && wrongCount > 0 && (
                       <span className="absolute -right-2.5 -top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-black leading-none text-white ring-2 ring-white">
                         {wrongCount > 99 ? '99+' : wrongCount}
@@ -391,9 +396,9 @@ export default function Home() {
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-xs rounded-3xl border-4 border-amber-300 bg-gradient-to-b from-amber-50 to-orange-50 p-6 text-center shadow-2xl"
             >
-              <motion.p animate={{ rotate: [0, -8, 8, 0], scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 1.6 }} className="text-6xl">
-                {achievementPopup.emoji}
-              </motion.p>
+              <motion.span animate={{ rotate: [0, -8, 8, 0], scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 1.6 }} className="flex justify-center">
+                <IconChip tone="amber" size="xl" round>{achievementPopup.emoji}</IconChip>
+              </motion.span>
               <p className="mt-2 text-xs font-black tracking-widest text-amber-600">🎉 成就解锁</p>
               <p className="mt-1 text-xl font-black text-gray-800">{achievementPopup.name}</p>
               <p className="mt-1 text-sm font-bold text-gray-500">{achievementPopup.desc}</p>
@@ -454,9 +459,9 @@ export default function Home() {
                     const ch = PET_STORIES[petEvent.petKind].find((c) => c.id === petEvent.chapterId)
                     return (
                       <>
-                        <motion.p animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="text-6xl">
-                          📖
-                        </motion.p>
+                        <motion.span animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 1.8 }} className="flex justify-center">
+                          <IconChip tone="violet" size="xl" round>📖</IconChip>
+                        </motion.span>
                         <p className="mt-2 text-xs font-black tracking-widest text-violet-600">✨ 解锁新剧情</p>
                         <p className="mt-1 text-lg font-black text-gray-800">《{STORY_BOOK_TITLE[petEvent.petKind]}》第 {ch?.index ?? '?'} 章</p>
                         <p className="mt-1 text-base font-black text-violet-500">{ch?.title ?? '神秘的新冒险'}</p>

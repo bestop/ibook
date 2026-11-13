@@ -10,6 +10,7 @@ import { useGame, coinForAnswer } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import { speak, stopSpeak, ttsSupported } from '@/lib/tts'
 import * as cheers from '@/lib/cheers'
+import IconChip from '@/components/game/icon-chip'
 import type { Question } from '@/lib/questions'
 
 export interface QuizItem {
@@ -211,7 +212,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   if (!current) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-        <span className="text-5xl">🤔</span>
+        <IconChip tone="gray" size="lg" className="h-20 w-20 text-5xl">🤔</IconChip>
         <p className="text-lg text-gray-500">没有可用的题目</p>
         <Button onClick={onExit}>返回</Button>
       </div>
@@ -238,21 +239,22 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         >
           ← 退出
         </Button>
-        <div className="flex min-w-0 items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm">
-          <span className="truncate text-xs font-bold text-gray-500">{emoji} {title}</span>
+        <div className="flex min-w-0 items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 shadow-[inset_0_2px_0_rgba(255,255,255,0.5),inset_0_-2px_0_rgba(0,0,0,0.06)]">
+          <IconChip tone="gray" size="xs">{emoji}</IconChip>
+          <span className="truncate text-xs font-bold text-gray-500">{title}</span>
         </div>
         <div className="flex items-center gap-1">
           {mode === 'review' ? (
             // 复习模式不扣命：红心位改展示「答对即掌握」徽标（与小程序同构）
-            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-700">📚 答对即掌握</span>
+            <span className="gloss-pill rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-700">📚 答对即掌握</span>
           ) : (
             Array.from({ length: LIVES }).map((_, i) => (
               <motion.span
                 key={i}
                 animate={i < lives ? { scale: [1, 1.15, 1] } : { scale: 1 }}
-                className={`text-xl transition-opacity ${i < lives ? '' : 'opacity-25 grayscale'}`}
+                className={`transition-opacity ${i < lives ? '' : 'opacity-25 grayscale'}`}
               >
-                ❤️
+                <IconChip tone="red" size="xs" round>❤️</IconChip>
               </motion.span>
             ))
           )}
@@ -282,7 +284,10 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
           className="rounded-2xl border-2 border-sky-200 bg-sky-50 px-4 py-2.5"
         >
           <div className="flex items-center justify-between gap-2">
-            <p className="truncate text-xs font-black text-sky-700">📚 本关考点：{levelTags.join(' · ')}</p>
+            <p className="flex min-w-0 items-center gap-2 text-xs font-black text-sky-700">
+              <IconChip tone="sky" size="sm">📚</IconChip>
+              <span className="truncate">本关考点：{levelTags.join(' · ')}</span>
+            </p>
             <button
               onClick={() => {
                 sfx.click()
@@ -363,9 +368,9 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
                 speak(`${current.question.q}。选项：${opts}`)
               }}
               aria-label="朗读题目和选项"
-              className="ml-auto flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-100 text-base transition-transform active:scale-90"
+              className="ml-auto shrink-0 transition-transform active:scale-90"
             >
-              🔊
+              <IconChip tone="sky" size="sm" round>🔊</IconChip>
             </button>
           )}
         </div>
@@ -458,11 +463,11 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
       <div className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-orange-100 bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3 px-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-amber-100 px-3 py-1.5 text-sm font-black text-amber-700">
+            <span className="gloss-pill rounded-full bg-amber-100 px-3 py-1.5 text-sm font-black text-amber-700">
               🪙 本局 {coins}
             </span>
             {maxCombo >= 2 && (
-              <span className="rounded-full bg-orange-100 px-3 py-1.5 text-sm font-black text-orange-600">
+              <span className="gloss-pill rounded-full bg-orange-100 px-3 py-1.5 text-sm font-black text-orange-600">
                 🔥 ×{maxCombo}
               </span>
             )}

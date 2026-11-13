@@ -8,6 +8,7 @@ import { useGame, subjectStats, DAILY_GOAL_SECONDS } from '@/lib/game'
 import type { TextbookChoice } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import { GRADE_LABELS, TERM_LABELS } from '@/components/game/textbook-picker'
+import IconChip, { type IconTone } from '@/components/game/icon-chip'
 
 interface HomeViewProps {
   onSelectSubject: (subjectId: SubjectId) => void
@@ -121,6 +122,12 @@ const THEME = {
   },
 } as const
 
+// 主题色 → 图标芯片色调（统一图标体系：彩色扁平 + 轻微拟物光泽）
+const CHIP_TONE: Record<keyof typeof THEME, IconTone> = {
+  orange: 'orange', emerald: 'green', sky: 'sky', rose: 'pink', violet: 'violet',
+  teal: 'teal', amber: 'amber', lime: 'green', cyan: 'sky', pink: 'pink',
+  indigo: 'sky', fuchsia: 'violet', blue: 'sky', green: 'green', red: 'red',
+}
 // 小朋友看得懂的科目口号（未来新增科目时自动回退到 tagline）
 const KID_LINES: Partial<Record<SubjectId, string>> = {
   chinese1: '天地人 · 拼音宝宝 · 雪地小画家！',
@@ -250,13 +257,15 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             <span className="absolute -bottom-[9px] left-10 h-3.5 w-3.5 rotate-45 border-b-2 border-r-2 border-orange-200 bg-white" />
           </motion.div>
 
-          <motion.p
+          <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-            className="mt-4 text-7xl sm:text-8xl"
+            className="mt-4 flex justify-center"
           >
-            🏝️
-          </motion.p>
+            <IconChip tone="sky" size="lg" round className="h-28 w-28 text-[72px] sm:h-36 sm:w-36 sm:text-[92px]">
+              🏝️
+            </IconChip>
+          </motion.div>
           <h1 className="mt-2 bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl">
             童学冒险岛
           </h1>
@@ -265,9 +274,9 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           </p>
 
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
-            <span className="rounded-full bg-amber-100 px-3 py-1.5 text-amber-700 shadow-sm">🪙 {coins}</span>
-            <span className="rounded-full bg-emerald-100 px-3 py-1.5 text-emerald-700 shadow-sm">🔥 连续 {streak} 天</span>
-            <span className="rounded-full bg-rose-100 px-3 py-1.5 text-rose-700 shadow-sm">📕 错题 {wrongCount}</span>
+            <span className="gloss-pill rounded-full bg-amber-100 px-3 py-1.5 text-amber-700">🪙 {coins}</span>
+            <span className="gloss-pill rounded-full bg-emerald-100 px-3 py-1.5 text-emerald-700">🔥 连续 {streak} 天</span>
+            <span className="gloss-pill rounded-full bg-rose-100 px-3 py-1.5 text-rose-700">📕 错题 {wrongCount}</span>
           </div>
         </motion.section>
 
@@ -279,7 +288,9 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           className="mt-5 rounded-3xl border-2 border-amber-200 bg-white/90 p-4 shadow-[0_6px_0_0_rgba(251,191,36,0.25)]"
         >
           <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-sm font-black text-amber-800 sm:text-base">⛵ 今日 20 分钟小目标</h2>
+            <h2 className="flex items-center gap-2 text-sm font-black text-amber-800 sm:text-base">
+              <IconChip tone="sky" size="sm">⛵</IconChip> 今日 20 分钟小目标
+            </h2>
             <span
               className={`rounded-full px-2.5 py-1 text-xs font-black text-white ${
                 dailyDone.minutes ? 'bg-emerald-400' : 'bg-amber-400'
@@ -332,7 +343,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
 
         {/* 科目岛选择 */}
         <h2 className="mb-3 mt-6 flex items-center gap-2 text-lg font-black text-gray-800 sm:text-xl">
-          <span className="text-2xl">🗺️</span> 选一个岛出发
+          <IconChip tone="violet" size="md">🗺️</IconChip> 选一个岛出发
           <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-black text-violet-500">
             {GRADE_LABELS[textbook.gradeNum] ?? `${textbook.gradeNum}年级`}{TERM_LABELS[textbook.term]}
           </span>
@@ -340,7 +351,9 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
 
         {!hasContent ? (
           <div className="rounded-[2rem] border-4 border-dashed border-amber-300 bg-white/80 p-8 text-center">
-            <p className="text-5xl">🚧</p>
+            <div className="flex justify-center">
+              <IconChip tone="amber" size="lg" className="h-20 w-20 text-5xl">🚧</IconChip>
+            </div>
             <p className="mt-2 text-base font-black text-amber-600">这片海域还没开岛哦！</p>
             <p className="mt-1 text-xs font-bold text-gray-400">
               {GRADE_LABELS[textbook.gradeNum] ?? textbook.gradeNum + '年级'}
@@ -378,9 +391,11 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                     <motion.span
                       animate={{ rotate: [0, -6, 6, 0] }}
                       transition={{ repeat: Infinity, duration: 4.5, delay: i * 0.8, ease: 'easeInOut' }}
-                      className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-[1.4rem] bg-white text-5xl shadow-sm ring-4 sm:h-24 sm:w-24 sm:text-6xl ${t.ring}`}
+                      className="shrink-0"
                     >
-                      {subject.emoji}
+                      <IconChip tone={CHIP_TONE[subject.theme]} size="lg" className="h-20 w-20 text-5xl sm:h-24 sm:w-24 sm:text-6xl">
+                        {subject.emoji}
+                      </IconChip>
                     </motion.span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-1.5">

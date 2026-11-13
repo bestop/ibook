@@ -14,6 +14,7 @@ import {
 import { DEFAULT_REWARDS, useGame } from '@/lib/game'
 import type { RedeemRecord, RewardItem } from '@/lib/game'
 import { sfx } from '@/lib/sound'
+import IconChip from '@/components/game/icon-chip'
 
 const EMOJI_CHOICES = ['🌟', '📖', '📺', '🍦', '🎮', '🎡', '🍕', '⚽', '🧸', '🏖️']
 
@@ -90,26 +91,26 @@ export default function RewardShop() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-3xl border-2 border-violet-300 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-rose-50 p-5 text-center shadow-[0_8px_0_0_rgba(139,92,246,0.3)]"
       >
-        <motion.p
+        <motion.span
           animate={{ rotate: [0, -8, 8, 0] }}
           transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
-          className="text-6xl"
+          className="flex justify-center"
         >
-          🎁
-        </motion.p>
+          <IconChip tone="red" size="xl" round>🎁</IconChip>
+        </motion.span>
         <h2 className="mt-1 text-xl font-black text-violet-700 sm:text-2xl">礼物屋</h2>
         <p className="mt-1 text-xs font-bold text-violet-500 sm:text-sm">
           攒金币 → 换奖励 → 请爸爸妈妈兑现，说到做到哦！
         </p>
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs font-black">
-          <span className="rounded-full bg-white/90 px-3 py-1.5 text-amber-600 shadow-sm">🪙 我的金币：{coins}</span>
-          <span className="rounded-full bg-white/90 px-3 py-1.5 text-violet-600 shadow-sm">🎫 待兑现：{pendingCount} 张</span>
+          <span className="flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-amber-600 shadow-sm"><IconChip tone="amber" size="xs">🪙</IconChip>我的金币：{coins}</span>
+          <span className="flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-violet-600 shadow-sm"><IconChip tone="violet" size="xs">🎫</IconChip>待兑现：{pendingCount} 张</span>
         </div>
       </motion.section>
 
       {/* 可兑换奖励 */}
       <h3 className="mb-3 mt-6 flex items-center gap-2 text-base font-black text-gray-800 sm:text-lg">
-        <span className="text-xl">🛍️</span> 可兑换的亲子奖励
+        <IconChip tone="violet" size="md">🛍️</IconChip> 可兑换的亲子奖励
       </h3>
       <div className="grid gap-3 sm:grid-cols-2">
         {rewards.map((r, i) => {
@@ -179,14 +180,14 @@ export default function RewardShop() {
 
       {/* 我的券包 */}
       <h3 className="mb-3 mt-6 flex items-center gap-2 text-base font-black text-gray-800 sm:text-lg">
-        <span className="text-xl">🎫</span> 我的券包
+        <IconChip tone="amber" size="md">🎫</IconChip> 我的券包
         {pendingCount > 0 && (
           <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-black text-amber-600">{pendingCount} 张待兑现</span>
         )}
       </h3>
       {redeemLog.length === 0 ? (
         <div className="rounded-3xl border-2 border-dashed border-gray-200 bg-white/70 p-6 text-center">
-          <p className="text-4xl">🪙</p>
+          <div className="flex justify-center"><IconChip tone="amber" size="lg" className="h-16 w-16 text-4xl">🪙</IconChip></div>
           <p className="mt-2 text-sm font-bold text-gray-400">
             还没有兑换记录～闯关攒够金币，就来换心仪的奖励吧！
           </p>
@@ -301,11 +302,11 @@ export default function RewardShop() {
                     key={e}
                     onClick={() => setForm({ ...form, emoji: e })}
                     aria-label={`选择图标 ${e}`}
-                    className={`h-9 w-9 rounded-xl text-xl transition-transform ${
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform ${
                       form.emoji === e ? 'scale-110 bg-violet-100 ring-2 ring-violet-400' : 'bg-gray-50 active:scale-90'
                     }`}
                   >
-                    {e}
+                    <IconChip tone="amber" size="xs">{e}</IconChip>
                   </button>
                 ))}
               </div>
