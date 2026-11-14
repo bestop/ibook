@@ -10,7 +10,7 @@ import { useGame, coinForAnswer } from '@/lib/game'
 import { sfx } from '@/lib/sound'
 import { speak, stopSpeak, ttsSupported } from '@/lib/tts'
 import * as cheers from '@/lib/cheers'
-import IconChip from '@/components/game/icon-chip'
+// 闯关页图标已全部裸 emoji 直出（Task 28 去芯片，与其他页统一），无需 IconChip
 import type { Question } from '@/lib/questions'
 
 export interface QuizItem {
@@ -212,7 +212,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
   if (!current) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-        <IconChip tone="gray" size="lg" className="h-20 w-20 text-5xl">🤔</IconChip>
+        <span className="select-none text-5xl leading-none">🤔</span>
         <p className="text-lg text-gray-500">没有可用的题目</p>
         <Button onClick={onExit}>返回</Button>
       </div>
@@ -240,7 +240,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
           ← 退出
         </Button>
         <div className="flex min-w-0 items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 shadow-[inset_0_2px_0_rgba(255,255,255,0.5),inset_0_-2px_0_rgba(0,0,0,0.06)]">
-          <IconChip tone="gray" size="xs">{emoji}</IconChip>
+          <span className="text-base leading-none">{emoji}</span>
           <span className="truncate text-xs font-bold text-gray-500">{title}</span>
         </div>
         <div className="flex items-center gap-1">
@@ -254,7 +254,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
                 animate={i < lives ? { scale: [1, 1.15, 1] } : { scale: 1 }}
                 className={`transition-opacity ${i < lives ? '' : 'opacity-25 grayscale'}`}
               >
-                <IconChip tone="red" size="xs" round>❤️</IconChip>
+                <span className="text-lg leading-none">❤️</span>
               </motion.span>
             ))
           )}
@@ -287,7 +287,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
         >
           <div className="flex items-center justify-between gap-2">
             <p className="flex min-w-0 items-center gap-2 text-xs font-black text-sky-700">
-              <IconChip tone="sky" size="sm">📚</IconChip>
+              <span className="text-base leading-none">📚</span>
               <span className="truncate">本关考点：{levelTags.join(' · ')}</span>
             </p>
             <button
@@ -372,7 +372,7 @@ export default function QuizView({ title, emoji, mode, items, onExit, onFinish }
               aria-label="朗读题目和选项"
               className="ml-auto shrink-0 transition-transform active:scale-90"
             >
-              <IconChip tone="sky" size="sm" round>🔊</IconChip>
+              <span className="text-xl leading-none">🔊</span>
             </button>
           )}
         </div>

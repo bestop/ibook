@@ -318,7 +318,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 嗨，小岛民！今天想去哪个岛冒险呀？
               </p>
             </div>
-            {/* 小岛场景即分享钮：主岛 + 山（山居中略偏下落在岛上），其余树/浪花已按需求移除 */}
+            {/* 小岛场景即分享钮：仅主岛（山与树/浪花已按需求移除） */}
             <motion.button
               type="button"
               onClick={shareIsland}
@@ -333,7 +333,6 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 className="relative block h-[100px] w-[130px] leading-none sm:h-[130px] sm:w-[164px]"
               >
                 <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 select-none text-[72px] sm:text-[92px]">🏝️</span>
-                <span className="absolute bottom-[16px] left-1/2 z-20 -translate-x-1/2 select-none text-[48px] sm:bottom-[22px] sm:text-[60px]">⛰️</span>
               </motion.span>
               <span className="absolute -bottom-1 left-1/2 h-2.5 w-24 -translate-x-1/2 rounded-full bg-sky-400/25 blur-[3px] sm:w-28" />
             </motion.button>
