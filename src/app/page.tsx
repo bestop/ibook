@@ -221,18 +221,24 @@ export default function Home() {
             <div className="flex items-center gap-1.5">
               <IconChip tone="sky" size="sm" round>🏝️</IconChip>
               <h1 className="hidden text-lg font-black tracking-tight text-[#3c3c3c] sm:block">童学冒险岛</h1>
-              <TextbookPicker />
+              {/* 首页已内嵌参考图筛选药丸（年级/册别/版本），顶栏不再重复展示 */}
+              {view.name !== 'home' && <TextbookPicker />}
             </div>
             <div className="flex items-center gap-1 sm:gap-2">
-              <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
-                🪙 {coins}
-              </span>
-              <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="星星总数（所有科目）">
-                ⭐ {stars}
-              </span>
-              <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="连续签到">
-                🔥 {streak}天
-              </span>
+              {/* 首页金币/星星/连签已收进「今日 20 分钟」胶囊卡，顶栏不再重复展示 */}
+              {view.name !== 'home' && (
+                <>
+                  <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="金币（各岛通用，可在礼物屋兑换亲子奖励）">
+                    🪙 {coins}
+                  </span>
+                  <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="星星总数（所有科目）">
+                    ⭐ {stars}
+                  </span>
+                  <span className="dl-sticker gloss-pill shrink-0 whitespace-nowrap rounded-full px-1.5 py-1 text-xs font-black text-[#3c3c3c] sm:px-2" title="连续签到">
+                    🔥 {streak}天
+                  </span>
+                </>
+              )}
               <button
                 onClick={toggleSound}
                 aria-label="音效开关"

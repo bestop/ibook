@@ -22,7 +22,7 @@ const GRADE_OPTIONS: { num: number; open: boolean }[] = [
   { num: 6, open: true },
 ]
 
-type PubOptionKey = 'all' | 'rj' | 'rj54' | 'she' | 'bs' | 'sj' | 'wy'
+export type PubOptionKey = 'all' | 'rj' | 'rj54' | 'she' | 'bs' | 'sj' | 'wy'
 
 // 一～五年级：语文统编（人教社）；数学分沪教版、人教版、北师大版、苏教版四个版本；英语另有外研版（一年级起点）
 const BASE_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
@@ -59,6 +59,18 @@ const B_PUBLISHER_OPTIONS: { key: PubOptionKey; label: string }[] = [
 ]
 
 /**
+ * 当前年级/册别组合下真正有内容的版本选项（空选项自动隐藏）。
+ * 供顶部选择器与首页筛选项共用。
+ */
+export function availablePublisherOptions(gradeNum: number, term: 'a' | 'b') {
+  return (term === 'b' ? B_PUBLISHER_OPTIONS : publisherOptionsFor(gradeNum)).filter(
+    (p) =>
+      p.key === 'all' ||
+      subjectsFor({ gradeNum, term, publisher: p.key }).length > 0
+  )
+}
+
+/**
  * 教材选择器（顶部栏左上角）：
  * 按钮「📚 四年级·上册 ▼」+ 弹窗（年级 / 上下册 / 出版社 + 实时预览）
  * 选中状态存于全局 game store（localStorage 持久化），首页科目岛随之联动。
@@ -69,14 +81,6 @@ export default function TextbookPicker() {
   const [open, setOpen] = useState(false)
 
   const visibleSubjects = subjectsFor(textbook)
-
-  // 当前学期/年级组合下真正有内容的版本选项（空选项自动隐藏）
-  const availablePublisherOptions = (gradeNum: number, term: 'a' | 'b') =>
-    (term === 'b' ? B_PUBLISHER_OPTIONS : publisherOptionsFor(gradeNum)).filter(
-      (p) =>
-        p.key === 'all' ||
-        subjectsFor({ gradeNum, term, publisher: p.key }).length > 0
-    )
 
   const pick = (patch: Partial<TextbookChoice>) => {
     sfx.click()

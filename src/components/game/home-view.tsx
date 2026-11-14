@@ -2,12 +2,20 @@
 
 import { motion } from 'framer-motion'
 import { Progress } from '@/components/ui/progress'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { SUBJECTS, subjectsFor } from '@/lib/questions'
 import type { SubjectId } from '@/lib/questions'
 import { useGame, subjectStats, DAILY_GOAL_SECONDS } from '@/lib/game'
 import type { TextbookChoice } from '@/lib/game'
 import { sfx } from '@/lib/sound'
-import { GRADE_LABELS, TERM_LABELS } from '@/components/game/textbook-picker'
+import { toast } from '@/hooks/use-toast'
+import { GRADE_LABELS, TERM_LABELS, availablePublisherOptions } from '@/components/game/textbook-picker'
+import type { PubOptionKey } from '@/components/game/textbook-picker'
 import IconChip, { type IconTone } from '@/components/game/icon-chip'
 
 interface HomeViewProps {
@@ -188,15 +196,46 @@ const KID_LINES: Partial<Record<SubjectId, string>> = {
   english6rjb: '比较高矮 · 上周末 · 今昔对比 · 毕业冲刺！',
 }
 
-// 页面边缘的漂浮小装饰
+// 页面边缘的漂浮小装饰（云朵与星星保留，位置避开左侧标题与右侧小岛）
 const FLOATERS = [
-  { emoji: '☁️', cls: 'left-[3%] top-3 text-3xl', d: 5 },
-  { emoji: '⭐', cls: 'right-[7%] top-8 text-2xl', d: 6 },
+  { emoji: '☁️', cls: 'left-[2%] top-1 text-2xl', d: 5 },
+  { emoji: '⭐', cls: 'right-[3%] top-1 text-xl', d: 6 },
   { emoji: '🎈', cls: 'left-[6%] top-[44%] text-2xl', d: 7 },
   { emoji: '🐚', cls: 'right-[4%] top-[54%] text-xl', d: 5.5 },
   { emoji: '☁️', cls: 'right-[14%] top-[76%] text-3xl', d: 8 },
   { emoji: '✨', cls: 'left-[4%] top-[86%] text-xl', d: 6.5 },
 ]
+
+// 版本药丸上的短标签（完整出版社名放进下拉菜单里展示）
+const SHORT_PUB_LABEL: Record<PubOptionKey, string> = {
+  all: '全部版本',
+  rj: '人教版',
+  rj54: '统编五四',
+  she: '沪教版',
+  bs: '北师大版',
+  sj: '苏教版',
+  wy: '外研版',
+}
+
+// 筛选药丸：白色胶囊 + emoji + 当前值 + ▾（参考图样式，共用一套外观）
+function FilterPill({ emoji, label, children, title }: { emoji: string; label: string; children: React.ReactNode; title?: string }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex w-full items-center justify-center gap-1 rounded-full bg-white px-2 py-2.5 text-sm font-black text-[#3c3c3c] shadow-[0_2px_10px_rgba(43,90,138,0.10)] ring-1 ring-white/80 transition-transform active:scale-95 sm:py-3"
+          title={title}
+        >
+          <span className="truncate">
+            {emoji} {label}
+          </span>
+          <span className="text-[10px] text-slate-400">▾</span>
+        </button>
+      </DropdownMenuTrigger>
+      {children}
+    </DropdownMenu>
+  )
+}
 
 export default function HomeView({ onSelectSubject }: HomeViewProps) {
   const levels = useGame((s) => s.levels)
@@ -204,7 +243,6 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
   const streak = useGame((s) => s.streak)
   const todaySeconds = useGame((s) => s.todaySeconds)
   const dailyDone = useGame((s) => s.dailyDone)
-  const todayReviewCorrect = useGame((s) => s.todayReviewCorrect)
   const wrongBook = useGame((s) => s.wrongBook)
   const textbook = useGame((s) => s.textbook)
   const setTextbook = useGame((s) => s.setTextbook)
@@ -213,13 +251,45 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
   const minutes = Math.floor(todaySeconds / 60)
   const pct = Math.min(100, (todaySeconds / DAILY_GOAL_SECONDS) * 100)
 
-  // 按左上角选择器筛选当前要展示的科目岛
+  // 按筛选药丸（年级/册别/版本）筛选当前要展示的科目岛
   const visibleSubjects = subjectsFor(textbook)
   const hasContent = visibleSubjects.length > 0
 
+  const gradeText = GRADE_LABELS[textbook.gradeNum] ?? `${textbook.gradeNum}年级`
+  const pubOptions = availablePublisherOptions(textbook.gradeNum, textbook.term)
+  const currentPub = pubOptions.find((p) => p.key === textbook.publisher)
+  const pubText = currentPub ? SHORT_PUB_LABEL[currentPub.key] : '全部版本'
+
   const pick = (patch: Partial<TextbookChoice>) => {
     sfx.click()
-    setTextbook({ ...textbook, ...patch })
+    let next = { ...textbook, ...patch }
+    // 版本选项随年级/册别变化：切换后若当前版本不可用，自动回退到全部
+    if (
+      (patch.gradeNum !== undefined && patch.gradeNum !== textbook.gradeNum) ||
+      (patch.term !== undefined && patch.term !== textbook.term)
+    ) {
+      const validKeys = availablePublisherOptions(next.gradeNum, next.term).map((p) => p.key)
+      if (!validKeys.includes(next.publisher as PubOptionKey)) next = { ...next, publisher: 'all' }
+    }
+    setTextbook(next)
+  }
+
+  // 点小岛分享：优先调起系统分享，不支持时复制链接并轻提示（与小程序「点小岛分享」同语义）
+  const shareIsland = () => {
+    sfx.click()
+    const url = typeof window !== 'undefined' ? window.location.origin : ''
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator
+        .share({ title: '童学冒险岛', text: '一至六年级语数英闯关，越玩越聪明！', url })
+        .catch(() => {})
+    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard
+        .writeText(url)
+        .then(() => toast({ title: '🔗 链接已复制，快分享给小伙伴吧！' }))
+        .catch(() => toast({ title: '🔗 快把网址分享给小伙伴吧！' }))
+    } else {
+      toast({ title: '🔗 快把网址分享给小伙伴吧！' })
+    }
   }
 
   return (
@@ -239,52 +309,60 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
       </div>
 
       <div className="relative z-10">
-        {/* 英雄区：小岛和你打招呼 */}
-        <motion.section
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center"
-        >
-          <motion.div
-            initial={{ scale: 0, y: -10 }}
-            animate={{ scale: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 16, delay: 0.15 }}
-            className="relative mx-auto mt-3 inline-block"
-          >
-            <p className="dl-sticker rounded-2xl px-4 py-2 text-sm font-black text-[#3c3c3c] sm:text-base">
-              嗨，小岛民！今天想去哪个岛冒险呀？
-            </p>
-            <span className="absolute -bottom-[11px] left-10 h-3.5 w-3.5 rotate-45 border-b-2 border-r-2 border-[#e5e5e5] bg-white" />
-          </motion.div>
-
-          <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-            className="mt-4 flex justify-center"
-          >
-            <span className="inline-block text-[72px] leading-none sm:text-[92px]">🏝️</span>
-          </motion.div>
-          <h1 className="mt-2 bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 bg-clip-text text-3xl font-black tracking-tight text-transparent sm:text-4xl">
-            童学冒险岛
-          </h1>
-          <p className="mt-1 text-sm font-black text-gray-600 sm:text-base">
-            一至六年级 · 闯关赢金币 · 越玩越聪明
-          </p>
-
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-black sm:text-sm">
-            <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-[#3c3c3c]">🪙 {coins}</span>
-            <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-[#3c3c3c]">🔥 连续 {streak} 天</span>
-            <span className="dl-sticker gloss-pill rounded-full px-3 py-1.5 text-[#3c3c3c]">📕 错题 {wrongCount}</span>
+        {/* 英雄区（参考图）：左侧大标题 + 问候语，右侧小岛；点小岛分享 */}
+        <motion.section initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="pt-1">
+          <div className="flex items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-4xl font-black tracking-tight text-[#2e3a50] sm:text-5xl">童学冒险岛</h1>
+              <p className="mt-2 text-sm font-bold text-gray-500 sm:text-base">
+                嗨，小岛民！今天想去哪个岛冒险呀？
+              </p>
+            </div>
+            <motion.button
+              type="button"
+              onClick={shareIsland}
+              whileTap={{ scale: 0.9 }}
+              aria-label="分享给小伙伴"
+              title="点一点，分享给小伙伴"
+              className="relative shrink-0 p-1"
+            >
+              <motion.span
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                className="block text-[64px] leading-none sm:text-[88px]"
+              >
+                🏝️
+              </motion.span>
+              <span className="absolute -bottom-1 left-1/2 h-2.5 w-20 -translate-x-1/2 rounded-full bg-sky-400/25 blur-[3px] sm:w-24" />
+            </motion.button>
           </div>
         </motion.section>
 
-        {/* 今日 20 分钟：小帆船进度 */}
+        {/* 今日 20 分钟（参考图胶囊卡）：顶部三数据行（金币/连续/错题）+ 目标进度 + 今日任务 */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
           className="mt-5 rounded-3xl border-2 border-[#e5e5e5] bg-white/90 p-4 dl-shadow-lift"
         >
+          <div className="flex items-center">
+            <span
+              title="金币（各岛通用，可在礼物屋兑换亲子奖励）"
+              className="flex flex-1 items-center justify-center gap-1 text-base font-black text-[#3c3c3c] sm:text-lg"
+            >
+              🪙 {coins}
+            </span>
+            <span className="h-6 w-px shrink-0 bg-[#e5e5e5]" />
+            <span title="连续签到天数" className="flex flex-1 items-center justify-center gap-1 text-base font-black text-[#3c3c3c] sm:text-lg">
+              🔥 {streak} 天
+            </span>
+            <span className="h-6 w-px shrink-0 bg-[#e5e5e5]" />
+            <span title="错题本里待消灭的题数" className="flex flex-1 items-center justify-center gap-1 text-base font-black text-[#3c3c3c] sm:text-lg">
+              📕 {wrongCount}
+            </span>
+          </div>
+          <div className="my-3 h-px bg-[#eeeeee]" />
+
           <div className="mb-2 flex items-center justify-between">
             <h2 className="flex items-center gap-2 text-sm font-black text-[#3c3c3c] sm:text-base">
               <IconChip tone="sky" size="sm">⛵</IconChip> 今日 20 分钟小目标
@@ -313,7 +391,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 ? '🎉 今日目标达成！明天继续来冒险～'
                 : `再学 ${DAILY_GOAL_SECONDS / 60 - minutes} 分钟，小帆船就到终点啦！`}
           </p>
-          {/* 今日任务行（借鉴聪聪学堂 DailyQuestsPanel：只读状态展示，完成自动发金币，与小程序同源） */}
+          {/* 今日任务行（只读状态展示，完成自动发金币，与小程序同源；复习任务已按需求移除） */}
           <div className="mt-3 flex gap-2">
             <span
               className={`flex-1 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-black ${dailyDone.level ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}
@@ -325,25 +403,52 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             >
               ⏰ 20 分钟{dailyDone.minutes ? ' ✅' : ''}
             </span>
-            <span
-              className={`flex-1 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-black ${dailyDone.review ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}
-            >
-              📕 复习 {todayReviewCorrect}/5{dailyDone.review ? ' ✅' : ''}
-            </span>
           </div>
-          {/* 全部达成庆祝徽标（借鉴聪聪学堂每日达标庆祝，与小程序同构） */}
-          {dailyDone.level && dailyDone.minutes && dailyDone.review && (
+          {/* 全部达成庆祝徽标（闯关 + 20 分钟双达标即触发，与小程序同构） */}
+          {dailyDone.level && dailyDone.minutes && (
             <div className="dl-sticker mt-2 rounded-2xl px-3 py-2 text-center text-xs font-black text-[#3c3c3c]">
               🎉 今日任务全部达成，太棒了！
             </div>
           )}
         </motion.section>
 
+        {/* 筛选药丸（参考图）：年级 / 上下册 / 版本 */}
+        <div className="mt-4 grid grid-cols-3 gap-2.5">
+          <FilterPill emoji="🎓" label={gradeText} title="切换年级">
+            <DropdownMenuContent align="start" className="max-h-72 w-32 overflow-y-auto rounded-2xl">
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <DropdownMenuItem key={n} onClick={() => pick({ gradeNum: n })}>
+                  {GRADE_LABELS[n]}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </FilterPill>
+          <FilterPill emoji="📖" label={TERM_LABELS[textbook.term]} title="切换上 / 下册">
+            <DropdownMenuContent align="center" className="w-28 rounded-2xl">
+              {(['a', 'b'] as const).map((term) => (
+                <DropdownMenuItem key={term} onClick={() => pick({ term })}>
+                  {TERM_LABELS[term]}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </FilterPill>
+          <FilterPill emoji="📚" label={pubText} title="切换出版社 / 版本">
+            <DropdownMenuContent align="end" className="max-h-72 w-64 overflow-y-auto rounded-2xl">
+              {pubOptions.map((p) => (
+                <DropdownMenuItem key={p.key} onClick={() => pick({ publisher: p.key })}>
+                  {p.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </FilterPill>
+        </div>
+
         {/* 科目岛选择 */}
         <h2 className="mb-3 mt-6 flex items-center gap-2 text-lg font-black text-gray-800 sm:text-xl">
           <IconChip tone="violet" size="md">🗺️</IconChip> 选一个岛出发
-          <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-black text-violet-500">
-            {GRADE_LABELS[textbook.gradeNum] ?? `${textbook.gradeNum}年级`}{TERM_LABELS[textbook.term]}
+          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-black text-slate-500">
+            {gradeText}
+            {TERM_LABELS[textbook.term]}
           </span>
         </h2>
 
