@@ -318,6 +318,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 嗨，小岛民！今天想去哪个岛冒险呀？
               </p>
             </div>
+            {/* 小岛场景即分享钮：山（岛后）+ 棕榈树（岛后右）+ 主岛 + 棕榈树（岛前左近景）+ 浪花 ×2，参考附图树/山/水 */}
             <motion.button
               type="button"
               onClick={shareIsland}
@@ -329,11 +330,16 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
               <motion.span
                 animate={{ y: [0, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-                className="block text-[64px] leading-none sm:text-[88px]"
+                className="relative block h-[100px] w-[130px] leading-none sm:h-[130px] sm:w-[164px]"
               >
-                🏝️
+                <span className="absolute left-0 top-0 select-none text-[38px] sm:text-[48px]">⛰️</span>
+                <span className="absolute right-0 top-5 select-none text-[30px] sm:text-[36px]">🌴</span>
+                <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 select-none text-[72px] sm:text-[92px]">🏝️</span>
+                <span className="absolute bottom-7 left-0 z-20 select-none text-[24px] sm:text-[30px]">🌴</span>
+                <span className="absolute bottom-0 left-1 z-20 select-none text-[18px] sm:text-[22px]">💦</span>
+                <span className="absolute bottom-0 right-1 z-20 select-none text-[18px] sm:text-[22px]">💦</span>
               </motion.span>
-              <span className="absolute -bottom-1 left-1/2 h-2.5 w-20 -translate-x-1/2 rounded-full bg-sky-400/25 blur-[3px] sm:w-24" />
+              <span className="absolute -bottom-1 left-1/2 h-2.5 w-24 -translate-x-1/2 rounded-full bg-sky-400/25 blur-[3px] sm:w-28" />
             </motion.button>
           </div>
         </motion.section>
@@ -386,7 +392,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           </div>
           <p className="mt-2 text-xs font-bold text-gray-500">
             {todaySeconds === 0
-              ? '选一个岛出发吧，小帆船会跟着你前进哦～'
+              ? '挑一座岛开启冒险吧，小帆船会跟着你前进哦～'
               : dailyDone.minutes
                 ? '🎉 今日目标达成！明天继续来冒险～'
                 : `再学 ${DAILY_GOAL_SECONDS / 60 - minutes} 分钟，小帆船就到终点啦！`}
@@ -443,17 +449,9 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
           </FilterPill>
         </div>
 
-        {/* 科目岛选择 */}
-        <h2 className="mb-3 mt-6 flex items-center gap-2 text-lg font-black text-gray-800 sm:text-xl">
-          <IconChip tone="violet" size="md">🗺️</IconChip> 选一个岛出发
-          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-black text-slate-500">
-            {gradeText}
-            {TERM_LABELS[textbook.term]}
-          </span>
-        </h2>
-
+        {/* 科目岛列表（分区标题已按需求移除，筛选药丸直接衔接列表） */}
         {!hasContent ? (
-          <div className="rounded-[2rem] border-4 border-dashed border-amber-300 bg-white/80 p-8 text-center">
+          <div className="mt-5 rounded-[2rem] border-4 border-dashed border-amber-300 bg-white/80 p-8 text-center">
             <div className="flex justify-center">
               <IconChip tone="amber" size="lg" className="h-20 w-20 text-5xl">🚧</IconChip>
             </div>
@@ -473,7 +471,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
             </button>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="mt-5 flex flex-col gap-4">
             {visibleSubjects.map((subject, i) => {
               const t = THEME[subject.theme]
               const stats = subjectStats(levels, subject.id)
