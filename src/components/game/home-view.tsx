@@ -318,7 +318,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 嗨，小岛民！今天想去哪个岛冒险呀？
               </p>
             </div>
-            {/* 小岛场景即分享钮：主岛 + 山（山上岛、挡住岛上的树），其余树/浪花已按需求移除 */}
+            {/* 小岛场景即分享钮：主岛 + 山（山居中略偏下落在岛上），其余树/浪花已按需求移除 */}
             <motion.button
               type="button"
               onClick={shareIsland}
@@ -333,7 +333,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 className="relative block h-[100px] w-[130px] leading-none sm:h-[130px] sm:w-[164px]"
               >
                 <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 select-none text-[72px] sm:text-[92px]">🏝️</span>
-                <span className="absolute bottom-[24px] left-[24px] z-20 select-none text-[48px] sm:bottom-[32px] sm:left-[32px] sm:text-[60px]">⛰️</span>
+                <span className="absolute bottom-[16px] left-1/2 z-20 -translate-x-1/2 select-none text-[48px] sm:bottom-[22px] sm:text-[60px]">⛰️</span>
               </motion.span>
               <span className="absolute -bottom-1 left-1/2 h-2.5 w-24 -translate-x-1/2 rounded-full bg-sky-400/25 blur-[3px] sm:w-28" />
             </motion.button>
@@ -393,19 +393,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 ? '🎉 今日目标达成！明天继续来冒险～'
                 : `再学 ${DAILY_GOAL_SECONDS / 60 - minutes} 分钟，小帆船就到终点啦！`}
           </p>
-          {/* 今日任务行（只读状态展示，完成自动发金币，与小程序同源；复习任务已按需求移除） */}
-          <div className="mt-3 flex gap-2">
-            <span
-              className={`flex-1 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-black ${dailyDone.level ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}
-            >
-              🎮 闯关 1 局{dailyDone.level ? ' ✅' : ''}
-            </span>
-            <span
-              className={`flex-1 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-black ${dailyDone.minutes ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}
-            >
-              ⏰ 20 分钟{dailyDone.minutes ? ' ✅' : ''}
-            </span>
-          </div>
+          {/* 今日任务胶囊（闯关 1 局 / 20 分钟）已按需求移除，仅保留上方进度条与达成庆祝 */}
           {/* 全部达成庆祝徽标（闯关 + 20 分钟双达标即触发，与小程序同构） */}
           {dailyDone.level && dailyDone.minutes && (
             <div className="dl-sticker mt-2 rounded-2xl px-3 py-2 text-center text-xs font-black text-[#3c3c3c]">

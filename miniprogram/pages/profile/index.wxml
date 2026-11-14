@@ -11,7 +11,7 @@
   </view>
 
   <!-- 每日任务 -->
-  <view class="section-title">🎯 今日任务（完成自动发金币）</view>
+  <view class="section-title">🎯 今日任务</view>
   <view class="card">
     <view class="task {{dailyDone.level ? 'task-done' : ''}}">
       <text>{{dailyDone.level ? '✅' : '⬜'}} 完成 1 次闯关</text><text class="task-coin">+{{taskRewards.level}}🪙</text>

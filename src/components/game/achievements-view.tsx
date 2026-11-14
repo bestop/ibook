@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ACHIEVEMENTS, useGame } from '@/lib/game'
-import { todayKey, weekSignDays, weekReport } from '@/lib/week'
+import { todayKey, weekReport } from '@/lib/week'
 import IconChip, { type IconTone } from '@/components/game/icon-chip'
 
 export default function AchievementsView() {
@@ -13,7 +13,6 @@ export default function AchievementsView() {
   const coins = useGame((s) => s.coins)
   const levels = useGame((s) => s.levels)
   const clearedTotal = useGame((s) => s.clearedTotal)
-  const signInDates = useGame((s) => s.signInDates)
   // 本周报告数据源（借鉴聪聪学堂 WeeklyReportCard：每日分钟柱状图 + 与上周对比）
   const dayStats = useGame((s) => s.dayStats)
 
@@ -21,10 +20,8 @@ export default function AchievementsView() {
   // 只统计当前成就列表内的解锁数（旧存档里已下线的成就 ID 不计入）
   const unlockedCount = ACHIEVEMENTS.filter((a) => achievements.includes(a.id)).length
   const stats = { levels, coins, streak, totalCorrect, clearedTotal }
-  // 本周签到格（借鉴聪聪学堂 week.ts 本周报告：周一起始的日历周，与小程序同构）
+  // 本周报告（借鉴聪聪学堂 WeeklyReportCard，与小程序 utils/week.js 同构；本周签到格已按需求移除）
   const today = todayKey()
-  const weekDays = weekSignDays(signInDates, today)
-  // 本周报告（借鉴聪聪学堂 WeeklyReportCard，与小程序 utils/week.js 同构）
   const report = weekReport(dayStats, today)
 
   return (
@@ -49,20 +46,7 @@ export default function AchievementsView() {
         ))}
       </div>
 
-      {/* 本周签到格（借鉴聪聪学堂 week.ts 本周报告：周一起始，与小程序同构） */}
-      <div className="mb-4 flex gap-1.5">
-        {weekDays.map((d) => (
-          <div
-            key={d.key}
-            className={`flex-1 rounded-xl border-2 py-2 text-center ${
-              d.signed ? 'border-emerald-200 bg-emerald-50' : 'border-gray-100 bg-gray-50'
-            } ${d.isToday ? 'ring-2 ring-amber-300' : ''}`}
-          >
-            <p className="text-[10px] font-black text-gray-400">周{d.label}</p>
-            <p className={`text-sm ${d.signed ? 'text-emerald-600' : 'text-gray-300'}`}>{d.signed ? '✅' : '·'}</p>
-          </div>
-        ))}
-      </div>
+      {/* 本周签到格（周一到周日标签行）已按需求移除 */}
 
       {/* 本周报告（借鉴聪聪学堂 WeeklyReportCard：每日分钟柱状图 + 学习天数 + 与上周对比，与小程序同构） */}
       <div className="mb-4 rounded-3xl border-2 border-gray-100 bg-white p-4 shadow-[0_4px_0_0_rgba(0,0,0,0.04)]">
