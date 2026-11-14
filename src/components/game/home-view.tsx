@@ -318,7 +318,7 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 嗨，小岛民！今天想去哪个岛冒险呀？
               </p>
             </div>
-            {/* 小岛场景即分享钮：山（岛后）+ 棕榈树（岛后右）+ 主岛 + 棕榈树（岛前左近景）+ 浪花 ×2，参考附图树/山/水 */}
+            {/* 小岛场景即分享钮：主岛 + 山（山上岛、挡住岛上的树），其余树/浪花已按需求移除 */}
             <motion.button
               type="button"
               onClick={shareIsland}
@@ -332,12 +332,8 @@ export default function HomeView({ onSelectSubject }: HomeViewProps) {
                 transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
                 className="relative block h-[100px] w-[130px] leading-none sm:h-[130px] sm:w-[164px]"
               >
-                <span className="absolute left-0 top-0 select-none text-[38px] sm:text-[48px]">⛰️</span>
-                <span className="absolute right-0 top-5 select-none text-[30px] sm:text-[36px]">🌴</span>
                 <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 select-none text-[72px] sm:text-[92px]">🏝️</span>
-                <span className="absolute bottom-7 left-0 z-20 select-none text-[24px] sm:text-[30px]">🌴</span>
-                <span className="absolute bottom-0 left-1 z-20 select-none text-[18px] sm:text-[22px]">💦</span>
-                <span className="absolute bottom-0 right-1 z-20 select-none text-[18px] sm:text-[22px]">💦</span>
+                <span className="absolute bottom-[24px] left-[24px] z-20 select-none text-[48px] sm:bottom-[32px] sm:left-[32px] sm:text-[60px]">⛰️</span>
               </motion.span>
               <span className="absolute -bottom-1 left-1/2 h-2.5 w-24 -translate-x-1/2 rounded-full bg-sky-400/25 blur-[3px] sm:w-28" />
             </motion.button>
