@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { ALL_QUESTIONS, shuffle, subjectOfQuestion } from '@/lib/questions'
 import { useGame, todayStr, srsBoxOf } from '@/lib/game'
 import { sfx } from '@/lib/sound'
-import IconChip from '@/components/game/icon-chip'
 import type { QuizItem } from './quiz-view'
 
 interface WrongBookProps {
@@ -132,7 +131,7 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
           transition={{ duration: 0.6 }}
           className="flex justify-center"
         >
-          <IconChip tone="amber" size="xl" round>🏅</IconChip>
+          <span className="block text-6xl leading-none">🏅</span>
         </motion.span>
         <h2 className="text-xl font-black text-gray-700">错题本空空的！</h2>
         <p className="max-w-xs text-sm font-bold leading-relaxed text-gray-500">
@@ -168,7 +167,7 @@ export default function WrongBook({ onStartReview, onBack }: WrongBookProps) {
       <div className="mb-4 rounded-3xl border-2 border-rose-200 bg-white p-4 dl-shadow-lift">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h2 className="flex items-center gap-2 text-lg font-black text-[#3c3c3c]"><IconChip tone="red" size="md">📕</IconChip>错题集中营</h2>
+            <h2 className="flex items-center gap-2 text-lg font-black text-[#3c3c3c]"><span className="text-2xl leading-none">📕</span>错题集中营</h2>
             <p className="mt-0.5 text-xs font-bold text-rose-500">
               共 {wrongQuestions.length} 道错题待消灭 · 复习时答对 1 题就能消灭它，还有金币拿！
             </p>
