@@ -191,7 +191,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'wh6-3', type: 'choice', q: '"My grandma usually cooks." 的意思是：', options: ['我奶奶通常做饭。', '奶奶正在做饭。', '奶奶会做蛋糕。', '奶奶喜欢吃饭。'], answer: 0, explain: 'cooks 做饭（三单加 s），奶奶通常下厨。', tag: '句型' },
     { id: 'wh6-4', type: 'judge', q: '"usually" 表示"此刻正在发生"的动作。', options: ['√ 对', '✗ 错'], answer: 1, explain: 'usually 说的是平时的习惯，不是正在做的事哦。', tag: '语法' },
     { id: 'wh6-5', type: 'choice', q: '"cook" 指的是：', options: ['做饭；厨师', '书本', '医生', '游戏'], answer: 0, explain: 'cook 做饭，也可以当名词指厨师。', tag: '单词' },
-    { id: 'wh6-6', type: 'choice', q: '说"我通常七点起床"，应该说：', options: ['I usually get up at seven.', 'I am getting up now.', 'I get up yesterday.', 'I like getting up.'], answer: 0, explain: '习惯性的动作用 usually + 动词原形。', tag: '句型' },
+    { id: 'wh6-6', type: 'choice', q: '说"我通常七点起床"，应该说：', options: ['I usually get up at seven.', 'I am getting up now.', 'I usually get up on seven.', 'I like getting up.'], answer: 0, explain: '习惯性的动作用 usually + 动词原形；具体时间点前面要用 at，如 at seven。', tag: '句型' },
     { id: 'wh6-7', type: 'judge', q: 'usually 后面的动词一般用原形（他她它除外）。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'I usually read. 他则用三单：He usually reads.。', tag: '语法' },
     { id: 'wh6-8', type: 'choice', q: '"every day" 的意思是：', options: ['每天', '昨天', '有时', '从不'], answer: 0, explain: 'every day 每天，I read every day. 我每天都阅读。', tag: '短语' },
     { id: 'wh6-9', type: 'choice', q: '想表达"我帮奶奶做家务"，应该说：', options: ['I help my grandma.', 'I look my grandma.', 'I play my grandma.', 'I am grandma.'], answer: 0, explain: 'help 帮助，help sb. 帮助某人。', tag: '句型' },

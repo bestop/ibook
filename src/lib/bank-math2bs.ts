@@ -112,7 +112,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'kb1-6', type: 'choice', q: '套圈游戏：第一次套中得 24 分，第二次得 16 分，两次一共多少分？', options: ['40 分', '38 分', '30 分', '42 分'], answer: 0, explain: '24 + 16 = 40（分）。个位 4+6=10 进一，十位 2+1+1=4。', tag: '进位加' },
     { id: 'kb1-7', type: 'choice', q: '用竖式计算加减法时，要把什么对齐？', options: ['相同数位对齐', '随便对齐', '数字写得越大越好', '不用对齐'], answer: 0, explain: '个位对个位、十位对十位，相同数位对齐才能相加减。', tag: '竖式规则' },
     { id: 'kb1-8', type: 'choice', q: '□ + 15 = 40，方框里填几？', options: ['25', '35', '45', '15'], answer: 0, explain: '想：40 - 15 = 25，所以 25 + 15 = 40。', tag: '逆向思考' },
-    { id: 'kb1-9', type: 'judge', q: '38 + 24 = 52。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！个位 8+4=12 写 2 进 1，十位 3+2 再加进上的 1 得 6，所以等于 52。', tag: '验算' },
+    { id: 'kb1-9', type: 'judge', q: '38 + 24 = 62。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！个位 8+4=12 写 2 进 1，十位 3+2 再加进上的 1 得 6，所以等于 62。', tag: '验算' },
     { id: 'kb1-10', type: 'judge', q: '53 - 27 = 34。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错啦：53-27，个位 3-7 不够退一当十，13-7=6，十位 4-2=2，应该等于 26。', tag: '验算' },
   ],
   kb2: [
@@ -177,14 +177,14 @@ export const QUESTIONS: Record<string, Question[]> = {
   ],
   kb7: [
     { id: 'kb7-1', type: 'choice', q: '有多少张贴画：每行贴 6 张，贴 7 行一共多少张？', options: ['42 张', '36 张', '48 张', '13 张'], answer: 0, explain: '6×7=42（张），口诀：六七四十二。', tag: '6的口诀' },
-    { id: 'kb7-2', type: 'choice', q: '7×8 = ?', options: ['56', '48', '63', '54'], answer: 0, explain: '口诀：七八五十六。', tag: '口诀' },
-    { id: 'kb7-3', type: 'choice', q: '6×6 = ?', options: ['36', '30', '42', '12'], answer: 0, explain: '口诀：六六三十六。', tag: '6的口诀' },
+    { id: 'kb7-2', type: 'choice', q: '7×8 = ?', options: ['56', '48', '63', '54'], answer: 0, explain: '7×8 表示 8 个 7 相加，口诀「七八五十六」，所以得 56。', tag: '口诀' },
+    { id: 'kb7-3', type: 'choice', q: '6×6 = ?', options: ['36', '30', '42', '12'], answer: 0, explain: '6×6 表示 6 个 6 相加，口诀「六六三十六」，得 36。', tag: '6的口诀' },
     { id: 'kb7-4', type: 'choice', q: '「九九八十一」对应的算式是？', options: ['9×9=81', '9+9=81', '8×9=81', '9×2=81'], answer: 0, explain: '九九八十一：9×9=81，是口诀表里最大的口诀！', tag: '9的口诀' },
     { id: 'kb7-5', type: 'choice', q: '有多少无人机：每架无人机挂 8 个小灯，7 架一共挂几个？', options: ['56 个', '48 个', '63 个', '15 个'], answer: 0, explain: '8×7=56（个），口诀七八五十六。', tag: '口诀应用' },
     { id: 'kb7-6', type: 'choice', q: '《西游记》里孙悟空会七十二变，72 是哪句口诀？', options: ['八九七十二', '七七四十九', '六九五十四', '九九八十一'], answer: 0, explain: '8×9=72，口诀八九七十二，孙悟空的变化数！', tag: '口诀' },
     { id: 'kb7-7', type: 'choice', q: '比一比：8×6 ○ 8×7，圆圈里填？', options: ['＜', '＞', '＝', '不能比'], answer: 0, explain: '8×6=48，8×7=56，48＜56。乘的数越大积越大。', tag: '比大小' },
     { id: 'kb7-8', type: 'choice', q: '（ ）×9 = 54，括号里填几？', options: ['6', '7', '8', '9'], answer: 0, explain: '口诀六九五十四，所以 6×9=54。', tag: '逆向思考' },
-    { id: 'kb7-9', type: 'judge', q: '六八四十八，所以 6×8=48。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！六八四十八。', tag: '口诀' },
+    { id: 'kb7-9', type: 'judge', q: '六八四十八，所以 6×8=48。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！口诀「六八四十八」：6×8 就是 8 个 6 相加，算出来正好是 48。', tag: '口诀' },
     { id: 'kb7-10', type: 'judge', q: '做个乘法表时，能发现 6 的口诀每句得数都比上一句多 6。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！6、12、18、24……每次多 6，规律藏在乘法表里。', tag: '乘法表规律' },
   ],
   kb8: [

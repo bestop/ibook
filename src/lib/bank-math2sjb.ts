@@ -176,9 +176,9 @@ export const QUESTIONS: Record<string, Question[]> = {
   ],
   sh7: [
     { id: 'sh7-1', type: 'choice', q: '一个角有（?）个顶点和（?）条边？', options: ['1 个顶点 2 条边', '2 个顶点 1 条边', '1 个顶点 1 条边', '没有顶点'], answer: 0, explain: '角有一个顶点、两条边，顶点尖尖的。', tag: '认识角' },
-    { id: 'sh7-2', type: 'choice', q: '三角尺上最大的那个角是？', options: ['直角', '锐角', '钝角', '平角'], answer: 0, explain: '每副三角尺都有一个直角，另外两个是锐角。', tag: '直角' },
+    { id: 'sh7-2', type: 'choice', q: '三角尺上最大的那个角是？', options: ['直角', '锐角', '钝角', '小角'], answer: 0, explain: '每副三角尺都有一个直角，另外两个是锐角。', tag: '直角' },
     { id: 'sh7-3', type: 'choice', q: '比直角小的角叫？', options: ['锐角', '钝角', '直角', '没有名字'], answer: 0, explain: '锐角尖尖的、张口小，比直角小。', tag: '锐角' },
-    { id: 'sh7-4', type: 'choice', q: '比直角大的角叫？', options: ['钝角', '锐角', '直角', '小角'], answer: 0, explain: '钝角张口大，比直角大。', tag: '钝角' },
+    { id: 'sh7-4', type: 'choice', q: '比直角大的角叫？', options: ['钝角', '锐角', '直角', '小角'], answer: 0, explain: '比直角大的叫钝角，张开的角度更大；比直角小的才叫锐角。', tag: '钝角' },
     { id: 'sh7-5', type: 'choice', q: '要知道一个角是不是直角，可以？', options: ['用三角尺上的直角比一比', '用眼睛猜', '数边数', '量长短'], answer: 0, explain: '把三角尺的直角顶点和角重合，两条边都对齐就是直角。', tag: '判断直角' },
     { id: 'sh7-6', type: 'choice', q: '红领巾上有几个角？', options: ['3 个', '1 个', '2 个', '4 个'], answer: 0, explain: '红领巾是三角形，有 3 个角。', tag: '找角' },
     { id: 'sh7-7', type: 'choice', q: '角的大小与边的长短有关吗？', options: ['无关，与张口大小有关', '边越长角越大', '边越短角越大', '都有关系'], answer: 0, explain: '角的大小看两边张开的口，边的长短不影响角的大小。', tag: '角的大小' },
