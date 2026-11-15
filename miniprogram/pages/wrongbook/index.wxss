@@ -40,13 +40,16 @@
   margin-top: 6rpx;
 }
 .review-btn {
-  margin-bottom: 8rpx;
+  width: 100%;           /* 显式占满内容区宽，与上下卡片同宽对齐 */
+  margin: 8rpx 0 26rpx;  /* 按钮四周留出呼吸边距 */
+  padding: 30rpx 40rpx;  /* 文字四周留边距 */
 }
 /* 按钮内容：主文案 + 轻胶囊副标签，替代原「📖 开始复习（随机 10 题）」 */
 .review-inner {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 16rpx;
 }
 .review-main {
   font-size: 34rpx;
@@ -55,7 +58,6 @@
   text-indent: 4rpx; /* 补偿 letter-spacing 尾随空隙 */
 }
 .review-chip {
-  margin-left: 16rpx;
   font-size: 20rpx;
   font-weight: 700;
   letter-spacing: 1rpx;
@@ -63,7 +65,7 @@
   background: rgba(255, 255, 255, 0.22);
   border: 2rpx solid rgba(255, 255, 255, 0.55);
   border-radius: 999rpx;
-  padding: 4rpx 16rpx;
+  padding: 6rpx 18rpx;
   line-height: 1.4;
 }
 /* 列表容器：交错入场的 nth-child 局部计数锚点 */
