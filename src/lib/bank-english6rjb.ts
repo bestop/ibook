@@ -115,7 +115,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'ztf2-5', type: 'judge', q: '"Did you clean your room?" 的肯定回答是 "Yes, I did."。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'Did 开头的一般疑问句，回答用 did / didn\'t。', tag: '句型' },
     { id: 'ztf2-6', type: 'choice', q: 'stay 的过去式是：', options: ['stayed', 'staied', 'stays', 'staying'], answer: 0, explain: 'stay 以元音字母 + y 结尾，直接加 ed：stayed 待在家。', tag: '动词过去式' },
     { id: 'ztf2-7', type: 'choice', q: '"你上周末做什么了？"问：', options: ['What did you do last weekend?', 'What do you do last weekend?', 'What are you doing last weekend?', 'Where did you go last weekend?'], answer: 0, explain: 'did + 动词原形构成过去时疑问句：What did you do...?', tag: '句型' },
-    { id: 'ztf2-8', type: 'judge', q: '过去时句子里动词要用原形，如 "I played football." 是错的。', options: ['√ 对', '✗ 错'], answer: 1, explain: '"I played football." 是正确的！过去时陈述句动词要用过去式 played。', tag: '时态' },
+        { id: 'ztf2-8', type: 'choice', q: '一般过去时的陈述句里，动词要用：', options: ['过去式', '动词原形', '-ing 形式', '第三人称单数形式'], answer: 0, explain: '过去发生的事用过去式：I played football last weekend. 上周末我踢足球了。小提醒：Did you...? 疑问句里才用动词原形哦。', tag: '一般过去时' },
     { id: 'ztf2-9', type: 'choice', q: '"写作业"的过去式短语是：', options: ['did homework', 'do homework', 'does homework', 'doing homework'], answer: 0, explain: 'do→did 特殊变化：I did homework yesterday.', tag: '动词过去式' },
     { id: 'ztf2-10', type: 'choice', q: '写周末日记最好用：', options: ['一般过去时记录做过的事', '一般将来时', '现在进行时', '不用时态'], answer: 0, explain: '周末日记 diary 记录已发生的事，通篇用过去时！', tag: '写作方法' },
   ],

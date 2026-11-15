@@ -40,22 +40,22 @@
   margin-top: 6rpx;
 }
 .review-btn {
-  width: 100%;           /* 显式占满内容区宽，与上下卡片同宽对齐 */
-  margin: 8rpx 0 26rpx;  /* 按钮四周留出呼吸边距 */
-  padding: 30rpx 40rpx;  /* 文字四周留边距 */
+  width: 100%;
+  margin: 10rpx -10rpx 28rpx; /* 负外边距向两侧出血：比上下卡片各宽一档，主 CTA 更醒目 */
+  padding: 32rpx 44rpx;       /* 文字四周留边距 */
 }
 /* 按钮内容：主文案 + 轻胶囊副标签，替代原「📖 开始复习（随机 10 题）」 */
 .review-inner {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16rpx;
+  gap: 18rpx;
 }
 .review-main {
-  font-size: 34rpx;
+  font-size: 36rpx;
   font-weight: 900;
-  letter-spacing: 4rpx;
-  text-indent: 4rpx; /* 补偿 letter-spacing 尾随空隙 */
+  letter-spacing: 6rpx;
+  text-indent: 6rpx; /* 补偿 letter-spacing 尾随空隙 */
 }
 .review-chip {
   font-size: 20rpx;

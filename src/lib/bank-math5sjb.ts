@@ -160,7 +160,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'sk5-7', type: 'choice', q: '1/4 + 1/4 + 1/4 = ?', options: ['3/4', '3/12', '1/4', '4/4'], answer: 0, explain: '3 个 1/4 合起来是 3/4。', tag: '同分母加法' },
     { id: 'sk5-8', type: 'choice', q: '一瓶果汁喝了 1/3，还剩几分之几？', options: ['2/3', '1/3', '3/3', '1'], answer: 0, explain: '1 - 1/3 = 2/3，还剩三分之二。', tag: '应用题' },
     { id: 'sk5-9', type: 'judge', q: '同分母分数相加，分母不变，分子相加。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对呀：分数单位相同，个数（分子）直接加。', tag: '同分母' },
-    { id: 'sk5-10', type: 'judge', q: '1/2 + 1/2 = 2/4。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错啦：1/2 + 1/2 = 1，2/4 虽然数值相同但没有化成最简，规范写法是 1。', tag: '计算规范' },
+    { id: 'sk5-10', type: 'judge', q: '1/2 + 1/2 = 2/4。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错啦：1/2 + 1/2 = 1；而 2/4 = 1/2，两者并不相等。把分母也相加是错误算法，正确结果要写成 1。', tag: '计算规范' },
   ],
   sk6: [
     { id: 'sk6-1', type: 'choice', q: '圆中心的一点叫什么？', options: ['圆心', '顶点', '焦点', '中心线'], answer: 0, explain: '圆心用字母 O 表示，决定圆的位置。', tag: '圆心' },

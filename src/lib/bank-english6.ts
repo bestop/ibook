@@ -156,7 +156,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'k4-6', type: 'choice', q: '学校一年一度的"运动会"是：', options: ['sports day', 'school day', 'birthday', 'May Day'], answer: 0, explain: 'sports day / sports meeting 运动会，那天大家都会参加各种比赛。', tag: '运动词汇' },
     { id: 'k4-7', type: 'choice', q: 'He ___ football every weekend.（三单形式）', options: ['plays', 'play', 'playing', 'to play'], answer: 0, explain: '主语 he 是第三人称单数，play 变成 plays，表示经常性动作。', tag: '一般现在时' },
     { id: 'k4-8', type: 'choice', q: '"usually" 的意思是：', options: ['通常', '总是', '从不', '有时'], answer: 0, explain: 'usually 通常，频度仅次于 always 总是，高于 often 经常。', tag: '频度副词' },
-    { id: 'k4-9', type: 'choice', q: '本单元的 Project 项目任务是：', options: ['Sports for us', 'Food for us', 'Animals for us', 'School for us'], answer: 0, explain: 'E 部分 Sports for us（Project）让大家一起设计班级运动活动。', tag: '单元结构' },
+        { id: 'k4-9', type: 'choice', q: '运动会上想为同学加油，你可以说：', options: ['Come on! Come on!', 'Go away! Go away!', 'Sit down! Sit down!', 'Be quiet! Be quiet!'], answer: 0, explain: 'Come on! 加油！赛场上为小伙伴打气最合适。Go away! 是“走开”，可千万别说错哦！', tag: '情景交际' },
     { id: 'k4-10', type: 'judge', q: '坚持每天锻炼，运动前要做热身，运动后要放松。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'warm up 热身能防受伤，天天锻炼一小时，健康生活一辈子！', tag: '健康习惯' },
   ],
   k5: [
@@ -168,7 +168,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'k5-6', type: 'choice', q: '"A day on the farm" 的意思是：', options: ['农场的一天', '公园的一天', '海边的一天', '学校的一天'], answer: 0, explain: 'farm 农场，在农场可以看到 cows 奶牛、sheep 绵羊、hens 母鸡。', tag: '短语理解' },
     { id: 'k5-7', type: 'choice', q: '"protect animals" 的意思是：', options: ['保护动物', '训练动物', '投喂动物', '捕捉动物'], answer: 0, explain: 'protect 保护， protect animals 保护动物，人人有责。', tag: '动物保护' },
     { id: 'k5-8', type: 'choice', q: '"endangered animals" 指的是：', options: ['濒危动物', '农场动物', '宠物', '童话动物'], answer: 0, explain: 'endangered 濒危的，很多野生动物正濒临灭绝，需要我们伸出援手。', tag: '动物保护' },
-    { id: 'k5-9', type: 'choice', q: 'one monkey → two ___（复数）', options: ['monkeys', 'monkeyes', 'monkeies', 'monkey'], answer: 0, explain: 'monkey 的 y 前发元音 /ɪ/，直接加 s：monkeys。类似还有 boys、toys。', tag: '名词复数' },
+    { id: 'k5-9', type: 'choice', q: 'one monkey → two ___（复数）', options: ['monkeys', 'monkeyes', 'monkeies', 'monkey'], answer: 0, explain: 'monkey 的词尾 y 发元音 /i/（类似 boy、toy），复数直接加 s：monkeys。而 hobby、baby 这类辅音字母+y 结尾的词，才要变 y 为 i 加 es：hobbies、babies。', tag: '名词复数' },
     { id: 'k5-10', type: 'judge', q: '在动物园可以随便投喂动物、拍打玻璃和它们互动。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错！随便投喂可能让动物生病，拍打玻璃会惊吓它们。文明游园，安静观赏，尊重动物的生活习惯。', tag: '品德养成' },
   ],
   k6: [
@@ -177,7 +177,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'k6-3', type: 'choice', q: '"high-speed train" 指的是：', options: ['高铁', '地铁', '公交车', '轮船'], answer: 0, explain: 'high-speed 高速度的，high-speed train 高铁，又快又稳的中国名片！', tag: '交通词汇' },
     { id: 'k6-4', type: 'choice', q: '"I go to Beijing by plane." 中 by plane 的意思是：', options: ['坐飞机', '坐火车', '坐公交', '步行'], answer: 0, explain: 'by + 交通工具 表示出行方式：by plane 坐飞机、by train 坐火车、by bus 坐公交。', tag: '交通方式' },
     { id: 'k6-5', type: 'choice', q: '"West Lake"（西湖）在哪个城市？', options: ['杭州 Hangzhou', '西安 Xi\'an', '南京 Nanjing', '成都 Chengdu'], answer: 0, explain: 'West Lake 西湖位于杭州，"上有天堂，下有苏杭"！', tag: '名胜古迹' },
-    { id: 'k6-6', type: 'judge', q: '"Where are you going?" 是在问"你要去哪里？"。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'where 哪里，be going to 表示计划打算，Where are you going? 你要去哪儿？', tag: '句型' },
+    { id: 'k6-6', type: 'judge', q: '"Where are you going?" 是在问"你要去哪里？"。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'Where are you going? 问的是“你要去哪儿？”这里的 are going 是动词 go 的现在进行时用法，表示正要前往某地。注意区分：be going to + 动词原形才表示“打算做某事”，如 I\'m going to visit Beijing. 我打算去参观北京。', tag: '句型' },
     { id: 'k6-7', type: 'choice', q: '秦始皇兵马俑所在的著名古都是：', options: ['西安 Xi\'an', '杭州 Hangzhou', '重庆 Chongqing', '武汉 Wuhan'], answer: 0, explain: '西安是千年古都，the Terracotta Warriors 兵马俑世界闻名。', tag: '名胜古迹' },
     { id: 'k6-8', type: 'choice', q: '制定 "travel plan"（旅行计划）时，首先要确定：', options: ['时间和地点', '零食和玩具', '游戏和动画', '衣服颜色'], answer: 0, explain: '先定出发时间、目的地和交通方式，再列清单，做计划小达人。', tag: '旅行规划' },
     { id: 'k6-9', type: 'choice', q: '___ do you go to Shanghai? — By train.', options: ['How', 'What', 'Where', 'When'], answer: 0, explain: '问出行方式用 How：How do you go to...? 回答用 By + 交通工具。', tag: '疑问词' },

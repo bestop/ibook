@@ -748,10 +748,10 @@ const UNIT_E8: Question[] = [
   },
   {
     id: 'e8-4', type: 'choice', tag: '文化常识',
-    q: '造纸术是我国四大发明之一，"中国"的英文是 ______。',
+    q: '世界上最早造纸的国家是：',
     options: ['China 中国', 'America 美国', 'England 英国', 'Japan 日本'],
     answer: 0,
-    explain: '造纸术是中国古代四大发明之一。"中国"是 China，"中国人/中文"是 Chinese，注意区分。',
+    explain: '纸是中国古代发明的，东汉的蔡伦改进了造纸术。造纸术和印刷术、指南针、火药并称中国古代四大发明！',
   },
   {
     id: 'e8-5', type: 'judge', tag: '文化常识',
@@ -930,11 +930,11 @@ const UNIT_E10: Question[] = [
     explain: 'rubbish 垃圾（英式常用）；美式常说 trash 或 garbage。Don\'t drop rubbish. 别乱扔垃圾。',
   },
   {
-    id: 'e10-9', type: 'choice', tag: '句型',
-    q: 'Paper, glass and metal can be ______.（纸、玻璃和金属都可以被回收。）',
-    options: ['recycled', 'eaten', 'drunk', 'forgotten'],
+    id: 'e10-9', type: 'choice', tag: '环保词汇',
+    q: '我们应该回收纸、玻璃和金属。填空：We should ______ paper, glass and metal.',
+    options: ['recycle', 'eat', 'drink', 'forget'],
     answer: 0,
-    explain: 'can be recycled 能被回收利用。纸、玻璃、金属都是可回收物。',
+    explain: 'recycle 回收利用。We should recycle paper, glass and metal. 我们应该回收纸、玻璃和金属，让旧物变成新宝贝！',
   },
   {
     id: 'e10-10', type: 'judge', tag: '绿色出行',

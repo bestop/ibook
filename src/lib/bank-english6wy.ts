@@ -192,7 +192,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'wf6-5', type: 'judge', q: '"chopsticks" 常用复数形式，因为筷子是两根。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'chopsticks 筷子，成对出现所以用复数。', tag: '语法' },
     { id: 'wf6-6', type: 'choice', q: '"about" 在 "a book about the US" 中的意思是：', options: ['关于', '大约', '周围', '在上方'], answer: 0, explain: 'about 关于：a book about animals 一本关于动物的书。', tag: '介词' },
     { id: 'wf6-7', type: 'choice', q: '"她没有兄弟"应该说：', options: ["She hasn't got any brothers.", "She haven't got any brothers.", "She hasn't got some brothers.", "She doesn't got brothers."], answer: 0, explain: 'she 三单用 hasn\'t got，否定句用 any。', tag: '语法' },
-    { id: 'wf6-8', type: 'choice', q: '"Do you want to visit the UN building?" 的意思是：', options: ['你想参观联合国大楼吗？', '你在联合国工作吗？', '联合国在哪里？', '联合国很大吗？'], answer: 0, explain: 'want to do 想做：visit the UN building 参观联合国大楼。', tag: '句型' },
+        { id: 'wf6-8', type: 'choice', q: '他有一些中国筷子。哪句正确？', options: ['He has got some Chinese chopsticks.', 'He have got some Chinese chopsticks.', 'He has got any Chinese chopsticks.', 'He has got some chopstick.'], answer: 0, explain: 'he 是第三人称单数，用 has got；肯定句用 some：He has got some Chinese chopsticks. 他有一些中国筷子。chopsticks 总是复数哦。', tag: 'have got' },
     { id: 'wf6-9', type: 'judge', q: '"the UN" 指联合国，全称 United Nations。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'UN = United Nations 联合国，总部在纽约。', tag: '文化' },
     { id: 'wf6-10', type: 'choice', q: '"我想去上海"应该说：', options: ['I want to go to Shanghai.', 'I want go to Shanghai.', 'I wanting to go Shanghai.', 'I want to going Shanghai.'], answer: 0, explain: 'want to + 动词原形：I want to go...。', tag: '语法' },
   ],

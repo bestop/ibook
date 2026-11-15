@@ -116,7 +116,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zf2-6', type: 'choice', q: '亲戚家的小客人来了，你应该：', options: ['和他分享玩具', '藏起玩具', '让他哭', '霸占电视'], answer: 0, explain: 'Share your toys. 分享让快乐加倍，做热情的小主人！', tag: '社交礼仪' },
     { id: 'zf2-7', type: 'choice', q: '收到压岁钱，应该先：', options: ['和爸妈商量怎么管理', '全部买玩具', '到处炫耀', '随手乱放'], answer: 0, explain: '压岁钱要合理规划，可以储蓄、记账，学会理财！', tag: '理财意识' },
     { id: 'zf2-8', type: 'choice', q: '"We had a big family dinner." 的时态是：', options: ['一般过去时', '一般现在时', '一般将来时', '现在进行时'], answer: 0, explain: 'had 是 have 的过去式，表示过去发生的动作。', tag: '语法' },
-    { id: 'zf2-9', type: 'choice', q: '远方的亲人不能团聚，可以用什么联系？', options: ['video call 视频通话', 'Forget them', 'Never talk', 'Break the phone'], answer: 0, explain: '视频通话让爱不缺席，天各一方也能"见面"！', tag: '情感态度' },
+        { id: 'zf2-9', type: 'choice', q: '远方的亲人不能团聚，最好的联系方法是：', options: ['make a video call 视频通话', 'play games all night 整晚打游戏', 'turn off the phone 关掉手机', 'keep silent 什么也不说'], answer: 0, explain: '视频通话让爱不缺席：Let\'s make a video call! 隔着屏幕也能见到亲爱的家人。', tag: '情感态度' },
     { id: 'zf2-10', type: 'judge', q: '"Where there is love, there is home." 意思是"有爱就有家"。', options: ['√ 对', '✗ 错'], answer: 0, explain: '家人之间的爱，让每个相聚的时刻都变成温暖的"家"！', tag: '情感态度' },
   ],
   zf3: [
