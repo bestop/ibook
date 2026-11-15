@@ -715,11 +715,11 @@ const UNIT_E7: Question[] = [
     explain: '对！认真观察、敢于提问、反复试验、不怕失败，这就是科学精神。',
   },
   {
-    id: 'e7-10', type: 'choice', tag: '句型',
-    q: 'Marie Curie was a great ______ scientist.（居里夫人是一位伟大的女科学家。）',
+    id: 'e7-10', type: 'choice', tag: '词汇',
+    q: '"女科学家" woman scientist 中，表示"女性"的单词是 ______。',
     options: ['woman', 'man', 'boy', 'girl'],
     answer: 0,
-    explain: 'woman scientist 女科学家。居里夫人两次获得诺贝尔奖，是伟大的女科学家。',
+    explain: '居里夫人（Marie Curie）是一位伟大的女科学家。woman 指"女性"，man 指"男性"，千万别弄混哦。',
   },
 ]
 
@@ -748,10 +748,10 @@ const UNIT_E8: Question[] = [
   },
   {
     id: 'e8-4', type: 'choice', tag: '文化常识',
-    q: 'Paper was invented in ______.（纸是______发明的。）',
+    q: '造纸术是我国四大发明之一，"中国"的英文是 ______。',
     options: ['China 中国', 'America 美国', 'England 英国', 'Japan 日本'],
     answer: 0,
-    explain: '纸是中国古代发明的，东汉的蔡伦改进了造纸术，让纸变得又轻又便宜。',
+    explain: '造纸术是中国古代四大发明之一。"中国"是 China，"中国人/中文"是 Chinese，注意区分。',
   },
   {
     id: 'e8-5', type: 'judge', tag: '文化常识',

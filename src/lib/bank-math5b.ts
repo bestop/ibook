@@ -100,7 +100,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zy2-1', type: 'choice', q: '零下 3℃ 通常记作什么？', options: ['-3℃', '+3℃', '3℃', '0.3℃'], answer: 0, explain: '零上记为正，零下记为负：零下 3℃ 记作 -3℃。', tag: '正负数' },
     { id: 'zy2-2', type: 'choice', q: '下面关于 0 的说法，哪个是对的？', options: ['0 既不是正数，也不是负数', '0 是正数', '0 是负数', '0 最小是负数'], answer: 0, explain: '0 是正数和负数的分界，它既不是正数也不是负数。', tag: '认识 0' },
     { id: 'zy2-3', type: 'judge', q: '0 既比正数小，也比负数小。', options: ['√ 对', '✗ 错'], answer: 1, explain: '错！0 比正数小，但比负数大——它是正数和负数的分界。', tag: '比大小' },
-    { id: 'zy2-4', type: 'choice', q: '在数轴上，0 的右边表示什么数？', options: ['正数', '负数', '只有 0', '分数'], answer: 0, explain: '数轴以 0 为界：右边是正数，左边是负数。', tag: '数轴' },
+    { id: 'zy2-4', type: 'choice', q: '在数轴上，0 的右边表示什么数？', options: ['正数', '负数', '只有 0', '小数'], answer: 0, explain: '数轴以 0 为界：右边是正数，左边是负数。', tag: '数轴' },
     { id: 'zy2-5', type: 'choice', q: '+8 读作什么？', options: ['正八', '加八', '八分', '负八'], answer: 0, explain: '+8 读作"正八"，表示正数 8。', tag: '读写正负数' },
     { id: 'zy2-6', type: 'choice', q: '高于海平面 8848 米记作 +8848 米，低于海平面 155 米记作什么？', options: ['-155 米', '+155 米', '155 米', '0 米'], answer: 0, explain: '高于海平面为正，低于海平面为负，记作 -155 米。', tag: '正负数' },
     { id: 'zy2-7', type: 'judge', q: '所有正数都比 0 大。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！正数都在数轴上 0 的右边，都比 0 大。', tag: '比大小' },
