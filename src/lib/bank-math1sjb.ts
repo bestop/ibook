@@ -191,7 +191,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'sg8-1', type: 'choice', q: '买一支 6 角的铅笔，付 1 元，找回多少？', options: ['4 角', '6 角', '1 角', '5 角'], answer: 0, explain: '1 元 = 10 角，10 - 6 = 4（角）。', tag: '找零' },
     { id: 'sg8-2', type: 'choice', q: '书包 35 元，文具盒 12 元，一共多少元？', options: ['47 元', '23 元', '43 元', '57 元'], answer: 0, explain: '35 + 12 = 47（元），合起来用加法。', tag: '购物' },
     { id: 'sg8-3', type: 'choice', q: '小明有 20 元，买 8 元的故事书，还剩多少元？', options: ['12 元', '8 元', '28 元', '10 元'], answer: 0, explain: '20 - 8 = 12（元），付钱后剩下的用减法。', tag: '购物' },
-    { id: 'sg8-4', type: 'choice', q: '1 元可以买几支 5 角的棒棒糖？', options: ['2 支', '1 支', '5 支', '10 支'], answer: 0, explain: '1 元 = 10 角，10 ÷ 5 = 2（支），正好买 2 支。', tag: '购物' },
+    { id: 'sg8-4', type: 'choice', q: '1 元可以买几支 5 角的棒棒糖？', options: ['2 支', '1 支', '5 支', '10 支'], answer: 0, explain: '1 元 = 10 角，5 角 + 5 角 = 1 元，正好买 2 支。', tag: '购物' },
     { id: 'sg8-5', type: 'choice', q: '橡皮 7 角，尺子 9 角，哪个便宜？', options: ['橡皮', '尺子', '一样', '不能比'], answer: 0, explain: '7 角 < 9 角，橡皮便宜 2 角。', tag: '比较价钱' },
     { id: 'sg8-6', type: 'choice', q: '故事书 15 元，漫画 9 元，故事书贵多少元？', options: ['6 元', '24 元', '5 元', '16 元'], answer: 0, explain: '15 - 9 = 6（元），求相差数用减法。', tag: '求相差数' },
     { id: 'sg8-7', type: 'choice', q: '付 10 元买 7 元的玩具，找回多少？', options: ['3 元', '7 元', '13 元', '2 元'], answer: 0, explain: '10 - 7 = 3（元），找回 3 元。', tag: '找零' },

@@ -197,6 +197,6 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'kg8-7', type: 'choice', q: '找规律填数：11、13、15、□', options: ['17', '16', '18', '14'], answer: 0, explain: '每次多 2：15 + 2 = 17。', tag: '找规律' },
     { id: 'kg8-8', type: 'choice', q: '小明有 6 颗糖，妈妈又给他 8 颗，小明现在有几颗？', options: ['14 颗', '13 颗', '15 颗', '12 颗'], answer: 0, explain: '6 + 8 = 14（颗）。6 + 4 = 10，10 + 4 = 14。', tag: '加法应用' },
     { id: 'kg8-9', type: 'judge', q: '比 50 大、比 52 小的数只有一个，是 51。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对，51 就夹在 50 和 52 中间。', tag: '数的顺序' },
-    { id: 'kg8-10', type: 'judge', q: '两个完全一样的三角形，可以拼成一个长方形。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对，两个一样的直角三角形边贴边拼，正好变成长方形。', tag: '图形拼组' },
+    { id: 'kg8-10', type: 'judge', q: '把长方形斜着剪一刀，可以剪成两个完全一样的三角形。', options: ['√ 对', '✗ 错'], answer: 0, explain: '对！沿着长方形对着的角剪一刀，得到两个一模一样的三角形。', tag: '图形拼组' },
   ],
 }

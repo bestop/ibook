@@ -227,7 +227,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'wg9-3', type: 'choice', q: '"What\'s your favourite sport?" 是在问：', options: ['你最喜欢的运动是什么？', '你会做运动吗？', '运动好玩吗？', '你几岁了？'], answer: 0, explain: 'favourite 最喜欢的，这句话问最喜欢的运动。', tag: '句型' },
     { id: 'wg9-4', type: 'judge', q: '"ping-pong" 是"足球"的意思。', options: ['√ 对', '✗ 错'], answer: 1, explain: 'ping-pong 是乒乓球，football 才是足球。', tag: '单词' },
     { id: 'wg9-5', type: 'choice', q: '"favourite" 的意思是：', options: ['最喜欢的', '讨厌的', '新的', '大的'], answer: 0, explain: 'favourite 最喜欢的，my favourite colour 我最喜欢的颜色。', tag: '单词' },
-    { id: 'wg9-6', type: 'choice', q: '想说"我喜欢游泳"，应该说：', options: ['I like swimming.', 'I can swimming.', 'I am swim.', 'I like swim.'], answer: 0, explain: 'like 后面的动词加 ing：like swimming 喜欢游泳。', tag: '句型' },
+    { id: 'wg9-6', type: 'choice', q: '想说"我喜欢游泳"，应该说：', options: ['I like swimming.', 'I can swimming.', 'I am swim.', 'I like swim.'], answer: 0, explain: 'I like swimming. 我喜欢游泳，swimming 是一种运动，大声说出来！', tag: '句型' },
     { id: 'wg9-7', type: 'judge', q: '运动完出了汗，要及时擦干、多喝水。', options: ['√ 对', '✗ 错'], answer: 0, explain: '运动虽好，护理也重要：擦汗、喝水、休息一下！', tag: '习惯养成' },
     { id: 'wg9-8', type: 'choice', q: '"sport" 指的是：', options: ['运动', '游戏', '学习', '睡觉'], answer: 0, explain: 'sport 运动，football、basketball 都是 sport。', tag: '单词' },
     { id: 'wg9-9', type: 'choice', q: '"What\'s your favourite sport?" 可以这样回答：', options: ['I like basketball.', 'It is a ball.', 'I am fine.', 'Yes, I do.'], answer: 0, explain: '回答喜欢的运动：I like basketball. 我喜欢篮球。', tag: '句型' },

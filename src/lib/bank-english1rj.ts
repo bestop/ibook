@@ -151,7 +151,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'zar-3', type: 'choice', q: '介绍自己的好朋友，可以说：', options: ['This is my friend.', 'This is my book.', 'This is my bag.', 'This is my desk.'], answer: 0, explain: 'This is my friend. 这是我的朋友，介绍人用 This is...。', tag: '句型' },
     { id: 'zar-4', type: 'choice', q: '"listen and point" 的意思是：', options: ['听一听，指一指', '看一看，写一写', '站起来，坐下去', '打开，合上'], answer: 0, explain: 'listen 听、point 指，听音指图是课堂上常玩的小游戏。', tag: '动词短语' },
     { id: 'zar-5', type: 'judge', q: 'schoolbag（书包）是用来装玩具的。', options: ['√ 对', '✗ 错'], answer: 1, explain: '书包是用来装课本和文具的，玩具要留在家里玩哦。', tag: '生活常识' },
-    { id: 'zar-6', type: 'choice', q: '放学回家和老师同学告别，说：', options: ['Goodbye! See you!', 'Good morning!', 'Nice to meet you!', 'How are you?'], answer: 0, explain: 'Goodbye! / See you! 再见！明天见可以说 See you tomorrow!。', tag: '打招呼' },
+    { id: 'zar-6', type: 'choice', q: '放学回家和老师同学告别，说：', options: ['Goodbye! See you!', 'Good morning!', 'Nice to meet you!', 'How are you?'], answer: 0, explain: 'Goodbye! / See you! 再见！和老师同学挥挥手说再见。', tag: '打招呼' },
     { id: 'zar-7', type: 'choice', q: '"eyes and ears" 指的是：', options: ['眼睛和耳朵', '手和脚', '嘴巴和鼻子', '头和肩膀'], answer: 0, explain: 'eye→eyes 眼睛，ear→ears 耳朵，两个用复数，词尾加 s。', tag: '身体部位' },
     { id: 'zar-8', type: 'choice', q: '想认识新朋友，可以先说：', options: ['Hello! I\'m...', 'Goodbye!', 'You\'re wrong!', 'Give me that!'], answer: 0, explain: '先打招呼再自我介绍：Hello! I\'m...，交朋友就是这么简单！', tag: '交友' },
     { id: 'zar-9', type: 'judge', q: '每天自己整理书包，是上学前的好习惯。', options: ['√ 对', '✗ 错'], answer: 0, explain: '自己的事情自己做，睡前整理书包，做能干的小学生！', tag: '习惯养成' },

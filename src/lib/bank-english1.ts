@@ -319,7 +319,7 @@ export const QUESTIONS: Record<string, Question[]> = {
     { id: 'i10-10', type: 'judge', q: '电梯按钮上、日历上的数字都可以用英语读出来。', options: ['√ 对', '✗ 错'], answer: 0, explain: 'Fun in using numbers 数字用处大，看到数字就可以练英语。', tag: '拓展' },
   ],
   iipa3: [
-    { id: 'iipa3-1', type: 'choice', q: '"A better me" 的意思是：', options: ['更好的我', '更小的我', '我的朋友', '我的家'], answer: 0, explain: 'better 更好（good 的比较级），A better me 更好的我。', tag: '句型' },
+    { id: 'iipa3-1', type: 'choice', q: '"A better me" 的意思是：', options: ['更好的我', '更小的我', '我的朋友', '我的家'], answer: 0, explain: 'A better me 更好的我，每天学会一点点，就是更好的自己。', tag: '句型' },
     { id: 'iipa3-2', type: 'choice', q: '"good" 的意思是：', options: ['好的', '坏的', '大的', '热的'], answer: 0, explain: 'good 好的，Good job! 做得好！', tag: '词汇' },
     { id: 'iipa3-3', type: 'choice', q: '发 /g/ 音的字母是：', options: ['Gg', 'Jj', 'Dd', 'Bb'], answer: 0, explain: 'Gg 发 /g/，/g/ /g/ good，注意别和 Jj 的音搞混。', tag: '发音' },
     { id: 'iipa3-4', type: 'choice', q: '"girl"（女孩）的第一个字母是：', options: ['Gg', 'Jj', 'Bb', 'Rr'], answer: 0, explain: 'girl 以 Gg 开头，/g/ /g/ girl。', tag: '字母' },
