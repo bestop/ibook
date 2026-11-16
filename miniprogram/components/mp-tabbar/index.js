@@ -1,4 +1,4 @@
-// 自定义底部导航（与网页版底部 Tab 一致，emoji + 文字）
+// 自定义底部导航（与网页版底部 Tab 一致；参考图简约扁平剪影图标，形状由 wxss 内嵌 SVG 提供）
 const sfx = require('../../utils/sfx')
 
 Component({
@@ -8,11 +8,11 @@ Component({
   },
   data: {
     tabs: [
-      { key: 'home', label: '科目', emoji: '🏠', url: '/pages/home/index' },
-      { key: 'pet', label: '宠物', emoji: '🐾', url: '/pages/pet/index' },
-      { key: 'wrongbook', label: '错题本', emoji: '📕', url: '/pages/wrongbook/index' },
-      { key: 'rewards', label: '礼物', emoji: '🎁', url: '/pages/rewards/index' },
-      { key: 'profile', label: '我的', emoji: '🏆', url: '/pages/profile/index' },
+      { key: 'home', label: '科目', url: '/pages/home/index' },
+      { key: 'pet', label: '宠物', url: '/pages/pet/index' },
+      { key: 'wrongbook', label: '错题本', url: '/pages/wrongbook/index' },
+      { key: 'rewards', label: '礼物', url: '/pages/rewards/index' },
+      { key: 'profile', label: '我的', url: '/pages/profile/index' },
     ],
   },
   methods: {

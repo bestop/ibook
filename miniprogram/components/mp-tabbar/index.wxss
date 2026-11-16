@@ -1,18 +1,19 @@
-/* 轻盈悬浮 Dock：磨砂玻璃 + 轻投影，极简优雅 */
+/* 简约扁平底部导航（参考图风格）：通栏白底导航条（贴底、顶部细线）。
+   图标为单色扁平剪影：wxss 内嵌 base64 SVG 形状 + CSS mask 着色，
+   未选中中性灰、激活金色，图标与文字同色，错题徽标保留 */
 .tabbar {
   position: fixed;
-  left: 40rpx;
-  right: 40rpx;
-  bottom: calc(18rpx + env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 50;
   display: flex;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(24rpx);
-  -webkit-backdrop-filter: blur(24rpx);
-  border: 2rpx solid rgba(255, 255, 255, 0.9);
-  border-radius: 36rpx;
-  box-shadow: 0 10rpx 32rpx rgba(93, 74, 156, 0.14);
-  padding: 12rpx 10rpx;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  border-top: 2rpx solid #e6edf3;
+  box-shadow: 0 -8rpx 24rpx rgba(43, 90, 138, 0.07);
+  padding: 12rpx 8rpx calc(12rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 .tab {
@@ -20,9 +21,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 6rpx 0 4rpx;
-  border-radius: 30rpx;
-  color: #a5a1cc;
+  padding: 4rpx 0 0;
+  color: #a2a2a8;
   transition: color 0.2s ease;
 }
 .tab-icon {
@@ -30,14 +30,45 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 56rpx;
+  height: 52rpx;
 }
-.tab-emoji {
-  font-size: 42rpx;
-  line-height: 1;
-  opacity: 0.68;
-  filter: saturate(0.8);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease, filter 0.2s ease;
+/* 扁平剪影图标：SVG 形状做 mask，背景色即图标色 */
+.tab-ico {
+  width: 44rpx;
+  height: 44rpx;
+  background-color: #a2a2a8;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 科目：实心小房子（白门镂空） */
+.ico-home {
+  -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMjYgMy4xYTEuMTUgMS4xNSAwIDAgMSAxLjQ4IDBsOC4xIDYuOGMuMjcuMjIuNDMuNTYuNDMuOTJ2OS40OGMwIC43Ny0uNjIgMS40LTEuNCAxLjRINC4xM2ExLjQgMS40IDAgMCAxLTEuNC0xLjR2LTkuNDhjMC0uMzYuMTYtLjcuNDMtLjkybDguMS02Ljh6TTkuOSAyMnYtMy45YzAtLjcyLjU4LTEuMyAxLjMtMS4zaDEuNmMuNzIgMCAxLjMuNTggMS4zIDEuM1YyMnoiLz48L3N2Zz4=");
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMjYgMy4xYTEuMTUgMS4xNSAwIDAgMSAxLjQ4IDBsOC4xIDYuOGMuMjcuMjIuNDMuNTYuNDMuOTJ2OS40OGMwIC43Ny0uNjIgMS40LTEuNCAxLjRINC4xM2ExLjQgMS40IDAgMCAxLTEuNC0xLjR2LTkuNDhjMC0uMzYuMTYtLjcuNDMtLjkybDguMS02Ljh6TTkuOSAyMnYtMy45YzAtLjcyLjU4LTEuMyAxLjMtMS4zaDEuNmMuNzIgMCAxLjMuNTggMS4zIDEuM1YyMnoiLz48L3N2Zz4=");
+}
+/* 宠物：爪印 */
+.ico-pet {
+  -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTYuNyAxNi42YTUuMyA0LjMgMCAxIDAgMTAuNiAwYTUuMyA0LjMgMCAxIDAtMTAuNiAwek0zLjQgMTEuNWEyLjI1IDIuMjUgMCAxIDAgNC41IDBhMi4yNSAyLjI1IDAgMSAwLTQuNSAwek03LjUgNy44YTIuMyAyLjMgMCAxIDAgNC42IDBhMi4zIDIuMyAwIDEgMC00LjYgMHpNMTEuOSA3LjhhMi4zIDIuMyAwIDEgMCA0LjYgMGEyLjMgMi4zIDAgMSAwLTQuNiAwek0xNi4xIDExLjVhMi4yNSAyLjI1IDAgMSAwIDQuNSAwYTIuMjUgMi4yNSAwIDEgMC00LjUgMHoiLz48L3N2Zz4=");
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTYuNyAxNi42YTUuMyA0LjMgMCAxIDAgMTAuNiAwYTUuMyA0LjMgMCAxIDAtMTAuNiAwek0zLjQgMTEuNWEyLjI1IDIuMjUgMCAxIDAgNC41IDBhMi4yNSAyLjI1IDAgMSAwLTQuNSAwek03LjUgNy44YTIuMyAyLjMgMCAxIDAgNC42IDBhMi4zIDIuMyAwIDEgMC00LjYgMHpNMTEuOSA3LjhhMi4zIDIuMyAwIDEgMCA0LjYgMGEyLjMgMi4zIDAgMSAwLTQuNiAwek0xNi4xIDExLjVhMi4yNSAyLjI1IDAgMSAwIDQuNSAwYTIuMjUgMi4yNSAwIDEgMC00LjUgMHoiLz48L3N2Zz4=");
+}
+/* 错题本：对勾方块（白勾镂空） */
+.ico-wrongbook {
+  -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNNC41IDNoMTVBMS41IDEuNSAwIDAgMSAyMSA0LjV2MTVhMS41IDEuNSAwIDAgMS0xLjUgMS41aC0xNUExLjUgMS41IDAgMCAxIDMgMTkuNXYtMTVBMS41IDEuNSAwIDAgMSA0LjUgM3pNNi41IDEyLjRsMS43LTEuNyAyLjQgMi40IDQuOC00LjggMS43IDEuNy02LjUgNi41eiIvPjwvc3ZnPg==");
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNNC41IDNoMTVBMS41IDEuNSAwIDAgMSAyMSA0LjV2MTVhMS41IDEuNSAwIDAgMS0xLjUgMS41aC0xNUExLjUgMS41IDAgMCAxIDMgMTkuNXYtMTVBMS41IDEuNSAwIDAgMSA0LjUgM3pNNi41IDEyLjRsMS43LTEuNyAyLjQgMi40IDQuOC00LjggMS43IDEuNy02LjUgNi41eiIvPjwvc3ZnPg==");
+}
+/* 礼物：礼盒（白丝带镂空） */
+.ico-rewards {
+  -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMyA3aDE4djMuNkgzek00LjUgMTJoMTV2OWgtMTV6TTcgNWEyIDIgMCAxIDAgNCAwYTIgMiAwIDEgMC00IDB6TTEzIDVhMiAyIDAgMSAwIDQgMGEyIDIgMCAxIDAtNCAwek0xMC45IDdoMi4ydjMuNmgtMi4yek0xMC45IDEyaDIuMnY5aC0yLjJ6Ii8+PC9zdmc+");
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMyA3aDE4djMuNkgzek00LjUgMTJoMTV2OWgtMTV6TTcgNWEyIDIgMCAxIDAgNCAwYTIgMiAwIDEgMC00IDB6TTEzIDVhMiAyIDAgMSAwIDQgMGEyIDIgMCAxIDAtNCAwek0xMC45IDdoMi4ydjMuNmgtMi4yek0xMC45IDEyaDIuMnY5aC0yLjJ6Ii8+PC9zdmc+");
+}
+/* 我的：人形 */
+.ico-profile {
+  -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDEyLjZhNC44IDQuOCAwIDEgMCAwLTkuNmE0LjggNC44IDAgMCAwIDAgOS42ek0xMiAxNC40Yy00LjIgMC03LjYgMi41LTcuNiA1LjYgMCAuNTUuNDUgMSAxIDFoMTMuMmMuNTUgMCAxLS40NSAxLTEgMC0zLjEtMy40LTUuNi03LjYtNS42eiIvPjwvc3ZnPg==");
+  mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDEyLjZhNC44IDQuOCAwIDEgMCAwLTkuNmE0LjggNC44IDAgMCAwIDAgOS42ek0xMiAxNC40Yy00LjIgMC03LjYgMi41LTcuNiA1LjYgMCAuNTUuNDUgMSAxIDFoMTMuMmMuNTUgMCAxLS40NSAxLTEgMC0zLjEtMy40LTUuNi03LjYtNS42eiIvPjwvc3ZnPg==");
 }
 .tab-label {
   font-size: 20rpx;
@@ -46,24 +77,23 @@
   letter-spacing: 1rpx;
   white-space: nowrap;
 }
-/* 激活：轻底色胶囊 + 图标轻浮起（去黄底弹跳） */
+/* 激活：金色图标 + 金色加粗文字（无底色胶囊，与参考图一致） */
 .tab-active {
-  color: #2aa9e8;
-  background: linear-gradient(180deg, #f0faff 0%, #e4f5ff 100%);
+  color: #e89b2d;
 }
-.tab-active .tab-emoji {
-  opacity: 1;
-  filter: saturate(1.05);
-  transform: translateY(-4rpx) scale(1.12);
+.tab-active .tab-ico {
+  background-color: #e89b2d;
+  transform: translateY(-2rpx) scale(1.08);
 }
 .tab-active .tab-label {
   font-weight: 800;
+  color: #e89b2d;
 }
 /* 错题数徽标：图标右上角小红点 */
 .tab-badge {
   position: absolute;
   top: -8rpx;
-  right: -18rpx;
+  right: -14rpx;
   min-width: 30rpx;
   height: 30rpx;
   padding: 0 8rpx;

@@ -3,17 +3,20 @@
   <view wx:if="{{loadError}}" class="card error-box">
     <view class="error-emoji">😵</view>
     <view class="error-text">{{loadError}}</view>
-    <button hover-class="none" class="btn-ghost" bindtap="exit">返回</button>
+    <button hover-class="none" class="btn-ghost" bindtap="back">返回</button>
   </view>
 
   <block wx:elif="{{ready}}">
-    <!-- 顶栏：进度 / 生命 / 金币 -->
+    <!-- 顶栏：进度 / 生命 / 金币（复习模式不扣命，红心位改展示「答对即掌握」徽标，与网页版同构） -->
     <view class="quiz-head">
       <view class="quiz-progress">{{index}}/{{total}}</view>
-      <view class="quiz-lives">
-        <text wx:for="{{[1,2,3]}}" wx:key="*this" class="heart {{item <= lives ? 'heart-on' : ''}}">❤️</text>
+      <view class="quiz-lives" wx:if="{{mode !== 'review'}}">
+        <view wx:for="{{[1,2,3]}}" wx:key="*this" class="heart {{item <= lives ? 'heart-on' : ''}}">❤️</view>
       </view>
-      <view class="quiz-coins">🪙 {{coinsEarned}}</view>
+      <view class="quiz-lives" wx:else>
+        <text class="quiz-review-badge">📚 答对即掌握</text>
+      </view>
+      <view class="quiz-coins"><text>🪙</text><text>{{coinsEarned}}</text></view>
     </view>
 
     <!-- 模式与连击 -->
@@ -28,18 +31,19 @@
     </view>
     <view class="timer-num {{timePct <= 25 ? 'num-danger' : ''}}">⏰ {{timeLeft}}s</view>
 
-    <!-- 本关考点锦囊（仅第 1 题展示，可收起） -->
-    <view wx:if="{{tipOpen && index === 1 && levelTagsText}}" class="ktip">
-      <view class="ktip-row">
-        <view class="ktip-title">📚 本关考点：{{levelTagsText}}</view>
-        <view class="ktip-btn" hover-class="press" bindtap="dismissTip">知道了</view>
-      </view>
-      <view class="ktip-sub">先看一眼考点，答题时想想每道题属于哪一类！</view>
+    <!-- 考点锦囊：仅第 1 题时展示本关考点，可点击收起/展开（与网页版同构） -->
+    <view wx:if="{{index === 1 && levelTags.length > 0 && tipOpen}}" class="level-tips" bindtap="toggleTip">
+      <view class="level-tips-main"><text class="level-tips-text">📚 本关考点：{{levelTags[0]}}{{levelTags[1] ? ' · ' + levelTags[1] : ''}}{{levelTags[2] ? ' · ' + levelTags[2] : ''}}{{levelTags[3] ? ' · ' + levelTags[3] : ''}}</text></view>
+      <text class="level-tips-close">收起</text>
+    </view>
+    <view wx:elif="{{index === 1 && levelTags.length > 0 && !tipOpen}}" class="level-tips level-tips-collapsed" bindtap="toggleTip">
+      <view class="level-tips-main"><text class="level-tips-text">📚 本关考点已收起</text></view>
+      <text class="level-tips-close">展开</text>
     </view>
 
-    <!-- 题目 + 选项：外层按题号重建节点，每题入场动效都会重放 -->
+    <!-- 题目 + 选项：外层按题号重建节点，每题入场动效都会重放；答错抖动与网页版同构 -->
     <block wx:for="{{[index]}}" wx:key="*this">
-      <view class="card question-card">
+      <view class="card question-card {{shake ? 'question-shake' : ''}}">
         <view class="q-tag" wx:if="{{question.tag}}">{{question.tag}}</view>
         <view class="q-text">{{question.q}}</view>
       </view>
@@ -59,10 +63,11 @@
       </view>
     </block>
 
-    <!-- 解析 -->
+    <!-- 解析：反馈标题随机轮换（答对夸奖/答错安慰）+ 宠物应援（借鉴聪聪学堂 FeedbackPanel + Mascot） -->
     <view wx:if="{{answered}}" class="card explain-card {{isCorrect ? 'explain-ok' : 'explain-bad'}}">
-      <view class="explain-head">{{isCorrect ? '🎉 回答正确！' : (picked === -1 ? '⏰ 时间到！' : '😅 答错啦～')}}</view>
+      <view class="explain-head">{{feedbackTitle || (isCorrect ? '🎉 回答正确！' : (picked === -1 ? '⏰ 时间到！' : '😅 答错啦～'))}}</view>
       <view class="explain-text">{{question.explain}}</view>
+      <view wx:if="{{petCheerText}}" class="pet-cheer">{{petFace}} {{petCheerText}}</view>
       <button hover-class="none" class="btn-primary next-btn" bindtap="next">
         {{lives <= 0 ? '查看结果' : (index >= total ? '查看结果' : '下一题 →')}}
       </button>
@@ -70,4 +75,9 @@
   </block>
 
   <view class="tabbar-space"></view>
+
+  <!-- 连击里程碑：3/5/10 连击居中大徽章（弹入→上浮→淡出，与网页版同构） -->
+  <view wx:if="{{comboMilestone}}" class="combo-milestone-mask">
+    <view class="combo-milestone">🔥 连击 ×{{comboMilestone}}</view>
+  </view>
 </view>

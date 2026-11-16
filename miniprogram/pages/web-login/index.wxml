@@ -1,0 +1,43 @@
+<view class="page">
+  <!-- 网页版扫码登录确认卡：从网页二维码扫码进入；安全提示常驻 -->
+  <view class="card wxlogin-card">
+    <view class="wxlogin-title">🌐 网页版登录确认</view>
+
+    <!-- 无凭证：直接打开本页（非扫码进入） -->
+    <block wx:if="{{phase === 'no-token'}}">
+      <view class="wxlogin-sub">请从网页版「微信扫码登录」的二维码扫一扫进入；直接打开本页无法确认登录。</view>
+      <view class="btn-primary btn-sun wxlogin-btn" hover-class="btn-pressed" bindtap="onBackHome">回首页</view>
+    </block>
+
+    <!-- 就绪中：登录身份/云端会话 -->
+    <block wx:elif="{{phase === 'loading'}}">
+      <view class="wxlogin-sub">正在连接云端…</view>
+    </block>
+
+    <!-- 就绪：展示账号 + 安全提示 + 确认 -->
+    <block wx:elif="{{phase === 'ready'}}">
+      <view class="wxlogin-sub">当前账号：{{nick}}</view>
+      <view class="wxlogin-warn">请确认是你本人在网页上发起的登录；确认后网页版将登录该账号并同步云端进度。</view>
+      <view class="btn-primary btn-sun wxlogin-btn" hover-class="btn-pressed" bindtap="onConfirm">确认登录</view>
+    </block>
+
+    <!-- 确认中：防重复点击 -->
+    <block wx:elif="{{phase === 'confirming'}}">
+      <view class="wxlogin-sub">确认中…</view>
+    </block>
+
+    <!-- 完成 -->
+    <block wx:elif="{{phase === 'done'}}">
+      <view class="wxlogin-ok">✅ 已确认登录</view>
+      <view class="wxlogin-sub">请回到电脑网页查看，页面会自动进入学习岛。</view>
+      <view class="btn-ghost wxlogin-btn" hover-class="btn-pressed" bindtap="onBackHome">完成</view>
+    </block>
+
+    <!-- 失败：可重试（云端不可用 / 二维码过期或无效） -->
+    <block wx:else>
+      <view class="wxlogin-sub">{{errMsg}}</view>
+      <view class="btn-primary btn-sun wxlogin-btn" hover-class="btn-pressed" bindtap="onRetry">重试</view>
+      <view class="btn-ghost wxlogin-btn" hover-class="btn-pressed" bindtap="onBackHome">回首页</view>
+    </block>
+  </view>
+</view>

@@ -8,7 +8,8 @@
     "pages/wrongbook/index",
     "pages/rewards/index",
     "pages/profile/index",
-    "pages/guide/index"
+    "pages/guide/index",
+    "pages/web-login/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#DDF3FF",

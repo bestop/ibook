@@ -8,7 +8,7 @@
     bindtap="onTap"
   >
     <view class="tab-icon">
-      <text class="tab-emoji">{{item.emoji}}</text>
+      <view class="tab-ico ico-{{item.key}}"></view>
       <view wx:if="{{item.key === 'wrongbook' && wrongCount > 0}}" class="tab-badge">{{wrongCount}}</view>
     </view>
     <view class="tab-label">{{item.label}}</view>

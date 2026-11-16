@@ -1,0 +1,54 @@
+/* 网页版扫码登录确认页：卡片居中叙事，样式复用全局 card/btn 体系，仅补局部布局 */
+.page {
+  padding: 24rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.wxlogin-card {
+  padding: 44rpx 32rpx;
+  margin-top: 10vh;
+}
+
+.wxlogin-title {
+  font-size: 38rpx;
+  font-weight: 900;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 12rpx;
+}
+
+.wxlogin-sub {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4b5563;
+  line-height: 1.6;
+  text-align: center;
+  margin: 20rpx 0;
+}
+
+/* 安全提示条：警示黄底（与全局活力黄呼应） */
+.wxlogin-warn {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #b45309;
+  background: #fef3c7;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  line-height: 1.6;
+  margin: 16rpx 0;
+}
+
+.wxlogin-ok {
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #059669;
+  text-align: center;
+  margin: 24rpx 0 4rpx;
+}
+
+/* 按钮宽度收敛（全局按钮默认撑满内容区） */
+.wxlogin-btn {
+  margin: 20rpx auto 0;
+  width: 64%;
+}

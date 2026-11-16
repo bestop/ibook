@@ -1,4 +1,13 @@
 <view class="page">
+  <!-- 通关撒花（借鉴聪聪学堂 ConfettiCanvas，纯 CSS 实现）：通关且 ≥2 星时播放 -->
+  <view wx:if="{{passed && stars >= 2}}" class="confetti-layer">
+    <text
+      wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11]}}"
+      wx:key="*this"
+      class="confetti confetti-{{index % 6}}"
+      style="left: {{(index * 8.3) + 2}}%; animation-delay: {{(index % 4) * 0.28}}s"
+    >{{index % 3 === 0 ? '🎉' : (index % 3 === 1 ? '✨' : '🎊')}}</text>
+  </view>
   <view class="card result-card">
     <view class="result-emoji">{{passed ? (stars === 3 ? '🏆' : '🎉') : (mode === 'review' ? '📖' : '💪')}}</view>
     <view class="result-title">

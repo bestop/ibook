@@ -4,27 +4,29 @@
   box-sizing: border-box;
 }
 
-/* ===== 首页 Hero：蛋仔天空（云朵星星点缀 + 小岛右上太阳分享钮）
-   垂直节奏收紧：让首屏更早露出今日任务与选择器 ===== */
+/* ===== 首页 Hero：参考图风格——左侧大标题 + 问候语，右侧小岛插画
+   （点小岛分享，原太阳钮下线；云朵彩蛋与星星装饰保留） ===== */
 .hero {
   position: relative;
-  text-align: center;
-  padding: 20rpx 8rpx 8rpx;
+  padding: 44rpx 8rpx 4rpx;
 }
 .hero-cloud,
 .hero-star {
   position: absolute;
 }
 .hero-cloud {
-  left: 16rpx;
-  top: 8rpx;
+  /* 隐藏彩蛋热区：40rpx 对称内边距扩大可点面积，坐标同步负偏移补偿，
+     云朵视觉位置与原版完全一致（left 16-40=-24 / top 8-40=-32） */
+  left: -24rpx;
+  top: -32rpx;
+  padding: 40rpx;
   font-size: 44rpx;
   animation: eggy-float 3.6s ease-in-out infinite;
 }
 .hero-star {
-  right: 24rpx;
-  top: 20rpx;
-  font-size: 40rpx;
+  right: 20rpx;
+  top: 0;
+  font-size: 36rpx;
   animation: eggy-float 3.6s ease-in-out infinite;
   animation-delay: 1.2s;
 }
@@ -37,126 +39,38 @@
     transform: translateY(-18rpx) rotate(3deg);
   }
 }
-.hero-bubble {
-  position: relative;
-  z-index: 2; /* 高于太阳钮(1)：太阳上半截藏到气泡后面 */
-  display: inline-block;
-  max-width: 100%;
-  box-sizing: border-box;
-  /* 磨砂玻璃同语言：半透明白底+模糊+半透明白描边+单层柔影 */
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(20rpx);
-  -webkit-backdrop-filter: blur(20rpx);
-  border: 2rpx solid rgba(255, 255, 255, 0.95);
-  border-radius: 30rpx;
-  padding: 16rpx 32rpx;
-  font-size: 28rpx;
-  font-weight: 900;
-  color: #1289c9;
-  box-shadow: 0 10rpx 28rpx rgba(93, 74, 156, 0.14);
-  animation: eggy-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* 左右分栏：左标题问候，右小岛 */
+.hero-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
 }
-.hero-bubble::after {
-  content: '';
-  position: absolute;
-  left: 80rpx;
-  bottom: -14rpx;
-  width: 24rpx;
-  height: 24rpx;
-  background: rgba(255, 255, 255, 0.92);
-  border-right: 2rpx solid #bfe5fb;
-  border-bottom: 2rpx solid #bfe5fb;
-  transform: rotate(45deg);
-}
-.hero-island-wrap {
-  position: relative; /* 太阳分享钮的定位锚点：跟随小岛 */
-  margin-top: 22rpx;
-}
-.hero-island {
-  position: relative;
-  display: block;
-  font-size: 116rpx;
-  line-height: 1.1;
-  animation: island-bob 3s ease-in-out infinite;
-}
-/* 小岛底座：海面椭圆影随小岛一起飘 */
-.hero-island::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -14rpx;
-  width: 190rpx;
-  height: 30rpx;
-  margin-left: -95rpx;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(43, 179, 245, 0.28), rgba(43, 179, 245, 0) 70%);
-  z-index: -1;
+.hero-left {
+  flex: 1;
+  min-width: 0;
+  padding-top: 16rpx;
 }
 .hero-title {
-  display: inline-block;
-  margin-top: 10rpx;
-  font-size: 62rpx;
+  font-size: 58rpx;
   font-weight: 900;
   letter-spacing: 2rpx;
-  text-indent: 2rpx; /* 补偿尾字 letter-spacing，渐变文字视觉居中 */
-  background: linear-gradient(90deg, #2bb3f5, #8b5cf6 50%, #ff7ba9);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  /* 蛋仔贴纸字：drop-shadow 不破坏渐变字，白胶衬底+柔影垫底 */
-  filter: drop-shadow(0 4rpx 0 #ffffff) drop-shadow(0 14rpx 22rpx rgba(139, 92, 246, 0.16));
+  color: #2e3a52;
 }
 .hero-sub {
-  margin-top: 8rpx;
-  font-size: 28rpx;
-  font-weight: 900;
-  color: #6b5bb8;
+  margin-top: 14rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #5b6f86;
+  line-height: 1.5;
 }
-.hero-chips {
-  margin-top: 18rpx;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14rpx;
-}
-/* 玻璃贴纸胶囊：半透明白描边 + 柔影（去硬底影与倾斜） */
-.chip {
-  border-radius: 999rpx;
-  padding: 12rpx 26rpx;
-  font-size: 25rpx;
-  font-weight: 900;
-  border: 2rpx solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8rpx 20rpx rgba(93, 74, 156, 0.12);
-}
-.chip.gold {
-  background: #ffe066;
-  color: #8a5a00;
-}
-.chip.fire {
-  background: #a8f0d4;
-  color: #0b7a55;
-}
-.chip.wrong {
-  background: #ffd9e8;
-  color: #c21e6a;
-}
-/* 快捷入口：可点状态胶囊，按压轻缩反馈 */
-.chip-link {
-  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.chip-link:active {
-  transform: scale(0.9);
-}
-
-/* ===== 太阳分享钮：小岛右上方的晴天太阳 =====
-   结构解耦：button 仅作透明触发壳（!important 压制微信默认样式），
-   视觉全部由内部 .sun-pill 承担，任何基础库下尺寸都稳定 */
-.sun-fab {
-  position: absolute;
-  top: -52rpx;
-  right: 162rpx;
-  width: 64rpx !important;
+/* ===== 小岛分享钮：小岛场景即按钮（透明触发壳压制微信默认样式，与旧太阳钮同方案）
+   场景精简（按需求）：⛰️山落在岛上、挡住岛上的树（z 序高于主岛），其余树/浪花已移除,
+   整体随 island-bob 一起漂浮，海面椭圆影保留 */
+.island-share {
+  position: relative;
+  flex-shrink: 0;
+  width: 210rpx !important;
+  height: 176rpx !important;
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -165,54 +79,93 @@
   border-radius: 0;
   line-height: 1 !important;
   overflow: visible;
-  z-index: 1; /* 低于 .hero-bubble(2)：太阳上半截藏在气泡文字后面 */
 }
-.sun-fab::after {
+.island-share::after {
   border: none; /* 重置微信 button 默认描边 */
 }
-.sun-pill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: 64rpx;
-  height: 64rpx;
-  border-radius: 50%;
-  /* 柔和日芯：亮核暖边过渡更细腻，无描边 */
-  background: radial-gradient(circle at 50% 36%, #fffbe6 0%, #ffe47a 48%, #ffce3d 100%);
-  box-shadow:
-    0 0 18rpx 5rpx rgba(255, 208, 62, 0.32), /* 柔光晕：由重外扩改轻盈呼吸光 */
-    inset 0 4rpx 0 rgba(255, 255, 255, 0.6),
-    0 3rpx 0 rgba(232, 164, 0, 0.3),
-    0 10rpx 18rpx rgba(255, 201, 60, 0.26);
-  animation: sun-shine 2.6s ease-in-out infinite;
+.hero-island {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: island-bob 3s ease-in-out infinite;
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.sun-icon {
-  font-size: 34rpx;
+.hero-island text {
+  position: absolute;
   line-height: 1;
-  filter: drop-shadow(0 2rpx 0 rgba(255, 255, 255, 0.55));
 }
-/* 晴天呼吸：轻轻鼓起 + 微摆，像太阳在发光 */
-@keyframes sun-shine {
-  0%,
-  100% {
-    transform: scale(1) rotate(-4deg);
-  }
-  50% {
-    transform: scale(1.07) rotate(5deg);
-  }
+/* 主岛：场景主体 */
+.isl-main {
+  left: 50%;
+  bottom: 4rpx;
+  font-size: 124rpx;
+  transform: translateX(-50%);
+  z-index: 1;
 }
-.sun-fab:active .sun-pill {
-  transform: scale(0.88); /* 按压缩放反馈 */
+/* 山已按需求移除（Task 28）：hero 场景仅保留主岛 */
+/* 小岛底座：海面椭圆影随小岛场景一起飘 */
+.hero-island::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10rpx;
+  width: 184rpx;
+  height: 28rpx;
+  margin-left: -92rpx;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(43, 179, 245, 0.28), rgba(43, 179, 245, 0) 70%);
+  z-index: -1;
+}
+.island-share:active .hero-island {
+  transform: scale(0.9); /* 按压缩放反馈 */
   animation: none;
 }
 
 /* ===== 今日 20 分钟 ===== */
 .today-card {
+  margin-top: 24rpx;
   margin-bottom: 20rpx;
   overflow: hidden; /* 外框硬保证：任何字况下内容不越出卡片边框 */
 }
+/* 三数据行：金币 / 连续 / 错题（参考图样式：竖分隔线三等分，同时是快捷入口） */
+.stat-row {
+  display: flex;
+  align-items: center;
+}
+.stat-cell {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 900;
+  color: #3c4656;
+  letter-spacing: 1rpx;
+  white-space: nowrap;
+}
+.stat-divider {
+  width: 2rpx;
+  height: 36rpx;
+  background: #edf0f4;
+  border-radius: 2rpx;
+  flex-shrink: 0;
+}
+.stat-split {
+  height: 2rpx;
+  background: #f0f3f7;
+  border-radius: 2rpx;
+  margin: 18rpx 0 20rpx;
+}
+/* 快捷入口：可点状态，按压轻缩反馈 */
+.chip-link {
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.chip-link:active {
+  transform: scale(0.9);
+}
+/* ===== 今日 20 分钟标题行（标题 + 进度标签；今日任务胶囊已移除，保留达成庆祝） ===== */
 .today-head {
   display: flex;
   align-items: center;
@@ -249,7 +202,7 @@
   animation: stripe-move 1.2s linear infinite;
 }
 
-/* ===== 三维选择器：三等分一行，湖蓝果冻胶囊 ===== */
+/* ===== 三维选择器：三等分一行，参考图白色药丸按钮 ===== */
 .picker-row {
   display: flex;
   gap: 14rpx;
@@ -263,9 +216,9 @@
   width: 100%;
   box-sizing: border-box;
   text-align: center;
-  background: linear-gradient(180deg, #ffffff 0%, #f0faff 100%);
-  border: 2rpx solid #cfe9fb;
-  color: #1b8fd1;
+  background: #ffffff;
+  border: 2rpx solid #eef2f6;
+  color: #3c4656;
   border-radius: 999rpx;
   padding: 14rpx 8rpx;
   font-size: 25rpx;
@@ -273,21 +226,24 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  box-shadow:
-    inset 0 4rpx 0 rgba(255, 255, 255, 0.8),
-    0 8rpx 20rpx rgba(93, 74, 156, 0.1);
+  box-shadow: 0 6rpx 16rpx rgba(43, 90, 138, 0.08);
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
 }
 .picker-btn:active {
   transform: translateY(3rpx) scale(0.98);
-  box-shadow:
-    inset 0 4rpx 0 rgba(255, 255, 255, 0.8),
-    0 3rpx 10rpx rgba(93, 74, 156, 0.08);
+  box-shadow: 0 3rpx 10rpx rgba(43, 90, 138, 0.06);
 }
 
-/* 列表容器：交错入场的 nth-child 局部计数锚点 */
+/* ===== 分区标题已按需求移除：筛选药丸直接衔接科目岛列表 ===== */
+
+/* 科目岛列表容器（与筛选药丸留出段间距） */
 .subject-list {
   min-width: 0;
+  margin-top: 30rpx;
+}
+/* 空态卡与列表同间距 */
+.card.empty-tip {
+  margin-top: 30rpx;
 }
 
 /* ===== 科目岛卡片：软塑胶贴纸盒（交错浮起入场） ===== */
@@ -357,7 +313,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* 出发按钮：活力黄豆荚果冻（与太阳钮同色系） */
+/* 出发按钮：活力黄豆荚果冻（底色按需求保留） */
 .subject-go {
   background: linear-gradient(180deg, #ffe066 0%, #ffc93c 100%);
   color: #8a5a00;
@@ -395,5 +351,17 @@
 }
 
 .tabbar-space {
-  height: 200rpx; /* 悬浮 Dock：胶囊高+bottom 16rpx+safe-area */
+  height: 180rpx; /* 底部通栏导航条：图标+文字行高 + safe-area */
+}
+
+/* ===== 每日任务全部达成庆祝徽标（闯关 + 20 分钟双达标触发，与网页版同构） ===== */
+.task-all-done {
+  margin: 12rpx 0 0; /* 卡内全宽 */
+  padding: 14rpx 24rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+  font-size: 24rpx;
+  font-weight: bold;
+  text-align: center;
 }

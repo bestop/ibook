@@ -2,7 +2,6 @@
 const api = require('../../utils/api')
 const store = require('../../utils/store')
 const sfx = require('../../utils/sfx')
-
 const GRADE_LABELS = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
 const TERM_LABELS = ['上册', '下册']
 const PUBLISHER_OPTIONS = [
@@ -13,6 +12,7 @@ const PUBLISHER_OPTIONS = [
   { key: 'sj', label: '苏教版' },
   { key: 'wy', label: '外研版' },
 ]
+
 
 Page({
   data: {
@@ -30,8 +30,11 @@ Page({
     streak: 0,
     wrongCount: 0,
     todaySeconds: 0,
+    todayMinutes: 0,
     goalSeconds: store.DAILY_GOAL_SECONDS,
     minutePct: 0,
+    // 今日任务状态（首页不再展示任务胶囊，仅用 allTasksDone 触发达成庆祝；复习任务已按需求移除）
+    dailyDone: { level: false, minutes: false, review: false },
   },
 
   onLoad() {
@@ -103,6 +106,9 @@ Page({
       todaySeconds: s.todaySeconds,
       todayMinutes: Math.floor(s.todaySeconds / 60),
       minutePct: Math.min(100, Math.round((s.todaySeconds / store.DAILY_GOAL_SECONDS) * 100)),
+      // 今日任务状态（与个人页同源；首页展示「闯关 + 20 分钟」双达标即庆祝）
+      dailyDone: s.dailyDone,
+      allTasksDone: !!(s.dailyDone && s.dailyDone.level && s.dailyDone.minutes),
     })
   },
 
@@ -144,6 +150,9 @@ Page({
       if (publisher === 'all') return true
       if (publisher === 'rj') return s.publisherKey === 'rj' || s.publisherKey === 'rj54'
       return s.publisherKey === publisher
+    }).map(function (s) {
+      // 学科岛图标随科目 emoji 裸直出（全站去芯片后无需按学科派发色调类）
+      return Object.assign({}, s)
     })
     this.setData({ gradeIndex: gi, termIndex: ti, pubIndex: pi, subjects: subjects })
     this.refreshStats()

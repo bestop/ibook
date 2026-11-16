@@ -51,8 +51,8 @@
   width: 300rpx;
   max-width: 100%;
   height: 14rpx;
-  background: #eef6ff;
-  border: 2rpx solid #fff;
+  background: var(--dl-swan);
+  border: none;
   border-radius: 999rpx;
   overflow: hidden;
   box-shadow: inset 0 2rpx 4rpx rgba(93, 74, 156, 0.12);
@@ -60,7 +60,7 @@
 }
 .head-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #3ed598, #3ec6ff);
+  background: linear-gradient(90deg, var(--dl-owl-green-light), var(--dl-owl-green));
   border-radius: 999rpx;
   box-shadow: inset 0 2rpx 0 rgba(255, 255, 255, 0.5);
   transition: width 0.4s ease;
@@ -234,4 +234,14 @@
 }
 .tabbar-space {
   height: 36rpx; /* 无 Dock 页（原生导航返回）：仅底部呼吸空白 */
+}
+
+/* 单元主题简介（借鉴聪聪学堂知识讲解形式）：锁定态不展示，单行截断不撑高卡片 */
+.level-intro {
+  font-size: 20rpx;
+  color: #9fc3dd;
+  margin-top: 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

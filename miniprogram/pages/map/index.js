@@ -58,6 +58,8 @@ Page({
         id: u.id,
         name: u.name,
         title: u.title,
+        // 单元主题简介（manifest 自带，借鉴聪聪学堂知识点讲解形式，与网页版同构）
+        intro: u.intro || '',
         emoji: u.emoji,
         index: i + 1,
         stars: progress ? progress.stars : 0,
@@ -106,10 +108,5 @@ Page({
     wx.navigateTo({
       url: '/pages/quiz/index?subjectId=' + this.subjectId + '&mode=daily&name=' + encodeURIComponent(this.data.subjectName),
     })
-  },
-
-  goHome() {
-    sfx.click()
-    wx.redirectTo({ url: '/pages/home/index' })
   },
 })

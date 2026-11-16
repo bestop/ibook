@@ -47,6 +47,7 @@
         <view class="level-main">
           <view class="level-name">{{item.emoji}} {{item.name}}</view>
           <view class="level-title">{{item.title}}</view>
+          <view wx:if="{{item.unlocked && item.intro}}" class="level-intro">{{item.intro}}</view>
           <view class="level-stars">
             <text wx:for="{{[1,2,3]}}" wx:for-item="s" wx:key="*this" class="star {{s <= item.stars ? 'star-on' : ''}}">★</text>
             <text wx:if="{{item.completed}}" class="level-done">已通关</text>

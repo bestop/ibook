@@ -1,6 +1,10 @@
-// 我的：签到、每日任务、学习统计、成就墙、重置进度
+// 我的：微信登录用户卡、签到、每日任务、学习统计、成就墙、重置进度
+// （云端同步全自动后台运行：变更节流上传 + 启动对齐 + onHide 兑底，无任何界面入口，见 utils/cloud.js）
 const store = require('../../utils/store')
 const sfx = require('../../utils/sfx')
+const week = require('../../utils/week')
+const user = require('../../utils/user')
+const cloud = require('../../utils/cloud')
 
 Page({
   data: {
@@ -20,6 +24,12 @@ Page({
     unlockedCount: 0,
     taskRewards: store.TASK_REWARDS,
     soundOn: true,
+    weekReport: null, // 本周报告（每日分钟柱状图 + 与上周对比，借鉴聪聪学堂 WeeklyReportCard）
+    // 用户系统（微信登录）：user=已登录展示数据 / profileFormOpen=完善资料表单展开 / 草稿头像昵称
+    user: null,
+    profileFormOpen: false,
+    draftNickname: '',
+    draftAvatar: '',
   },
 
   onShow() {
@@ -39,6 +49,8 @@ Page({
       })
     })
     const list = this.buildAchievementList(s)
+    // 本周报告（每日学习分钟柱状图 + 与上周对比，借鉴聪聪学堂 WeeklyReportCard，与网页版同构）
+    const report = week.weekReport(s.dayStats, t)
     this.setData({
       coins: s.coins,
       stars: store.totalStars(),
@@ -54,8 +66,24 @@ Page({
       achievements: list,
       unlockedCount: list.filter(function (a) { return a.unlocked }).length,
       wrongCount: Object.keys(s.wrongBook).length,
+      weekReport: report,
       soundOn: sfx.isEnabled(),
+      // 用户卡（微信登录身份，utils/user 身份层）
+      user: this.buildUserCard(),
     })
+  },
+
+  // 用户卡展示数据（无资料时昵称回退「微信用户」占位）
+  buildUserCard() {
+    const u = user.getUser()
+    if (!u) return null
+    const p = u.profile || {}
+    return {
+      nickname: p.nickname || '微信用户',
+      avatar: p.avatar || '',
+      sourceLabel: u.session.source === 'server' ? '微信账号' : '本机身份',
+      loginDate: u.loginAt || '',
+    }
   },
 
   // 成就墙（与 store 内置规则一致，本地计算解锁状态与进度文本）
@@ -140,6 +168,113 @@ Page({
           wx.showToast({ title: '已重置', icon: 'success' })
           that.refresh()
         }
+      },
+    })
+  },
+
+  // ---------- 用户系统（点「微信登录」直接授权登录；首次登录自动带出头像昵称填写） ----------
+
+  // 一键直接授权微信登录：静默 wx.login → 服务端换 openid（未就绪自动降级本机身份），
+  // 全程无表单无授权弹窗；_loginBusy 防连点重复发起登录。
+  // 登录成功且尚无资料时，自动展开官方「头像昵称填写能力」表单（头像选择器可选微信头像、
+  // 昵称键盘上方可一键填入微信昵称），免去手动找「完善资料」入口的额外步骤。
+  // 说明：wx.getUserProfile 自 2022-10-25 起对新生效版本只返回匿名数据（灰头像+「微信用户」），
+  // 微信平台已无静默提取真实头像昵称的接口，此自动弹表单即为合规下的最短路径。
+  doWeChatLogin() {
+    if (this._loginBusy) return
+    this._loginBusy = true
+    sfx.click()
+    const that = this
+    wx.showLoading({ title: '登录中…', mask: true })
+    user
+      .login()
+      .then((u) => {
+        wx.hideLoading()
+        // 有资料按昵称欢迎，无资料（首次直登）提示登录成功并自动带出资料填写
+        const hasProfile = !!(u && u.profile && u.profile.nickname)
+        const title = hasProfile ? '欢迎，' + u.profile.nickname : '微信登录成功'
+        wx.showToast({ title: title, icon: 'none', duration: 2000 })
+        that.refresh()
+        if (!hasProfile) {
+          // 等欢迎 toast 展示后再展开表单：点头像可选微信头像，点昵称框键盘上方一键填入微信昵称
+          setTimeout(() => {
+            that.setData({ profileFormOpen: true, draftNickname: '', draftAvatar: '' })
+          }, 650)
+        }
+      })
+      .catch(() => {
+        wx.hideLoading()
+      })
+      .then(() => {
+        this._loginBusy = false
+      })
+  },
+
+  // 完善资料表单：预填已有资料（昵称/头像留空则从零填），仅已登录态可达
+  openProfileForm() {
+    sfx.click()
+    const u = user.getUser()
+    const p = u && u.profile ? u.profile : {}
+    this.setData({ profileFormOpen: true, draftNickname: p.nickname || '', draftAvatar: p.avatar || '' })
+  },
+
+  cancelProfileForm() {
+    sfx.click()
+    this.setData({ profileFormOpen: false })
+  },
+
+  // 选择头像（open-type=chooseAvatar）：临时路径持久化到用户文件，失败回退临时路径
+  onChooseAvatar(e) {
+    sfx.click()
+    user.persistAvatar(e.detail && e.detail.avatarUrl).then((saved) => {
+      this.setData({ draftAvatar: saved })
+    })
+  },
+
+  // type=nickname 输入/失焦统一收口（键盘上方支持一键填入微信昵称）
+  onNicknameInput(e) {
+    this.setData({ draftNickname: e.detail && e.detail.value })
+  },
+
+  // 保存资料：昵称必填、头像可选；异常兜底先补登录（表单仅已登录态可达，此处防御性处理）
+  doSaveProfile() {
+    const that = this
+    const nick = String(this.data.draftNickname || '').trim()
+    if (!nick) {
+      wx.showToast({ title: '先填一个昵称吧', icon: 'none' })
+      return
+    }
+    wx.showLoading({ title: '保存中…', mask: true })
+    const ensureLogin = user.getUser() ? Promise.resolve() : user.login()
+    ensureLogin
+      .then(() => user.saveProfile({ nickname: nick, avatar: that.data.draftAvatar }))
+      .then((u) => {
+        wx.hideLoading()
+        that.setData({ profileFormOpen: false })
+        wx.showToast({ title: '资料已保存', icon: 'none', duration: 2000 })
+        cloud.pushProfile(nick) // 昵称同步到云端（fire-and-forget）：网页端登录后展示同一昵称
+        that.refresh()
+      })
+      .catch(() => {
+        wx.hideLoading()
+      })
+  },
+
+  // 退出登录：清除登录身份与展示资料，同时断开云端同步（吊销令牌）；学习进度保存在本机不受影响
+  doLogout() {
+    const that = this
+    sfx.click()
+    wx.showModal({
+      title: '退出登录？',
+      content: '退出后恢复游客模式并断开云端同步；学习进度仍保存在本机，云端存档也保留。',
+      confirmText: '退出',
+      cancelText: '取消',
+      success(res) {
+        if (!res.confirm) return
+        user.logout() // 清登录身份与展示资料（学习进度本机不动）
+        cloud.logout() // 吊销并清除云端令牌与账号资料缓存（云端存档保留）
+        wx.showToast({ title: '已退出登录', icon: 'none' })
+        that.refresh()
       },
     })
   },

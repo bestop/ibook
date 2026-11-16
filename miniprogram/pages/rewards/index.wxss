@@ -250,5 +250,5 @@
   flex-shrink: 0;
 }
 .tabbar-space {
-  height: 200rpx; /* 悬浮 Dock：胶囊高+bottom 16rpx+safe-area */
+  height: 180rpx; /* 底部通栏导航条：图标+文字行高 + safe-area */
 }

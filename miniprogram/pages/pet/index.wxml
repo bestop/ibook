@@ -47,29 +47,43 @@
 
   <!-- ============ 宠物主页（已领养） ============ -->
   <block wx:else>
-    <!-- 宠物展示卡 -->
-    <view class="hero">
-      <view class="hero-cloud c1">☁️</view>
-      <view class="hero-cloud c2">☁️</view>
+    <!-- 宠物展示卡（白天蓝天白云 / 夜晚星空月亮；心情低时转入黄昏暖调） -->
+    <view class="hero {{night ? 'hero-night' : ''}} {{moodTier === 'low' ? 'hero-low' : ''}} {{evolving ? 'hero-evolving' : ''}}">
+      <view class="hero-cloud c1" wx:if="{{!night}}">☁️</view>
+      <view class="hero-cloud c2" wx:if="{{!night}}">☁️</view>
+      <view class="hero-star s1" wx:if="{{night}}">✨</view>
+      <view class="hero-star s2" wx:if="{{night}}">⭐</view>
+      <view class="hero-star s3" wx:if="{{night}}">✨</view>
+      <view class="hero-moon" wx:if="{{night}}">🌙</view>
       <view class="hero-grass g1">🌿</view>
       <view class="hero-grass g2">🌸</view>
 
       <view class="mood-bubble">{{mood.emoji}} {{mood.text}}</view>
 
       <view class="pet-stage" bindtap="tapPet">
-        <image class="pet-img {{bouncing ? 'pet-bounce' : ''}}" style="animation-play-state: {{bouncing ? 'paused' : 'running'}}" src="{{img}}" mode="aspectFit"/>
+        <view class="halo h1" wx:if="{{moodTier === 'happy' && !evolving}}">💕</view>
+        <view class="halo h2" wx:if="{{moodTier === 'happy' && !evolving}}">✨</view>
+        <image class="pet-img {{bouncing ? 'pet-bounce' : ''}} {{spinning ? 'pet-spin' : ''}}" style="animation-play-state: {{bouncing ? 'paused' : 'running'}}" src="{{img}}" mode="aspectFit"/>
+        <view class="particle" wx:for="{{particles}}" wx:key="id" style="left: calc(50% + {{item.x}}px);">{{item.emoji}}</view>
         <view class="tap-bubble" wx:if="{{bubble}}">{{bubble}}</view>
       </view>
 
       <view class="pet-name">{{pet.name}}<text class="pet-tag">{{stage.name}} · {{stage.title}}</text></view>
+      <view class="pet-days">🧡 已陪伴 {{days}} 天</view>
       <view class="pet-stage-desc">{{stage.desc}}</view>
 
       <view class="exp-box">
         <view class="exp-row">
-          <text class="exp-level">Lv.{{pet.exp}}{{fullLevel ? ' · 满级传说！' : ''}}</text>
+          <text class="exp-level">Lv.{{petLevel}}{{fullLevel ? ' · 满级传说！' : ''}}</text>
           <text class="exp-hint">{{expHint}}</text>
         </view>
         <view class="exp-bar"><view class="exp-bar-fill" style="width: {{expPct}}%"></view></view>
+      </view>
+
+      <view class="evolve-fx" wx:if="{{evolving}}">
+        <view class="evolve-beam"></view>
+        <view class="evolve-sparks">✨ ✨ ✨</view>
+        <view class="evolve-txt">✨ 进化啦 ✨</view>
       </view>
     </view>
 
@@ -79,7 +93,7 @@
         <view class="care-title">🍖 心情值</view>
         <view class="mood-num">{{pet.mood}}<text class="mood-max">/100</text></view>
         <view class="mood-bar"><view class="mood-bar-fill" style="width: {{moodPct}}%"></view></view>
-        <view class="care-tip">每天会慢慢下降（不会饿坏），喂食可恢复</view>
+        <view class="care-tip">每天会慢慢下降（不会饿坏），喂食、摸摸或读剧情可恢复</view>
       </view>
       <view class="care-card feed-card">
         <view class="care-title">🪙 喂食（20 金币/次）</view>

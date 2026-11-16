@@ -1,4 +1,60 @@
 <view class="page">
+  <!-- 用户卡：微信登录（点击「微信登录」直接授权登录；登录后自动带出头像昵称填写；登录永不失败，服务端未就绪降级本机身份） -->
+  <view class="card user-card">
+    <!-- 头像昵称填写表单（官方「头像昵称填写能力」）：微信登录后无资料时自动展开，也可在用户卡点「完善资料」再进；
+         上下两行结构（不用 flex-wrap/百分比 basis，规避低版本 WebView 引擎差异）——
+         第一行 头像+昵称输入同行，第二行 保存/取消等宽双钮（type=nickname 键盘上方可一键填入微信昵称）。
+         放在最前：表单仅在已登录时可达，避免被已登录分支拦截 -->
+    <block wx:if="{{profileFormOpen}}">
+      <view class="user-form">
+        <view class="user-form-top">
+          <button class="user-avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+            <image wx:if="{{draftAvatar}}" class="user-avatar" src="{{draftAvatar}}" mode="aspectFill"></image>
+            <view wx:else class="user-avatar user-avatar-face user-avatar-plus">📷</view>
+          </button>
+          <input
+            class="user-nick-input"
+            type="nickname"
+            placeholder="填写昵称"
+            maxlength="12"
+            value="{{draftNickname}}"
+            bindinput="onNicknameInput"
+            bindblur="onNicknameInput"
+          />
+        </view>
+        <view class="user-form-actions">
+          <view hover-class="btn-pressed" class="btn-primary btn-sun user-form-btn" bindtap="doSaveProfile">保存</view>
+          <view hover-class="btn-pressed" class="btn-ghost user-form-btn" bindtap="cancelProfileForm">取消</view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 已登录：头像 + 昵称 + 身份来源/登录日 + 完善资料/退出 -->
+    <block wx:elif="{{user}}">
+      <image wx:if="{{user.avatar}}" class="user-avatar" src="{{user.avatar}}" mode="aspectFill"></image>
+      <view wx:else class="user-avatar user-avatar-face">🙂</view>
+      <view class="user-main">
+        <view class="user-name">{{user.nickname}}</view>
+        <view class="user-sub">{{user.sourceLabel}} · {{user.loginDate}} 登录</view>
+        <view class="user-sub">进度可云端同步</view>
+      </view>
+      <view class="user-actions">
+        <view class="user-edit" hover-class="row-hover" bindtap="openProfileForm">✏️ 完善资料</view>
+        <view class="user-logout" hover-class="row-hover" bindtap="doLogout">退出</view>
+      </view>
+    </block>
+
+    <!-- 游客态：一键直接授权微信登录（wx.login 静默取身份，无表单无弹窗） -->
+    <block wx:else>
+      <view class="user-avatar user-avatar-face">👤</view>
+      <view class="user-main">
+        <view class="user-name">游客模式</view>
+        <view class="user-sub">点击右侧按钮直接授权微信登录</view>
+      </view>
+      <button hover-class="none" class="btn-primary btn-sun user-login-btn" bindtap="doWeChatLogin">微信登录</button>
+    </block>
+  </view>
+
   <!-- 签到卡 -->
   <view class="card sign-card">
     <view class="sign-left">
@@ -8,6 +64,30 @@
     <button hover-class="none" class="btn-primary btn-sun sign-btn {{signedToday ? 'disabled' : ''}}" bindtap="doSignIn" disabled="{{signedToday}}">
       {{signedToday ? '今日已签' : '签到 +10🪙'}}
     </button>
+  </view>
+
+  <!-- 本周签到格（周一到周日标签行）已按需求移除 -->
+
+  <!-- 本周报告（借鉴聪聪学堂 WeeklyReportCard：每日分钟柱状图 + 学习天数 + 与上周对比，与网页版同构） -->
+  <view class="card week-report-card" wx:if="{{weekReport}}">
+    <view class="wr-head">
+      <text class="wr-title">📊 本周报告</text>
+      <text wx:if="{{weekReport.deltaMinutes !== 0}}" class="wr-delta">{{weekReport.deltaMinutes > 0 ? '+' : ''}}{{weekReport.deltaMinutes}} 分钟 vs 上周</text>
+    </view>
+    <view class="wr-bars">
+      <view wx:for="{{weekReport.days}}" wx:key="key" class="wr-col">
+        <view class="wr-track">
+          <view class="wr-bar {{item.isToday ? 'wr-bar-today' : ''}}" style="height: {{item.pct}}%"></view>
+        </view>
+        <text class="wr-val">{{item.minutes}}′</text>
+        <text class="wr-label {{item.isToday ? 'wr-label-today' : ''}}">{{item.isToday ? '今' : item.label}}</text>
+      </view>
+    </view>
+    <view class="wr-stats">
+      <view class="wr-stat"><view class="wr-stat-num">{{weekReport.totalMinutes}}</view><view class="wr-stat-label">本周分钟</view></view>
+      <view class="wr-stat"><view class="wr-stat-num">{{weekReport.activeDays}}/7</view><view class="wr-stat-label">学习天数</view></view>
+      <view class="wr-stat"><view class="wr-stat-num">{{weekReport.lastWeekMinutes}}</view><view class="wr-stat-label">上周分钟</view></view>
+    </view>
   </view>
 
   <!-- 每日任务 -->

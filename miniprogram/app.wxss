@@ -1,5 +1,26 @@
-/* 全局风格：蛋仔派对风 · 湖蓝×活力黄 潮玩盲盒卡通（大圆角/软塑胶/糖果浅色） */
+/* 全局风格：蛋仔派对 × 多邻国融合（湖蓝奶油底纹保留，主色切换多邻国猫头鹰绿，
+   3D 底边按压按钮 / 白底灰描边卡片 / 药丸进度条，令牌见 page 变量） */
 page {
+  /* —— Duolingo-style Design Tokens —— */
+  --dl-owl-green: #58cc02;
+  --dl-owl-green-deep: #58a700;
+  --dl-owl-green-light: #89e219;
+  --dl-owl-green-pale: #dbf8c5;
+  --dl-streak-orange: #ff9600;
+  --dl-gem-pink: #ce82ff;
+  --dl-eel-blue: #1cb0f6;
+  --dl-eel-blue-deep: #1899d6;
+  --dl-cardinal-red: #ff4b4b;
+  --dl-cardinal-red-deep: #d63131;
+  --dl-bee-yellow: #ffc800;
+  --dl-snow: #ffffff;
+  --dl-eel: #f7f7f7;
+  --dl-swan: #e5e5e5;
+  --dl-ink: #3c3c3c;
+  --dl-ink-soft: #777777;
+  --dl-ink-mute: #afafaf;
+  --dl-depth: 8rpx; /* 3D 底边厚度（4px） */
+
   background-color: #eaf8ff;
   background-image:
     /* 糖纸波点：白点+淡紫点双层点阵，蛋仔派对式奶油底纹 */
@@ -23,20 +44,19 @@ button.btn-sun::after {
   border: none;
 }
 
-/* ===== 玻璃果冻卡片：与磨砂玻璃 Dock 同语言——
-   半透明白描边 + 单层大模糊柔影（去硬底影层） ===== */
+/* ===== 玻璃果冻卡片 → 多邻国白卡：白底 + 灰描边 + 平底影 ===== */
 .card {
-  background: linear-gradient(180deg, #ffffff 0%, #fdfcff 100%);
-  border: 2rpx solid rgba(255, 255, 255, 0.9);
+  background: var(--dl-snow);
+  border: 4rpx solid var(--dl-swan);
   border-radius: 40rpx;
   box-shadow:
-    0 0 0 2rpx rgba(148, 180, 255, 0.1),
-    0 16rpx 38rpx rgba(93, 74, 156, 0.1);
+    0 4rpx 0 var(--dl-swan),
+    0 16rpx 34rpx rgba(93, 74, 156, 0.06);
   padding: 28rpx;
   box-sizing: border-box;
 }
 
-/* ===== 大号果冻按钮：亮湖蓝主 CTA，弹动回弹 =====
+/* ===== 大号果冻按钮：多邻国猫头鹰绿主 CTA，3D 底边按压（压下底边消失） =====
    文字用 flex 确定性水平/垂直居中（不依赖微信 button 默认行高，
    避免 emoji+圆体粗字在部分机型上偏移）；text-indent 补偿 letter-spacing 尾随空隙 */
 .btn-primary {
@@ -44,9 +64,9 @@ button.btn-sun::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #56cdff 0%, #2bb3f5 55%, #1fa9ec 100%);
+  background: linear-gradient(180deg, #7be12d 0%, #58cc02 55%, #4dbb00 100%);
   color: #fff;
-  border: 3rpx solid rgba(255, 255, 255, 0.85); /* 玻璃白描边 */
+  border: none;
   border-radius: 999rpx;
   font-weight: 900;
   text-align: center;
@@ -58,16 +78,16 @@ button.btn-sun::after {
   box-sizing: border-box;
   box-shadow:
     inset 0 6rpx 0 rgba(255, 255, 255, 0.3),
-    0 5rpx 0 #1289c9,
-    0 16rpx 30rpx rgba(31, 169, 236, 0.26);
+    0 8rpx 0 var(--dl-owl-green-deep),
+    0 16rpx 30rpx rgba(88, 204, 2, 0.24);
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
 }
 .btn-primary:active {
-  transform: translateY(4rpx) scale(0.99);
+  transform: translateY(8rpx) scale(0.99);
   box-shadow:
     inset 0 5rpx 0 rgba(255, 255, 255, 0.22),
-    0 2rpx 0 #1289c9,
-    0 8rpx 16rpx rgba(31, 169, 236, 0.2);
+    0 2rpx 0 var(--dl-owl-green-deep),
+    0 8rpx 16rpx rgba(88, 204, 2, 0.18);
 }
 .btn-primary.disabled {
   opacity: 0.45;
@@ -96,8 +116,8 @@ button.btn-sun::after {
   align-items: center;
   justify-content: center;
   background: #fff;
-  color: #1b8fd1;
-  border: 2rpx solid #cfe9fb;
+  color: var(--dl-eel-blue);
+  border: 4rpx solid var(--dl-swan);
   border-radius: 999rpx;
   font-weight: 900;
   text-align: center;
@@ -108,21 +128,25 @@ button.btn-sun::after {
   letter-spacing: 2rpx; /* 与主按钮字距统一 */
   text-indent: 2rpx;
   box-shadow:
-    inset 0 4rpx 0 rgba(255, 255, 255, 0.8),
-    0 4rpx 0 #d8eeff,
-    0 12rpx 24rpx rgba(93, 74, 156, 0.08);
+    0 4rpx 0 var(--dl-swan),
+    0 12rpx 24rpx rgba(93, 74, 156, 0.06);
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
 }
 .btn-ghost:active {
-  transform: translateY(3rpx);
+  transform: translateY(4rpx);
   box-shadow:
-    inset 0 4rpx 0 rgba(255, 255, 255, 0.8),
-    0 2rpx 0 #d8eeff,
-    0 6rpx 14rpx rgba(93, 74, 156, 0.07);
+    0 2rpx 0 var(--dl-swan),
+    0 6rpx 14rpx rgba(93, 74, 156, 0.05);
 }
 .btn-ghost.disabled {
   opacity: 0.45;
   box-shadow: none;
+}
+
+/* view 版按钮按压态（hover-class="btn-pressed"）：与 .btn-primary:active 同手感 */
+.btn-pressed {
+  transform: translateY(3rpx) scale(0.99);
+  opacity: 0.92;
 }
 
 /* ===== 贴纸标签：白描边 + 硬底影 ===== */
@@ -155,7 +179,7 @@ button.btn-sun::after {
 }
 .badge.gold { background: #fff1bf; color: #a16207; }
 .badge.orange { background: #ffe3ee; color: #e0407f; }
-.badge.green { background: #d9fbee; color: #0e9f6e; }
+.badge.green { background: var(--dl-owl-green-pale); color: var(--dl-owl-green-deep); }
 
 /* ===== 标题：蛋仔糖果标签（白描边胶囊 + 微倾斜） ===== */
 .section-title {
@@ -229,4 +253,13 @@ button.btn-sun::after {
 @keyframes tab-bounce {
   0%, 100% { transform: translateY(0) scale(1.18); }
   50% { transform: translateY(-6rpx) scale(1.24); }
+}
+
+/* ===== 图标体系：裸 emoji 直出 =====
+   小程序全站图标已去除彩色芯片气泡（图标芯片样式体系于本轮整体移除），
+   emoji 一律随文案裸直出，与我的页/地图/闯关页统一；网页端仍保留 IconChip 组件。
+   注释内禁止出现星号+斜杠连续序列（wxss 注释完整性约定） */
+/* 通用光泽材质：任意彩色胶囊加顶部高光 + 底部收影（不动布局与字色） */
+.gloss-pill {
+  box-shadow: inset 0 4rpx 0 rgba(255, 255, 255, 0.5), inset 0 -4rpx 0 rgba(0, 0, 0, 0.06);
 }

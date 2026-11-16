@@ -8,33 +8,38 @@
   </view>
 
   <view wx:if="{{items.length === 0}}" class="card empty-tip">
-    <view style="font-size: 70rpx">🎉</view>
+    <view class="empty-emoji">🎉</view>
     <view style="margin-top: 16rpx">错题本空空如也，太棒了！</view>
   </view>
 
   <block wx:else>
-    <!-- 薄弱考点 Top3 -->
-    <view wx:if="{{weakTags.length}}" class="weak-card">
-      <view class="weak-title">🎯 薄弱考点 · 优先消灭它们！</view>
-      <view class="weak-chips">
-        <view class="weak-chip" wx:for="{{weakTags}}" wx:key="tag">{{item.tag}} ×{{item.count}}</view>
-      </view>
-      <view class="weak-sub">这些考点你答错的次数最多，复习时重点留意～</view>
-    </view>
-
     <button hover-class="none" class="btn-primary review-btn" bindtap="startReview">
       <text class="review-main">开始复习</text>
     </button>
 
-    <view class="section-title">待消灭错题</view>
+    <!-- 薄弱考点 Top3（借鉴聪聪学堂掌握度闭环，与网页版同构） -->
+    <view wx:if="{{weakTags.length > 0}}" class="weak-tags">
+      <view class="weak-title">🎯 薄弱考点 · 优先消灭它们！</view>
+      <view class="weak-chips">
+        <text wx:for="{{weakTags}}" wx:key="tag" class="weak-chip">{{item.tag}} ×{{item.n}}</text>
+      </view>
+      <view class="weak-hint">这些考点你答错的次数最多，复习时重点留意～</view>
+    </view>
+
+    <view class="section-title">待消灭错题（容易忘的排最前）</view>
     <view class="wrong-list">
       <view wx:for="{{items}}" wx:key="qid" class="card wrong-card">
         <view class="wrong-q">{{item.q}}</view>
         <view class="wrong-meta">
-          <text class="tag" wx:if="{{item.tag}}">{{item.tag}}</text>
-          <text class="tag">{{item.subjectLabel}}</text>
+          <view class="wrong-meta-left">
+            <text class="tag">{{item.subjectLabel}}</text>
+            <!-- 间隔状态徽标（SRS 间隔调度，与复习组卷同规则） -->
+            <text class="srs-tag {{item.due ? 'srs-due' : 'srs-later'}}">{{item.dueLabel}}</text>
+          </view>
           <text class="wrong-count">答错 {{item.count}} 次</text>
         </view>
+        <view wx:if="{{item.answerText}}" class="wrong-answer">✅ 正确答案：{{item.answerText}}</view>
+        <view wx:if="{{item.explain}}" class="wrong-explain">💡 {{item.explain}}</view>
       </view>
     </view>
   </block>

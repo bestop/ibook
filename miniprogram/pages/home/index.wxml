@@ -1,25 +1,21 @@
 <view class="page">
-  <!-- 首页 Hero：问候气泡 + 海岛 + 标题 + 状态胶囊（与网页版一致） -->
+  <!-- 首页 Hero：参考图风格——左侧大标题+问候语，右侧小岛插画；点小岛分享（原太阳钮下线），云朵彩蛋与星星保留 -->
   <view class="hero">
+    <!-- 云朵：日常为纯装饰；隐藏彩蛋——400ms 内快速双击 2 次静默进入「童学分享」分包 -->
     <text class="hero-cloud">☁️</text>
     <text class="hero-star">🌟</text>
-    <view class="hero-bubble">嗨，小岛民！今天想去哪个岛冒险呀？</view>
-    <view class="hero-island-wrap">
-      <view class="hero-island">🏝️</view>
-      <!-- 太阳分享钮：小岛右上方的晴天太阳，点一点分享给小伙伴 -->
-      <button hover-class="none" class="sun-fab" open-type="share" aria-label="分享给小伙伴">
-        <view class="sun-pill">
-          <text class="sun-icon">☀️</text>
+    <view class="hero-row">
+      <view class="hero-left">
+        <view class="hero-title">童学冒险岛</view>
+        <view class="hero-sub">嗨，小岛民！今天想去哪个岛冒险呀？</view>
+      </view>
+      <!-- 小岛即分享钮：结构与旧太阳钮同款（button 仅作透明触发壳，视觉由内部小岛承担），点一点分享给小伙伴
+           场景精简：仅主岛（山与树/浪花均已移除） -->
+      <button hover-class="none" class="island-share" open-type="share" aria-label="分享给小伙伴">
+        <view class="hero-island">
+          <text class="isl-main">🏝️</text>
         </view>
       </button>
-    </view>
-    <view class="hero-title">童学冒险岛</view>
-    <view class="hero-sub">一至六年级 · 闯关赢金币 · 越玩越聪明</view>
-    <view class="hero-chips">
-      <!-- 状态胶囊即快捷入口：金币→礼物屋 / 连签→我的 / 错题→错题本 -->
-      <view class="chip gold chip-link" data-url="/pages/rewards/index" bindtap="onChipTap" aria-role="button">🪙 {{coins}}</view>
-      <view class="chip fire chip-link" data-url="/pages/profile/index" bindtap="onChipTap" aria-role="button">🔥 连续 {{streak}} 天</view>
-      <view class="chip wrong chip-link" data-url="/pages/wrongbook/index" bindtap="onChipTap" aria-role="button">📕 错题 {{wrongCount}}</view>
     </view>
   </view>
 
@@ -33,8 +29,17 @@
   </view>
 
   <block wx:else>
-    <!-- 今日 20 分钟 -->
+    <!-- 今日 20 分钟：同一背景块（与网页端 home-view 同构）。
+         顶部三数据行：金币 / 连续 / 错题（参考图样式：竖分隔线三等分，同时是快捷入口） -->
     <view class="card today-card">
+      <view class="stat-row">
+        <view class="stat-cell chip-link" data-url="/pages/rewards/index" bindtap="onChipTap" aria-role="button">🪙 {{coins}}</view>
+        <view class="stat-divider"></view>
+        <view class="stat-cell chip-link" data-url="/pages/profile/index" bindtap="onChipTap" aria-role="button">🔥 {{streak}} 天</view>
+        <view class="stat-divider"></view>
+        <view class="stat-cell chip-link" data-url="/pages/wrongbook/index" bindtap="onChipTap" aria-role="button">📕 {{wrongCount}}</view>
+      </view>
+      <view class="stat-split"></view>
       <view class="today-head">
         <text class="today-title">⛵ 今日 20 分钟小目标</text>
         <text class="tag">{{todayMinutes || 0}}/20 分钟</text>
@@ -42,9 +47,12 @@
       <view class="progress-track">
         <view class="progress-fill" style="width: {{minutePct}}%"></view>
       </view>
+      <!-- 今日任务胶囊已按需求移除，仅保留上方进度条与达成庆祝 -->
+      <!-- 全部达成庆祝徽标（闯关 + 20 分钟两项全达标即触发，与网页版同构） -->
+      <view wx:if="{{allTasksDone}}" class="task-all-done">🎉 今日任务全部达成，太棒了！</view>
     </view>
 
-    <!-- 三维教材选择器：三等分一行，蛋仔式整齐大按钮 -->
+    <!-- 三维教材选择器：三等分一行，参考图白色药丸按钮 -->
     <view class="picker-row">
       <picker class="picker-cell" mode="selector" range="{{gradeLabels}}" value="{{gradeIndex}}" bindchange="onPickGrade">
         <view class="picker-btn">🎓 {{gradeLabels[gradeIndex]}} ▾</view>
@@ -57,9 +65,7 @@
       </picker>
     </view>
 
-    <!-- 科目岛列表标题 -->
-    <view class="section-title">🗺️ 选一个岛出发</view>
-
+    <!-- 科目岛列表（分区标题已按需求移除，筛选药丸直接衔接列表） -->
     <view wx:if="{{subjects.length === 0}}" class="card empty-tip">
       <view style="font-size: 60rpx">🗺️</view>
       <view style="margin: 16rpx 0">这个组合下暂无科目岛</view>

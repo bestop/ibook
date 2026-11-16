@@ -1,5 +1,6 @@
 // 宠物系统（与网页版同构）：学习任务驱动成长 + 专属剧情
-// 等级曲线/阶段/心情/喂食规则与 src/lib/pet.ts 保持一致
+// 等级曲线/阶段/心情/喂食规则与 src/lib/pet.ts 保持一致；
+// PET_TOUCH_MOOD/PET_STORY_MOOD 为小程序端互动扩展（只加心情、不加经验，不影响共享规则）
 const PET_LEVEL_EXP = [0, 40, 100, 180, 280, 400, 540, 700, 880, 1080, 1300, 1540, 1800, 2080, 2380]
 const PET_MAX_LEVEL = 15
 
@@ -21,6 +22,9 @@ const MOOD_MAX = 100
 const FEED_COST = 20
 const FEED_MOOD = 30
 const FEED_DAILY_LIMIT = 3
+// 小程序端互动扩展：每日首次摸摸/首次读完一章剧情的小心情奖励（封顶 MOOD_MAX）
+const PET_TOUCH_MOOD = 5
+const PET_STORY_MOOD = 5
 
 const PET_STAGES = [
   { minLevel: 1, name: '幼年期', title: '小小冒险家', desc: '刚来到冒险岛的小毛球，需要多多学习才能长大', dogEmoji: '🐶', catEmoji: '🐱' },
@@ -67,7 +71,9 @@ function petEmoji(kind, level) {
   return kind === 'dog' ? stage.dogEmoji : stage.catEmoji
 }
 
-// 全身形象（静帧 PNG + CSS 动效）：阶段序号 1-4 → /images/pet/{kind}-s{n}.png（源 GIF 留档不入包）
+// 全身形象（静帧 PNG + CSS 动效）：阶段序号 1-4 → /images/pet/{kind}-s{n}.png
+// 源 GIF（200×200×16帧）保留在仓库，经 project.config.json packOptions.ignore 后缀排除，
+// 不入小程序代码包（微信代码质量检查：图片+音频资源总和 ≤ 200K）；未来若有自有 CDN 可改回动画引用
 function petStageIndex(level) {
   let idx = 1
   PET_STAGES.forEach(function (s, i) {
@@ -78,6 +84,13 @@ function petStageIndex(level) {
 
 function petImage(kind, level) {
   return '/images/pet/' + kind + '-s' + petStageIndex(level) + '.png'
+}
+
+// 陪伴天数：领养当天算第 1 天（非法时间戳按 1 天兜底）
+function petDaysOf(adoptedAt) {
+  const t = Number(adoptedAt)
+  if (!isFinite(t) || t <= 0) return 1
+  return Math.max(1, Math.floor((Date.now() - t) / 86400000) + 1)
 }
 
 function moodLabel(mood) {
@@ -294,6 +307,9 @@ module.exports = {
   petEmoji: petEmoji,
   petStageIndex: petStageIndex,
   petImage: petImage,
+  petDaysOf: petDaysOf,
+  PET_TOUCH_MOOD: PET_TOUCH_MOOD,
+  PET_STORY_MOOD: PET_STORY_MOOD,
   moodLabel: moodLabel,
   storyUnlockLevel: storyUnlockLevel,
   petExpForLevelStars: petExpForLevelStars,

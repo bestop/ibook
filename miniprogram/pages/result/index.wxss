@@ -32,6 +32,7 @@
 }
 .result-emoji {
   font-size: 110rpx;
+  line-height: 1.1;
   animation: eggy-wobble 2.6s ease-in-out infinite;
   text-shadow: 0 12rpx 28rpx rgba(255, 197, 61, 0.45); /* 金色光晕 */
   filter: drop-shadow(0 6rpx 0 rgba(255, 255, 255, 0.9));
@@ -118,4 +119,53 @@
 .result-note-pet-muted {
   background: #f1f5f9;
   color: #64748b;
+}
+
+/* ===== 通关撒花（借鉴聪聪学堂 ConfettiCanvas，纯 CSS 实现，零 JS 开销） ===== */
+.confetti-layer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 80;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti {
+  position: absolute;
+  top: -70rpx;
+  font-size: 40rpx;
+  animation: confetti-fall 2.6s ease-in forwards;
+}
+/* 6 组横向漂移轨迹，错落下落 */
+.confetti-0 { animation-name: confetti-fall-0; }
+.confetti-1 { animation-name: confetti-fall-1; }
+.confetti-2 { animation-name: confetti-fall-2; }
+.confetti-3 { animation-name: confetti-fall-3; }
+.confetti-4 { animation-name: confetti-fall-4; }
+.confetti-5 { animation-name: confetti-fall-5; }
+@keyframes confetti-fall-0 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) translateX(30rpx) rotate(360deg); opacity: 0.2; }
+}
+@keyframes confetti-fall-1 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) translateX(-40rpx) rotate(-300deg); opacity: 0.2; }
+}
+@keyframes confetti-fall-2 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) translateX(60rpx) rotate(280deg); opacity: 0.15; }
+}
+@keyframes confetti-fall-3 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) translateX(-25rpx) rotate(320deg); opacity: 0.2; }
+}
+@keyframes confetti-fall-4 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) translateX(45rpx) rotate(-360deg); opacity: 0.15; }
+}
+@keyframes confetti-fall-5 {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) translateX(-55rpx) rotate(300deg); opacity: 0.2; }
 }
