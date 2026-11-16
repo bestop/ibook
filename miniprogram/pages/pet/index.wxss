@@ -111,11 +111,15 @@
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06);
 }
 .pet-stage { position: relative; display: inline-block; padding: 4rpx 60rpx 0; }
-/* 全身动画形象：GIF 自带呼吸/摇尾/眨眼，CSS 只做整体悬浮 */
+/* 全身静帧形象：悬浮 + 呼吸缩放（源 GIF 不入包，动效由 CSS 承担） */
 .pet-img {
   width: 320rpx;
   height: 320rpx;
-  animation: float 2.8s ease-in-out infinite;
+  animation: floatBreath 3.2s ease-in-out infinite;
+}
+@keyframes floatBreath {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12rpx) scale(1.04); }
 }
 @keyframes float {
   0%, 100% { transform: translateY(0); }

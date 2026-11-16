@@ -67,7 +67,7 @@ function petEmoji(kind, level) {
   return kind === 'dog' ? stage.dogEmoji : stage.catEmoji
 }
 
-// 全身动画形象（GIF）：阶段序号 1-4 → /images/pet/{kind}-s{n}.gif
+// 全身形象（静帧 PNG + CSS 动效）：阶段序号 1-4 → /images/pet/{kind}-s{n}.png（源 GIF 留档不入包）
 function petStageIndex(level) {
   let idx = 1
   PET_STAGES.forEach(function (s, i) {
@@ -77,7 +77,7 @@ function petStageIndex(level) {
 }
 
 function petImage(kind, level) {
-  return '/images/pet/' + kind + '-s' + petStageIndex(level) + '.gif'
+  return '/images/pet/' + kind + '-s' + petStageIndex(level) + '.png'
 }
 
 function moodLabel(mood) {

@@ -2,7 +2,9 @@
   "description": "童学冒险岛小程序端 · 教材与闯关内容从 https://lx.hikid.vip 实时获取",
   "packOptions": {
     "ignore": [
-      { "type": "file", "value": "README.md" }
+      { "type": "file", "value": "README.md" },
+      { "type": "suffix", "value": ".gif" },
+      { "type": "suffix", "value": ".wav" }
     ]
   },
   "setting": {

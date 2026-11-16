@@ -29,7 +29,7 @@ function play(name) {
     let c = POOL[name]
     if (!c) {
       c = wx.createInnerAudioContext()
-      c.src = '/audio/' + name + '.wav'
+      c.src = '/audio/' + name + '.mp3'
       POOL[name] = c
     }
     c.stop()
